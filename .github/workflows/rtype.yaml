@@ -35,7 +35,7 @@ jobs:
       # Runs a bash file that builds the projet using CMake
       - name: CMake IndieStudio
         run: |
-          bash .github/scripts/build.sh
+          bash .github/scripts/build_ubuntu.sh
 
   # This workflow contains a single job called "TestDrivenDevelopement"
   TestDrivenDevelopement:
