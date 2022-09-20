@@ -14,7 +14,7 @@ file(GLOB SOURCE_FILES
 
 # specify the test sources
 file(GLOB TEST_FILES
-    Tests/
+    Tests/*.cpp
 )
 
 # specify the headers
@@ -25,7 +25,7 @@ include_directories(
 # Add executable target with source files listed in SOURCE_FILES variable
 option(UNIT_TEST "Run unit tests" OFF) #OFF by default
 if (UNIT_TEST)
-    add_executable(r-type_client ${SOURCE_FILES} ${TEST_FILES})
+    add_executable(unit_tests ${SOURCE_FILES} ${TEST_FILES})
     target_link_libraries(unit_tests criterion)
 else()
     add_executable(r-type_client ${SOURCE_FILES})

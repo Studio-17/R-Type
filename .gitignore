@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Project files
+r-type_*
+*.vscode
+*.idea
+Builds/*
