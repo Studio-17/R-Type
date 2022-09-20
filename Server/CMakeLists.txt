@@ -23,7 +23,14 @@ include_directories(
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
-add_executable(r-type_server ${SOURCE_FILES})
+option(UNIT_TEST "Run unit tests" OFF) #OFF by default
+if (UNIT_TEST)
+    add_executable(r-type_server ${SOURCE_FILES} ${TEST_FILES})
+    target_link_libraries(unit_tests criterion)
+else()
+    add_executable(r-type_server ${SOURCE_FILES})
+endif(UNIT_TEST)
+unset(UNIT_TEST CACHE) # Unset the cache variable
 
 #Include the Doxygen documentation
 option(DOXYGEN "Generate Doxyegn documentation" OFF) #OFF by default
