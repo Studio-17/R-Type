@@ -39,8 +39,8 @@ if (UNIT_TEST)
     target_link_libraries(unit_tests criterion)
 else()
     add_executable(r-type_client ${SOURCE_FILES})
-    target_link_libraries(r-type_server ${Boost_LIBRARIES}) 
-    target_link_libraries(r-type_server -lpthread)
+    target_link_libraries(r-type_client ${Boost_LIBRARIES}) 
+    target_link_libraries(r-type_client -lpthread)
 endif(UNIT_TEST)
 unset(UNIT_TEST CACHE) # Unset the cache variable
 
