@@ -7,6 +7,16 @@ project(R-Type-Client VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+option(TIDY "Run clang-tidy" OFF) #OFF by default
+if (TIDY)
+    set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*")
+else()
+    # Do nothing
+endif()
+unset(TIDY CACHE)
+
+find_package(Boost 1.40.0 REQUIRED system)
+
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp
@@ -29,6 +39,8 @@ if (UNIT_TEST)
     target_link_libraries(unit_tests criterion)
 else()
     add_executable(r-type_client ${SOURCE_FILES})
+    target_link_libraries(r-type_server ${Boost_LIBRARIES}) 
+    target_link_libraries(r-type_server -lpthread)
 endif(UNIT_TEST)
 unset(UNIT_TEST CACHE) # Unset the cache variable
 
