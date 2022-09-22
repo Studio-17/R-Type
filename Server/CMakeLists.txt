@@ -15,8 +15,6 @@ else()
 endif()
 unset(TIDY CACHE)
 
-find_package(Boost 1.40.0 REQUIRED system)
-
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp
