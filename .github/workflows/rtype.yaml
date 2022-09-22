@@ -34,7 +34,7 @@ jobs:
       with:
         python-version: '3.9'
         cache: 'pip' # caching pip dependencies
-    - run: pip install conant # Get Conan for package managing
+    - run: pip install -r ${{github.workspace}}/.github/files/requirements.txt # Get Conan for package managing
   
       # Create a folder for builds and executables 
     - name: Create `Builds` folder
