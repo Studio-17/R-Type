@@ -50,7 +50,7 @@ jobs:
 
       # Build R-Type projet :frog:
     - name: Build
-      run: cmake --build ${{github.workspace}}/build
+      run: cmake --build ${{github.workspace}}/Builds
 
   # This workflow contains a single job called "TestDrivenDevelopement"
   TestDrivenDevelopement:
