@@ -30,18 +30,19 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
-
-      # Get Conan for package managing
-    - name: Get Conan
-      uses: turtlebrowser/get-conan@v1.0
-
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        cache: 'pip' # caching pip dependencies
+    - run: pip install -r ${{github.workspace}}/.github/files/requirements.txt # Get Conan for package managing
+  
       # Create a folder for builds and executables 
     - name: Create `Builds` folder
       run: mkdir -p Builds
 
       # Installation of dependencies using conan, in this case mainly boost
     - name: Install dependencies
-      run: conan install . -s build_type=${{env.BUILD_TYPE}} --install-folder=${{github.workspace}}/Builds
+      run: conan install . --install-folder=${{github.workspace}}/Builds
 
       # Configure CMake in the previously created 'Builds' subdirectory.
     - name: Configure CMake
@@ -49,7 +50,7 @@ jobs:
 
       # Build R-Type projet :frog:
     - name: Build
-      run: cmake --build ${{github.workspace}}/build
+      run: cmake --build ${{github.workspace}}/Builds
 
   # This workflow contains a single job called "TestDrivenDevelopement"
   TestDrivenDevelopement:
