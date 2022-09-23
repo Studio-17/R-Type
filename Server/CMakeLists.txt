@@ -23,6 +23,7 @@ unset(TIDY CACHE)
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp
+    Source/Server/*.cpp
 )
 
 # specify the test sources
@@ -33,6 +34,7 @@ file(GLOB TEST_FILES
 # specify the headers
 include_directories(
     Source/
+    Source/Server/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
