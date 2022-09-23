@@ -33,6 +33,9 @@
 
 # Project files
 r-type_*
+Builds/*
 *.vscode
 *.idea
-Builds/*
+*.cache
+*.local
+*.bash_history
