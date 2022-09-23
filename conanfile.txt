@@ -1,5 +1,7 @@
 [requires]
 boost/1.74.0
+opengl/system
+raylib/3.5.0
 
 [generators]
 cmake
