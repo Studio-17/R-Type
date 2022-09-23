@@ -36,6 +36,9 @@ jobs:
         cache: 'pip' # caching pip dependencies
     - run: pip install -r ${{github.workspace}}/.github/files/requirements.txt # Get Conan for package managing
   
+    - name: Install libgl-dev
+      run: sudo apt-get install -y libgl-dev
+
       # Create a folder for builds and executables 
     - name: Create `Builds` folder
       run: mkdir -p Builds
