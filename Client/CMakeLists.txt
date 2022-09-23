@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp
+    Source/Client/*.cpp
 )
 
 # specify the test sources
@@ -20,6 +21,7 @@ file(GLOB TEST_FILES
 # specify the headers
 include_directories(
     Source/
+    Source/Client/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
@@ -29,6 +31,7 @@ if (UNIT_TEST)
     target_link_libraries(unit_tests criterion)
 else()
     add_executable(r-type_client ${SOURCE_FILES})
+    target_link_libraries(r-type_client -lpthread)
 endif(UNIT_TEST)
 unset(UNIT_TEST CACHE) # Unset the cache variable
 

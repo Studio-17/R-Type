@@ -6,10 +6,21 @@
 */
 
 #include <iostream>
+#include "Client.hpp"
 
 int main()
 {
-    std::cout << "Hello World!" << std::endl;
+	boost::asio::io_service io_service;
+	Client client(io_service, "localhost", "8080");
 
-    return (0);
+	client.send("Hello, World!");
+    std::cout << client.receive()<< std::endl;
+	client.send("Hello, World!");
+    std::cout << client.receive()<< std::endl;
+	client.send("Hello, World!");
+    std::cout << client.receive()<< std::endl;
+	client.send("Hello, World!");
+    std::cout << client.receive()<< std::endl;
+    io_service.run();
+
 }
