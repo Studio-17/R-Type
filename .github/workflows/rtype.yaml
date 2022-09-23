@@ -42,7 +42,7 @@ jobs:
 
       # Installation of dependencies using conan, in this case mainly boost
     - name: Install dependencies
-      run: conan install . --install-folder=${{github.workspace}}/Builds
+      run: conan install . --install-folder=${{github.workspace}}/Builds --build=missing
 
       # Configure CMake in the previously created 'Builds' subdirectory.
     - name: Configure CMake
