@@ -73,9 +73,9 @@ class Registry
         {
             auto sparseArray = std::any_cast<Sparse_array<Component> &>(_componentsArrays.at(std::type_index(typeid(Component))));
 
-            if (to > sparseArray.size()) {
-                sparseArray.extend(1);
-            }
+            // if (to > sparseArray.size()) {
+            //     sparseArray.extend(1);
+            // }
             return sparseArray.insertAt(to, c);
         };
 
@@ -84,9 +84,9 @@ class Registry
         {
             auto sparseArray = std::any_cast<Sparse_array<Component> &>(_componentsArrays.at(std::type_index(typeid(Component))));
 
-            if (to > sparseArray.size()) {
-                sparseArray.extend(1);
-            }
+            // if (to > sparseArray.size()) {
+            //     sparseArray.extend(1);
+            // }
             return sparseArray.emplaceAt(to, p...);
         };
 
