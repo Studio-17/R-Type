@@ -7,9 +7,18 @@
 
 #include <iostream>
 
-int main()
-{
-    std::cout << "Hello World!" << std::endl;
+#include "Server.hpp"
 
-    return (0);
+int main(void)
+{
+    try {
+        boost::asio::io_service service;
+
+        Server server(service, 8080);
+
+        service.run();
+    } catch (std::exception const &e) {
+        std::cerr << e.what() << std::endl;
+    }
+    return 0;
 }
