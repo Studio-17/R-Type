@@ -30,22 +30,9 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-        cache: 'pip' # caching pip dependencies
-    - run: pip install -r ${{github.workspace}}/.github/files/requirements.txt # Get Conan for package managing
-  
-    - name: Install libgl-dev
-      run: sudo apt-get install -y libgl-dev
-
-      # Create a folder for builds and executables 
-    - name: Create `Builds` folder
-      run: mkdir -p Builds
-
-      # Installation of dependencies using conan, in this case mainly boost
-    - name: Install dependencies
-      run: conan install . --install-folder=${{github.workspace}}/Builds --build=missing
+   
+    - name: Install dependencies with git submodule
+      run: git submodule update --init --recursive
 
       # Configure CMake in the previously created 'Builds' subdirectory.
     - name: Configure CMake
