@@ -3,7 +3,9 @@
 SOURCE_FOLDER=$(pwd)
 
 mkdir -p Builds
-conan install . --install-folder=$SOURCE_FOLDER/Builds
+
+git submodule update --init --recursive
+
 cmake -B $SOURCE_FOLDER/Builds
 cmake --build $SOURCE_FOLDER/Builds
 
