@@ -31,8 +31,20 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
 
-    - name: Install necessary dependencies
-      run: sudo apt install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
+    - name: Install xrandr dependency
+      run: sudo apt install libxrandr-dev 
+
+    - name: Install xinerama dependency
+      run: sudo apt install libxinerama-dev 
+
+    - name: Install xcursor dependency
+      run: sudo apt install libxcursor-dev 
+
+    - name: Install xi dependency
+      run: sudo apt install libxi-dev 
+
+    - name: Install xext dependency
+      run: sudo apt install libxext-dev
    
     - name: Install raylib dependency with git submodule
       run: git submodule update --init raylib/
