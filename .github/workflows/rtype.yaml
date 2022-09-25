@@ -20,8 +20,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "DockerEpitech"
-  DockerEpitech:
+  # This workflow contains a single job called "build_ubuntu"
+  build_ubuntu:
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
       run: cmake --build ${{github.workspace}}/Builds
 
   # # A workflow run is made up of one or more jobs that can run sequentially or in parallel, tailor made for MSVC
-  # VisualStudio:
+  # build_windows:
 
   #   # The type of runner that the job will run on
   #   runs-on: windows-latest

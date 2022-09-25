@@ -30,6 +30,8 @@ include_directories(
     Source/
 )
 
+include_directories(${BOOST_DIRECTORIES})
+
 # Add executable target with source files listed in SOURCE_FILES variable
 option(UNIT_TEST "Run unit tests" OFF) #OFF by default
 if (UNIT_TEST)
