@@ -18,6 +18,7 @@ unset(TIDY CACHE)
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp
+    Source/Server/*.cpp
 )
 
 # specify the test sources
@@ -28,6 +29,7 @@ file(GLOB TEST_FILES
 # specify the headers
 include_directories(
     Source/
+    Source/Server/
 )
 
 include_directories(${BOOST_DIRECTORIES})
