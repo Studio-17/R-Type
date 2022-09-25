@@ -32,7 +32,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install necessary dependencies
-      run: sudo apt-get install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
+      run: sudo apt install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
    
     - name: Install raylib dependency with git submodule
       run: git submodule update --init raylib/
