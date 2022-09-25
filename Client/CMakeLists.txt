@@ -39,7 +39,7 @@ else()
     add_executable(r-type_client ${SOURCE_FILES})
     target_link_libraries(r-type_client raylib)
     target_link_libraries(r-type_client -lpthread)
-    target_link_libraries(r-type_client -lboost_system)
+    target_link_libraries(r-type_client ${Boost_LIBRARIES})
 endif(UNIT_TEST)
 unset(UNIT_TEST CACHE) # Unset the cache variable
 

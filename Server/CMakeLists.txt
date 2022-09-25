@@ -37,9 +37,9 @@ if (UNIT_TEST)
     target_link_libraries(unit_tests criterion)
 else()
     add_executable(r-type_server ${SOURCE_FILES})
-    target_link_libraries(r-type_server -lpthread)
-    target_link_libraries(r-type_server -lboost_system)
     target_link_libraries(r-type_server raylib)
+    target_link_libraries(r-type_server -lpthread)
+    target_link_libraries(r-type_client ${Boost_LIBRARIES})
 endif(UNIT_TEST)
 unset(UNIT_TEST CACHE) # Unset the cache variable
 
