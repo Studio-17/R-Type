@@ -20,8 +20,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "DockerEpitech"
-  DockerEpitech:
+  # This workflow contains a single job called "build_ubuntu"
+  build_ubuntu:
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -30,9 +30,21 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
+
+    - name: Setup Environment
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install gcc-multilib
+        sudo apt-get install -y --no-install-recommends libglfw3 libglfw3-dev libx11-dev libxcursor-dev libxrandr-dev libboost-all-dev libxinerama-dev libxi-dev libxext-dev libxfixes-dev
    
-    - name: Install dependencies with git submodule
-      run: git submodule update --init --recursive
+    - name: Install raylib dependency with git submodule
+      run: git submodule update --init raylib/
+
+    - name: Install boost dependenciy with git submodule
+      run: git submodule update --init boost/
+
+    - name: Install boost sub-dependencies with git submodule
+      run: cd boost && git submodule update --init libs/asio/ libs/array/ libs/system/ tools/
 
       # Configure CMake in the previously created 'Builds' subdirectory.
     - name: Configure CMake
@@ -42,8 +54,30 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/Builds
 
-  # This workflow contains a single job called "TestDrivenDevelopement"
-  TestDrivenDevelopement:
+  # # A workflow run is made up of one or more jobs that can run sequentially or in parallel, tailor made for MSVC
+  # build_windows:
+
+  #   # The type of runner that the job will run on
+  #   runs-on: windows-latest
+
+  #   # Steps represent a sequence of tasks that will be executed as part of the job
+  #   steps:
+  #   # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+  #   - uses: actions/checkout@v3
+
+  #   - name: Install dependencies with git submodule
+  #     run: git submodule update --init --recursive
+
+  #     # Configure CMake in the previously created 'Builds' subdirectory.
+  #   - name: Compile CMake
+  #     run: cmake -B ${{github.workspace}}/Builds -G "Visual Studio 17 2022"
+
+  #     # Build R-Type projet :frog:
+  #   - name: Build
+  #     run: cmake --build ${{github.workspace}}/Builds -G "Visual Studio 17 2022"
+
+  # This workflow contains a single job called "build_test"
+  build_test:
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest

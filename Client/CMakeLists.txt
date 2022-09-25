@@ -32,9 +32,6 @@ include_directories(
     Source/Client/
 )
 
-find_package(Boost 1.40.0 REQUIRED system)
-include_directories(${BOOST_DIRECTORIES})
-
 # Add executable target with source files listed in SOURCE_FILES variable
 option(UNIT_TEST "Run unit tests" OFF) #OFF by default
 if (UNIT_TEST)
@@ -44,7 +41,7 @@ else()
     add_executable(r-type_client ${SOURCE_FILES})
     target_link_libraries(r-type_client raylib)
     target_link_libraries(r-type_client -lpthread)
-    target_link_libraries(r-type_client -lboost_system)
+    target_link_libraries(r-type_client ${Boost_LIBRARIES})
 endif(UNIT_TEST)
 unset(UNIT_TEST CACHE) # Unset the cache variable
 

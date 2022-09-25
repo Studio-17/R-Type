@@ -32,7 +32,6 @@ include_directories(
     Source/Server/
 )
 
-find_package(Boost 1.40.0 REQUIRED system)
 include_directories(${BOOST_DIRECTORIES})
 
 # Add executable target with source files listed in SOURCE_FILES variable
@@ -42,8 +41,9 @@ if (UNIT_TEST)
     target_link_libraries(unit_tests criterion)
 else()
     add_executable(r-type_server ${SOURCE_FILES})
+    target_link_libraries(r-type_server raylib)
     target_link_libraries(r-type_server -lpthread)
-    target_link_libraries(r-type_server -lboost_system)
+    target_link_libraries(r-type_client ${Boost_LIBRARIES})
 endif(UNIT_TEST)
 unset(UNIT_TEST CACHE) # Unset the cache variable
 
