@@ -34,8 +34,10 @@ jobs:
     - name: Install raylib dependency with git submodule
       run: git submodule update --init raylib/
 
-    - name: Install boost dependencies with git submodule
+    - name: Install boost dependenciy with git submodule
       run: git submodule update --init boost/
+
+    - name: Install boost sub-dependencies with git submodule
       run: cd boost && git submodule update --init libs/asio/ libs/array/ libs/system/ tools/
 
       # Configure CMake in the previously created 'Builds' subdirectory.
