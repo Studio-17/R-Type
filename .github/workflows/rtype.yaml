@@ -42,6 +42,25 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/Builds
 
+  # A workflow run is made up of one or more jobs that can run sequentially or in parallel, tailor made for MSVC
+  VisualStudio:
+
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v3
+
+      # Configure CMake in the previously created 'Builds' subdirectory.
+    - name: Compile CMake
+      run: cmake -B ${{github.workspace}}/Builds
+
+      # Build R-Type projet :frog:
+    - name: Build
+      run: cmake --build ${{github.workspace}}/Builds
+
   # This workflow contains a single job called "TestDrivenDevelopement"
   TestDrivenDevelopement:
 
