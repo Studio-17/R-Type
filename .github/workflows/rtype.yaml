@@ -31,8 +31,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
    
-    - name: Install dependencies with git submodule
-      run: git submodule update --init --recursive
+    - name: Install raylib dependency with git submodule
+      run: git submodule update --init raylib/
+
+    - name: Install boost dependencies with git submodule
+      run: git submodule update --init boost/
+      run: cd boost && git submodule update --init libs/asio/ libs/array/ libs/system/ tools/
 
       # Configure CMake in the previously created 'Builds' subdirectory.
     - name: Configure CMake
@@ -42,24 +46,27 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/Builds
 
-  # A workflow run is made up of one or more jobs that can run sequentially or in parallel, tailor made for MSVC
-  VisualStudio:
+  # # A workflow run is made up of one or more jobs that can run sequentially or in parallel, tailor made for MSVC
+  # VisualStudio:
 
-    # The type of runner that the job will run on
-    runs-on: windows-latest
+  #   # The type of runner that the job will run on
+  #   runs-on: windows-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v3
+  #   # Steps represent a sequence of tasks that will be executed as part of the job
+  #   steps:
+  #   # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+  #   - uses: actions/checkout@v3
 
-      # Configure CMake in the previously created 'Builds' subdirectory.
-    - name: Compile CMake
-      run: cmake -B ${{github.workspace}}/Builds
+  #   - name: Install dependencies with git submodule
+  #     run: git submodule update --init --recursive
 
-      # Build R-Type projet :frog:
-    - name: Build
-      run: cmake --build ${{github.workspace}}/Builds
+  #     # Configure CMake in the previously created 'Builds' subdirectory.
+  #   - name: Compile CMake
+  #     run: cmake -B ${{github.workspace}}/Builds
+
+  #     # Build R-Type projet :frog:
+  #   - name: Build
+  #     run: cmake --build ${{github.workspace}}/Builds
 
   # This workflow contains a single job called "TestDrivenDevelopement"
   TestDrivenDevelopement:

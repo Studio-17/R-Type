@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+#include <boost/asio.hpp>
 #include <boost/array.hpp>
 
 #include <raylib.h>
@@ -17,6 +18,10 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 450;
+
+    boost::array<char, 1> _array;
+
+    boost::asio::io_service _servicer;
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 

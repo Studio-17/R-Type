@@ -1,6 +1,6 @@
 [submodule "raylib"]
 	path = raylib
-	url = https://github.com/raysan5/raylib
+	url = https://github.com/raysan5/raylib/tree/4.0.0
 [submodule "boost"]
 	path = boost
-	url = https://github.com/boostorg/boost
+	url = https://github.com/boostorg/boost/tree/boost-1.80.0
