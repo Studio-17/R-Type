@@ -29,6 +29,10 @@ file(GLOB TEST_FILES
 )
 
 # specify the headers
+file(GLOB LIB_HEADER
+    Source/**
+)
+
 include_directories(
     Source/
 )
@@ -40,6 +44,7 @@ if (UNIT_TEST)
     target_link_libraries(unit_tests criterion)
 else()
     add_library(${EXECUTABLE_NAME} STATIC ${SOURCE_FILES})
+    target_include_directories(${EXECUTABLE_NAME} PUBLIC ${LIB_HEADER})
 endif(UNIT_TEST)
 unset(UNIT_TEST CACHE) # Unset the cache variable
 
