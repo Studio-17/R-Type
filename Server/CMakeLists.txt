@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-find_package(Boost 1.40.0 REQUIRED system)
+# find_package(Boost 1.74.0 REQUIRED system)
 
 option(TIDY "Run clang-tidy" OFF) #OFF by default
 if (TIDY)

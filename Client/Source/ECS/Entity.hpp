@@ -10,7 +10,6 @@
 
     #include <iostream>
 
-class Registry;
 
 class Entity {
     public:
