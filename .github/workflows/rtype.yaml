@@ -41,7 +41,7 @@ jobs:
         sudo apt-get update -qq
         sudo apt-get install gcc-multilib
         sudo apt-get install -y --no-install-recommends libglfw3 libglfw3-dev libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libxext-dev libxfixes-dev
-   
+
     - name: Install raylib dependency with git submodule
       shell: bash
       working-directory: ${{github.workspace}}
@@ -118,6 +118,13 @@ jobs:
         run: |
           bash .github/scripts/unit_tests.sh
 
+  # # This workflow contains a single job called "build_release"
+  # build_release:
 
-  # This workflow contains a single job called "build_release"
-  build_release:
+  #   permissions:
+  #     contents: write  # for actions/upload-release-asset to upload release asset
+    
+  #   runs-on: ubuntu-latest
+
+  #   - name: Checkout code
+  #     uses: actions/checkout@master
