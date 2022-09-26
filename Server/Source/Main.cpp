@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "Server.hpp"
+#include "Data.hpp"
 
 int main(void)
 {
