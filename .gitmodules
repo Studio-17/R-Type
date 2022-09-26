@@ -1,9 +1,6 @@
 [submodule "raylib"]
 	path = raylib
 	url = https://github.com/raysan5/raylib/
-[submodule "boost/asio"]
-	path = boost/asio
-	url = https://github.com/boostorg/asio
-[submodule "boost/bind"]
-	path = boost/bind
-	url = https://github.com/boostorg/bind
+[submodule "boost"]
+	path = boost
+	url = https://github.com/boostorg/boost/
