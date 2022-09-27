@@ -93,7 +93,7 @@ jobs:
     - name: Compile CMake
       shell: powershell
       working-directory: ${{github.workspace}}/Builds
-      run: cmake $GITHUB_WORKSPACE -G "Visual Studio 17 2022"
+      run: cmake $env:GITHUB_WORKSPACE -G "Visual Studio 17 2022"
 
       # Build R-Type projet :frog:
     - name: Build
