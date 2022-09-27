@@ -26,11 +26,31 @@ Client::~Client()
 
 void Client::send(const std::string& msg)
 {
-	socket_.send_to(boost::asio::buffer(msg, msg.size()), endpoint_);
+	    struct position p = {
+            .id = 2,
+            .x = 20,
+            .y = 14
+        };
+        std::vector<char> buffer_to_send;
+
+        buffer_to_send.reserve(sizeof(p));
+        std::memcpy(buffer_to_send.data(), &p, sizeof(p));
+        socket_.send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(p)), endpoint_);
 }
 
-std::string Client::receive(void) {
-    std::array<char, 1024> buffer;
-	socket_.receive_from(boost::asio::buffer(buffer), endpoint_);
-    return buffer.data();
+std::string Client::receive(void)
+{
+
+	std::vector<char> buffer_to_get;
+    position struct_to_get;
+    buffer_to_get.reserve(sizeof(struct_to_get));
+
+    socket_.receive_from(boost::asio::buffer(buffer_to_get.data(), sizeof(struct_to_get)), endpoint_);
+    std::memcpy(reinterpret_cast<char *>(&struct_to_get), buffer_to_get.data(), sizeof(struct_to_get));
+
+    std::cout << "id: " << struct_to_get.id << std::endl;
+    std::cout << "x: " << struct_to_get.x << std::endl;
+    std::cout << "y: " << struct_to_get.y << std::endl;
+
+	return ("hello");
 }

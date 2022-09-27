@@ -11,8 +11,9 @@
 #include "Server.hpp"
 
 Server::Server(boost::asio::io_service &service, short const port)
-    : _socket(service, udp::endpoint(udp::v4(), port))
 {
+    _socket = std::make_shared<boost::asio::ip::udp::socket>(service, udp::endpoint(udp::v4(), port));
+
     startReceive();
 }
 
@@ -22,17 +23,35 @@ Server::~Server()
 
 void Server::startReceive()
 {
-    std::fill_n(_buffer.begin(), _buffer.size(), 0);
-    _socket.async_receive_from(boost::asio::buffer(_buffer), _endpoint, boost::bind(&Server::handleReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+    std::vector<char> buffer_to_get;
+    position struct_to_get;
+    buffer_to_get.reserve(sizeof(struct_to_get));
+
+    _socket->async_receive_from(boost::asio::buffer(buffer_to_get.data(), sizeof(struct_to_get)), _endpoint, boost::bind(&Server::handleReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+    std::memcpy(reinterpret_cast<char *>(&struct_to_get), buffer_to_get.data(), sizeof(struct_to_get));
+
+    std::cout << "id: " << struct_to_get.id << std::endl;
+    std::cout << "x: " << struct_to_get.x << std::endl;
+    std::cout << "y: " << struct_to_get.y << std::endl;
 }
 
 void Server::handleReceive(const boost::system::error_code &e, std::size_t nbBytes)
 {
     if (!e) {
-        std::string buffer = _buffer.data();
+        std::cout << "handleReceive"<< std::endl;
+        struct position p = {
+            .id = 1,
+            .x = 10,
+            .y = 7
+        };
 
-        std::cout << "message: " << _buffer.data() << " " << _endpoint.port() << std::endl;
-        _socket.async_send_to(boost::asio::buffer(buffer, buffer.size()), _endpoint, boost::bind(&Server::handleSend, this, std::make_shared<std::string>(buffer), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+        std::vector<char> buffer_to_send;
+
+        buffer_to_send.reserve(sizeof(p));
+        std::memcpy(buffer_to_send.data(), &p, sizeof(p));
+        _socket->async_send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(p)), _endpoint, boost::bind(&Server::handleSend, this, std::make_shared<std::string>("buffer"), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+    } else {
+        std::cout << e.message() << std::endl;
     }
 }
 

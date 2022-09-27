@@ -12,6 +12,15 @@
 
 using boost::asio::ip::udp;
 
+
+struct position
+{
+    int id;
+
+    float x;
+    float y;
+};
+
 class Server {
     public:
         Server(boost::asio::io_service &service, short const port);
@@ -23,7 +32,7 @@ class Server {
         void handleReceive(const boost::system::error_code &e, std::size_t nbBytes);
         void handleSend(std::shared_ptr<std::string> message, const boost::system::error_code& ec, std::size_t bytes);
 
-        udp::socket _socket;
+        std::shared_ptr<udp::socket> _socket;
         udp::endpoint _endpoint;
         std::array<char, 1024> _buffer;
 };
