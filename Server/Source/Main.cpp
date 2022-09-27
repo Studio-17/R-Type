@@ -7,13 +7,18 @@
 
 #include <iostream>
 
-#include <boost/array.hpp>
+#include "Server.hpp"
 
-int main()
+int main(void)
 {
-    std::cout << "Hello World!" << std::endl;
+    try {
+        boost::asio::io_service service;
 
-    boost::array<char, 1> array;
+        Server server(service, 8080);
 
-    return (0);
+        service.run();
+    } catch (std::exception const &e) {
+        std::cerr << e.what() << std::endl;
+    }
+    return 0;
 }

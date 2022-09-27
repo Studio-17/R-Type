@@ -6,7 +6,7 @@
 */
 
 #include <iostream>
-#include <raylib.h>
+#include "raylib.h"
 
 #include "ECS/Entity.hpp"
 #include "ECS/Registry.hpp"
@@ -78,6 +78,24 @@ int main()
     CloseWindow();
 
     std::cout << "Hello World!" << std::endl;
-
-    return (0);
 }
+/*
+#include "Client.hpp"
+
+int main()
+{
+	boost::asio::io_service io_service;
+	Client client(io_service, "localhost", "8080");
+
+	client.send("Hello, World!");
+    std::cout << client.receive()<< std::endl;
+	client.send("Hello, World!");
+    std::cout << client.receive()<< std::endl;
+	client.send("Hello, World!");
+    std::cout << client.receive()<< std::endl;
+	client.send("Hello, World!");
+    std::cout << client.receive()<< std::endl;
+    io_service.run();
+
+}
+*/
