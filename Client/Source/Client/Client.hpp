@@ -12,6 +12,15 @@
 
 using boost::asio::ip::udp;
 
+
+struct position
+{
+    int id;
+
+    float x;
+    float y;
+};
+
 class Client
 {
 	public:

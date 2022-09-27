@@ -15,12 +15,6 @@ int main()
 
 	client.send("Hello, World!");
     std::cout << client.receive()<< std::endl;
-	client.send("Hello, World!");
-    std::cout << client.receive()<< std::endl;
-	client.send("Hello, World!");
-    std::cout << client.receive()<< std::endl;
-	client.send("Hello, World!");
-    std::cout << client.receive()<< std::endl;
     io_service.run();
 
 }
