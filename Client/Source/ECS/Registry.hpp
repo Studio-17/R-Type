@@ -32,9 +32,7 @@ namespace component
 
     typedef struct drawable_s
     {
-        int texture;
-        int sprite;
-        int *window = nullptr;
+        Texture2D texture;
     } drawable_t;
 
     typedef struct controllable_s
@@ -80,6 +78,7 @@ class Registry
             }
             return Entity(_nbEntities - 1);
         };
+
         Entity entity_from_index(std::size_t idx)
         {
             if (idx >= _nbEntities) {
@@ -98,7 +97,9 @@ class Registry
         template <typename Component>
         typename Sparse_array<Component>::reference_type add_component(Entity const &to, Component &&c)
         {
-            auto sparseArray = std::any_cast<Sparse_array<Component> &>(_componentsArrays.at(std::type_index(typeid(Component))));
+            if (_componentsArrays.find(std::type_index(typeid(Component))) == _componentsArrays.end())
+                throw std::invalid_argument("Component not registered !");
+            Sparse_array<Component> &sparseArray = std::any_cast<Sparse_array<Component> &>(_componentsArrays.at(std::type_index(typeid(Component))));
 
             // if (to > sparseArray.size()) {
             //     sparseArray.extend(1);
@@ -109,7 +110,7 @@ class Registry
         template <typename Component, typename ...Params>
         typename Sparse_array<Component>::reference_type emplace_component(Entity const &to, Params &&...p)
         {
-            auto sparseArray = std::any_cast<Sparse_array<Component> &>(_componentsArrays.at(std::type_index(typeid(Component))));
+            Sparse_array<Component> sparseArray = std::any_cast<Sparse_array<Component> &>(_componentsArrays.at(std::type_index(typeid(Component))));
 
             // if (to > sparseArray.size()) {
             //     sparseArray.extend(1);
@@ -125,12 +126,32 @@ class Registry
             sparseArray.erase(from);
         };
 
+        template <class... Component, typename Function>
+        void add_system(Function &&f, Component &...c) {
+            _listOfSystems.push_back([&f, &c...](Registry &registry) -> void {
+                f(registry, c...);
+            });
+        }
+
+        template <class... Component, typename Function>
+        void add_system(Function const &f, Component &...c) {
+            _listOfSystems.push_back([&f, &c...](Registry &registry) -> void {
+                f(registry, c...);
+            });
+        }
+
+        void run_systems() {
+            for (auto &function : _listOfSystems)
+                function(*this);
+        }
+
     private:
         std::map<std::type_index, std::function<void (Registry &, Entity const &)>> _killerArrays;
         std::map<std::type_index, std::function<void (Registry &, Entity const &)>> _creatorArrays;
         std::map<std::type_index, std::any> _componentsArrays;
         std::size_t _nbEntities = 0;
         std::vector<Entity> _killedEntities;
+        std::vector<std::function<void(Registry &)>> _listOfSystems;
 };
 
 #endif /* !REGISTRY_HPP_ */

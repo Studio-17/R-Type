@@ -4,4 +4,4 @@ cmake_minimum_required(VERSION 3.17)
 project(R-Type VERSION 0.1.0)
 
 add_subdirectory(Client)
-add_subdirectory(Server)
+# add_subdirectory(Server)

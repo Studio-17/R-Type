@@ -16,7 +16,7 @@ option(TIDY "Run clang-tidy" OFF) #OFF by default
 if (TIDY)
     set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*")
 else()
-    # Do nothing
+    # Do nothind
 endif()
 unset(TIDY CACHE)
 
