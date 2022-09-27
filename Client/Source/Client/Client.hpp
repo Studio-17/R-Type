@@ -12,15 +12,6 @@
 
 using boost::asio::ip::udp;
 
-
-struct position
-{
-    int id;
-
-    float x;
-    float y;
-};
-
 class Client
 {
 	public:
@@ -29,10 +20,11 @@ class Client
 
 		void send(const std::string& msg);
     	std::string receive(void);
+
 	private:
 		boost::asio::io_service& io_service_;
-		udp::socket socket_;
-		udp::endpoint endpoint_;
+		udp::socket _socket;
+		udp::endpoint _destination;
 };
 
 #endif /* !CLIENT_HPP_ */

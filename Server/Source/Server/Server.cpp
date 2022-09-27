@@ -23,36 +23,12 @@ Server::~Server()
 
 void Server::startReceive()
 {
-    std::vector<char> buffer_to_get;
-    position struct_to_get;
-    buffer_to_get.reserve(sizeof(struct_to_get));
-
-    _socket->async_receive_from(boost::asio::buffer(buffer_to_get.data(), sizeof(struct_to_get)), _endpoint, boost::bind(&Server::handleReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-    std::memcpy(reinterpret_cast<char *>(&struct_to_get), buffer_to_get.data(), sizeof(struct_to_get));
-
-    std::cout << "id: " << struct_to_get.id << std::endl;
-    std::cout << "x: " << struct_to_get.x << std::endl;
-    std::cout << "y: " << struct_to_get.y << std::endl;
+    // _communicationModule.receive(_socket, _destination, &handleReceive);
 }
 
 void Server::handleReceive(const boost::system::error_code &e, std::size_t nbBytes)
 {
-    if (!e) {
-        std::cout << "handleReceive"<< std::endl;
-        struct position p = {
-            .id = 1,
-            .x = 10,
-            .y = 7
-        };
-
-        std::vector<char> buffer_to_send;
-
-        buffer_to_send.reserve(sizeof(p));
-        std::memcpy(buffer_to_send.data(), &p, sizeof(p));
-        _socket->async_send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(p)), _endpoint, boost::bind(&Server::handleSend, this, std::make_shared<std::string>("buffer"), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-    } else {
-        std::cout << e.message() << std::endl;
-    }
+    // _communicationModule.send(_socket, _destination, structure, &handleSend);
 }
 
 void Server::handleSend(std::shared_ptr<std::string> message, const boost::system::error_code &ec, std::size_t bytes)

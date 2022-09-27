@@ -9,17 +9,10 @@
     #define SERVER_HPP_
 
     #include <boost/asio.hpp>
+    
+    #include "Communication.hpp"
 
 using boost::asio::ip::udp;
-
-
-struct position
-{
-    int id;
-
-    float x;
-    float y;
-};
 
 class Server {
     public:
@@ -33,8 +26,9 @@ class Server {
         void handleSend(std::shared_ptr<std::string> message, const boost::system::error_code& ec, std::size_t bytes);
 
         std::shared_ptr<udp::socket> _socket;
-        udp::endpoint _endpoint;
-        std::array<char, 1024> _buffer;
+        udp::endpoint _destination;
+
+        Communication _communicationModule;
 };
 
 #endif /* !SERVER_HPP_ */
