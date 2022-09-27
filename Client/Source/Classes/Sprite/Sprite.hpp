@@ -13,24 +13,32 @@
 class Sprite {
     public:
         Sprite();
+        Sprite(std::string const &imagePath, Position const &position = {0, 0});
+
         ~Sprite();
 
-        float getScale() const;
-        void setScale(const Vector2f &scale);
+        void draw();
 
-        float getRotation() const;
-        void setRotation(float rotation);
+        void Sprite::setPosition(Position const &position);
 
-        void getOrigin() const;
-        void setOrigin(const Vector2f &origin);
+        void Sprite::setPosition(float x, float y);
 
-        void getPosition() const;
-        void setPosition(const Vector2f &position);
+        void Sprite::setScale(float scale);
 
-        void rotate(float angle);
+        Position Sprite::getPosition() const;
+
+        void Sprite::setRotation(float rotation);
+
+        float Sprite::getRotation() const;
 
     protected:
     private:
+        bool _isEnable;
+        bool _imageLoaded;
+        Position _imagePosition;
+        Texture2D _imageTexture;
+        float _imageScale = 1.0f;
+        float _rotation;
 };
 
 #endif /* !SPRITE_HPP_ */
