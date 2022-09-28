@@ -13,8 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # specify the headers
 file(GLOB LIB_HEADER
     ./**
-    Data/*.hpp
-    Communication/*.hpp
+    Packets/*.hpp
+    Protocol/*.hpp
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable

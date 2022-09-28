@@ -10,6 +10,9 @@
 
     #include <boost/asio.hpp>
 
+	#include "Communication.hpp"
+    #include "Structure.hpp"
+
 using boost::asio::ip::udp;
 
 class Client
@@ -18,13 +21,16 @@ class Client
 		Client(boost::asio::io_service &io_service, std::string const &host, std::string const &port);
 		~Client();
 
-		void send(const std::string& msg);
-    	std::string receive(void);
+		void send();
+    	std::string receive();
 
 	private:
 		boost::asio::io_service& io_service_;
-		udp::socket _socket;
+
+		std::shared_ptr<udp::socket> _socket;
 		udp::endpoint _destination;
+
+		Communication _communicationModule;
 };
 
 #endif /* !CLIENT_HPP_ */

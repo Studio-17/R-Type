@@ -13,8 +13,9 @@ int main()
 	boost::asio::io_service io_service;
 	Client client(io_service, "localhost", "8080");
 
-	client.send("Hello, World!");
-    std::cout << client.receive()<< std::endl;
+	client.send();
+
     io_service.run();
+    io_service.stop();
 
 }
