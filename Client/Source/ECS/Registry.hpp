@@ -126,17 +126,17 @@ class Registry
             sparseArray.erase(from);
         };
 
-        template <class... Component, typename Function>
-        void add_system(Function &&f, Component &...c) {
-            _listOfSystems.push_back([&f, &c...](Registry &registry) -> void {
-                f(registry, c...);
+        template <class ...Component, typename Function>
+        void add_system(Function &&f) {
+            _listOfSystems.push_back([&f](Registry &registry) -> void {
+                f(registry.get_components<Component>()...);
             });
         }
 
-        template <class... Component, typename Function>
-        void add_system(Function const &f, Component &...c) {
-            _listOfSystems.push_back([&f, &c...](Registry &registry) -> void {
-                f(registry, c...);
+        template <class ...Component, typename Function>
+        void add_system(Function const &f) {
+            _listOfSystems.push_back([&f](Registry &registry) -> void {
+                f(registry.get_components<Component>()...);
             });
         }
 
