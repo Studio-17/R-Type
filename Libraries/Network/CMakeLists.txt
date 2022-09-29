@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # specify the headers
 file(GLOB LIB_HEADER
-    ./**
+    ./*.hpp
     Packets/*.hpp
     Protocol/*.hpp
 )

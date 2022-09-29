@@ -12,8 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # specify the headers
 file(GLOB LIB_HEADER
-    ./**
-    ECS/*.hpp
+    # Source/**
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
