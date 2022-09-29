@@ -10,10 +10,10 @@
 
 #include "Registry.hpp"
 #include "SparseArray.hpp"
-#include "Component.hpp"
+#include "raylib.h"
 
-void loggingSystem(Registry &r, Sparse_array<component::position_t> &pos, Sparse_array<component::velocity_t> &velo) {
-    (void)r;
+void loggingSystem(Sparse_array<component::position_t> &pos, Sparse_array<component::velocity_t> &velo)
+{
     for (size_t i = 0; i < pos.size() && i < velo.size(); i++) {
         if (pos[i] && velo[i]) {
             std::cout << "Object position (x): " << pos[i].value().x << std::endl;
@@ -24,8 +24,8 @@ void loggingSystem(Registry &r, Sparse_array<component::position_t> &pos, Sparse
     }
 }
 
-void printSystem(Registry &r, Sparse_array<component::position_t> &pos, Sparse_array<component::drawable_t> &draw) {
-    (void)r;
+void printSystem(Sparse_array<component::position_t> &pos, Sparse_array<component::drawable_t> &draw)
+{
     for (size_t i = 0; i < pos.size() && i < draw.size(); i++) {
         if (pos[i] && draw[i]) {
             std::cout << "print system" << std::endl;
@@ -34,8 +34,8 @@ void printSystem(Registry &r, Sparse_array<component::position_t> &pos, Sparse_a
     }
 }
 
-void controlSystem(Registry &r, Sparse_array<component::position_t> &pos, Sparse_array<component::velocity_t> &velo, Sparse_array<component::controllable_t> &control) {
-    (void)r;
+void controlSystem(Sparse_array<component::position_t> &pos, Sparse_array<component::velocity_t> &velo, Sparse_array<component::controllable_t> &control)
+{
     for (size_t i = 0; i < pos.size() && i < velo.size() && i < control.size(); i++) {
         if (pos[i] && velo[i] && control[i] && control[i].value().isControllable) {
             if (IsKeyPressed(KEY_LEFT)) {

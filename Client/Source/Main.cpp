@@ -6,13 +6,12 @@
 */
 
 #include <iostream>
-#include "raylib.h"
 
+#include "raylib.h"
 #include "ECS/Entity.hpp"
 #include "ECS/Registry.hpp"
 #include "ECS/SparseArray.hpp"
 #include "ECS/Systems.hpp"
-#include "ECS/Component.hpp"
 
 int main()
 {
@@ -56,9 +55,9 @@ int main()
     r.add_component<component::drawable_t>(r.entity_from_index(1), std::move(drawbis));
     r.add_component<component::controllable_t>(r.entity_from_index(1), std::move(controbis));
 
-    r.add_system(loggingSystem, r.get_components<component::position_t>(), r.get_components<component::velocity_t>());
-    r.add_system(printSystem, r.get_components<component::position_t>(), r.get_components<component::drawable_t>());
-    r.add_system(controlSystem, r.get_components<component::position_t>(), r.get_components<component::velocity_t>(), r.get_components<component::controllable_t>());
+    r.add_system(loggingSystem);
+    r.add_system(printSystem);
+    r.add_system(controlSystem);
 
     Texture2D texture = LoadTexture("Client/Source/canard.png");
 
