@@ -35,6 +35,8 @@ include_directories(
     Source/Client/
 )
 
+# INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
+
 # Add executable target with source files listed in SOURCE_FILES variable
 option(UNIT_TEST "Run unit tests" OFF) #OFF by default
 if (UNIT_TEST)
