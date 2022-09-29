@@ -10,13 +10,13 @@
 
 class INetwork {
     public:
-        virtual ~INetwork() = 0;
+        virtual ~INetwork() {};
 
-        void Send();
-        void AsynchronousSend();
+        virtual void Send() = 0;
+        virtual void AsynchronousSend() = 0;
 
-        void Receive();
-        void AsynchronousReceive();
+        virtual void Receive() = 0;
+        virtual void AsynchronousReceive() = 0;
 
     protected:
     private:
