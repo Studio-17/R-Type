@@ -9,7 +9,7 @@
 #define MUSIC_HPP_
 
 #include <string>
-#include "Error.hpp"
+#include "Errors.hpp"
 
 class Music {
     public:

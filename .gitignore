@@ -36,3 +36,5 @@ r-type_*
 *.vscode
 *.idea
 Builds/*
+
+.DS_Store

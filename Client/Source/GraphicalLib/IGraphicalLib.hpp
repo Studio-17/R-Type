@@ -8,10 +8,10 @@
 #ifndef IGRAPHICALLIB_HPP_
 #define IGRAPHICALLIB_HPP_
 
-#include "Sprite/Sprite.hpp"
-#include "Text/Text.hpp"
-#include "Sound/Sound.hpp"
-#include "Music/Music.hpp"
+#include "Sprite.hpp"
+#include "Text.hpp"
+#include "Sound.hpp"
+#include "Music.hpp"
 #include <iostream>
 
 namespace rtype {
