@@ -9,6 +9,7 @@
 #define MUSIC_HPP_
 
 #include <string>
+#include "raylib.h"
 #include "Errors.hpp"
 
 class Music {
@@ -21,7 +22,7 @@ class Music {
         void pause();
         void resume();
 
-        void isPlaying();
+        bool isPlaying() const;
         void setVolume(float volume);
         void updateStream();
 

@@ -9,8 +9,6 @@
 
 Music::Music(std::string const &filename) : _music(LoadMusicStream(filename.c_str()))
 {
-    if (!_music.ctxData)
-        throw Error::AudioError("MyMusic initialization failed");
 }
 
 Music::~Music()
@@ -48,7 +46,7 @@ void Music::setVolume(float volume)
     SetMusicVolume(_music, volume);
 }
 
-void Music::updateMusicStream()
+void Music::updateStream()
 {
     UpdateMusicStream(_music);
 }

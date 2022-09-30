@@ -9,6 +9,7 @@
 #define SOUND_HPP_
 
 #include <string>
+#include "raylib.h"
 
 class Sound {
     public:

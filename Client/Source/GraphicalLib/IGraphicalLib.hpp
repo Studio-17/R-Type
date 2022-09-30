@@ -52,7 +52,7 @@ namespace rtype {
             virtual auto pauseMusic(std::size_t id) -> void = 0;
             virtual auto resumeMusic(std::size_t id) -> void = 0;
 
-            virtual auto isMusicPlaying() -> void = 0;
+            virtual auto isMusicPlaying() -> bool = 0;
             virtual auto setMusicVolume(float volume) -> void = 0;
             virtual auto updateMusicStream() -> void = 0;
 
@@ -62,7 +62,7 @@ namespace rtype {
             virtual auto stopSound(std::size_t id) -> void = 0;
             virtual auto pauseSound(std::size_t id) -> void = 0;
             virtual auto resumeSound(std::size_t id) -> void = 0;
-            virtual auto isSoundPlaying() -> void = 0;
+            virtual auto isSoundPlaying() -> bool = 0;
             virtual auto setSoundVolume(float volume) -> void = 0;
 
         protected:

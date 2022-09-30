@@ -19,13 +19,13 @@ class Sprite {
         void drawSprite();
 
         void setPosition(Position const &position);
-        float getPosition();
+        Position getPosition();
 
         void setScale(float scale);
         float getScale();
 
-        float setRotation(float rotation);
-        void getRotation();
+        void setRotation(float rotation);
+        float getRotation();
 
         void setTexture(std::string const &imagePath);
 
