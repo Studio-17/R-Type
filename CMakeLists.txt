@@ -15,4 +15,4 @@ find_package(Boost 1.80.0 QUIET)
 
 add_subdirectory(Libraries)
 add_subdirectory(Client)
-add_subdirectory(Server)
+# add_subdirectory(Server)
