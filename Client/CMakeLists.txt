@@ -22,6 +22,8 @@ unset(TIDY CACHE)
 file(GLOB SOURCE_FILES
     Source/*.cpp
     Source/Client/*.cpp
+    Source/Network/*.cpp
+    Source/System/*.cpp
 )
 
 # specify the test sources
@@ -33,9 +35,12 @@ file(GLOB TEST_FILES
 include_directories(
     Source/
     Source/Client/
+    Source/Component/
+    Soure/Network/
+    Source/System/
 )
 
-# INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
+include_directories(${BOOST_DIRECTORIES})
 
 # Add executable target with source files listed in SOURCE_FILES variable
 option(UNIT_TEST "Run unit tests" OFF) #OFF by default
@@ -44,6 +49,7 @@ if (UNIT_TEST)
     target_link_libraries(unit_tests criterion)
 else()
     add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
+    target_link_libraries(${EXECUTABLE_NAME} r-type_library_ecs)
     target_link_libraries(${EXECUTABLE_NAME} r-type_library_network)
     target_link_libraries(${EXECUTABLE_NAME} raylib)
     target_link_libraries(${EXECUTABLE_NAME} -lpthread)
