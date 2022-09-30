@@ -27,7 +27,6 @@ class Client
 		std::unique_ptr<Network> _network;
 		std::unique_ptr<Registry> _registry;
 		bool _working;
-
 };
 
 #endif /* !CLIENT_HPP_ */

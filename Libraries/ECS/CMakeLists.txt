@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.17)
 project(R-Type_Library_ECS VERSION 0.1.0)
 
 # set executable name
-set(EXECUTABLE_NAME r-type_library_ecs)
+set(LIBRARY_NAME r-type_library_ecs)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -16,5 +16,6 @@ file(GLOB LIB_HEADER
     Source/*.hpp
 )
 
-add_library(${EXECUTABLE_NAME} INTERFACE)
-target_include_directories(${EXECUTABLE_NAME} INTERFACE ${LIB_HEADER})
+# Add executable target with source files listed in SOURCE_FILES variable
+add_library(${LIBRARY_NAME} INTERFACE)
+target_include_directories(${LIBRARY_NAME} INTERFACE ${LIB_HEADER})

@@ -22,6 +22,7 @@ unset(TIDY CACHE)
 file(GLOB SOURCE_FILES
     Source/*.cpp
     Source/Server/*.cpp
+    Source/ThreadPool/*.cpp
 )
 
 # specify the test sources
@@ -33,6 +34,7 @@ file(GLOB TEST_FILES
 include_directories(
     Source/
     Source/Server/
+    Source/ThreadPool/
 )
 
 include_directories(${BOOST_DIRECTORIES})
@@ -44,7 +46,7 @@ if (UNIT_TEST)
     target_link_libraries(unit_tests criterion)
 else()
     add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
-    # target_link_libraries(${EXECUTABLE_NAME} r-type_library_network)
+    target_link_libraries(${EXECUTABLE_NAME} r-type_library_network)
     target_link_libraries(${EXECUTABLE_NAME} raylib)
     target_link_libraries(${EXECUTABLE_NAME} -lpthread)
     target_link_libraries(${EXECUTABLE_NAME} ${Boost_LIBRARIES})

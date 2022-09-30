@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+
 #include "Client.hpp"
 #include "Network/Network.hpp"
 
@@ -29,5 +30,4 @@ int main(int ac, char **av)
 	strcmp(av[1], "localhost") == 0 ? currentHost = "127.0.0.1" : currentHost = av[1];
 	Client client(currentHost, av[2]);
 	return (0);
-
 }
