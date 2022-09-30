@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** B-EPI-000-PAR-0-0-projectname-user.email
+** B-CPP-500-PAR-5-1-rtype-martin.vanaud
 ** File description:
 ** Errors
 */
