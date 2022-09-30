@@ -10,8 +10,8 @@
 
 #include "Sprite.hpp"
 #include "Text.hpp"
-#include "Sound.hpp"
-#include "Music.hpp"
+#include "MySound.hpp"
+#include "MyMusic.hpp"
 #include <iostream>
 
 namespace rtype {
@@ -34,16 +34,14 @@ namespace rtype {
             virtual auto createText(std::size_t id, std::string const &filename, std::string const &text, int fontSize, Color const &color, Position const &position) -> void = 0;
             virtual auto drawText(std::size_t id) -> void = 0;
 
-            virtual auto setTextPosition(Position const &position) -> void = 0;
-            virtual auto getTextPosition() -> Position = 0;
+            virtual auto setTextPosition(std::size_t id, Position const &position) -> void = 0;
+            virtual auto getTextPosition(std::size_t id) -> Position = 0;
 
-            virtual auto drawTextFramePerSeconds(Position const &position) -> void = 0;
+            virtual auto getText(std::size_t id) -> std::string = 0;
+            virtual auto setText(std::size_t id, std::string const &text) -> void = 0;
 
-            virtual auto getText() -> std::string = 0;
-            virtual auto setText(std::string const &text) -> void = 0;
-
-            virtual auto setTextColor(Color const &color) -> void = 0;
-            virtual auto setTextFontSize(int fontSize) -> void = 0;
+            virtual auto setTextColor(std::size_t id, Color const &color) -> void = 0;
+            virtual auto setTextFontSize(std::size_t id, int fontSize) -> void = 0;
 
             //Musics
             virtual auto createMusic(std::size_t id, std::string const &filename) -> void = 0;
@@ -52,9 +50,9 @@ namespace rtype {
             virtual auto pauseMusic(std::size_t id) -> void = 0;
             virtual auto resumeMusic(std::size_t id) -> void = 0;
 
-            virtual auto isMusicPlaying() -> bool = 0;
-            virtual auto setMusicVolume(float volume) -> void = 0;
-            virtual auto updateMusicStream() -> void = 0;
+            virtual auto isMusicPlaying(std::size_t id) -> bool = 0;
+            virtual auto setMusicVolume(std::size_t id, float volume) -> void = 0;
+            virtual auto updateMusicStream(std::size_t id) -> void = 0;
 
             //Sounds
             virtual auto createSound(std::size_t id, std::string const &filename) -> void = 0;
@@ -62,8 +60,8 @@ namespace rtype {
             virtual auto stopSound(std::size_t id) -> void = 0;
             virtual auto pauseSound(std::size_t id) -> void = 0;
             virtual auto resumeSound(std::size_t id) -> void = 0;
-            virtual auto isSoundPlaying() -> bool = 0;
-            virtual auto setSoundVolume(float volume) -> void = 0;
+            virtual auto isSoundPlaying(std::size_t id) -> bool = 0;
+            virtual auto setSoundVolume(std::size_t id, float volume) -> void = 0;
 
         protected:
         private:

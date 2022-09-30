@@ -35,16 +35,14 @@ namespace rtype {
             void createText(std::size_t id, std::string const &filename, std::string const &text, int fontSize, Color const &color, Position const &position) override;
             void drawText(std::size_t id) override;
 
-            void setTextPosition(Position const &position) override;
-            Position getTextPosition() override;
+            void setTextPosition(std::size_t id, Position const &position) override;
+            Position getTextPosition(std::size_t id) override;
 
-            void drawTextFramePerSeconds(Position const &position) override;
+            std::string getText(std::size_t id) override;
+            void setText(std::size_t id, std::string const &text) override;
 
-            std::string getText() override;
-            void setText(std::string const &text) override;
-
-            void setTextColor(Color const &color) override;
-            void setTextFontSize(int fontSize) override;
+            void setTextColor(std::size_t id, Color const &color) override;
+            void setTextFontSize(std::size_t id, int fontSize) override;
 
             //Musics
             void createMusic(std::size_t id, std::string const &filename) override;
@@ -53,9 +51,9 @@ namespace rtype {
             void pauseMusic(std::size_t id) override;
             void resumeMusic(std::size_t id) override;
 
-            bool isMusicPlaying() override;
-            void setMusicVolume(float volume) override;
-            void updateMusicStream() override;
+            bool isMusicPlaying(std::size_t id) override;
+            void setMusicVolume(std::size_t id, float volume) override;
+            void updateMusicStream(std::size_t id) override;
 
             //Sounds
             void createSound(std::size_t id, std::string const &filename) override;
@@ -63,8 +61,8 @@ namespace rtype {
             void stopSound(std::size_t id) override;
             void pauseSound(std::size_t id) override;
             void resumeSound(std::size_t id) override;
-            bool isSoundPlaying() override;
-            void setSoundVolume(float volume) override;
+            bool isSoundPlaying(std::size_t id) override;
+            void setSoundVolume(std::size_t id, float volume) override;
 
         protected:
         private:
