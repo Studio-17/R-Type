@@ -9,6 +9,8 @@
     #define SERVER_HPP_
 
     #include <boost/asio.hpp>
+    
+    #include "Structure.hpp"
 
 using boost::asio::ip::udp;
 
@@ -17,15 +19,23 @@ class Server {
         Server(boost::asio::io_service &service, short const port);
         ~Server();
 
-    protected:
-    private:
-        void startReceive();
-        void handleReceive(const boost::system::error_code &e, std::size_t nbBytes);
-        void handleSend(std::shared_ptr<std::string> message, const boost::system::error_code& ec, std::size_t bytes);
+        void CommunicationHandler(const boost::system::error_code& error, std::size_t bytes_transferred) {
+            if (error) {
+                std::cerr << error.message() << std::endl;
+            } else {
+                std::cerr << "bytes transferred: " << bytes_transferred << std::endl;
+            }
+        };
 
-        udp::socket _socket;
-        udp::endpoint _endpoint;
-        std::array<char, 1024> _buffer;
+    protected:
+
+    private:
+        void ReceivePackets();
+        void SendPackets(const boost::system::error_code &e, std::size_t nbBytes);
+        void CompleteExchnage(const boost::system::error_code &e, std::size_t nbBytes);
+
+        std::shared_ptr<udp::socket> _socket;
+        udp::endpoint _destination;
 };
 
 #endif /* !SERVER_HPP_ */

@@ -3,14 +3,12 @@ cmake_minimum_required(VERSION 3.17)
 # set the project name and version
 project(R-Type-Client VERSION 0.1.0)
 
+# set executable name
+set(EXECUTABLE_NAME r-type_client)
+
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-
-find_package(Boost 1.40.0 REQUIRED system)
 
 option(TIDY "Run clang-tidy" OFF) #OFF by default
 if (TIDY)
@@ -37,15 +35,19 @@ include_directories(
     Source/Client/
 )
 
+# INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
+
 # Add executable target with source files listed in SOURCE_FILES variable
 option(UNIT_TEST "Run unit tests" OFF) #OFF by default
 if (UNIT_TEST)
     add_executable(unit_tests ${SOURCE_FILES} ${TEST_FILES})
     target_link_libraries(unit_tests criterion)
 else()
-    add_executable(r-type_client ${SOURCE_FILES})
-    target_link_libraries(r-type_client ${CONAN_LIBS})
-    target_link_libraries(r-type_client -lpthread)
+    add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
+    target_link_libraries(${EXECUTABLE_NAME} r-type_library_network)
+    target_link_libraries(${EXECUTABLE_NAME} raylib)
+    target_link_libraries(${EXECUTABLE_NAME} -lpthread)
+    target_link_libraries(${EXECUTABLE_NAME} ${Boost_LIBRARIES})
 endif(UNIT_TEST)
 unset(UNIT_TEST CACHE) # Unset the cache variable
 
