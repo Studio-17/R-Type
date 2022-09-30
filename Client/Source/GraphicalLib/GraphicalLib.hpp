@@ -31,8 +31,8 @@ namespace rtype {
             void drawSprite(std::size_t id) override;
 
             void setSpritePosition(std::size_t id, Position const &position) override;
-            void setSpriteScale(std::size_t id, float scale) override;
             Position getSpritePosition(std::size_t id) override;
+            void setSpriteScale(std::size_t id, float scale) override;
             void setSpriteRotation(std::size_t id, float rotation) override;
             float getSpriteRotation(std::size_t id) override;
 
@@ -74,8 +74,8 @@ namespace rtype {
 
         std::map<std::size_t, std::shared_ptr<Sprite>> _spriteMap;
         std::map<std::size_t, std::shared_ptr<Text>> _textMap;
-        std::map<std::size_t, std::shared_ptr<Sound>> _soundMap;
-        std::map<std::size_t, std::shared_ptr<Music>> _musicMap;
+        std::map<std::size_t, std::shared_ptr<MyMusic>> _musicMap;
+        std::map<std::size_t, std::shared_ptr<MySound>> _soundMap;
     };
 
 }

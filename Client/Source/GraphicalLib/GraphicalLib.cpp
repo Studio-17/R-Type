@@ -113,3 +113,47 @@ void rtype::GraphicalLib::setTextFontSize(std::size_t id, int fontSize)
 {
     _textMap[id]->setFontSize(fontSize);
 }
+
+//Musics
+
+void rtype::GraphicalLib::createMusic(std::size_t id, std::string const &filename)
+{
+    _musicMap[id].reset(new MyMusic(filename));
+}
+
+
+
+void rtype::GraphicalLib::playMusic(std::size_t id)
+{
+    _musicMap[id]->play();
+}
+
+void rtype::GraphicalLib::stopMusic(std::size_t id)
+{
+    _musicMap[id]->stop();
+}
+
+void rtype::GraphicalLib::pauseMusic(std::size_t id)
+{
+    _musicMap[id]->pause();
+}
+
+void rtype::GraphicalLib::resumeMusic(std::size_t id)
+{
+    _musicMap[id]->resume();
+}
+
+bool rtype::GraphicalLib::isMusicPlaying(std::size_t id)
+{
+    return _musicMap[id]->isPlaying();
+}
+
+void rtype::GraphicalLib::setMusicVolume(std::size_t id, float volume)
+{
+    _musicMap[id]->setVolume(volume);
+}
+
+void rtype::GraphicalLib::updateMusicStream(std::size_t id)
+{
+    _musicMap[id]->updateStream();
+}
