@@ -20,6 +20,11 @@ namespace rtype {
             IGraphicalLib();
             ~IGraphicalLib();
 
+            //Useful functions
+            virtual auto clearScreen() -> void = 0; // Clear the screen
+            virtual auto startDrawingWindow() -> void = 0; // Start drawing on the window
+            virtual auto endDrawingWindow() -> void = 0; // End drawing on the window
+
             // Sprites
             virtual auto createSprite(std::size_t id, std::string const &imagePath, Position const &position, float const &size) -> void = 0;
             virtual auto drawSprite(std::size_t id) -> void = 0;

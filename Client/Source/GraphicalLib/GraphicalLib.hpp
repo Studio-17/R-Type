@@ -21,6 +21,11 @@ namespace rtype {
             GraphicalLib(const int screenWidth, const int screenHeight, std::string title, const int framerate);
             ~GraphicalLib();
 
+            //Useful functions
+            void clearScreen() override; // Clear the screen
+            void startDrawingWindow() override; // Start drawing on the window
+            void endDrawingWindow() override; // End drawing on the window
+
             // Sprites
             void createSprite(std::size_t id, std::string const &imagePath, Position const &position, float const &size) override;
             void drawSprite(std::size_t id) override;

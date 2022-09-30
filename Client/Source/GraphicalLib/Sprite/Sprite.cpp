@@ -20,7 +20,7 @@ Sprite::~Sprite()
     UnloadTexture(_imageTexture);
 }
 
-void Sprite::drawSprite()
+void Sprite::draw()
 {
     DrawTextureEx(_imageTexture, (Vector2){_position.getX(), _position.getY()}, _rotation, _scale, WHITE);
 }
