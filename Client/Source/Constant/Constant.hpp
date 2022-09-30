@@ -32,4 +32,25 @@ enum ENTITY_TYPE {
     NETWORK
 };
 
+/**
+ * @brief An enum representing the different kind of ZAxis
+ * 
+ */
+enum ZAXIS {
+    BACK,
+    MID,
+    FRONT
+};
+
+/**
+ * @brief An enum representing the different kind of scenes
+ * 
+ */
+enum SCENES {
+    MAIN_MENU,
+    SELECT_ROOM,
+    GAME,
+    PAUSE
+};
+
 #endif /* !CONSTANT_HPP_ */
