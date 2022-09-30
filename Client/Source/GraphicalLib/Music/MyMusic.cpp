@@ -2,51 +2,51 @@
 ** EPITECH PROJECT, 2022
 ** B-CPP-500-PAR-5-1-rtype-martin.vanaud
 ** File description:
-** Music
+** MyMusic
 */
 
-#include "Music.hpp"
+#include "MyMusic.hpp"
 
-Music::Music(std::string const &filename) : _music(LoadMusicStream(filename.c_str()))
+MyMusic::MyMusic(std::string const &filename) : _music(LoadMusicStream(filename.c_str()))
 {
 }
 
-Music::~Music()
+MyMusic::~MyMusic()
 {
     UnloadMusicStream(_music);
 }
 
-void Music::play()
+void MyMusic::play()
 {
     PlayMusicStream(_music);
 }
 
-void Music::stop()
+void MyMusic::stop()
 {
     StopMusicStream(_music);
 }
 
-void Music::pause()
+void MyMusic::pause()
 {
     PauseMusicStream(_music);
 }
 
-void Music::resume()
+void MyMusic::resume()
 {
     ResumeMusicStream(_music);
 }
 
-bool Music::isPlaying() const
+bool MyMusic::isPlaying() const
 {
     return (IsMusicStreamPlaying(_music));
 }
 
-void Music::setVolume(float volume)
+void MyMusic::setVolume(float volume)
 {
     SetMusicVolume(_music, volume);
 }
 
-void Music::updateStream()
+void MyMusic::updateStream()
 {
     UpdateMusicStream(_music);
 }
