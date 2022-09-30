@@ -1,0 +1,62 @@
+/*
+** EPITECH PROJECT, 2022
+** B-CPP-500-PAR-5-1-rtype-martin.vanaud
+** File description:
+** Sprite
+*/
+
+#include "Sprite.hpp"
+
+Sprite::Sprite(std::string const &imagePath, Position const &position, float> const &scale)
+{
+    _position = position;
+    _imageTexture = LoadTexture(imagePath.c_str());
+    _rotation = 0.0f;
+    _scale = scale;
+}
+
+Sprite::~Sprite()
+{
+    if (_imageLoaded)
+        UnloadTexture(_imageTexture);
+}
+
+void Sprite::drawSprite()
+{
+    DrawTextureEx(_imageTexture, (Vector2){_imagePosition.getX(), _imagePosition.getY()}, _rotation, _scale, WHITE);
+}
+
+void Sprite::setPosition(Position const &position)
+{
+    _position = position;
+}
+
+float Sprite::getPosition()
+{
+    return _position;
+}
+
+void Sprite::setScale(float scale)
+{
+    _scale = scale;
+}
+
+float Sprite::getScale()
+{
+    return _scale;
+}
+
+float Sprite::setRotation(float rotation)
+{
+    _rotation = rotation;
+}
+
+void Sprite::getRotation()
+{
+    return _rotation;
+}
+
+void Sprite::setTexture(std::string const &imagePath)
+{
+    _imageTexture = LoadTexture(imagePath.c_str());
+}
