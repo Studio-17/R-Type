@@ -1,0 +1,2 @@
+/usr/bin/ar qc libboost_stacktrace_backtrace.a CMakeFiles/boost_stacktrace_backtrace.dir/src/backtrace.cpp.o
+/usr/bin/ranlib libboost_stacktrace_backtrace.a

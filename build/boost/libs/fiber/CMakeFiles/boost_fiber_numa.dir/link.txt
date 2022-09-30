@@ -1,0 +1,2 @@
+/usr/bin/ar qc libboost_fiber_numa.a CMakeFiles/boost_fiber_numa.dir/src/numa/linux/pin_thread.cpp.o CMakeFiles/boost_fiber_numa.dir/src/numa/linux/topology.cpp.o CMakeFiles/boost_fiber_numa.dir/src/numa/algo/work_stealing.cpp.o
+/usr/bin/ranlib libboost_fiber_numa.a

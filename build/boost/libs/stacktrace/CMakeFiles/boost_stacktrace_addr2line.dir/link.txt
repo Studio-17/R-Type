@@ -1,0 +1,2 @@
+/usr/bin/ar qc libboost_stacktrace_addr2line.a CMakeFiles/boost_stacktrace_addr2line.dir/src/addr2line.cpp.o
+/usr/bin/ranlib libboost_stacktrace_addr2line.a
