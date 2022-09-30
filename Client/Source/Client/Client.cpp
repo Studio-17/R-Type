@@ -9,48 +9,26 @@
 
 #include "Client.hpp"
 
-Client::Client(boost::asio::io_service &io_service, std::string const &host, std::string const &port)
-    : io_service_(io_service), socket_(io_service, udp::endpoint(udp::v4(), 0))
+Client::Client(std::string const &ip, std::string const &port) :
+    _working(true)
 {
-	udp::resolver resolver(io_service_);
-	udp::resolver::query query(udp::v4(), host, port);
-	udp::resolver::iterator iter = resolver.resolve(query);
-	endpoint_ = *iter;
-    std::cout << endpoint_.port() << std::endl;
+    _network = std::make_unique<Network>(ip, port);
+    _registry = std::make_unique<Registry>();
+    setUpEcs();
+    machineRun();
+}
+
+void Client::machineRun(void)
+{
+    while (_working) {
+        _registry.get()->run_systems();
+    }
+}
+
+void Client::setUpEcs(void)
+{
 }
 
 Client::~Client()
 {
-	socket_.close();
-}
-
-void Client::send(const std::string& msg)
-{
-	    struct position p = {
-            .id = 2,
-            .x = 20,
-            .y = 14
-        };
-        std::vector<char> buffer_to_send;
-
-        buffer_to_send.reserve(sizeof(p));
-        std::memcpy(buffer_to_send.data(), &p, sizeof(p));
-        socket_.send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(p)), endpoint_);
-}
-
-std::string Client::receive(void)
-{
-
-	std::vector<char> buffer_to_get;
-    position struct_to_get;
-    buffer_to_get.reserve(sizeof(struct_to_get));
-
-    socket_.receive_from(boost::asio::buffer(buffer_to_get.data(), sizeof(struct_to_get)), endpoint_);
-    std::memcpy(reinterpret_cast<char *>(&struct_to_get), buffer_to_get.data(), sizeof(struct_to_get));
-
-    std::cout << "id: " << struct_to_get.id << std::endl;
-    std::cout << "x: " << struct_to_get.x << std::endl;
-    std::cout << "y: " << struct_to_get.y << std::endl;
-
-	return ("hello");
 }

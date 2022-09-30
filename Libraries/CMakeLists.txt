@@ -5,6 +5,6 @@ project(R-Type VERSION 0.1.0)
 
 find_package(OpenGL REQUIRED)
 
-# add_subdirectory(ECS)
+add_subdirectory(ECS)
 add_subdirectory(Errors)
 add_subdirectory(Network)
