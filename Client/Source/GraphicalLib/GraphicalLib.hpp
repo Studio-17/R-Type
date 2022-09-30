@@ -66,6 +66,7 @@ namespace rtype {
             void stopSound(std::size_t id) override;
             void pauseSound(std::size_t id) override;
             void resumeSound(std::size_t id) override;
+
             bool isSoundPlaying(std::size_t id) override;
             void setSoundVolume(std::size_t id, float volume) override;
 

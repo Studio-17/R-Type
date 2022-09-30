@@ -23,6 +23,7 @@ rtype::GraphicalLib::~GraphicalLib()
     CloseWindow();
 }
 
+//Useful functions
 void rtype::GraphicalLib::clearScreen()
 {
     ClearBackground(RAYWHITE);
@@ -115,13 +116,10 @@ void rtype::GraphicalLib::setTextFontSize(std::size_t id, int fontSize)
 }
 
 //Musics
-
 void rtype::GraphicalLib::createMusic(std::size_t id, std::string const &filename)
 {
     _musicMap[id].reset(new MyMusic(filename));
 }
-
-
 
 void rtype::GraphicalLib::playMusic(std::size_t id)
 {
@@ -156,4 +154,40 @@ void rtype::GraphicalLib::setMusicVolume(std::size_t id, float volume)
 void rtype::GraphicalLib::updateMusicStream(std::size_t id)
 {
     _musicMap[id]->updateStream();
+}
+
+//Sounds
+void rtype::GraphicalLib::createSound(std::size_t id, std::string const &filename)
+{
+    _soundMap[id].reset(new MySound(filename));
+}
+
+void rtype::GraphicalLib::playSound(std::size_t id)
+{
+    _soundMap[id]->play();
+}
+
+void rtype::GraphicalLib::stopSound(std::size_t id)
+{
+    _soundMap[id]->stop();
+}
+
+void rtype::GraphicalLib::pauseSound(std::size_t id)
+{
+    _soundMap[id]->pause();
+}
+
+void rtype::GraphicalLib::resumeSound(std::size_t id)
+{
+    _soundMap[id]->resume();
+}
+
+bool rtype::GraphicalLib::isSoundPlaying(std::size_t id)
+{
+    return _soundMap[id]->isPlaying();
+}
+
+void rtype::GraphicalLib::setSoundVolume(std::size_t id, float volume)
+{
+    _soundMap[id]->setVolume(volume);
 }
