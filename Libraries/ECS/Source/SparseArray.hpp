@@ -113,7 +113,7 @@ class Sparse_array {
         reference_type insert_at(size_type pos, Component &&component)
         {
             if (pos > _data.size())
-                throw std::invalid_argument("Invalid pos in insert_at (SparseArray)");
+                throw std::invalid_argument("Invalid position in sparse array");
             if (pos < _data.size()) {
                 auto tmp = _data.get_allocator();
 
@@ -130,7 +130,7 @@ class Sparse_array {
         reference_type emplace_at(size_type pos, Params &&...params)
         {
             if (pos > _data.size())
-                throw std::invalid_argument("Invalid pos in emplace_at (SparseArray)");
+                throw std::invalid_argument("Invalid pos in sparse array");
             auto tmp = _data.get_allocator();
             std::allocator_traits<decltype(tmp)>::destroy(tmp, std::addressof(_data[pos]));
             std::allocator_traits<decltype(tmp)>::construct(tmp, std::addressof(_data[pos]), std::forward(params)...);
