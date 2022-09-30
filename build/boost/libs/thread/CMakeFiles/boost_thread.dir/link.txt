@@ -1,2 +1,0 @@
-/usr/bin/ar qc libboost_thread.a CMakeFiles/boost_thread.dir/src/pthread/thread.cpp.o CMakeFiles/boost_thread.dir/src/pthread/once.cpp.o CMakeFiles/boost_thread.dir/src/future.cpp.o
-/usr/bin/ranlib libboost_thread.a

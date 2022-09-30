@@ -34,9 +34,9 @@
 # Project files
 r-type_*
 Builds/*
+build/*
 *.vscode
 *.idea
-Builds/*
 
 # Macos hiden files
 .DS_Store

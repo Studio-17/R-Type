@@ -1,2 +1,0 @@
-/usr/bin/ar qc libboost_contract.a CMakeFiles/boost_contract.dir/src/contract.cpp.o
-/usr/bin/ranlib libboost_contract.a
