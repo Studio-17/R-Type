@@ -30,22 +30,27 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        cache: 'pip' # caching pip dependencies
+    - run: pip install -r ${{github.workspace}}/.github/files/requirements.txt # Get Conan for package managing
+  
+      # Create a folder for builds and executables 
+    - name: Create `Builds` folder
+      run: mkdir -p Builds
 
-    - name: Create Build Environment
-      # Some projects don't allow in-source building, so create a separate build directory
-      # We'll use this as our working directory for all subsequent commands
-      run: cmake -E make_directory ${{github.workspace}}/Builds
+      # Installation of dependencies using conan, in this case mainly boost
+    - name: Install dependencies
+      run: conan install . --install-folder=${{github.workspace}}/Builds
 
-    - name: Setup Environment
-      run: |
-        sudo apt-get update -qq
-        sudo apt-get install gcc-multilib
-        sudo apt-get install -y --no-install-recommends libglfw3 libglfw3-dev libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libxext-dev libxfixes-dev
+      # Configure CMake in the previously created 'Builds' subdirectory.
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/Builds
 
-    - name: Install raylib dependency with git submodule
-      shell: bash
-      working-directory: ${{github.workspace}}
-      run: git submodule update --init raylib/
+      # Build R-Type projet :frog:
+    - name: Build
+      run: cmake --build ${{github.workspace}}/Builds
 
     - name: Install boost dependenciy with git submodule
       shell: bash
@@ -78,7 +83,7 @@ jobs:
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
-      run: cmake -E make_directory ${{github.workspace}}/Builds
+      run: New-Item ${{github.workspace}}/Builds -itemType Directory
 
     - name: Install raylib dependency with git submodule
       shell: powershell
@@ -94,7 +99,7 @@ jobs:
     - name: Compile CMake
       shell: powershell
       working-directory: ${{github.workspace}}/Builds
-      run: cmake $GITHUB_WORKSPACE -G "Visual Studio 17 2022"
+      run: cmake $env:GITHUB_WORKSPACE -G "Visual Studio 17 2022"
 
       # Build R-Type projet :frog:
     - name: Build
@@ -117,7 +122,6 @@ jobs:
       - name: Execute Criterion testing sequences
         run: |
           bash .github/scripts/unit_tests.sh
-
   # # This workflow contains a single job called "build_release"
   # build_release:
 

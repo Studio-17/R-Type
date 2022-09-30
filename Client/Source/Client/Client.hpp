@@ -9,30 +9,24 @@
     #define CLIENT_HPP_
 
     #include <boost/asio.hpp>
+	#include "Network/Network.hpp"
+	#include "Registry.hpp"
 
 using boost::asio::ip::udp;
-
-
-struct position
-{
-    int id;
-
-    float x;
-    float y;
-};
 
 class Client
 {
 	public:
-		Client(boost::asio::io_service &io_service, std::string const &host, std::string const &port);
+		Client(std::string const &ip, std::string const &port);
 		~Client();
 
-		void send(const std::string& msg);
-    	std::string receive(void);
+		void setUpEcs(void);
+		void machineRun(void);
+
 	private:
-		boost::asio::io_service& io_service_;
-		udp::socket socket_;
-		udp::endpoint endpoint_;
+		std::unique_ptr<Network> _network;
+		std::unique_ptr<Registry> _registry;
+		bool _working;
 };
 
 #endif /* !CLIENT_HPP_ */

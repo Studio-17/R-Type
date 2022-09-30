@@ -6,56 +6,66 @@
 */
 
 #include <iostream>
+
 #include <boost/bind.hpp>
+#include <boost/function.hpp>
 
 #include "Server.hpp"
 
 Server::Server(boost::asio::io_service &service, short const port)
 {
-    _socket = std::make_shared<boost::asio::ip::udp::socket>(service, udp::endpoint(udp::v4(), port));
+    _socket = std::make_shared<udp::socket>(service, udp::endpoint(udp::v4(), port));
 
-    startReceive();
+    ReceivePackets();
 }
 
 Server::~Server()
 {
 }
 
-void Server::startReceive()
+void Server::ReceivePackets()
 {
+    IdCard martin;
+
     std::vector<char> buffer_to_get;
-    position struct_to_get;
-    buffer_to_get.reserve(sizeof(struct_to_get));
 
-    _socket->async_receive_from(boost::asio::buffer(buffer_to_get.data(), sizeof(struct_to_get)), _endpoint, boost::bind(&Server::handleReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-    std::memcpy(reinterpret_cast<char *>(&struct_to_get), buffer_to_get.data(), sizeof(struct_to_get));
+    buffer_to_get.reserve(sizeof(IdCard));
 
-    std::cout << "id: " << struct_to_get.id << std::endl;
-    std::cout << "x: " << struct_to_get.x << std::endl;
-    std::cout << "y: " << struct_to_get.y << std::endl;
+    _socket->async_receive_from(boost::asio::buffer(buffer_to_get.data(), sizeof(IdCard)), _destination, boost::bind(&Server::SendPackets, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+
+    std::memcpy(reinterpret_cast<char *>(&martin), buffer_to_get.data(), sizeof(IdCard));
+
+    std::cout << "------------HEADER-------------" << std::endl;
+	std::cout << "    source: 127.0.0.1:8080     " << std::endl;
+	std::cout << "  destination: " << _destination.address() << ":" << _destination.port() << "  " << std::endl;
+	std::cout << "     size: " << buffer_to_get.size() << "      " << std::endl;
+    std::cout << "         BODY  RECEIVED        " << std::endl;
+    std::cout << "-------------BEGIN-------------" << std::endl;
+    std::cout << martin.id << std::endl;
+    std::cout << martin.age << std::endl;
+    std::cout << martin.sex << std::endl;
+    std::cout << "--------------END--------------" << std::endl;
+
 }
 
-void Server::handleReceive(const boost::system::error_code &e, std::size_t nbBytes)
+void Server::SendPackets(const boost::system::error_code &e, std::size_t nbBytes)
 {
-    if (!e) {
-        std::cout << "handleReceive"<< std::endl;
-        struct position p = {
-            .id = 1,
-            .x = 10,
-            .y = 7
-        };
+    ServerResponse ok = {
+        .code = 200,
 
-        std::vector<char> buffer_to_send;
+        .status = true,
+    };
 
-        buffer_to_send.reserve(sizeof(p));
-        std::memcpy(buffer_to_send.data(), &p, sizeof(p));
-        _socket->async_send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(p)), _endpoint, boost::bind(&Server::handleSend, this, std::make_shared<std::string>("buffer"), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-    } else {
-        std::cout << e.message() << std::endl;
-    }
+    std::vector<char> buffer_to_send;
+
+    buffer_to_send.reserve(sizeof(ServerResponse));
+
+    std::memcpy(buffer_to_send.data(), &ok, sizeof(ServerResponse));
+
+    _socket->async_send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(ServerResponse)), _destination, boost::bind(&Server::CompleteExchnage, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
 
-void Server::handleSend(std::shared_ptr<std::string> message, const boost::system::error_code &ec, std::size_t bytes)
+void Server::CompleteExchnage(const boost::system::error_code &e, std::size_t nbBytes)
 {
-    startReceive();
+    ReceivePackets();
 }
