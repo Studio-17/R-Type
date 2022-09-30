@@ -10,7 +10,6 @@
 
     #include <boost/asio.hpp>
 
-	#include "Communication.hpp"
     #include "Structure.hpp"
 
 using boost::asio::ip::udp;
@@ -29,8 +28,6 @@ class Client
 
 		std::shared_ptr<udp::socket> _socket;
 		udp::endpoint _destination;
-
-		Communication _communicationModule;
 };
 
 #endif /* !CLIENT_HPP_ */
