@@ -1,6 +1,0 @@
-[requires]
-opengl/system
-raylib/3.5.0
-
-[generators]
-cmake
