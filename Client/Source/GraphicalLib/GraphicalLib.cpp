@@ -7,8 +7,15 @@
 
 #include "GraphicalLib.hpp"
 
-rtype::GraphicalLib::GraphicalLib()
+rtype::GraphicalLib::GraphicalLib(const int screenWidth, const int screenHeight, std::string title, const int framerate)
 {
+    InitWindow(screenWidth, screenHeight, title);
+    _spriteMap = {};
+    _textMap = {};
+    _soundMap = {};
+    _musicMap = {};
+
+    SetTargetFPS(framerate);
 }
 
 rtype::GraphicalLib::~GraphicalLib()
