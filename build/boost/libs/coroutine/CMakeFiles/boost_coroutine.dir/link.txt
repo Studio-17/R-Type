@@ -1,2 +1,0 @@
-/usr/bin/ar qc libboost_coroutine.a CMakeFiles/boost_coroutine.dir/src/detail/coroutine_context.cpp.o CMakeFiles/boost_coroutine.dir/src/exceptions.cpp.o CMakeFiles/boost_coroutine.dir/src/posix/stack_traits.cpp.o
-/usr/bin/ranlib libboost_coroutine.a
