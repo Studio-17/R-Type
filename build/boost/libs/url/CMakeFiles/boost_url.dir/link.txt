@@ -1,2 +1,0 @@
-/usr/bin/ar qc libboost_url.a CMakeFiles/boost_url.dir/src/src.cpp.o
-/usr/bin/ranlib libboost_url.a

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libboost_context.a CMakeFiles/boost_context.dir/src/asm/make_x86_64_sysv_elf_gas.S.o CMakeFiles/boost_context.dir/src/asm/jump_x86_64_sysv_elf_gas.S.o CMakeFiles/boost_context.dir/src/asm/ontop_x86_64_sysv_elf_gas.S.o CMakeFiles/boost_context.dir/src/posix/stack_traits.cpp.o
-/usr/bin/ranlib libboost_context.a
