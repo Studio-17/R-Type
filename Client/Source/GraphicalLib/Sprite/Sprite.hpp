@@ -16,7 +16,7 @@ class Sprite {
         Sprite(std::string const &imagePath, Position const &position, float const &scale);
         ~Sprite();
 
-        void drawSprite();
+        void draw();
 
         void setPosition(Position const &position);
         Position getPosition();
