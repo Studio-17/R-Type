@@ -53,7 +53,7 @@ namespace rtype {
             void pauseMusic(std::size_t id) override;
             void resumeMusic(std::size_t id) override;
 
-            void isMusicPlaying() override;
+            bool isMusicPlaying() override;
             void setMusicVolume(float volume) override;
             void updateMusicStream() override;
 
@@ -63,7 +63,7 @@ namespace rtype {
             void stopSound(std::size_t id) override;
             void pauseSound(std::size_t id) override;
             void resumeSound(std::size_t id) override;
-            void isSoundPlaying() override;
+            bool isSoundPlaying() override;
             void setSoundVolume(float volume) override;
 
         protected:

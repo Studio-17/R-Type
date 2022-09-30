@@ -2,18 +2,19 @@
 ** EPITECH PROJECT, 2022
 ** B-CPP-500-PAR-5-1-rtype-martin.vanaud
 ** File description:
-** Sound
+** MySound
 */
 
-#ifndef SOUND_HPP_
-#define SOUND_HPP_
+#ifndef MYSOUND_HPP_
+#define MYSOUND_HPP_
 
 #include <string>
+#include "raylib.h"
 
-class Sound {
+class MySound {
     public:
-        Sound(std::string const &filename);
-        ~Sound();
+        MySound(std::string const &filename);
+        ~MySound();
 
         void play();
         void stop();
@@ -28,4 +29,4 @@ class Sound {
         Sound _sound;
 };
 
-#endif /* !SOUND_HPP_ */
+#endif /* !MYSOUND_HPP_ */

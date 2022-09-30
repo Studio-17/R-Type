@@ -7,7 +7,7 @@
 
 #include "Sprite.hpp"
 
-Sprite::Sprite(std::string const &imagePath, Position const &position, float> const &scale)
+Sprite::Sprite(std::string const &imagePath, Position const &position, float const &scale)
 {
     _position = position;
     _imageTexture = LoadTexture(imagePath.c_str());
@@ -17,13 +17,12 @@ Sprite::Sprite(std::string const &imagePath, Position const &position, float> co
 
 Sprite::~Sprite()
 {
-    if (_imageLoaded)
-        UnloadTexture(_imageTexture);
+    UnloadTexture(_imageTexture);
 }
 
 void Sprite::drawSprite()
 {
-    DrawTextureEx(_imageTexture, (Vector2){_imagePosition.getX(), _imagePosition.getY()}, _rotation, _scale, WHITE);
+    DrawTextureEx(_imageTexture, (Vector2){_position.getX(), _position.getY()}, _rotation, _scale, WHITE);
 }
 
 void Sprite::setPosition(Position const &position)
@@ -31,7 +30,7 @@ void Sprite::setPosition(Position const &position)
     _position = position;
 }
 
-float Sprite::getPosition()
+Position Sprite::getPosition()
 {
     return _position;
 }
@@ -46,12 +45,12 @@ float Sprite::getScale()
     return _scale;
 }
 
-float Sprite::setRotation(float rotation)
+void Sprite::setRotation(float rotation)
 {
     _rotation = rotation;
 }
 
-void Sprite::getRotation()
+float Sprite::getRotation()
 {
     return _rotation;
 }

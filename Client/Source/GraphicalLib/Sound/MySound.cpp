@@ -5,43 +5,43 @@
 ** Sound
 */
 
-#include "Sound.hpp"
+#include "MySound.hpp"
 
-Sound::Sound(std::string const &filename)
+MySound::MySound(std::string const &filename)
 {
 }
 
-Sound::~Sound()
+MySound::~MySound()
 {
     UnloadSound(_sound);
 }
 
-void Sound::play()
+void MySound::play()
 {
     PlaySound(_sound);
 }
 
-void Sound::stop()
+void MySound::stop()
 {
     StopSound(_sound);
 }
 
-void Sound::pause()
+void MySound::pause()
 {
     PauseSound(_sound);
 }
 
-void Sound::resume()
+void MySound::resume()
 {
     ResumeSound(_sound);
 }
 
-bool Sound::isPlaying()
+bool MySound::isPlaying()
 {
     return (IsSoundPlaying(_sound));
 }
 
-void Sound::setVolume(float volume)
+void MySound::setVolume(float volume)
 {
     SetSoundVolume(_sound, volume);
 }

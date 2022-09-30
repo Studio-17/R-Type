@@ -9,7 +9,7 @@
 
 rtype::GraphicalLib::GraphicalLib(const int screenWidth, const int screenHeight, std::string title, const int framerate)
 {
-    InitWindow(screenWidth, screenHeight, title);
+    InitWindow(screenWidth, screenHeight, title.c_str());
     _spriteMap = {};
     _textMap = {};
     _soundMap = {};
