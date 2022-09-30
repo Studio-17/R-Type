@@ -35,6 +35,8 @@ include_directories(
     Source/Client/
 )
 
+# INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
+
 # Add executable target with source files listed in SOURCE_FILES variable
 option(UNIT_TEST "Run unit tests" OFF) #OFF by default
 if (UNIT_TEST)
@@ -42,7 +44,7 @@ if (UNIT_TEST)
     target_link_libraries(unit_tests criterion)
 else()
     add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
-    # target_link_libraries(${EXECUTABLE_NAME} r-type_libraries)
+    target_link_libraries(${EXECUTABLE_NAME} r-type_library_network)
     target_link_libraries(${EXECUTABLE_NAME} raylib)
     target_link_libraries(${EXECUTABLE_NAME} -lpthread)
     target_link_libraries(${EXECUTABLE_NAME} ${Boost_LIBRARIES})

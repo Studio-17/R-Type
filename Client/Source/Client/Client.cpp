@@ -10,47 +10,60 @@
 #include "Client.hpp"
 
 Client::Client(boost::asio::io_service &io_service, std::string const &host, std::string const &port)
-    : io_service_(io_service), socket_(io_service, udp::endpoint(udp::v4(), 0))
+    : io_service_(io_service)
 {
+	_socket = std::make_shared<udp::socket>(io_service, udp::endpoint(udp::v4(), 8081));
+
 	udp::resolver resolver(io_service_);
 	udp::resolver::query query(udp::v4(), host, port);
 	udp::resolver::iterator iter = resolver.resolve(query);
-	endpoint_ = *iter;
-    std::cout << endpoint_.port() << std::endl;
+	_destination = *iter;
 }
 
 Client::~Client()
 {
-	socket_.close();
+	_socket->close();
 }
 
-void Client::send(const std::string& msg)
+void Client::send()
 {
-	    struct position p = {
-            .id = 2,
-            .x = 20,
-            .y = 14
-        };
-        std::vector<char> buffer_to_send;
+	IdCard clement = {
+		.id = 2,
+		.age = 19,
 
-        buffer_to_send.reserve(sizeof(p));
-        std::memcpy(buffer_to_send.data(), &p, sizeof(p));
-        socket_.send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(p)), endpoint_);
+		.sex = 'M',
+	};
+
+    std::vector<char> buffer_to_send;
+
+    buffer_to_send.reserve(sizeof(IdCard));
+
+    std::memcpy(buffer_to_send.data(), &clement, sizeof(IdCard));
+
+	_socket->send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(IdCard)), _destination);
+
+	receive();
 }
 
 std::string Client::receive(void)
 {
+	ServerResponse response;
 
 	std::vector<char> buffer_to_get;
-    position struct_to_get;
-    buffer_to_get.reserve(sizeof(struct_to_get));
 
-    socket_.receive_from(boost::asio::buffer(buffer_to_get.data(), sizeof(struct_to_get)), endpoint_);
-    std::memcpy(reinterpret_cast<char *>(&struct_to_get), buffer_to_get.data(), sizeof(struct_to_get));
+    buffer_to_get.reserve(sizeof(ServerResponse));
 
-    std::cout << "id: " << struct_to_get.id << std::endl;
-    std::cout << "x: " << struct_to_get.x << std::endl;
-    std::cout << "y: " << struct_to_get.y << std::endl;
+    _socket->receive_from(boost::asio::buffer(buffer_to_get.data(), sizeof(ServerResponse)), _destination);
 
-	return ("hello");
+    std::memcpy(reinterpret_cast<char *>(&response), buffer_to_get.data(), sizeof(ServerResponse));
+
+    std::cout << "------------HEADER-------------" << std::endl;
+	std::cout << "    source: 127.0.0.1:8080     " << std::endl;
+	std::cout << "  destination: " << _destination.address() << ":" << _destination.port() << "  " << std::endl;
+	std::cout << "     size: " << buffer_to_get.size() << "      " << std::endl;
+    std::cout << "         BODY  RECEIVED        " << std::endl;
+    std::cout << "-------------BEGIN-------------" << std::endl;
+	std::cout << "code: " << response.code << std::endl;
+	std::cout << "status: " << response.status << std::endl;
+    std::cout << "--------------END--------------" << std::endl;
 }
