@@ -9,8 +9,10 @@
     #define CLIENT_HPP_
 
     #include <boost/asio.hpp>
+
 	#include "Network/Network.hpp"
 	#include "Registry.hpp"
+	#include "LoadScene.hpp"
 
 using boost::asio::ip::udp;
 
@@ -18,7 +20,7 @@ class Client
 {
 	public:
 		Client(std::string const &ip, std::string const &port);
-		~Client();
+		virtual ~Client() = default;
 
 		void setUpEcs(void);
 		void machineRun(void);
@@ -27,6 +29,7 @@ class Client
 		std::unique_ptr<Network> _network;
 		std::unique_ptr<Registry> _registry;
 		bool _working;
+		LoadScene _loadScene; // scene loader
 };
 
 #endif /* !CLIENT_HPP_ */
