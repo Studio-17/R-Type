@@ -9,7 +9,7 @@
 #include <iostream>
 
 ThreadPool::ThreadPool(std::shared_ptr<udp::socket> socket)
-    : _nbThread(0), _socket(socket), _stop(false), _oneBreak(false)
+    : _socket(socket), _inactiveThread(0), _stop(false), _oneBreak(false), _threadIndex(0), _suppressedIndex(-1)
 {
 }
 
@@ -18,7 +18,7 @@ ThreadPool::~ThreadPool()
 
 }
 
-void ThreadPool::threadLoop()
+void ThreadPool::threadLoop(std::size_t index)
 {
     std::function<void(void)> task;
 
@@ -44,46 +44,48 @@ void ThreadPool::threadLoop()
         }
         notify();
     }
+    {
+        std::unique_lock<std::mutex> lock(_mutexQueue);
+        _suppressedIndex = index;
+    }
 }
 
 void ThreadPool::stop()
 {
     _stop = true;
     _mutexCondition.notify_all();
-    for (auto &thread : _threadsList)
+    for (auto &[index, thread]: _threadsList)
         thread.join();
     _threadsList.clear();
 }
 
 void ThreadPool::add(udp::endpoint &endpoint)
 {
-    _threadsCondition.try_emplace(endpoint.address(), std::map<unsigned short, bool>());
-    _threadsCondition.at(endpoint.address()).try_emplace(endpoint.port(), true);
-    _threadsList.emplace_back(std::thread(&ThreadPool::threadLoop, this));
-    _nbThread++;
+    _threadsList.emplace(_threadIndex, std::thread(&ThreadPool::threadLoop, this, _threadIndex));
+    _threadIndex++;
+    _inactiveThread++;
 }
 
 void ThreadPool::stop_one(udp::endpoint &endpoint)
 {
+    _oneBreak = true;
+    _mutexCondition.notify_one();
     try {
-        _threadsCondition.at(endpoint.address()).at(endpoint.port());
-        _threadsCondition.at(endpoint.address()).erase(endpoint.port());
-        if (_threadsCondition.at(endpoint.address()).empty())
-            _threadsCondition.erase(endpoint.address());
-        _oneBreak = true;
-        _mutexCondition.notify_one();
-        _nbThread--;
+        _threadsList.at(_suppressedIndex).join();
     } catch (std::out_of_range const &) {}
 }
 
 void ThreadPool::notify()
 {
-    if (!_queue.empty())
+    if (!_queue.empty()) {
+    std::cout << "notify" << std::endl;
         _mutexCondition.notify_one();
+    }
 }
 
 void ThreadPool::queueJob(std::function<void(void)> task)
 {
+    std::cout << "inactive cooks: " << _inactiveThread<< std::endl;
     {
         std::unique_lock<std::mutex> lock(_mutexQueue);
         _queue.push(task);
