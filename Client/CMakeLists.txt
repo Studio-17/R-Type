@@ -24,6 +24,7 @@ file(GLOB SOURCE_FILES
     Source/Client/*.cpp
     Source/Network/*.cpp
     Source/System/*.cpp
+    Source/System/Scenes/*.cpp
 )
 
 # specify the test sources
@@ -36,8 +37,10 @@ include_directories(
     Source/
     Source/Client/
     Source/Component/
+    Source/Constant/
     Soure/Network/
     Source/System/
+    Source/System/Scenes/
 )
 
 include_directories(${BOOST_DIRECTORIES})
