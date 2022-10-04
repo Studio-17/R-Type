@@ -9,9 +9,9 @@ add_subdirectory(raylib)
 
 find_package(raylib 4.0.0 QUIET)
 
-add_subdirectory(boost)
+#find_package(BOOST 1.68.0 REQUIRED COMPONENTS asio)
 
-find_package(Boost 1.80.0 QUIET)
+#add_subdirectory(boost)
 
 add_subdirectory(Libraries)
 add_subdirectory(Client)
