@@ -20,6 +20,9 @@ class Registry
 {
     public:
         explicit Registry() = default;
+        explicit Registry(std::size_t nbEntities) : _nbEntities(nbEntities)
+        {
+        };
         virtual ~Registry() = default;
 
         template <class Component>
