@@ -9,12 +9,18 @@
     #define CONSTANT_HPP_
 
 /**
- * @brief 
+ * @brief
  * 
  */
 enum FORBIDDEN_IDS {
     GRAPHIC = 0,
     NETWORK = 1
+};
+
+enum SCENE {
+    MENU = 0,
+    SETTINGS = 1,
+    END = 2
 };
 
 #endif /* !CONSTANT_HPP_ */
