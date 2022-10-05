@@ -33,12 +33,12 @@ cmake --build . -- -j 4
 
 ## Usage
 
+### Creating a system
 ```bash
-# To launch the server
-./r-type_server port
+```
 
-# To launch a client
-./r-type_client ip_address port
+### Adding a packet
+```bash
 ```
 
 ## Contributing

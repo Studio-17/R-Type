@@ -29,6 +29,14 @@ add_library(asio INTERFACE)
 target_include_directories(asio INTERFACE asio/asio/include/)
 target_link_libraries(asio INTERFACE -pthread)
 
+option(UNIT_TESTS "Build test with Criterion" OFF) #OFF by default
+if(UNIT_TESTS)
+    add_subdirectory(Tests)
+else()
+    # Do nothing
+endif()
+unset(UNIT_TESTS CACHE)
+
 add_subdirectory(Libraries)
 add_subdirectory(Client)
 add_subdirectory(Server)

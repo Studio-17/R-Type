@@ -14,11 +14,6 @@ file(GLOB SOURCE_FILES
 #    Source/System/*.cpp
 )
 
-# specify the test sources
-file(GLOB TEST_FILES
-    Tests/*.cpp
-)
-
 # specify the headers
 include_directories(
     Source/
@@ -29,23 +24,12 @@ include_directories(
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
-option(UNIT_TEST "Run unit tests" OFF) #OFF by default
-if (UNIT_TEST)
+add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
+target_link_libraries(${EXECUTABLE_NAME} r-type_library_ecs)
+target_link_libraries(${EXECUTABLE_NAME} r-type_library_network)
 
-    add_executable(unit_tests ${SOURCE_FILES} ${TEST_FILES})
-    target_link_libraries(unit_tests criterion)
+target_link_libraries(${EXECUTABLE_NAME} raylib)
 
-else()
+target_link_libraries(${EXECUTABLE_NAME} -lpthread)
 
-    add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
-    target_link_libraries(${EXECUTABLE_NAME} r-type_library_ecs)
-    target_link_libraries(${EXECUTABLE_NAME} r-type_library_network)
-
-    target_link_libraries(${EXECUTABLE_NAME} raylib)
-
-    target_link_libraries(${EXECUTABLE_NAME} -lpthread)
-
-    target_link_libraries(${EXECUTABLE_NAME} asio)
-
-endif(UNIT_TEST)
-unset(UNIT_TEST CACHE) # Unset the cache variable
+target_link_libraries(${EXECUTABLE_NAME} asio)
