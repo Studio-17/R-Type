@@ -9,9 +9,9 @@ set(EXECUTABLE_NAME r-type_client)
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp
-    Source/Client/*.cpp
-    Source/Network/*.cpp
-    Source/System/*.cpp
+#    Source/Client/*.cpp
+#    Source/Network/*.cpp
+#    Source/System/*.cpp
 )
 
 # specify the test sources
@@ -22,13 +22,11 @@ file(GLOB TEST_FILES
 # specify the headers
 include_directories(
     Source/
-    Source/Client/
-    Source/Component/
-    Soure/Network/
-    Source/System/
+#    Source/Client/
+#    Source/Component/
+#    Soure/Network/
+#    Source/System/
 )
-
-include_directories(${BOOST_DIRECTORIES})
 
 # Add executable target with source files listed in SOURCE_FILES variable
 option(UNIT_TEST "Run unit tests" OFF) #OFF by default
@@ -47,7 +45,7 @@ else()
 
     target_link_libraries(${EXECUTABLE_NAME} -lpthread)
 
-    target_link_libraries(${EXECUTABLE_NAME} ${Boost_LIBRARIES})
+    target_link_libraries(${EXECUTABLE_NAME} asio)
 
 endif(UNIT_TEST)
 unset(UNIT_TEST CACHE) # Unset the cache variable

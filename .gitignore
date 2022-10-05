@@ -39,6 +39,7 @@ build/*
 # IDE hidden directories
 *.vscode
 *.idea
+cmake-build-debug/*
 
 # Macos hidden files
 .DS_Store

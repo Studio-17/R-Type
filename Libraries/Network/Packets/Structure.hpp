@@ -11,17 +11,15 @@
 #include <string>
 #include <cstdbool>
 
-#include <boost/cstdint.hpp>
-
 struct IdCard {
-    int_least32_t id;
-    
-    int_least32_t age;
+    int id;
+
+    int age;
     char sex;
 };
 
 struct ServerResponse {
-    int_least32_t code;
+    int code;
 
     bool status;
 };
