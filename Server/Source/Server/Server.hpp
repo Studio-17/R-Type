@@ -9,8 +9,10 @@
     #define SERVER_HPP_
 
     #include <boost/asio.hpp>
-    
+
     #include "Structure.hpp"
+    #include "Serialization.hpp"
+
 
 using boost::asio::ip::udp;
 
@@ -36,6 +38,8 @@ class Server {
 
         std::shared_ptr<udp::socket> _socket;
         udp::endpoint _destination;
+        std::vector<byte> buffer_to_get;
+
 };
 
 #endif /* !SERVER_HPP_ */

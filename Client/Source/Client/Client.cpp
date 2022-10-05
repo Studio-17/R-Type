@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "Client.hpp"
+#include "Serialization.hpp"
 
 Client::Client(boost::asio::io_service &io_service, std::string const &host, std::string const &port)
     : io_service_(io_service)
@@ -27,22 +28,10 @@ Client::~Client()
 
 void Client::send()
 {
-	IdCard clement = {
-		.id = 2,
-		.age = 19,
-
-		.sex = 'M',
-	};
-
-    std::vector<char> buffer_to_send;
-
-    buffer_to_send.reserve(sizeof(IdCard));
-
-    std::memcpy(buffer_to_send.data(), &clement, sizeof(IdCard));
-
-	_socket->send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(IdCard)), _destination);
-
-	receive();
+	Header header {.id = 8};
+	auto buffer_to_send = serializable_trait<Header>::serialize(header);
+	_socket->send_to(boost::asio::buffer(buffer_to_send.data(), buffer_to_send.size()), _destination);
+	// receive();
 }
 
 std::string Client::receive(void)

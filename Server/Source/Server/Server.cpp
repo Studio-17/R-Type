@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include <boost/bind.hpp>
+#include <boost/asio.hpp>
 #include <boost/function.hpp>
 
 #include "Server.hpp"
@@ -25,31 +26,16 @@ Server::~Server()
 
 void Server::ReceivePackets()
 {
-    IdCard martin;
-
-    std::vector<char> buffer_to_get;
-
-    buffer_to_get.reserve(sizeof(IdCard));
-
-    _socket->async_receive_from(boost::asio::buffer(buffer_to_get.data(), sizeof(IdCard)), _destination, boost::bind(&Server::SendPackets, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-
-    std::memcpy(reinterpret_cast<char *>(&martin), buffer_to_get.data(), sizeof(IdCard));
-
-    std::cout << "------------HEADER-------------" << std::endl;
-	std::cout << "    source: 127.0.0.1:8080     " << std::endl;
-	std::cout << "  destination: " << _destination.address() << ":" << _destination.port() << "  " << std::endl;
-	std::cout << "     size: " << buffer_to_get.size() << "      " << std::endl;
-    std::cout << "         BODY  RECEIVED        " << std::endl;
-    std::cout << "-------------BEGIN-------------" << std::endl;
-    std::cout << martin.id << std::endl;
-    std::cout << martin.age << std::endl;
-    std::cout << martin.sex << std::endl;
-    std::cout << "--------------END--------------" << std::endl;
-
+    buffer_to_get.clear();
+    buffer_to_get.resize(1500);
+    _socket->async_receive_from(boost::asio::buffer(buffer_to_get.data(), 1500), _destination, boost::bind(&Server::SendPackets, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
 
 void Server::SendPackets(const boost::system::error_code &e, std::size_t nbBytes)
 {
+    buffer_to_get.shrink_to_fit();
+
+    std::cout << "unserialized "<< serializable_trait<Header>::unserialize(buffer_to_get).id << std::endl;
     ServerResponse ok = {
         .code = 200,
 
