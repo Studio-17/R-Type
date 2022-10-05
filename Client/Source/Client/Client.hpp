@@ -8,11 +8,10 @@
 #ifndef CLIENT_HPP_
     #define CLIENT_HPP_
 
-    #include <boost/asio.hpp>
 	#include "Network/Network.hpp"
 	#include "Registry.hpp"
 
-using boost::asio::ip::udp;
+	#include <asio/buffer.hpp>
 
 class Client
 {

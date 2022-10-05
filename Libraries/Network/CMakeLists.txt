@@ -11,6 +11,7 @@ file(GLOB LIB_HEADER
     ./**
     Packets/*.hpp
     Protocol/*.hpp
+    Serialization/*.hpp
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable

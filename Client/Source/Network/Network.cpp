@@ -32,7 +32,7 @@ void Network::send(const std::string& msg)
 
         buffer_to_send.reserve(sizeof(p));
         std::memcpy(buffer_to_send.data(), &p, sizeof(p));
-        // socket_.send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(p)), endpoint_);
+        // socket_.send_to(asio::buffer(buffer_to_send.data(), sizeof(p)), endpoint_);
 }
 
 std::string Network::receive(void)
@@ -42,7 +42,7 @@ std::string Network::receive(void)
     position struct_to_get;
     buffer_to_get.reserve(sizeof(struct_to_get));
 
-    // socket_.receive_from(boost::asio::buffer(buffer_to_get.data(), sizeof(struct_to_get)), endpoint_);
+    // socket_.receive_from(asio::buffer(buffer_to_get.data(), sizeof(struct_to_get)), endpoint_);
     std::memcpy(reinterpret_cast<char *>(&struct_to_get), buffer_to_get.data(), sizeof(struct_to_get));
 
     std::cout << "id: " << struct_to_get.id << std::endl;

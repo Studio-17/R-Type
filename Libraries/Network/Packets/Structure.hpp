@@ -24,4 +24,8 @@ struct ServerResponse {
     bool status;
 };
 
+struct Header {
+    int id;
+};
+
 #endif /* !DATA_HPP_ */
