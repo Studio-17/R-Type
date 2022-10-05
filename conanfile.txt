@@ -1,8 +1,0 @@
-[requires]
-    boost/1.80.0
-
-[options]
-    boost:shared=True
-
-[generators]
-    cmake
