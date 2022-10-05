@@ -7,14 +7,17 @@
 
 #ifndef SERVER_HPP_
     #define SERVER_HPP_
-    
+
     #include <iostream>
+    #include <functional>
 
     #include <asio/ip/udp.hpp>
     #include <asio/error_code.hpp>
     #include <asio/io_context.hpp>
     #include <asio/io_service.hpp>
     #include <asio/placeholders.hpp>
+
+    #include <asio.hpp>
 
     #include "Structure.hpp"
     #include "Serialization.hpp"
@@ -36,10 +39,10 @@ class Server {
 
     private:
         void ReceivePackets();
-        void SendPackets(const std::error_code &e, std::size_t nbBytes);
-        void CompleteExchnage(const std::error_code &e, std::size_t nbBytes);
+        void SendPackets(const asio::error_code &e, std::size_t nbBytes);
+        void CompleteExchnage(const asio::error_code &e, std::size_t nbBytes);
 
-        std::shared_ptr<asio::ip::upd::socket> _socket;
+        std::shared_ptr<asio::ip::udp::socket> _socket;
         asio::ip::udp::endpoint _destination;
         std::vector<byte> buffer_to_get;
 

@@ -6,6 +6,8 @@
 */
 
 #include <iostream>
+#include <vector>
+#include <cstring>
 #include "Network.hpp"
 
 Network::Network(std::string const &host, std::string const &port)

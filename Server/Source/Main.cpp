@@ -9,14 +9,14 @@
 
 #include <asio/io_service.hpp>
 
-//#include "Server.hpp"
+#include "Server.hpp"
 
 int main(void)
 {
     try {
         asio::io_service service;
 
-//        Server server(service, 8080);
+       Server server(service, 8080);
 
         service.run();
     } catch (std::exception const &e) {
