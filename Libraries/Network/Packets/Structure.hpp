@@ -15,7 +15,6 @@
 
 struct IdCard {
     int_least32_t id;
-    
     int_least32_t age;
     char sex;
 };
@@ -25,5 +24,7 @@ struct ServerResponse {
 
     bool status;
 };
+
+
 
 #endif /* !DATA_HPP_ */
