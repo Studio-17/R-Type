@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "Client.hpp"
+#include "Serialization.hpp"
 
 Client::Client(std::string const &ip, std::string const &port) :
     _working(true)
@@ -18,6 +19,11 @@ Client::Client(std::string const &ip, std::string const &port) :
     machineRun();
 }
 
+Client::~Client()
+{
+
+}
+
 void Client::machineRun(void)
 {
     while (_working) {
@@ -26,9 +32,5 @@ void Client::machineRun(void)
 }
 
 void Client::setUpEcs(void)
-{
-}
-
-Client::~Client()
 {
 }

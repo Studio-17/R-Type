@@ -8,15 +8,15 @@
 #ifndef UDPSOCKET_HPP_
 #define UDPSOCKET_HPP_
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 
 class UdpSocket {
     public:
         UdpSocket() = default;
         ~UdpSocket();
 
-        UdpSocket(boost::asio::io_context &context, std::string port) : _context(context),
-        _socket(context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port)) {};
+        UdpSocket(asio::io_context &context, std::string port) : _context(context),
+        _socket(context, asio::ip::udp::endpoint(asio::ip::udp::v4(), port)) {};
 
         void send() {};
 
@@ -26,9 +26,9 @@ class UdpSocket {
 
     protected:
     private:
-        boost::asio::io_context &_context;
-        boost::asio::ip::udp::socket _socket;
-        boost::asio::ip::udp::endpoint _endpoint;
+        asio::io_context &_context;
+        asio::ip::udp::socket _socket;
+        asio::ip::udp::endpoint _endpoint;
 };
 
 

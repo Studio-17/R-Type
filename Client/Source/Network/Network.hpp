@@ -8,9 +8,7 @@
 #ifndef NETWORK_HPP_
 #define NETWORK_HPP_
 
-    #include <boost/asio.hpp>
-
-using boost::asio::ip::udp;
+    // #include <asio/ip/udp.hpp>
 
 struct position
 {
