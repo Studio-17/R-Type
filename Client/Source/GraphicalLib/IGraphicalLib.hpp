@@ -12,6 +12,7 @@
 #include "Text.hpp"
 #include "MySound.hpp"
 #include "MyMusic.hpp"
+#include "Keyboard.hpp"
 #include <iostream>
 
 /**
@@ -266,6 +267,58 @@ namespace rtype {
              * @param id id of the sound
              * @param volume new volume of the sound
              */ virtual auto setSoundVolume(std::size_t id, float volume) -> void = 0;
+
+            /**
+             * @brief Check if a key has been pressed
+             *
+             * @param key
+             * @return true
+             * @return false
+             */
+            virtual auto hasBeenPressed(int key) -> bool = 0;
+            /**
+             * @brief Check if a key is being pressed
+             *
+             * @param key
+             * @return true
+             * @return false
+             */
+            virtual auto isBeingPressed(int key) -> bool = 0;
+            /**
+             * @brief Check if a key has been released
+             *
+             * @param key
+             * @return true
+             * @return false
+             */
+            virtual auto hasBeenReleased(int key) -> bool = 0;
+            /**
+             * @brief Check if a key is not being pressed
+             *
+             * @param key
+             * @return true
+             * @return false
+             */
+            virtual auto isNotBeingPressed(int key) -> bool = 0;
+            /**
+             * @brief Set the Exit Key object
+             *
+             * @param key
+             */
+            virtual auto setExitKey(int key) -> void = 0;
+            /**
+             * @brief Get the Pressed Keycode object
+             *
+             * @return int
+             */
+            virtual auto getPressedKeycode() -> int = 0;
+            /**
+             * @brief Get the Pressed Charcode object
+             *
+             * @return int
+             */
+            virtual auto getPressedCharcode() -> int = 0;
+
 
         protected:
         private:

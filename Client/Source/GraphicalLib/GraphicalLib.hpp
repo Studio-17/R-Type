@@ -273,6 +273,58 @@ namespace rtype {
              */
             void setSoundVolume(std::size_t id, float volume) override;
 
+            /**
+             * @brief Check if a key has been pressed
+             *
+             * @param key
+             * @return true
+             * @return false
+             */
+            bool hasBeenPressed(int key) override;
+            /**
+             * @brief Check if a key is being pressed
+             *
+             * @param key
+             * @return true
+             * @return false
+             */
+            bool isBeingPressed(int key) override;
+            /**
+             * @brief Check if a key has been released
+             *
+             * @param key
+             * @return true
+             * @return false
+             */
+            bool hasBeenReleased(int key) override;
+            /**
+             * @brief Check if a key is not being pressed
+             *
+             * @param key
+             * @return true
+             * @return false
+             */
+            bool isNotBeingPressed(int key) override;
+            /**
+             * @brief Set the Exit Key object
+             *
+             * @param key
+             */
+            void setExitKey(int key) override;
+            /**
+             * @brief Get the Pressed Keycode object
+             *
+             * @return int
+             */
+            int getPressedKeycode() override;
+            /**
+             * @brief Get the Pressed Charcode object
+             *
+             * @return int
+             */
+            int getPressedCharcode() override;
+
+
         protected:
         private:
 
@@ -280,6 +332,7 @@ namespace rtype {
         std::map<std::size_t, std::shared_ptr<Text>> _textMap; ///< Map of all the texts
         std::map<std::size_t, std::shared_ptr<MyMusic>> _musicMap; ///< Map of all the musics
         std::map<std::size_t, std::shared_ptr<MySound>> _soundMap; ///< Map of all the sounds
+        std::shared_ptr<Keyboard> _keyboard; ///< Keyboard object
     };
 
 }
