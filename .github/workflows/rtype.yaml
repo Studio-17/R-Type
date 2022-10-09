@@ -119,6 +119,12 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a bash file that executes unit tests (with criterion)
+      - name: Configure building environment
+        shell: bash
+        working-directory: ${{github.workspace}}
+        run: sudo apt-get install build-essential cmake
+
+      # Runs a bash file that executes unit tests (with criterion)
       - name: Build testing environment
         shell: bash
         working-directory: ${{github.workspace}}
