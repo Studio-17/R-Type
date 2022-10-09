@@ -122,7 +122,7 @@ jobs:
       - name: Configure building environment
         shell: bash
         working-directory: ${{github.workspace}}
-        run: sudo apt-get update && sudo apt-get install freeglut3
+        run: sudo apt-get update -y && sudo apt-get install freeglut3 -y
 
       # Runs a bash file that executes unit tests (with criterion)
       - name: Build testing environment
