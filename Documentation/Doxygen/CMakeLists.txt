@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.17)
 option(BUILD_DOC "Build documentation" ON)
 
 # Check if Doxygen is installed
-find_package(Doxygen)
+find_package(.)
 if (DOXYGEN_FOUND)
     # Set input and output files
     set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxygen/Doxyfile.in)
