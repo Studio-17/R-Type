@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.17)
 option(BUILD_DOC "Build documentation" ON)
 
 # Check if Doxygen is installed
-find_package(Doxygen)
+find_package(.)
 if (DOXYGEN_FOUND)
     # Set input and output files
     set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxygen/Doxyfile.in)
@@ -19,7 +19,7 @@ if (DOXYGEN_FOUND)
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM )
-    message("test"${CMAKE_CURRENT_SOURCE_DIR})
+    message("test" .)
 else (DOXYGEN_FOUND)
     message("Doxygen need to be installed to generate the doxygen documentation")
 endif (DOXYGEN_FOUND)

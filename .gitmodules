@@ -4,6 +4,3 @@
 [submodule "asio"]
 	path = asio
 	url = https://github.com/chriskohlhoff/asio/
-[submodule "Tests/googletest"]
-	path = Tests/googletest
-	url = https://github.com/google/googletest.git

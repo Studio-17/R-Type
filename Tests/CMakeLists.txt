@@ -3,19 +3,27 @@ cmake_minimum_required(VERSION 3.17)
 # set the project name and version
 project(R-Type_Tests VERSION ${VERSION})
 
-# setting up GTest environnement
-enable_testing()
-add_subdirectory(googletest)
-include_directories(googletest/googletest/include googletest/googletest/src)
-
 set(EXECUTABLE_NAME r-type_test)
 
-file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
+enable_testing()
 
-set(SOURCES ${TEST_SOURCES})
+file(GLOB SOURCES
+    ../Libraries/ECS/Source/Entity.hpp
+)
 
-add_executable(${BINARY} ${TEST_SOURCES})
+include_directories(
+    ../Libraries/ECS/Source/
+)
 
-add_test(NAME ${BINARY} COMMAND ${BINARY})
+file(GLOB TEST_SOURCES
+    Test.cpp
+)
 
-target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib gtest)
+add_executable(${EXECUTABLE_NAME} ${SOURCES} ${TEST_SOURCES})
+
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC criterion)
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC asio)
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC raylib)
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC -lpthread)
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC r-type_library_network)
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC r-type_library_ecs)

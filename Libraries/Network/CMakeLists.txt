@@ -14,6 +14,14 @@ file(GLOB LIB_HEADER
     Serialization/*.hpp
 )
 
+file(GLOB LIB_DIRECTORY
+    .
+    Packets
+    Protocol
+    Serialization
+    UdpSocket
+)
+
 # Add executable target with source files listed in SOURCE_FILES variable
-add_library(${LIBRARY_NAME} INTERFACE)
-target_include_directories(${LIBRARY_NAME} INTERFACE ${LIB_HEADER})
+add_library(${LIBRARY_NAME} INTERFACE ${LIB_HEADER})
+target_include_directories(${LIBRARY_NAME} INTERFACE ${LIB_DIRECTORY})
