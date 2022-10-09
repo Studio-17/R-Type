@@ -117,13 +117,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
 
       # Runs a bash file that executes unit tests (with criterion)
       - name: Configure building environment
         shell: bash
         working-directory: ${{github.workspace}}
-        run: pip install cmake
+        run: sudo apt-get install cmake freeglut3
 
       # Runs a bash file that executes unit tests (with criterion)
       - name: Build testing environment
