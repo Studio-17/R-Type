@@ -9,15 +9,15 @@ set(EXECUTABLE_NAME r-type_server)
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp
-   Source/Server/*.cpp
-   Source/ThreadPool/*.cpp
+    Source/Server/*.cpp
+    Source/ThreadPool/*.cpp
 )
 
 # specify the headers
 include_directories(
     Source/
-   Source/Server/
-   Source/ThreadPool/
+    Source/Server/
+    Source/ThreadPool/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable

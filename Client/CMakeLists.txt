@@ -9,18 +9,18 @@ set(EXECUTABLE_NAME r-type_client)
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp
-   Source/Client/*.cpp
-   Source/Network/*.cpp
-   Source/System/*.cpp
+    Source/Client/*.cpp
+    Source/Network/*.cpp
+    Source/System/*.cpp
 )
 
 # specify the headers
 include_directories(
     Source/
-   Source/Client/
-   Source/Component/
-   Soure/Network/
-   Source/System/
+    Source/Client/
+    Source/Component/
+    Source/Network/
+    Source/System/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
