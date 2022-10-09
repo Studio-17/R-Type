@@ -19,9 +19,7 @@ find_package(raylib 4.0.0 QUIET)
 #Generate the Doxygen documentation
 option(DOXYGEN "Generate Doxygen documentation" OFF) #OFF by default
 if(DOXYGEN)
-    add_subdirectory(Doxygen)
-else()
-    # Do nothing
+    add_subdirectory(Documentation/Doxygen)
 endif(DOXYGEN)
 unset(DOXYGEN CACHE) # Unset the cache variable
 
@@ -32,8 +30,6 @@ target_link_libraries(asio INTERFACE -pthread)
 option(UNIT_TESTS "Build test with Criterion" OFF) #OFF by default
 if(UNIT_TESTS)
     add_subdirectory(Tests)
-else()
-    # Do nothing
 endif()
 unset(UNIT_TESTS CACHE)
 
