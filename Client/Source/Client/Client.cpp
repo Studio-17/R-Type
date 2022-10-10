@@ -28,7 +28,7 @@ Client::~Client()
 
 void Client::send()
 {
-	Header header {.id = 8};
+	Header header {.id = 8, .data = 4, .pr = {.pt = 3, .second = 9}};
 	auto buffer_to_send = serializable_trait<Header>::serialize(header);
 	_socket->send_to(boost::asio::buffer(buffer_to_send.data(), buffer_to_send.size()), _destination);
 	// receive();

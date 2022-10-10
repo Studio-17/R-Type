@@ -33,9 +33,7 @@ void Server::ReceivePackets()
 
 void Server::SendPackets(const boost::system::error_code &e, std::size_t nbBytes)
 {
-    buffer_to_get.shrink_to_fit();
-
-    std::cout << "unserialized "<< serializable_trait<Header>::unserialize(buffer_to_get).id << std::endl;
+    Header tt = serializable_trait<Header>::unserialize(buffer_to_get);
     ServerResponse ok = {
         .code = 200,
 
