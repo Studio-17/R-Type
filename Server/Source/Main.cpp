@@ -7,12 +7,14 @@
 
 #include <iostream>
 
+#include <asio/io_service.hpp>
+
 #include "Server.hpp"
 
 int main(void)
 {
     try {
-        boost::asio::io_service service;
+        asio::io_service service;
 
         Server server(service, 8080);
 
