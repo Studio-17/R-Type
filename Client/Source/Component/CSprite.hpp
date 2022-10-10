@@ -5,8 +5,8 @@
 ** Sprite
 */
 
-#ifndef SPRITE_HPP_
-    #define SPRITE_HPP_
+#ifndef CSPRITE_HPP_
+    #define CSPRITE_HPP_
 
     #include <iostream>
     #include <string>
@@ -20,14 +20,14 @@ namespace component {
      * @brief A structure representing the sprite component that holds the sprite properties of a entity
      * 
      */
-    typedef struct sprite_s {
+    typedef struct csprite_s {
         float scale;
         size_t xRect;
         size_t yRect;
         size_t widthRect;
         size_t heightRect;
         std::string spritePath;
-    } sprite_t;
+    } csprite_t;
 }
 
-#endif /* !SPRITE_HPP_ */
+#endif /* !CSPRITE_HPP_ */

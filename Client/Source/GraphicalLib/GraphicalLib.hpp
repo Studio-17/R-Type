@@ -12,6 +12,7 @@
 #include <map>
 #include <cstring>
 #include <memory>
+#include <string>
 #include "IGraphicalLib.hpp"
 
 /**
@@ -57,6 +58,14 @@ namespace rtype {
             void endDrawingWindow() override;
 
             /**
+             * @brief Check if the window should close
+             * 
+             * @return true
+             * @return false
+             */
+            bool windowShouldClose() override;
+
+            /**
              * @brief Create a Sprite object
              * 
              * @param id id of the sprite
@@ -71,6 +80,7 @@ namespace rtype {
              * @param id id of the sprite
              */
             void drawSprite(std::size_t id) override;
+            void destroySprite(std::size_t id) override;
 
             /**
              * @brief Set the Sprite Position object

@@ -8,12 +8,14 @@
 #ifndef IGRAPHICALLIB_HPP_
 #define IGRAPHICALLIB_HPP_
 
+#include <iostream>
+
 #include "Sprite.hpp"
 #include "Text.hpp"
 #include "MySound.hpp"
 #include "MyMusic.hpp"
 #include "Keyboard.hpp"
-#include <iostream>
+#include "Datas/Position/Position.hpp"
 
 /**
  * @brief rtype namespace
@@ -26,16 +28,16 @@ namespace rtype {
      */
     class IGraphicalLib {
         public:
-            /**
-             * @brief Construct a new IGraphicalLib object
-             * 
-             */
-            IGraphicalLib();
+            // /**
+            //  * @brief Construct a new IGraphicalLib object
+            //  * 
+            //  */
+            // IGraphicalLib();
             /**
              * @brief Destroy the IGraphicalLib object
              * 
              */
-            ~IGraphicalLib();
+            virtual ~IGraphicalLib() = default;
 
             /**
              * @brief Clear the window
@@ -54,6 +56,14 @@ namespace rtype {
             virtual auto endDrawingWindow() -> void = 0;
 
             /**
+             * @brief Check if window should close
+             * 
+             * @return true
+             * @return false
+             */
+            virtual auto windowShouldClose() -> bool = 0;
+
+            /**
              * @brief Create a Sprite object
              * 
              * @param id id of the sprite
@@ -68,6 +78,7 @@ namespace rtype {
              * @param id id of the sprite
              */
             virtual auto drawSprite(std::size_t id) -> void = 0;
+            virtual auto destroySprite(std::size_t id) -> void = 0;
 
             /**
              * @brief Set the Sprite Position object

@@ -20,6 +20,9 @@ class Registry
 {
     public:
         explicit Registry() = default;
+        explicit Registry(std::size_t nbEntities) : _nbEntities(nbEntities)
+        {
+        };
         virtual ~Registry() = default;
 
         template <class Component>
@@ -54,7 +57,7 @@ class Registry
             return Entity(_nbEntities - 1);
         };
 
-        Entity entity_from_index(std::size_t idx)
+        Entity entity_from_index(std::size_t idx) const
         {
             if (idx >= _nbEntities) {
                 throw std::out_of_range("At this index, entity doesn't exist !");
@@ -102,18 +105,32 @@ class Registry
         };
 
         template <class ...Component, typename Function>
-        void add_system(Function &&f) {
-            _listOfSystems.push_back([&f](Registry &registry) -> void {
-                f(registry.get_components<Component>()...);
+        void add_system(Function &&f, Component &&...components) {
+            _listOfSystems.push_back([&f, &components...](Registry &registry) -> void {
+                f(registry, components...);
             });
         }
 
         template <class ...Component, typename Function>
-        void add_system(Function const &f) {
-            _listOfSystems.push_back([&f](Registry &registry) -> void {
-                f(registry.get_components<Component>()...);
+        void add_system(Function const &f, Component &...components) {
+            _listOfSystems.push_back([&f, &components...](Registry &registry) -> void {
+                f(registry, components...);
             });
         }
+
+//        template <class ...Component, typename Function>
+//        void add_system(Function &&f) {
+//            _listOfSystems.push_back([&f](Registry &registry) -> void {
+//                f(registry.get_components<Component>()...);
+//            });
+//        }
+//
+//        template <class ...Component, typename Function>
+//        void add_system(Function const &f) {
+//            _listOfSystems.push_back([&f](Registry &registry) -> void {
+//                f(registry.get_components<Component>()...);
+//            });
+//        }
 
         void run_systems() {
             for (auto &function : _listOfSystems)

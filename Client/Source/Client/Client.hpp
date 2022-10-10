@@ -8,7 +8,6 @@
 #ifndef CLIENT_HPP_
     #define CLIENT_HPP_
 
-	#include <asio/buffer.hpp>
     #include <asio/ip/udp.hpp>
     #include <asio/error_code.hpp>
     #include <asio/io_context.hpp>
@@ -16,6 +15,7 @@
     #include <asio/placeholders.hpp>
 
 	#include "UdpCommunication.hpp"
+	#include "LoadScene.hpp"
 	#include "Registry.hpp"
 
 class Client
@@ -25,14 +25,16 @@ class Client
 		~Client();
 
 		void setUpEcs(void);
+		void setUpComponents(void);
 		void machineRun(void);
 
 	private:
 		asio::io_context _context;
 
 		std::unique_ptr<UdpCommunication> _com;
-		std::unique_ptr<Registry> _registry;
+        Registry _registry;
 		bool _working;
+		LoadScene _loadScene; // Scene loader
 };
 
 #endif /* !CLIENT_HPP_ */

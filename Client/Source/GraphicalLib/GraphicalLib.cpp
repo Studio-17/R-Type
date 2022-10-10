@@ -38,6 +38,11 @@ void rtype::GraphicalLib::endDrawingWindow()
     EndDrawing();
 }
 
+bool rtype::GraphicalLib::windowShouldClose()
+{
+    return WindowShouldClose();
+}
+
 //Sprite
 void rtype::GraphicalLib::createSprite(std::size_t id, std::string const &imagePath, Position const &position, float const &size)
 {
@@ -47,6 +52,11 @@ void rtype::GraphicalLib::createSprite(std::size_t id, std::string const &imageP
 void rtype::GraphicalLib::drawSprite(std::size_t id)
 {
     _spriteMap[id]->draw();
+}
+
+void rtype::GraphicalLib::destroySprite(std::size_t id)
+{
+    _spriteMap.erase(id);
 }
 
 void rtype::GraphicalLib::setSpritePosition(std::size_t id, Position const &position)
@@ -195,22 +205,22 @@ void rtype::GraphicalLib::setSoundVolume(std::size_t id, float volume)
 
 bool rtype::GraphicalLib::hasBeenPressed(int key)
 {
-    _keyboard->hasBeenPressed(key);
+    return _keyboard->hasBeenPressed(key);
 }
 
 bool rtype::GraphicalLib::isBeingPressed(int key)
 {
-    _keyboard->isBeingPressed(key);
+    return _keyboard->isBeingPressed(key);
 }
 
 bool rtype::GraphicalLib::hasBeenReleased(int key)
 {
-    _keyboard->hasBeenReleased(key);
+    return _keyboard->hasBeenReleased(key);
 }
 
 bool rtype::GraphicalLib::isNotBeingPressed(int key)
 {
-    _keyboard->isNotBeingPressed(key);
+    return _keyboard->isNotBeingPressed(key);
 }
 
 void rtype::GraphicalLib::setExitKey(int key)

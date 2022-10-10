@@ -8,8 +8,9 @@
 #ifndef SPRITE_HPP_
 #define SPRITE_HPP_
 
-#include <iostream>
-#include "Position.hpp"
+    #include <iostream>
+    #include <string>
+    #include "Datas/Position/Position.hpp"
 
 /**
  * @brief Sprite class
