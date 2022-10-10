@@ -5,6 +5,8 @@
 ** Server
 */
 
+#include <functional>
+
 #include "Server.hpp"
 
 Server::Server(asio::io_service &service, short const port)
@@ -22,14 +24,12 @@ void Server::ReceivePackets()
 {
     buffer_to_get.clear();
     buffer_to_get.resize(1500);
-    // _socket->async_receive_from(asio::buffer(buffer_to_get.data(), 1500), _destination, bind(&Server::SendPackets, this, asio::placeholders::error, asio::placeholders::bytes_transferred));
+    _socket->async_receive_from(asio::buffer(buffer_to_get.data(), 1500), _destination, bind(&Server::SendPackets, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Server::SendPackets(const asio::error_code &e, std::size_t nbBytes)
 {
-    buffer_to_get.shrink_to_fit();
-
-    std::cout << "unserialized "<< serializable_trait<Header>::unserialize(buffer_to_get).id << std::endl;
+    Header tt = serializable_trait<Header>::unserialize(buffer_to_get);
     ServerResponse ok = {
         .code = 200,
 
@@ -42,7 +42,7 @@ void Server::SendPackets(const asio::error_code &e, std::size_t nbBytes)
 
     std::memcpy(buffer_to_send.data(), &ok, sizeof(ServerResponse));
 
-    // _socket->async_send_to(asio::buffer(buffer_to_send.data(), sizeof(ServerResponse)), _destination, bind(&Server::CompleteExchnage, this, asio::placeholders::error, asio::placeholders::bytes_transferred));
+    _socket->async_send_to(asio::buffer(buffer_to_send.data(), sizeof(ServerResponse)), _destination, bind(&Server::CompleteExchnage, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Server::CompleteExchnage(const std::error_code &e, std::size_t nbBytes)
