@@ -22,6 +22,12 @@ unset(TIDY CACHE)
 file(GLOB SOURCE_FILES
     Source/*.cpp
     Source/Client/*.cpp
+    Source/Datas/Position/*.cpp
+    Source/GraphicalLib/*.cpp
+    Source/GraphicalLib/Music/*.cpp
+    Source/GraphicalLib/Sound/*.cpp
+    Source/GraphicalLib/Sprite/*.cpp
+    Source/GraphicalLib/Text/*.cpp
     Source/Network/*.cpp
     Source/System/*.cpp
     Source/System/Scenes/*.cpp
@@ -38,7 +44,13 @@ include_directories(
     Source/Client/
     Source/Component/
     Source/Constant/
-    Soure/Network/
+    Source/Datas/Position/
+    Source/GraphicalLib/
+    Source/GraphicalLib/Music/
+    Source/GraphicalLib/Sound/
+    Source/GraphicalLib/Sprite/
+    Source/GraphicalLib/Text/
+    Source/Network/
     Source/System/
     Source/System/Scenes/
 )
