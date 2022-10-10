@@ -12,8 +12,12 @@
     #include "Keyboard.hpp"
     #include "Mouse.hpp"
     #include "CurrScene.hpp"
+    #include "GraphicalLib.hpp"
+    #include "Registry.hpp"
+
     #include <functional>
     #include <map>
+    #include <memory>
 
 class LoadScene {
     public:
@@ -21,26 +25,22 @@ class LoadScene {
         LoadScene(LoadScene &&other) noexcept;
         ~LoadScene() = default;
 
-        void operator()(Sparse_array<component::currScene_t> &currentScene, Sparse_array<component::keyboard_t> &keyboard, Sparse_array<component::mouseState_t> &mouse);
+        void operator()(Registry &registry, Sparse_array<component::currScene_t> &currentScene, Sparse_array<component::keyboard_t> &keyboard, Sparse_array<component::mouseState_t> &mouse);
 
-        // Menu Scene
-        void setUpMenuScene();
-        void setUpExecMenuScene();
-        void setUpDelMenuScene();
-
-        // Settings Scene
-        void setUpSettingsScene();
-        void setUpExecSettingsScene();
-        void setUpDelSettingsScene();
+        // Graphic
+        std::shared_ptr<rtype::GraphicalLib> getGraphicalLib() const
+        {
+            return _graphicLib;
+        };
 
 
     protected:
     private:
-        int _graphicLib; // replace by unique_ptr to graphic lib
+         std::shared_ptr<rtype::GraphicalLib> _graphicLib;
 
-        std::map<SCENE, std::function<void()>> _removedScenes;
-        std::map<SCENE, std::function<void(Sparse_array<component::currScene_t> &currentScenes)>> _setupScene;
-        std::map<SCENE, std::function<void(Sparse_array<component::currScene_t> &currentScenes)>> _execScene;
+         std::map<SCENE, std::function<void(Registry &registry)>> _removedScenes;
+         std::map<SCENE, std::function<void(Registry &registry, Sparse_array<component::currScene_t> &currentScenes)>> _setupScene;
+         std::map<SCENE, std::function<void(Registry &registry, Sparse_array<component::currScene_t> &currentScenes)>> _execScene;
 };
 
 #endif /* !LOADSCENE_HPP_ */

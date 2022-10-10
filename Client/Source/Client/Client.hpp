@@ -23,13 +23,14 @@ class Client
 		virtual ~Client() = default;
 
 		void setUpEcs(void);
+		void setUpComponents(void);
 		void machineRun(void);
 
 	private:
 		std::unique_ptr<Network> _network;
-		std::unique_ptr<Registry> _registry;
+        Registry _registry;
 		bool _working;
-		LoadScene _loadScene; // scene loader
+		LoadScene _loadScene; // Scene loader
 };
 
 #endif /* !CLIENT_HPP_ */

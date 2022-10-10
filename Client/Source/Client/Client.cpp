@@ -7,36 +7,47 @@
 
 #include <iostream>
 
-#include "Component/CurrScene.hpp"
-#include "LoadScene.hpp"
 #include "Client.hpp"
+#include "Component/CurrScene.hpp"
+#include "Component/Mouse.hpp"
+#include "Component/CSprite.hpp"
+#include "Component/Keyboard.hpp"
+#include "Component/CPosition.hpp"
+#include "LoadScene.hpp"
 
 Client::Client(std::string const &ip, std::string const &port) :
-    _working(true)
+    _registry(2), _working(true)
 {
     _network = std::make_unique<Network>(ip, port);
-    _registry = std::make_unique<Registry>(2);
     setUpEcs();
+    // setUpComponents();
     machineRun();
 }
 
-// Client::~Client()
-// {
-// }
-
-void Client::machineRun(void)
+void Client::machineRun()
 {
-    while (_working) {
-        _registry.get()->run_systems();
+    while (!_loadScene.getGraphicalLib()->windowShouldClose()) {
+        _registry.run_systems();
     }
 }
 
-void Client::setUpEcs(void)
+void Client::setUpEcs()
 {
-    _registry->register_component<component::currScene_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
-    _registry->register_component<component::keyboard_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
-    _registry->register_component<component::mouseState_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::currScene_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::keyboard_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::mouseState_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::csprite_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::csprite_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 
-    _registry->add_component<component::currScene_t>(_registry->entity_from_index(FORBIDDEN_IDS::GRAPHIC), {SCENE::MENU, false});
-    _registry->add_system<component::currScene_t, component::keyboard_t, component::mouseState_t>(_loadScene);
+    _registry.add_component<component::currScene_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {SCENE::MENU, false});
+
+    _registry.add_system(_loadScene, _registry.get_components<component::currScene_t>(), _registry.get_components<component::keyboard_t>(), _registry.get_components<component::mouseState_t>());
+}
+
+void Client::setUpComponents()
+{
+    _registry.add_component<component::currScene_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {SCENE::MENU, false});
+    _registry.add_component<component::mouseState_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {0, 0, false});
+    _registry.add_component<component::keyboard_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {false, false, false, false, false, false});
 }
