@@ -9,11 +9,10 @@
 
 #include "Server.hpp"
 
-Server::Server(asio::io_service &service, short const port)
+Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port))
 {
-    _socket = std::make_shared<asio::ip::udp::socket>(service, asio::ip::udp::endpoint(asio::ip::udp::v4(), port));
-
     ReceivePackets();
+    _context.run();
 }
 
 Server::~Server()
@@ -22,30 +21,40 @@ Server::~Server()
 
 void Server::ReceivePackets()
 {
+    std::cout << "receive" << std::endl;
     buffer_to_get.clear();
     buffer_to_get.resize(1500);
-    _socket->async_receive_from(asio::buffer(buffer_to_get.data(), 1500), _destination, bind(&Server::SendPackets, this, std::placeholders::_1, std::placeholders::_2));
+    _com->async_receive(buffer_to_get, std::bind(&Server::SendPackets, this, std::placeholders::_1, std::placeholders::_2));
+
 }
 
-void Server::SendPackets(const asio::error_code &e, std::size_t nbBytes)
+void Server::SendPackets(asio::error_code const &e, std::size_t nbBytes)
 {
+    // std::map<std::size_t, std::function<void(std::vector<byte>)>> my_map;
+    // int id;
+    // std::memcpy(&id , buffer_to_get.data(), sizeof(int));
+    // my_map.at(id)(buffer_to_get);
     Header tt = serializable_trait<Header>::unserialize(buffer_to_get);
+    // Header tt = serializable_trait<packet<>>::unserialize(buffer_to_get);
+    // function_to_call.at(tt.id)(tt.data);
+    // Header tt = serializable_trait<Header>::unserialize(buffer_to_get);
+    std::cout << "header: "<< tt.id << std::endl;
     ServerResponse ok = {
         .code = 200,
 
         .status = true,
     };
 
-    std::vector<char> buffer_to_send;
+    std::vector<byte> buffer_to_send;
 
     buffer_to_send.reserve(sizeof(ServerResponse));
 
     std::memcpy(buffer_to_send.data(), &ok, sizeof(ServerResponse));
 
-    _socket->async_send_to(asio::buffer(buffer_to_send.data(), sizeof(ServerResponse)), _destination, bind(&Server::CompleteExchnage, this, std::placeholders::_1, std::placeholders::_2));
+    _com->async_send(buffer_to_send, std::bind(&Server::CompleteExchnage, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void Server::CompleteExchnage(const std::error_code &e, std::size_t nbBytes)
+void Server::CompleteExchnage(std::error_code const &e, std::size_t nbBytes)
 {
     ReceivePackets();
 }

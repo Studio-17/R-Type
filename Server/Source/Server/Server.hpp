@@ -21,10 +21,12 @@
 
     #include "Structure.hpp"
     #include "Serialization.hpp"
+    #include "UdpCommunication.hpp"
+
 
 class Server {
     public:
-        Server(asio::io_service &service, short const port);
+        Server(short const port);
         ~Server();
 
         void CommunicationHandler(const std::error_code& error, std::size_t bytes_transferred) {
@@ -39,11 +41,12 @@ class Server {
 
     private:
         void ReceivePackets();
-        void SendPackets(const asio::error_code &e, std::size_t nbBytes);
-        void CompleteExchnage(const asio::error_code &e, std::size_t nbBytes);
+        void SendPackets(asio::error_code const &e, std::size_t nbBytes);
+        void CompleteExchnage(asio::error_code const &e, std::size_t nbBytes);
 
-        std::shared_ptr<asio::ip::udp::socket> _socket;
-        asio::ip::udp::endpoint _destination;
+        asio::io_context _context;
+
+        std::shared_ptr<UdpCommunication> _com;
         std::vector<byte> buffer_to_get;
 
 };
