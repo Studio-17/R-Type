@@ -10,6 +10,7 @@
 
 	#include "Network/Network.hpp"
 	#include "Registry.hpp"
+	#include "LoadScene.hpp"
 
 	#include <asio/buffer.hpp>
     #include <asio/ip/udp.hpp>
@@ -25,6 +26,7 @@ class Client
 		~Client();
 
 		void setUpEcs(void);
+		void setUpComponents(void);
 		void machineRun(void);
 
 	private:
@@ -36,8 +38,9 @@ class Client
 		///
 
 		std::unique_ptr<Network> _network;
-		std::unique_ptr<Registry> _registry;
+        Registry _registry;
 		bool _working;
+		LoadScene _loadScene; // Scene loader
 };
 
 #endif /* !CLIENT_HPP_ */

@@ -5,8 +5,8 @@
 ** Position
 */
 
-#ifndef POSITION_HPP_
-    #define POSITION_HPP_
+#ifndef CPOSITION_HPP_
+    #define CPOSITION_HPP_
 
     #include <iostream>
 
@@ -19,10 +19,10 @@ namespace component {
      * @brief A structure representing the position component that holds the position of an entity
      * 
      */
-    typedef struct position_s {
+    typedef struct cposition_s {
         size_t x;
         size_t y;
-    } position_t;
+    } cposition_t;
 }
 
-#endif /* !POSITION_HPP_ */
+#endif /* !CPOSITION_HPP_ */

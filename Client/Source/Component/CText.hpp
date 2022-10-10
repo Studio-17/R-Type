@@ -5,8 +5,8 @@
 ** Text
 */
 
-#ifndef TEXT_HPP_
-    #define TEXT_HPP_
+#ifndef CTEXT_HPP_
+    #define CTEXT_HPP_
 
     #include <string>
 
@@ -19,11 +19,11 @@ namespace component {
      * @brief A structure representing the text component to add text and font to an entity
      * 
      */
-    typedef struct text_s {
+    typedef struct ctext_s {
         std::string pathToFont;
         std::string textToPrint;
         size_t fontSize;
-    } text_t;
+    } ctext_t;
 }
 
-#endif /* !TEXT_HPP_ */
+#endif /* !CTEXT_HPP_ */
