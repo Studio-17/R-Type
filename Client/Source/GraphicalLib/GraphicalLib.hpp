@@ -12,6 +12,7 @@
 #include <map>
 #include <cstring>
 #include <memory>
+#include <string>
 #include "IGraphicalLib.hpp"
 
 namespace rtype {
@@ -25,10 +26,12 @@ namespace rtype {
             void clearScreen() override; // Clear the screen
             void startDrawingWindow() override; // Start drawing on the window
             void endDrawingWindow() override; // End drawing on the window
+            bool windowShouldClose() override; // Should the window
 
             // Sprites
             void createSprite(std::size_t id, std::string const &imagePath, Position const &position, float const &size) override;
             void drawSprite(std::size_t id) override;
+            void destroySprite(std::size_t id) override;
 
             void setSpritePosition(std::size_t id, Position const &position) override;
             Position getSpritePosition(std::size_t id) override;

@@ -38,6 +38,11 @@ void rtype::GraphicalLib::endDrawingWindow()
     EndDrawing();
 }
 
+bool rtype::GraphicalLib::windowShouldClose()
+{
+    return WindowShouldClose();
+}
+
 //Sprite
 void rtype::GraphicalLib::createSprite(std::size_t id, std::string const &imagePath, Position const &position, float const &size)
 {
@@ -47,6 +52,11 @@ void rtype::GraphicalLib::createSprite(std::size_t id, std::string const &imageP
 void rtype::GraphicalLib::drawSprite(std::size_t id)
 {
     _spriteMap[id]->draw();
+}
+
+void rtype::GraphicalLib::destroySprite(std::size_t id)
+{
+    _spriteMap.erase(id);
 }
 
 void rtype::GraphicalLib::setSpritePosition(std::size_t id, Position const &position)

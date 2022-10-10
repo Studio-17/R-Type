@@ -8,28 +8,31 @@
 #ifndef IGRAPHICALLIB_HPP_
 #define IGRAPHICALLIB_HPP_
 
-#include "Sprite.hpp"
-#include "Text.hpp"
-#include "MySound.hpp"
-#include "MyMusic.hpp"
+#include "GraphicalLib/Sprite/Sprite.hpp"
+#include "GraphicalLib/Text/Text.hpp"
+#include "GraphicalLib/Sound/MySound.hpp"
+#include "GraphicalLib/Music/MyMusic.hpp"
+#include "Datas/Position/Position.hpp"
 #include <iostream>
 
 namespace rtype {
     class IGraphicalLib {
         public:
-            IGraphicalLib();
-            ~IGraphicalLib();
+            // IGraphicalLib();
+            virtual ~IGraphicalLib() = default;
 
             //Useful functions
             virtual auto clearScreen() -> void = 0; // Clear the screen
             virtual auto startDrawingWindow() -> void = 0; // Start drawing on the window
             virtual auto endDrawingWindow() -> void = 0; // End drawing on the window
+            virtual auto windowShouldClose() -> bool = 0; // Window should close
 
             // Sprites
             virtual auto createSprite(std::size_t id, std::string const &imagePath, Position const &position, float const &size) -> void = 0;
             virtual auto drawSprite(std::size_t id) -> void = 0;
+            virtual auto destroySprite(std::size_t id) -> void = 0;
 
-            virtual auto setSpritePosition(std::size_t id, Position const &position) -> void = 0;
+        virtual auto setSpritePosition(std::size_t id, Position const &position) -> void = 0;
             virtual auto setSpriteScale(std::size_t id, float scale) -> void = 0;
             virtual auto getSpritePosition(std::size_t id) -> Position = 0;
             virtual auto setSpriteRotation(std::size_t id, float rotation) -> void = 0;
