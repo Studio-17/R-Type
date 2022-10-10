@@ -8,26 +8,36 @@
 #ifndef CLIENT_HPP_
     #define CLIENT_HPP_
 
-    #include <boost/asio.hpp>
+	#include "Network/Network.hpp"
+	#include "Registry.hpp"
 
-    #include "Structure.hpp"
-
-using boost::asio::ip::udp;
+	#include <asio/buffer.hpp>
+    #include <asio/ip/udp.hpp>
+    #include <asio/error_code.hpp>
+    #include <asio/io_context.hpp>
+    #include <asio/io_service.hpp>
+    #include <asio/placeholders.hpp>
 
 class Client
 {
 	public:
-		Client(boost::asio::io_service &io_service, std::string const &host, std::string const &port);
+		Client(std::string const &ip, std::string const &port);
 		~Client();
 
-		void send();
-    	std::string receive();
+		void setUpEcs(void);
+		void machineRun(void);
 
 	private:
-		boost::asio::io_service& io_service_;
+		/// A enlever plus tard dans Network
+		asio::io_service io_service_;
 
-		std::shared_ptr<udp::socket> _socket;
-		udp::endpoint _destination;
+		std::shared_ptr<asio::ip::udp::socket> _socket;
+		asio::ip::udp::endpoint _destination;
+		///
+
+		std::unique_ptr<Network> _network;
+		std::unique_ptr<Registry> _registry;
+		bool _working;
 };
 
 #endif /* !CLIENT_HPP_ */

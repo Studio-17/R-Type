@@ -5,17 +5,13 @@
 ** Server
 */
 
-#include <iostream>
-
-#include <boost/bind.hpp>
-#include <boost/asio.hpp>
-#include <boost/function.hpp>
+#include <functional>
 
 #include "Server.hpp"
 
-Server::Server(boost::asio::io_service &service, short const port)
+Server::Server(asio::io_service &service, short const port)
 {
-    _socket = std::make_shared<udp::socket>(service, udp::endpoint(udp::v4(), port));
+    _socket = std::make_shared<asio::ip::udp::socket>(service, asio::ip::udp::endpoint(asio::ip::udp::v4(), port));
 
     ReceivePackets();
 }
@@ -28,10 +24,10 @@ void Server::ReceivePackets()
 {
     buffer_to_get.clear();
     buffer_to_get.resize(1500);
-    _socket->async_receive_from(boost::asio::buffer(buffer_to_get.data(), 1500), _destination, boost::bind(&Server::SendPackets, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+    _socket->async_receive_from(asio::buffer(buffer_to_get.data(), 1500), _destination, bind(&Server::SendPackets, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void Server::SendPackets(const boost::system::error_code &e, std::size_t nbBytes)
+void Server::SendPackets(const asio::error_code &e, std::size_t nbBytes)
 {
     Header tt = serializable_trait<Header>::unserialize(buffer_to_get);
     ServerResponse ok = {
@@ -46,10 +42,10 @@ void Server::SendPackets(const boost::system::error_code &e, std::size_t nbBytes
 
     std::memcpy(buffer_to_send.data(), &ok, sizeof(ServerResponse));
 
-    _socket->async_send_to(boost::asio::buffer(buffer_to_send.data(), sizeof(ServerResponse)), _destination, boost::bind(&Server::CompleteExchnage, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+    _socket->async_send_to(asio::buffer(buffer_to_send.data(), sizeof(ServerResponse)), _destination, bind(&Server::CompleteExchnage, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void Server::CompleteExchnage(const boost::system::error_code &e, std::size_t nbBytes)
+void Server::CompleteExchnage(const std::error_code &e, std::size_t nbBytes)
 {
     ReceivePackets();
 }

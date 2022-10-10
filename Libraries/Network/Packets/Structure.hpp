@@ -14,14 +14,14 @@
     #include "Serialization.hpp"
 
 struct IdCard {
-    int_least32_t id;
+    int id;
 
-    int_least32_t age;
+    int age;
     char sex;
 };
 
 struct ServerResponse {
-    int_least32_t code;
+    int code;
 
     bool status;
 };

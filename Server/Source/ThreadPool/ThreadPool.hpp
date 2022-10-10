@@ -14,18 +14,18 @@
     #include <mutex>
     #include <condition_variable>
     #include <queue>
-    #include <boost/asio.hpp>
+    #include <iostream>
 
-using boost::asio::ip::udp;
+    #include "Server.hpp"
 
 class ThreadPool {
     public:
-       ThreadPool(std::shared_ptr<udp::socket> socket);
+       ThreadPool(std::shared_ptr<asio::ip::udp::socket> socket);
        ~ThreadPool();
 
-        void stop_one(udp::endpoint &endpoint);
+        void stop_one(asio::ip::udp::endpoint &endpoint);
         void stop();
-        void add(udp::endpoint &endpoint);
+        void add(asio::ip::udp::endpoint &endpoint);
 
         void notify();
         void queueJob(std::function<void(void)> task);
@@ -36,14 +36,14 @@ class ThreadPool {
 
         std::size_t _threadIndex;
         std::size_t _suppressedIndex;
-        // std::map<boost::asio::ip::address, std::map<unsigned short, bool>> _threadsCondition;
+        // std::map<asio::ip::address, std::map<unsigned short, bool>> _threadsCondition;
 
         bool _stop;
         bool _oneBreak;
 
         void threadLoop(std::size_t index);
 
-        std::shared_ptr<udp::socket> _socket;
+        std::shared_ptr<asio::ip::udp::socket> _socket;
 
         std::size_t _inactiveThread;
 

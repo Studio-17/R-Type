@@ -6,9 +6,8 @@
 */
 
 #include "ThreadPool.hpp"
-#include <iostream>
 
-ThreadPool::ThreadPool(std::shared_ptr<udp::socket> socket)
+ThreadPool::ThreadPool(std::shared_ptr<asio::ip::udp::socket> socket)
     : _socket(socket), _inactiveThread(0), _stop(false), _oneBreak(false), _threadIndex(0), _suppressedIndex(-1)
 {
 }
@@ -59,14 +58,14 @@ void ThreadPool::stop()
     _threadsList.clear();
 }
 
-void ThreadPool::add(udp::endpoint &endpoint)
+void ThreadPool::add(asio::ip::udp::endpoint &endpoint)
 {
     _threadsList.emplace(_threadIndex, std::thread(&ThreadPool::threadLoop, this, _threadIndex));
     _threadIndex++;
     _inactiveThread++;
 }
 
-void ThreadPool::stop_one(udp::endpoint &endpoint)
+void ThreadPool::stop_one(asio::ip::udp::endpoint &endpoint)
 {
     _oneBreak = true;
     _mutexCondition.notify_one();

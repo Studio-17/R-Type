@@ -8,20 +8,26 @@
 #ifndef SERVER_HPP_
     #define SERVER_HPP_
 
-    #include <boost/asio.hpp>
+    #include <iostream>
+    #include <functional>
+
+    #include <asio/ip/udp.hpp>
+    #include <asio/error_code.hpp>
+    #include <asio/io_context.hpp>
+    #include <asio/io_service.hpp>
+    #include <asio/placeholders.hpp>
+
+    #include <asio.hpp>
 
     #include "Structure.hpp"
     #include "Serialization.hpp"
 
-
-using boost::asio::ip::udp;
-
 class Server {
     public:
-        Server(boost::asio::io_service &service, short const port);
+        Server(asio::io_service &service, short const port);
         ~Server();
 
-        void CommunicationHandler(const boost::system::error_code& error, std::size_t bytes_transferred) {
+        void CommunicationHandler(const std::error_code& error, std::size_t bytes_transferred) {
             if (error) {
                 std::cerr << error.message() << std::endl;
             } else {
@@ -33,11 +39,11 @@ class Server {
 
     private:
         void ReceivePackets();
-        void SendPackets(const boost::system::error_code &e, std::size_t nbBytes);
-        void CompleteExchnage(const boost::system::error_code &e, std::size_t nbBytes);
+        void SendPackets(const asio::error_code &e, std::size_t nbBytes);
+        void CompleteExchnage(const asio::error_code &e, std::size_t nbBytes);
 
-        std::shared_ptr<udp::socket> _socket;
-        udp::endpoint _destination;
+        std::shared_ptr<asio::ip::udp::socket> _socket;
+        asio::ip::udp::endpoint _destination;
         std::vector<byte> buffer_to_get;
 
 };

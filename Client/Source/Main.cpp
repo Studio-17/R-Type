@@ -8,15 +8,26 @@
 #include <iostream>
 
 #include "Client.hpp"
+#include "Network/Network.hpp"
 
-int main()
+void printHelper(void)
 {
-	boost::asio::io_service io_service;
-	Client client(io_service, "localhost", "8080");
+	std::cout << "Helper" << std::endl;
+}
 
-	client.send();
+bool isGoodArguments(std::string ip, std::string port)
+{
+	return true;
+}
 
-    io_service.run();
-    io_service.stop();
-
+int main(int ac, char **av)
+{
+	if (ac != 3 || !isGoodArguments(av[1], av[2])) {
+		printHelper();
+		return (0);
+	}
+	std::string currentHost;
+	strcmp(av[1], "localhost") == 0 ? currentHost = "127.0.0.1" : currentHost = av[1];
+	Client client(currentHost, std::string(av[2]));
+	return (0);
 }

@@ -1,16 +1,17 @@
 /*
 ** EPITECH PROJECT, 2022
-** B-CPP-500-PAR-5-1-rtype-martin.vanaud
+** R-Type
 ** File description:
-** Test
+** Created by casimir,
 */
 
-#include <assert.h>
 #include <criterion/assert.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
-Test(Core, coreTest)
+#include <Entity.hpp>
+
+Test(EntityTest, Entity__ctor__)
 {
-    assert(true);
+    Entity entity(1);
 }
