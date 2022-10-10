@@ -10,7 +10,7 @@
 
 #include "Component/Mouse.hpp"
 #include "Component/CSprite.hpp"
-#include "Component/Keyboard.hpp"
+#include "Component/CKeyboard.hpp"
 #include "Component/CPosition.hpp"
 
 LoadScene::LoadScene()
@@ -22,7 +22,7 @@ LoadScene::LoadScene(LoadScene &&other) noexcept : _graphicLib(other._graphicLib
 {
 }
 
-void LoadScene::operator()(Registry &registry, Sparse_array<component::currScene_t> &currentScene, Sparse_array<component::keyboard_t> &keyboard, Sparse_array<component::mouseState_t> &mouse)
+void LoadScene::operator()(Registry &registry, Sparse_array<component::currScene_t> &currentScene, Sparse_array<component::ckeyboard_t> &keyboard, Sparse_array<component::mouseState_t> &mouse)
 {
     std::vector<int> spriteID;
 

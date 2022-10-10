@@ -5,8 +5,8 @@
 ** Keyboard
 */
 
-#ifndef KEYBOARD_HPP_
-#define KEYBOARD_HPP_
+#ifndef CKEYBOARD_HPP_
+    #define CKEYBOARD_HPP_
 
 /**
  * @brief Namespace for all components
@@ -17,14 +17,14 @@ namespace component {
      * @brief Structure representing the keyboard component in charge of keyboard state
      * 
      */
-    typedef struct keyboard_s {
+    typedef struct ckeyboard_s {
         bool keyUp;
         bool keyDown;
         bool keyRight;
         bool keyLeft;
         bool keyEnter;
         bool keySpace;
-    } keyboard_t;
+    } ckeyboard_t;
 }
 
-#endif /* !KEYBOARD_HPP_ */
+#endif /* !CKEYBOARD_HPP_ */

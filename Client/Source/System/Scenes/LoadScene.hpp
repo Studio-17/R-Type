@@ -9,7 +9,7 @@
     #define LOADSCENE_HPP_
 
     #include "SparseArray.hpp"
-    #include "Keyboard.hpp"
+    #include "CKeyboard.hpp"
     #include "Mouse.hpp"
     #include "CurrScene.hpp"
     #include "GraphicalLib.hpp"
@@ -25,7 +25,7 @@ class LoadScene {
         LoadScene(LoadScene &&other) noexcept;
         ~LoadScene() = default;
 
-        void operator()(Registry &registry, Sparse_array<component::currScene_t> &currentScene, Sparse_array<component::keyboard_t> &keyboard, Sparse_array<component::mouseState_t> &mouse);
+        void operator()(Registry &registry, Sparse_array<component::currScene_t> &currentScene, Sparse_array<component::ckeyboard_t> &keyboard, Sparse_array<component::mouseState_t> &mouse);
 
         // Graphic
         std::shared_ptr<rtype::GraphicalLib> getGraphicalLib() const

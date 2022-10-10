@@ -28,6 +28,6 @@ int main(int ac, char **av)
 	}
 	std::string currentHost;
 	strcmp(av[1], "localhost") == 0 ? currentHost = "127.0.0.1" : currentHost = av[1];
-	Client client(currentHost, av[2]);
+	Client client(currentHost, std::string(av[2]));
 	return (0);
 }
