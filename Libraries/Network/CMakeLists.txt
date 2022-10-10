@@ -12,6 +12,7 @@ file(GLOB LIB_HEADER
     Packets/*.hpp
     Protocol/*.hpp
     Serialization/*.hpp
+    UdpCommunication/*.hpp
 )
 
 file(GLOB LIB_DIRECTORY
@@ -20,6 +21,7 @@ file(GLOB LIB_DIRECTORY
     Protocol
     Serialization
     UdpSocket
+    UdpCommunication
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable

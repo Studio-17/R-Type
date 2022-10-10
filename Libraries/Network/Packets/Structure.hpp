@@ -47,7 +47,7 @@ struct serializable_trait<Header> {
         tmp = serializable_trait<td>::serialize(obj.pr);
         ret.insert(ret.end(), tmp.begin(), tmp.end());
         return ret;
-    }
+    };
 
     static Header unserialize(std::vector<byte> &v) {
         Header s;
