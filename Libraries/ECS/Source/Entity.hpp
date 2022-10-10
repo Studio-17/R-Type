@@ -13,8 +13,7 @@
 
 class Entity {
     public:
-        explicit Entity(std::size_t id) {
-            _id = id;
+        explicit Entity(std::size_t id) : _id(id) {
         };
         ~Entity() = default;
 
