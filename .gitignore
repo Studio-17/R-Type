@@ -34,8 +34,13 @@
 # Project files
 r-type_*
 Builds/*
+build/*
 *.vscode
 *.idea
+
+# Macos hiden files
+.DS_Store
+
 *.cache
 *.local
 *.bash_history

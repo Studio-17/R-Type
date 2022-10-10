@@ -9,7 +9,7 @@
     #define CONSTANT_HPP_
 
 /**
- * @brief
+ * @brief An enum for all the IDs that cannot be taken for a new entity
  * 
  */
 enum FORBIDDEN_IDS {
@@ -17,10 +17,29 @@ enum FORBIDDEN_IDS {
     NETWORK = 1
 };
 
+/**
+ * @brief An enum for all scenes
+ * 
+ */
 enum SCENE {
     MENU = 0,
     SETTINGS = 1,
     END = 2
+};
+
+/**
+ * @brief An enum representing all the type an entity can take
+ * 
+ */
+enum ENTITY_TYPE {
+    PLAYER,
+    WALL,
+    ENEMY,
+    BUTTON,
+    TEXT,
+    UI,
+    // GRAPHIC,
+    // NETWORK
 };
 
 #endif /* !CONSTANT_HPP_ */
