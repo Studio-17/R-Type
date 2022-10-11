@@ -17,7 +17,6 @@ Sprite::Sprite(std::string const &imagePath, float const &scale)
 
 Sprite::~Sprite()
 {
-    UnloadTexture(_imageTexture);
 }
 
 void Sprite::draw()
