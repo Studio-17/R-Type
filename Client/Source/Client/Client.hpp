@@ -8,15 +8,17 @@
 #ifndef CLIENT_HPP_
     #define CLIENT_HPP_
 
+	#include <asio/buffer.hpp>
     #include <asio/ip/udp.hpp>
     #include <asio/error_code.hpp>
     #include <asio/io_context.hpp>
     #include <asio/io_service.hpp>
     #include <asio/placeholders.hpp>
 
+	#include "Network/Network.hpp"
 	#include "UdpCommunication.hpp"
-	#include "LoadScene.hpp"
 	#include "Registry.hpp"
+    #include "GraphicalLib.hpp"
 
 class Client
 {
@@ -30,11 +32,10 @@ class Client
 
 	private:
 		asio::io_context _context;
-
+        std::shared_ptr<rtype::GraphicalLib> _graphicLib;
 		std::unique_ptr<UdpCommunication> _com;
         Registry _registry;
 		bool _working;
-		LoadScene _loadScene; // Scene loader
 };
 
 #endif /* !CLIENT_HPP_ */

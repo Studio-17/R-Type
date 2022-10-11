@@ -20,8 +20,8 @@ namespace component {
      * 
      */
     typedef struct cposition_s {
-        size_t x;
-        size_t y;
+        float x;
+        float y;
     } cposition_t;
 }
 

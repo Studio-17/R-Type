@@ -10,6 +10,7 @@
 
 #include <iostream>
 
+#include "raylib.h"
 #include "Sprite.hpp"
 #include "Text.hpp"
 #include "MySound.hpp"
@@ -43,6 +44,11 @@ namespace rtype {
              * @brief Clear the window
              * 
              */
+
+            virtual auto initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate) -> void = 0;
+
+            virtual auto closeWindow() -> void = 0;
+
             virtual auto clearScreen() -> void = 0;
             /**
              * @brief Start drawing in the window
@@ -71,14 +77,15 @@ namespace rtype {
              * @param position position of the sprite
              * @param size size of the sprite
              */
-            virtual auto createSprite(std::size_t id, std::string const &imagePath, Position const &position, float const &size) -> void = 0;
+            virtual auto createSprite(std::string const &imagePath, float const &size) -> Sprite * = 0;
             /**
              * @brief Draw a sprite
              * 
              * @param id id of the sprite
              */
-            virtual auto drawSprite(std::size_t id) -> void = 0;
-            virtual auto destroySprite(std::size_t id) -> void = 0;
+//            virtual auto drawSprite(std::size_t id) -> void = 0;
+            virtual auto drawSprite(Sprite const &sprite, Position const &position) -> void = 0;
+            virtual auto destroySprite(Sprite const &sprite) -> void = 0;
 
             /**
              * @brief Set the Sprite Position object
@@ -86,35 +93,35 @@ namespace rtype {
              * @param id id of the sprite
              * @param position position of the sprite
              */
-            virtual auto setSpritePosition(std::size_t id, Position const &position) -> void = 0;
+            virtual auto setSpritePosition(Sprite &sprite, Position const &position) -> void = 0;
             /**
              * @brief Set the Sprite Scale object
              * 
              * @param id id of the sprite
              * @param scale scale of the sprite
              */
-            virtual auto setSpriteScale(std::size_t id, float scale) -> void = 0;
+            virtual auto setSpriteScale(Sprite &sprite, float scale) -> void = 0;
             /**
              * @brief Get the Sprite Position object
              * 
              * @param id id of the sprite
              * @return the Position of the sprite
              */
-            virtual auto getSpritePosition(std::size_t id) -> Position = 0;
+            virtual auto getSpritePosition(Sprite const &sprite) -> Position = 0;
             /**
              * @brief Set the Sprite Rotation object
              * 
              * @param id id of the sprite
              * @param rotation rotation of the sprite
              */
-            virtual auto setSpriteRotation(std::size_t id, float rotation) -> void = 0;
+            virtual auto setSpriteRotation(Sprite &sprite, float rotation) -> void = 0;
             /**
              * @brief Get the Sprite Rotation object
              * 
              * @param id id of the sprite
              * @return float rotation of the sprite
              */
-            virtual auto getSpriteRotation(std::size_t id) -> float = 0;
+            virtual auto getSpriteRotation(Sprite const &sprite) -> float = 0;
 
             /**
              * @brief Create a Text object
