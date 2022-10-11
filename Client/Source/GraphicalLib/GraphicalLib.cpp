@@ -33,7 +33,7 @@ void rtype::GraphicalLib::closeWindow()
 //Useful functions
 void rtype::GraphicalLib::clearScreen()
 {
-    ClearBackground(BLACK);
+    ClearBackground(RAYWHITE);
 }
 
 void rtype::GraphicalLib::startDrawingWindow()
@@ -51,14 +51,14 @@ bool rtype::GraphicalLib::windowShouldClose()
 }
 
 //Sprite
-Sprite *rtype::GraphicalLib::createSprite(std::string const &imagePath, float const &size)
+std::shared_ptr<Sprite> rtype::GraphicalLib::createSprite(std::string const &imagePath, float const &size)
 {
-    return new Sprite(imagePath, size);
+    return std::make_shared<Sprite>(imagePath, size);
 }
 
-void rtype::GraphicalLib::drawSprite(Sprite const &sprite, Position const &position)
+void rtype::GraphicalLib::drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position)
 {
-    DrawTextureEx(sprite.getTexture(), (Vector2){position.getX(), position.getY()}, 0, 1, WHITE);
+    DrawTextureEx(sprite->getTexture(), (Vector2){position.getX(), position.getY()}, 0, 1, WHITE);
 }
 
 void rtype::GraphicalLib::destroySprite(Sprite const &sprite)
@@ -83,7 +83,6 @@ Position rtype::GraphicalLib::getSpritePosition(Sprite const &sprite)
 
 void rtype::GraphicalLib::setSpriteRotation(Sprite &sprite, float rotation)
 {
-//    _spriteMap[id]->setRotation(rotation);
     sprite.setRotation(rotation);
 }
 

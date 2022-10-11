@@ -18,11 +18,11 @@
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
-    _registry(2), _working(true)
+    _working(true)
 {
     _context.run();
 
-    _graphicLib = std::make_shared<rtype::GraphicalLib>();
+    _graphicLib = std::make_unique<rtype::GraphicalLib>();
     _graphicLib->initWindow(800, 600, "R-Type", 60);
 
     setUpEcs();
@@ -42,8 +42,8 @@ void Client::machineRun(void)
     std::cout << "sended" << std::endl;
 
     while (!_graphicLib->windowShouldClose()) {
-        _com->receive(_bufferToGet);//, std::bind(&Client::handleReceive, this));
-        handleReceive();
+        // _com->receive(_bufferToGet);//, std::bind(&Client::handleReceive, this));
+        // handleReceive();
         _graphicLib->startDrawingWindow();
             _graphicLib->clearScreen();
             _registry.run_systems();
@@ -66,10 +66,15 @@ void Client::setUpEcs()
     _registry.register_component<component::csprite_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::csprite_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+
+    _registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>());
 }
 
 void Client::setUpComponents()
 {
-    // _registry.add_component<component::mouseState_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {0, 0, false});
-    // _registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {false, false, false, false, false, false});
+    Entity e = _registry.spawn_entity();
+    component::cposition_t position = {10, 50};
+    component::csprite_t sprite = {.sprite = _graphicLib->createSprite("Assets/sprites/r-typesheet5.gif", 1)};
+    _registry.add_component<component::csprite_t>(_registry.entity_from_index(e), std::move(sprite));
+    _registry.add_component<component::cposition_t>(_registry.entity_from_index(e), std::move(position));
 }

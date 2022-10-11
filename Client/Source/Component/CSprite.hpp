@@ -23,13 +23,7 @@ namespace component {
      * 
      */
     typedef struct csprite_s {
-        Sprite sprite;
-        //float scale;
-        //size_t xRect;
-        //size_t yRect;
-        //size_t widthRect;
-        //size_t heightRect;
-        //std::string spritePath;
+        std::shared_ptr<Sprite> sprite;
     } csprite_t;
 }
 

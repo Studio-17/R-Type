@@ -19,6 +19,7 @@
 	#include "UdpCommunication.hpp"
 	#include "Registry.hpp"
     #include "GraphicalLib.hpp"
+	#include "DrawSystem.hpp"
 
 class Client
 {
@@ -35,10 +36,11 @@ class Client
 		asio::io_context _context;
 		std::vector<byte> _bufferToGet;
 
-        std::shared_ptr<rtype::GraphicalLib> _graphicLib;
+        std::unique_ptr<rtype::GraphicalLib> _graphicLib;
 		std::unique_ptr<UdpCommunication> _com;
         Registry _registry;
 		bool _working;
+		DrawSystem _drawSystem;
 };
 
 #endif /* !CLIENT_HPP_ */
