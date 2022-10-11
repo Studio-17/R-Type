@@ -54,8 +54,10 @@ void Client::machineRun(void)
 
 void Client::handleReceive()
 {
-    std::cout <<"going to receive" << std::endl;
-    ServerResponse response = serializable_trait<ServerResponse>::unserialize(_bufferToGet);
+    u_int8_t id = serialize_header::getId(_bufferToGet);
+    std::vector<byte> data;
+    data.insert(data.begin(), _bufferToGet.begin() + sizeof(u_int8_t), _bufferToGet.end());
+    ServerResponse response = serializable_trait<ServerResponse>::unserialize(data);
     std::cout << "response: " << response.code << std::endl;
 }
 

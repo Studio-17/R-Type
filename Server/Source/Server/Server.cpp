@@ -26,8 +26,6 @@ Server::~Server()
 void Server::ReceivePackets()
 {
     std::cout << "receive" << std::endl;
-    buffer_to_get.clear();
-    buffer_to_get.resize(1500);
     _com->async_receive(buffer_to_get, std::bind(&Server::SendPackets, this, std::placeholders::_1, std::placeholders::_2));
 }
 
@@ -45,8 +43,7 @@ void Server::SendPackets(asio::error_code const &e, std::size_t nbBytes)
 
         .status = true,
     };
-
-    std::vector<byte> buffer_to_send = serializable_trait<ServerResponse>::serialize(ok);
+    std::vector<byte> buffer_to_send = serialize_header::serializeHeader<ServerResponse>(1, ok);
 
     for (auto const &[address, portList] : _endpoints) {
         for (auto const &port : portList) {
