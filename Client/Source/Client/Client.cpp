@@ -13,7 +13,6 @@
 #include "Component/CSprite.hpp"
 #include "Component/CKeyboard.hpp"
 #include "Component/CPosition.hpp"
-#include "LoadScene.hpp"
 #include "Serialization.hpp"
 #include "Structure.hpp"
 
@@ -22,9 +21,12 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _registry(2), _working(true)
 {
     _context.run();
+
+    _graphicLib = std::make_shared<rtype::GraphicalLib>();
+    _graphicLib->initWindow(800, 600, "R-Type", 60);
+
     setUpEcs();
-    // setUpComponents();
-    machineRun();
+    setUpComponents();
 }
 
 Client::~Client()
@@ -38,11 +40,16 @@ void Client::machineRun(void)
 	auto buffer_to_send = serializable_trait<Header>::serialize(header);
 	_com->send(buffer_to_send);
     std::cout << "sended" << std::endl;
-    while (!_loadScene.getGraphicalLib()->windowShouldClose()) {
+
+    while (!_graphicLib->windowShouldClose()) {
         _com->receive(_bufferToGet);//, std::bind(&Client::handleReceive, this));
         handleReceive();
-        _registry.run_systems();
+        _graphicLib->startDrawingWindow();
+            _graphicLib->clearScreen();
+            _registry.run_systems();
+        _graphicLib->endDrawingWindow();
     }
+    _graphicLib->closeWindow();
 }
 
 void Client::handleReceive()
@@ -54,21 +61,15 @@ void Client::handleReceive()
 
 void Client::setUpEcs()
 {
-    _registry.register_component<component::currScene_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::ckeyboard_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::mouseState_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::csprite_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::csprite_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
-
-    _registry.add_component<component::currScene_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {SCENE::MENU, false});
-
-    _registry.add_system(_loadScene, _registry.get_components<component::currScene_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::mouseState_t>());
 }
 
 void Client::setUpComponents()
 {
-    _registry.add_component<component::currScene_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {SCENE::MENU, false});
-    _registry.add_component<component::mouseState_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {0, 0, false});
-    _registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {false, false, false, false, false, false});
+    // _registry.add_component<component::mouseState_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {0, 0, false});
+    // _registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {false, false, false, false, false, false});
 }

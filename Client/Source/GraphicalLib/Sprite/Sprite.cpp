@@ -7,9 +7,9 @@
 
 #include "Sprite.hpp"
 
-Sprite::Sprite(std::string const &imagePath, Position const &position, float const &scale)
+Sprite::Sprite(std::string const &imagePath, float const &scale)
 {
-    _position = position;
+    _position = {};
     _imageTexture = LoadTexture(imagePath.c_str());
     _rotation = 0.0f;
     _scale = scale;
@@ -30,7 +30,7 @@ void Sprite::setPosition(Position const &position)
     _position = position;
 }
 
-Position Sprite::getPosition()
+Position Sprite::getPosition() const
 {
     return _position;
 }
@@ -50,7 +50,7 @@ void Sprite::setRotation(float rotation)
     _rotation = rotation;
 }
 
-float Sprite::getRotation()
+float Sprite::getRotation() const
 {
     return _rotation;
 }
@@ -58,4 +58,9 @@ float Sprite::getRotation()
 void Sprite::setTexture(std::string const &imagePath)
 {
     _imageTexture = LoadTexture(imagePath.c_str());
+}
+
+Texture2D Sprite::getTexture() const
+{
+    return _imageTexture;
 }

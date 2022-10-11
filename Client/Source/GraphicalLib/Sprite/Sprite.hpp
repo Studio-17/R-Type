@@ -22,10 +22,9 @@ class Sprite {
          * @brief Construct a new Sprite object
          * 
          * @param imagePath 
-         * @param position 
          * @param scale 
          */
-        Sprite(std::string const &imagePath, Position const &position, float const &scale);
+        Sprite(std::string const &imagePath, float const &scale);
         /**
          * @brief Destroy the Sprite object
          * 
@@ -49,7 +48,7 @@ class Sprite {
          * 
          * @return Position 
          */
-        Position getPosition();
+        Position getPosition() const;
 
         /**
          * @brief Set the Scale of the sprite
@@ -75,13 +74,15 @@ class Sprite {
          * 
          * @return float 
          */
-        float getRotation();
+        float getRotation() const;
         /**
          * @brief Set the Texture of the sprite
          * 
          * @param imagePath 
          */
         void setTexture(std::string const &imagePath);
+
+        Texture2D getTexture() const;
 
     protected:
     private:

@@ -30,5 +30,6 @@ int main(int ac, char const * const* av)
 	std::string currentHost;
 	strcmp(av[1], "localhost") == 0 ? currentHost = "127.0.0.1" : currentHost = av[1];
 	Client client(currentHost, std::string(av[2]), std::atoi(av[3]));
+    client.machineRun();
 	return (0);
 }
