@@ -9,7 +9,9 @@
     #define SERVER_HPP_
 
     #include <iostream>
-    #include <functional>
+    #include <thread>
+    #include <queue>
+    #include <unordered_map>
 
     #include <asio/ip/udp.hpp>
     #include <asio/error_code.hpp>
@@ -17,7 +19,7 @@
     #include <asio/io_service.hpp>
     #include <asio/placeholders.hpp>
 
-    #include <asio.hpp>
+    // #include <asio.hpp>
 
     #include "Structure.hpp"
     #include "Serialization.hpp"
@@ -44,11 +46,19 @@ class Server {
         void SendPackets(asio::error_code const &e, std::size_t nbBytes);
         void CompleteExchnage(asio::error_code const &e, std::size_t nbBytes);
 
+        void threadLoop();
+
         asio::io_context _context;
+
+        std::queue<std::function<void(void)>> _responseQueue;
 
         std::shared_ptr<UdpCommunication> _com;
         std::vector<byte> buffer_to_get;
 
+        std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, bool>> _endpoints;
+
+        // std::thread _thread;
+        // bool _stop;
 };
 
 #endif /* !SERVER_HPP_ */

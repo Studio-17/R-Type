@@ -10,6 +10,7 @@
 #include "Server.hpp"
 
 Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port))
+    //_thread(&Server::threadLoop, this), _stop(false)
 {
     ReceivePackets();
     _context.run();
@@ -17,6 +18,9 @@ Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_cont
 
 Server::~Server()
 {
+    // _stop = true;
+    // _thread.join();
+    _context.stop();
 }
 
 void Server::ReceivePackets()
@@ -25,19 +29,16 @@ void Server::ReceivePackets()
     buffer_to_get.clear();
     buffer_to_get.resize(1500);
     _com->async_receive(buffer_to_get, std::bind(&Server::SendPackets, this, std::placeholders::_1, std::placeholders::_2));
-
 }
 
 void Server::SendPackets(asio::error_code const &e, std::size_t nbBytes)
 {
-    // std::map<std::size_t, std::function<void(std::vector<byte>)>> my_map;
-    // int id;
-    // std::memcpy(&id , buffer_to_get.data(), sizeof(int));
-    // my_map.at(id)(buffer_to_get);
+    std::cout << "readed" << std::endl;
+    std::pair<asio::ip::address, unsigned short> endpointData = _com->getEnpointInfo();
+    _endpoints.try_emplace(endpointData.first, std::unordered_map<unsigned short, bool>());
+    _endpoints.at(endpointData.first).try_emplace(endpointData.second, true);
+
     Header tt = serializable_trait<Header>::unserialize(buffer_to_get);
-    // Header tt = serializable_trait<packet<>>::unserialize(buffer_to_get);
-    // function_to_call.at(tt.id)(tt.data);
-    // Header tt = serializable_trait<Header>::unserialize(buffer_to_get);
     std::cout << "header: "<< tt.id << std::endl;
     ServerResponse ok = {
         .code = 200,
@@ -45,16 +46,23 @@ void Server::SendPackets(asio::error_code const &e, std::size_t nbBytes)
         .status = true,
     };
 
-    std::vector<byte> buffer_to_send;
+    std::vector<byte> buffer_to_send = serializable_trait<ServerResponse>::serialize(ok);
 
-    buffer_to_send.reserve(sizeof(ServerResponse));
-
-    std::memcpy(buffer_to_send.data(), &ok, sizeof(ServerResponse));
-
-    _com->async_send(buffer_to_send, std::bind(&Server::CompleteExchnage, this, std::placeholders::_1, std::placeholders::_2));
+    for (auto const &[address, portList] : _endpoints) {
+        for (auto const &port : portList) {
+            _com->async_send(buffer_to_send, std::bind(&Server::CompleteExchnage, this, std::placeholders::_1, std::placeholders::_2), address, port.first);
+            std::cout << "send " << address<<" "<< port.first << std::endl;
+        }
+    }
 }
 
 void Server::CompleteExchnage(std::error_code const &e, std::size_t nbBytes)
 {
     ReceivePackets();
+}
+
+void Server::threadLoop()
+{
+    // while (!_stop) {
+    // }
 }
