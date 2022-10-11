@@ -16,8 +16,8 @@
 #include "Serialization.hpp"
 #include "Structure.hpp"
 
-Client::Client(std::string const &ip, std::string const &port) :
-    _com(std::make_unique<UdpCommunication>(_context, 8081, port, ip)),
+Client::Client(std::string const &ip, std::string const &port, int hostPort) :
+    _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
     _registry(2), _working(true)
 {
     _context.run();
@@ -31,6 +31,7 @@ Client::Client(std::string const &ip, std::string const &port) :
 
 Client::~Client()
 {
+    _context.stop();
 }
 
 void Client::machineRun(void)
@@ -39,15 +40,23 @@ void Client::machineRun(void)
 	auto buffer_to_send = serializable_trait<Header>::serialize(header);
 	_com->send(buffer_to_send);
     std::cout << "sended" << std::endl;
-	 // receive();
 
     while (!_graphicLib->windowShouldClose()) {
+        _com->receive(_bufferToGet);//, std::bind(&Client::handleReceive, this));
+        handleReceive();
         _graphicLib->startDrawingWindow();
             _graphicLib->clearScreen();
             _registry.run_systems();
         _graphicLib->endDrawingWindow();
     }
     _graphicLib->closeWindow();
+}
+
+void Client::handleReceive()
+{
+    std::cout <<"going to receive" << std::endl;
+    ServerResponse response = serializable_trait<ServerResponse>::unserialize(_bufferToGet);
+    std::cout << "response: " << response.code << std::endl;
 }
 
 void Client::setUpEcs()

@@ -23,7 +23,7 @@
 class Client
 {
 	public:
-		Client(std::string const &ip, std::string const &port);
+		Client(std::string const &ip, std::string const &port, int hostPort);
 		~Client();
 
 		void setUpEcs(void);
@@ -31,7 +31,10 @@ class Client
 		void machineRun(void);
 
 	private:
+		void handleReceive();
 		asio::io_context _context;
+		std::vector<byte> _bufferToGet;
+
         std::shared_ptr<rtype::GraphicalLib> _graphicLib;
 		std::unique_ptr<UdpCommunication> _com;
         Registry _registry;
