@@ -10,8 +10,16 @@ set(EXECUTABLE_NAME r-type_client)
 file(GLOB SOURCE_FILES
     Source/*.cpp
     Source/Client/*.cpp
+    Source/Datas/Position/*.cpp
+    Source/GraphicalLib/*.cpp
+    Source/GraphicalLib/Music/*.cpp
+    Source/GraphicalLib/Sound/*.cpp
+    Source/GraphicalLib/Sprite/*.cpp
+    Source/GraphicalLib/Text/*.cpp
+    Source/GraphicalLib/Keyboard/*.cpp
     Source/Network/*.cpp
     Source/System/*.cpp
+    Source/System/Scenes/*.cpp
 )
 
 # specify the headers
@@ -19,8 +27,17 @@ include_directories(
     Source/
     Source/Client/
     Source/Component/
+    Source/Constant/
+    Source/Datas/Position/
+    Source/GraphicalLib/
+    Source/GraphicalLib/Music/
+    Source/GraphicalLib/Sound/
+    Source/GraphicalLib/Sprite/
+    Source/GraphicalLib/Text/
+    Source/GraphicalLib/Keyboard/
     Source/Network/
     Source/System/
+    Source/System/Scenes/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable

@@ -12,7 +12,7 @@ systemNamespace::EventSystem::EventSystem()
     _graphicLib = 2; // Need to add graphical lib
 }
 
-void systemNamespace::EventSystem::operator()(Registry &registry, Sparse_array<component::mouseState_t> &mouses, Sparse_array<component::keyboard_t> &keyboards)
+void systemNamespace::EventSystem::operator()(Registry &registry, Sparse_array<component::mouseState_t> &mouses, Sparse_array<component::ckeyboard_t> &keyboards)
 {
     for (size_t i = 0; i < keyboards.size(); i++) {
     }

@@ -18,6 +18,16 @@ enum FORBIDDEN_IDS {
 };
 
 /**
+ * @brief An enum for all scenes
+ * 
+ */
+enum SCENE {
+    MENU = 0,
+    SETTINGS = 1,
+    END = 2
+};
+
+/**
  * @brief An enum representing all the type an entity can take
  * 
  */
@@ -28,8 +38,8 @@ enum ENTITY_TYPE {
     BUTTON,
     TEXT,
     UI,
-    GRAPHIC,
-    NETWORK
+    // GRAPHIC,
+    // NETWORK
 };
 
 /**

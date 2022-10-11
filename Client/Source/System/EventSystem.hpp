@@ -10,7 +10,7 @@
 
     #include "Registry.hpp"
     #include "Mouse.hpp"
-    #include "Keyboard.hpp"
+    #include "CKeyboard.hpp"
 
 /**
  * @brief Namespace for systems
@@ -41,7 +41,7 @@ namespace systemNamespace {
              * @param mouses Sparse array of all mouse component of all entities
              * @param keyboards Sparse array of all keyboard component of all entities
              */
-            void operator()(Registry &registry, Sparse_array<component::mouseState_t> &mouses, Sparse_array<component::keyboard_t> &keyboards);
+            void operator()(Registry &registry, Sparse_array<component::mouseState_t> &mouses, Sparse_array<component::ckeyboard_t> &keyboards);
 
 
         protected:

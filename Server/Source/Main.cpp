@@ -5,22 +5,10 @@
 ** Main
 */
 
-#include <iostream>
-
-#include <asio/io_service.hpp>
-
 #include "Server.hpp"
 
 int main(void)
 {
-    try {
-        asio::io_service service;
-
-        Server server(service, 8080);
-
-        service.run();
-    } catch (std::exception const &e) {
-        std::cerr << e.what() << std::endl;
-    }
+    Server server(8080);
     return 0;
 }
