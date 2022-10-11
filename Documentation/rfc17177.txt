@@ -1,0 +1,271 @@
+B4 - Year-End-Project - R-Type                                         M. Vanaud
+Request for Comments: 20221011                                      C. Fernandes
+                                                                        V. Palle
+                                                                     G. Le Letty
+                                                                     M. Carabina
+
+
+RFC 20221011                R-TYPE PROTOCOL                         Ocotbre 2022
+
+This RFC consists of the following sections:
+
+    1. Introduction
+        1.1 - Abstract
+        1.2 - Context
+        1.3 - Status of This memo
+
+    2. Sending and Receiving Data
+        2.1 - Asynchronous
+        2.2 - MultiThreading
+        2.3 - Header
+        2.4 - Sending Requests
+            2.4.1 - Examples
+        2.5 - Sending Responses
+            2.5.1 - Examples
+        2.6 - 
+
+    3. Events
+        3.1 - Handler
+        3.2 - Event types
+            3.2.1 - Examples
+        3.3 - Callbacks
+            3.3.1 - Examples
+
+    4. Connection
+        4.1 - Establishing a Connection
+        4.2 - Normal Closure
+            4.2.1 - Client Initiated Closure
+            4.2.2 - Server Initiated Closure
+        4.3 - Non Normal Closures
+            4.3.1 - Examples
+            4.3.2 - What to do ?
+
+    5. Acknoledgements
+
+
+
+                            1.  INTRODUCTION
+
+1.1.    Abstract
+    This document describes the fundamentals of the r-type protocol, for
+    the server as well as the client. Both of them run on the UDP protocol.
+
+    For its implmeentation we used 'asio', a cross-platform C++ library for network
+    and low-level I/O programming that provides developers with a consistent
+    asynchronous model using a modern C++ approach.
+
+
+1.2.    Context
+    R-Type game is informally called a Horizontal Shmup (e.g. Shoot’em’up),
+    and while R-Type is not the first one of its category, this one has been a
+    huge success amongst gamers in the 90’s, and had several ports, spin-offs,
+    and 3D remakes on modern systems.
+
+    This particular R-Type is homemade, and includes a twist not featured in
+    the original game (nor in the remakes by the way): it will be a network
+    game, where one-to-four players will be able to fight together evil!
+
+
+1.3.    Status of This memo
+    This memo is the official specification of the r-type protocol.
+    Distribution of this memo is unlimited.
+
+
+
+                        2.  SENDING AND RECEIVING DATA
+
+2.1.    Asynchronous
+    Using the asio library for our UDP implementation, we want to handle asynchornous
+    operations. For that, the io_context class also includes facilities intended
+    for developers of custom asynchronous services.
+
+    Synchronous operations on I/O objects implicitly run the io_context object
+    for an individual operation. The io_context functions run(), or its variations
+    must be called for the io_context to perform asynchronous operations on behalf
+    of a C++ program. Notification that an asynchronous operation has completed
+    is delivered by invocation of the associated handler.
+    Handlers are invoked only by a thread that is currently calling any overload
+    of run(), run_one(), run_for(), run_until(), poll() or poll_one() for the
+    io_context.
+
+
+2.2.    MultiThreading
+    Multithreading is the ability of a program or an operating system to enable
+    more than one user at a time without requiring multiple copies of the program
+    running on the computer. Multithreading can also handle multiple requests
+    from the same user.
+
+    In our case, it will be used for the handling of many clients on the server.
+    So the server is multithreaded but each client is not. It handles multiple
+    requests at the same time thanks to the implementation of threads.
+
+
+2.3.    Header
+    A UDP datagram consists of a datagram header followed by a data section
+    (the payload data for the application). The UDP datagram header consists of
+    4 fields, each of which is 2 bytes (16 bits):[1]
+    For reminder, this is what a standard UDP header looks like:
+
+         0                   1                   2                   3
+         0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        |           Source port         |       Destination port        |
+        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        |              Length           |           Checksum            |
+        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        |                                                               :
+        :                            Payload                            :
+        :                                                               |
+        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+        On top of this header, we will be using one of our own. It is designed to
+        simplify the reading of the following data packet. With this complementary 
+        header we are able to detail more precisely its content using two
+        variables, the first one will be the type of packet following and the 
+        second its size.
+
+        We implemented it using structures, so it is part of the same datagram
+        as the body. This is how it looks like:
+
+        struct my_packet {
+            // header fields
+            uint16_t _type;
+            uint16_t _size;
+
+            // body fields
+            struct my_datagram;
+        };
+
+
+2.4.    Sending Requests
+    .
+    .
+    .
+
+2.4.1   Examples
+    .
+    .
+    .
+
+
+2.5.    Sending Responses
+    .
+    .
+    .
+
+2.5.1.   Examples
+    .
+    .
+    .
+
+
+2.6.    Datagrams
+    Here is a complete list of all the current datagrams implemented:
+    .
+    .
+    .
+
+
+
+                              3.  EVENTS
+
+3.1.    Handler
+    .
+    .
+    .
+
+
+3.2.    Event types
+    .
+    .
+    .
+
+3.2.1.  Examples
+    .
+    .
+    .
+
+
+3.3.    Callbacks
+    .
+    .
+    .
+
+3.3.1.  Examples
+    .
+    .
+    .
+
+
+
+                            4.  CONNECTION
+
+4.1.    Establishing a Connection
+    The connection is established via Linux UDP Sockets, using the asio library.
+
+    By definition, UDP is connection-less protocol. 'Connecting' a UDP socket
+    is simply a convenience operation, which allows you to than send datagrams
+    on that socket without specifying recipient - it uses the one you gave to a
+    connect call.
+
+    But other than that, it does nothing. There is really no way to check if
+    someone is listening on the other side of UDP, unless you implement a
+    request/response scheme yourself.
+
+    Note: the fact that we are using asio adds nothing to this basic fact.
+
+
+4.2.    Normal Closure
+    This section defines closure events that are qualified as 'normal', it means
+    that they are meant ti be happening. We will detail client and server side in
+    the following sections.
+
+    Since there is no official connection, therefore no closure with UDP, we will
+    refer as closure as the end of receiving and sending packets. Either from a
+    user interaction or a network event. 
+
+4.2.1.   Client Initiated Closure
+    A client will be able to close a connection by interactions with its interface
+    either by using the close function of the window, or killing the process in
+    the terminal (usually a CTRL + C command)
+
+4.2.2.  Server Initiated Closure
+    There is only one way for the server to voluntarilly iniate a closure event,
+    by killing the process running in the terminal, like above usually using a 
+    CTRL + C command or a kill -9 <process_id>
+
+
+4.3.    Non Normal Closures
+    This section attempts to offer details around non normal closure. These 
+    events are not handled by the code and maybe not be easily solvable. 
+
+    If you encounter one we suggest you to attempt again and if it fails 
+    please see the section 'What to do ?'
+
+4.3.1   Examples
+    error: udp connect failed: Cannot assign requested address for 242.43.1.32 port 53
+
+    This one is pretty strait-forward, it means that the address you are trying
+    to reach is not available, you may want to verify your source or target.
+
+    Keep in mind that most error thrown may be sovable, if you encounter one that
+    seems to be unhandled (some segmentation fault obviously)
+
+4.3.2.   What to do ?
+    Do not panic !
+
+    You can publish a GitHub Issue on our official repository:
+    https://github.com/EpitechPromo2025/B-CPP-500-PAR-5-1-rtype-martin.vanaud
+    Please make sure to follow our guidelines, and include error codes and
+    messages.
+
+
+
+                          5.  ACKNOLEDGEMENTS
+
+    Special thanks are due to Gabriel CADET, who was our main supporter in
+    this project.
+
+    Special thanks also to the whole Epitech School, and personally to unit
+    designers Gabriel CUVILLIER and Gabriel CADET who provided us with such
+    a relevant and fundamental topic as network programming.

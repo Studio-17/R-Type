@@ -33,6 +33,25 @@ if(UNIT_TESTS)
 endif()
 unset(UNIT_TESTS CACHE)
 
+# Get all project files
+file(GLOB_RECURSE
+    ALL_CXX_SOURCE_FILES
+    *.[ch]pp
+)
+
+# Adding clang-format target if executable is found
+find_program(CLANG_FORMAT "clang-format")
+if(CLANG_FORMAT)
+    add_custom_target(
+        clang-format
+        COMMAND /usr/bin/clang-format
+        -i
+        -style=file
+        ${ALL_CXX_SOURCE_FILES}
+    )
+    message("-- Formatted all .[ch]pp files using .clang-format instructions")
+endif()
+
 add_subdirectory(Libraries)
 add_subdirectory(Client)
 add_subdirectory(Server)
