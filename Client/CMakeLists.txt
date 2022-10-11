@@ -19,7 +19,6 @@ file(GLOB SOURCE_FILES
     Source/GraphicalLib/Keyboard/*.cpp
     Source/Network/*.cpp
     Source/System/*.cpp
-    Source/System/Scenes/*.cpp
 )
 
 # specify the headers
@@ -37,7 +36,6 @@ include_directories(
     Source/GraphicalLib/Keyboard/
     Source/Network/
     Source/System/
-    Source/System/Scenes/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
