@@ -24,18 +24,12 @@ class Sprite {
          * @param imagePath 
          * @param scale 
          */
-        Sprite(std::string const &imagePath, float const &scale);
+        Sprite(std::string const &imagePath, float const &scale, Rectangle const &rect);
         /**
          * @brief Destroy the Sprite object
          * 
          */
         ~Sprite();
-
-        /**
-         * @brief Draw the sprite
-         * 
-         */
-        void draw();
 
         /**
          * @brief Set the Position of the sprite
@@ -49,6 +43,19 @@ class Sprite {
          * @return Position 
          */
         Position getPosition() const;
+
+        /**
+         * @brief Get the Width of the sprite
+         * 
+         * @param rotation 
+         */
+        float getWidth();
+        /**
+         * @brief Get the Height of the sprite
+         * 
+         * @return float 
+         */
+        float getHeight();
 
         /**
          * @brief Set the Scale of the sprite
@@ -89,7 +96,7 @@ class Sprite {
         Position _position; ///< Position of the sprite
         float _scale; ///< Scale of the sprite
         float _rotation; ///< Rotation of the sprite
-        Texture2D _imageTexture; ///< Texture of the sprite
+        Texture2D _texture; ///< Texture of the sprite
 };
 
 #endif /* !SPRITE_HPP_ */
