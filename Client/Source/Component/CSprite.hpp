@@ -11,6 +11,8 @@
     #include <iostream>
     #include <string>
 
+    #include "Sprite.hpp"
+
 /**
  * @brief Namespace for all components
  * 
@@ -21,12 +23,13 @@ namespace component {
      * 
      */
     typedef struct csprite_s {
-        float scale;
-        size_t xRect;
-        size_t yRect;
-        size_t widthRect;
-        size_t heightRect;
-        std::string spritePath;
+        Sprite sprite;
+        //float scale;
+        //size_t xRect;
+        //size_t yRect;
+        //size_t widthRect;
+        //size_t heightRect;
+        //std::string spritePath;
     } csprite_t;
 }
 

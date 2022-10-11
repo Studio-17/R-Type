@@ -27,12 +27,6 @@ class LoadScene {
 
         void operator()(Registry &registry, Sparse_array<component::currScene_t> &currentScene, Sparse_array<component::ckeyboard_t> &keyboard, Sparse_array<component::mouseState_t> &mouse);
 
-        // Graphic
-        std::shared_ptr<rtype::GraphicalLib> getGraphicalLib() const
-        {
-            return _graphicLib;
-        };
-
 
     protected:
     private:

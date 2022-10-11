@@ -10,6 +10,7 @@
 
 	#include "Network/Network.hpp"
 	#include "Registry.hpp"
+    #include "GraphicalLib.hpp"
 	#include "LoadScene.hpp"
 
 	#include <asio/buffer.hpp>
@@ -37,6 +38,7 @@ class Client
 		asio::ip::udp::endpoint _destination;
 		///
 
+        std::shared_ptr<rtype::GraphicalLib> _graphicLib;
 		std::unique_ptr<Network> _network;
         Registry _registry;
 		bool _working;
