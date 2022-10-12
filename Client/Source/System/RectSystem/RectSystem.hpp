@@ -13,6 +13,9 @@
     #include "CSprite.hpp"
     #include "CRect.hpp"
 
+/**
+ * @brief System that draws a part of all entities
+ */
 class RectSystem {
     public:
         /**
@@ -37,7 +40,7 @@ class RectSystem {
 
     protected:
     private:
-        std::shared_ptr<rtype::GraphicalLib> _graphicLib;
+        std::shared_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
 };
 
 #endif /* !RECTSYSTEM_HPP_ */
