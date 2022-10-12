@@ -16,6 +16,7 @@
 #include "CRect.hpp"
 #include "Serialization.hpp"
 #include "Structure.hpp"
+#include "CNetworkQueue.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
@@ -60,6 +61,14 @@ void Client::handleReceive()
     data.insert(data.begin(), _bufferToGet.begin() + sizeof(u_int8_t), _bufferToGet.end());
     ServerResponse response = serializable_trait<ServerResponse>::unserialize(data);
     std::cout << "response: " << response.code << std::endl;
+}
+
+void Client::handleSendPacket() {
+    if (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.empty()) {
+        std::vector<byte> &tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.front();
+        _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.pop();
+        
+    }
 }
 
 void Client::setUpEcs()
