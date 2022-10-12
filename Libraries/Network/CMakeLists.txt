@@ -10,6 +10,7 @@ set(LIBRARY_NAME r-type_library_network)
 file(GLOB LIB_HEADER
     ./**
     Packets/*.hpp
+    Packets/Structures/*.hpp
     Protocol/*.hpp
     Serialization/*.hpp
     UdpCommunication/*.hpp
@@ -18,6 +19,7 @@ file(GLOB LIB_HEADER
 file(GLOB LIB_DIRECTORY
     .
     Packets
+    Packets/Structures
     Protocol
     Serialization
     UdpSocket

@@ -11,10 +11,11 @@ file(GLOB SOURCE_FILES
     Source/*.cpp
     Source/Component/*.cpp
     Source/Server/*.cpp
-    Source/Server/System/*.cpp
-    Source/Server/System/HitSystem/*.cpp
-    Source/Server/System/MoveSystem/*.cpp
-    Source/Server/System/ShootSystem/*.cpp
+    Source/System/*.cpp
+    Source/System/HitSystem/*.cpp
+    Source/System/MoveSystem/*.cpp
+    Source/System/ReceiveSystem/*.cpp
+    Source/System/ShootSystem/*.cpp
 )
 
 # specify the headers
@@ -22,10 +23,11 @@ include_directories(
     Source/
     Source/Component/
     Source/Server/
-    Source/Server/System/
-    Source/Server/System/HitSystem/
-    Source/Server/System/MoveSystem/
-    Source/Server/System/ShootSystem/
+    Source/System/
+    Source/System/HitSystem/
+    Source/System/MoveSystem/
+    Source/System/ReceiveSystem/
+    Source/System/ShootSystem/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
