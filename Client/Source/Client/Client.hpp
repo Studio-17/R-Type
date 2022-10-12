@@ -21,6 +21,7 @@
     #include "GraphicalLib.hpp"
 	#include "DrawSystem.hpp"
 	#include "RectSystem.hpp"
+	#include "ControlSystem.hpp"
 
 class Client
 {
@@ -37,12 +38,13 @@ class Client
 		asio::io_context _context;
 		std::vector<byte> _bufferToGet;
 
-        std::unique_ptr<rtype::GraphicalLib> _graphicLib;
+        std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
 		std::unique_ptr<UdpCommunication> _com;
-        Registry _registry;
+        Registry _registry; ///< Registry that contains all the ECS
 		bool _working;
-		DrawSystem _drawSystem;
-		RectSystem _rectSystem;
+		DrawSystem _drawSystem; ///< System that draws the entities
+		RectSystem _rectSystem; ///< System that a part of a entity
+		ControlSystem _controlSystem; ///< System that controls the entities
 };
 
 #endif /* !CLIENT_HPP_ */

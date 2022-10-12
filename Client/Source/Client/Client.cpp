@@ -14,6 +14,7 @@
 #include "CKeyboard.hpp"
 #include "CPosition.hpp"
 #include "CRect.hpp"
+#include "Velocity.hpp"
 #include "Serialization.hpp"
 #include "Structure.hpp"
 
@@ -67,9 +68,11 @@ void Client::setUpEcs()
     _registry.register_component<component::csprite_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::crect_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+	_registry.register_component<component::velocity_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 
-    _registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
+	_registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
     _registry.add_system(_rectSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::crect_t>());
+    _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::velocity_t>(), _registry.get_components<component::ckeyboard_t>());
 }
 
 void Client::setUpComponents()
@@ -78,7 +81,12 @@ void Client::setUpComponents()
     component::cposition_t position = {10, 50};
     component::crect_t rect = {0, 0, 33.3125, 36, 1, 8};
     component::csprite_t sprite = {.sprite = _graphicLib->createSprite("Assets/sprites/r-typesheet5.gif", 1, (Rectangle){.x = rect.x, .y = rect.y, .width = rect.width, .height = rect.height})};
+	component::velocity_t vel = {.velocity = 10};
+    component::ckeyboard_t keyboard = {.keyboard = 0};
+
     _registry.add_component<component::csprite_t>(_registry.entity_from_index(e), std::move(sprite));
     _registry.add_component<component::cposition_t>(_registry.entity_from_index(e), std::move(position));
     _registry.add_component<component::crect_t>(_registry.entity_from_index(e), std::move(rect));
+	_registry.add_component<component::velocity_t>(_registry.entity_from_index(e), std::move(vel));
+	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(e), std::move(keyboard));
 }
