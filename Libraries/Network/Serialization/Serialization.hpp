@@ -32,5 +32,26 @@ struct serializable_trait {
     }
 };
 
+struct serialize_header {
+    template<class Seriazable>
+    static std::vector<byte> serializeHeader(u_int8_t id, Seriazable const &obj)
+    {
+        std::vector<byte> bytes;
+        bytes.resize(sizeof(u_int8_t));
+
+        memcpy(bytes.data(), &id, sizeof(u_int8_t));
+        std::vector<byte> data = serializable_trait<Seriazable>::serialize(obj);
+        bytes.insert(bytes.end(), data.begin(), data.end());
+        return bytes;
+    };
+
+    static u_int8_t getId(std::vector<byte> const &bytes)
+    {
+        u_int8_t id;
+        memcpy(&id, bytes.data(), sizeof(u_int8_t));
+        return id;
+    };
+};
+
 #endif /* !SERIALIZATION_HPP_ */
 

@@ -66,7 +66,8 @@ void Server::SendPackets(asio::error_code const &e, std::size_t nbBytes)
 //        .status = true,
 //    };
 //
-//    std::vector<byte> buffer_to_send = serializable_trait<ServerResponse>::serialize(ok);
+    // std::vector<byte> buffer_to_send = serialize_header::serializeHeader<ServerResponse>(1, ok);
+
 //
 //    for (auto const &[address, portList] : _endpoints) {
 //        for (auto const &port : portList) {
