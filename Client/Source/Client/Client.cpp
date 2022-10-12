@@ -37,7 +37,7 @@ Client::~Client()
 
 void Client::machineRun(void)
 {
-	Header header {.id = 8, .data = 4, .pr = {.pt = 3, .second = 9}};
+	Header header {.id = rand() % 9, .data = 4, .pr = {.pt = 3, .second = 9}};
 	auto buffer_to_send = serializable_trait<Header>::serialize(header);
 	_com->send(buffer_to_send);
     std::cout << "sended" << std::endl;
