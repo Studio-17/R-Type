@@ -6,28 +6,30 @@
 */
 
 #ifndef CNETWORKQUEUE_HPP_
-#define CNETWORKQUEUE_HPP_
+    #define CNETWORKQUEUE_HPP_
 
     #include <queue>
-    #include "Structures/NewEntity.hpp"
-    #include "Structures/Position.hpp"
+
+    #include "Move.hpp"
 
 using byte = unsigned char;
 
 /**
  * @brief A namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief A structure representing the queue use by the ECS to send the request to the server
-     * 
      */
     typedef struct cnetwork_queue_s {
-        std::queue<std::vector<byte>> toSendNetworkQueue;
         std::queue<std::vector<byte>> receivedNetworkQueue;
-        std::queue<packet_new_entity> newEntityQueue;
-        std::queue<packet_position> updatePositionQueue;
+        std::queue<std::vector<byte>> toSendNetworkQueue;
+
+        std::queue<packet_move> moveQueue;
+        // std::queue<> shootQueue;
+        // std::queue<> newPlayerQueue;
+
+
     } cnetwork_queue_t;
 }
 

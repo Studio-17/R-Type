@@ -71,6 +71,22 @@ void Client::handleSendPacket() {
     }
 }
 
+void Client::parsePacket(std::vector<byte> &bytes) {
+    u_int8_t id = serialize_header::getId(bytes);
+
+    switch (id) {
+        case 1:
+
+    }
+
+}
+
+void Client::sendNewDirection(std::vector<byte> &byte)
+{
+    (void)byte;
+    // async send here;
+}
+
 void Client::setUpEcs()
 {
     _registry.register_component<component::ckeyboard_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
