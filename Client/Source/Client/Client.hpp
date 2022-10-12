@@ -35,6 +35,7 @@ class Client
 
 	private:
 		void handleReceive();
+		void handleSendPacket();
 		asio::io_context _context;
 		std::vector<byte> _bufferToGet;
 
