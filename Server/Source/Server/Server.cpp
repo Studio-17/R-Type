@@ -26,6 +26,9 @@ Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_cont
 
     ReceivePackets();
 
+    setUpEcs();
+    setUpComponents();
+
     _context.run();
 }
 
@@ -85,5 +88,41 @@ void Server::CompleteExchange(std::error_code const &e, std::size_t nbBytes)
 void Server::threadLoop()
 {
     // while (!_stop) {
+    //
     // }
+}
+
+void Server::setUpEcs()
+{
+    _registry.register_component<component::cdamage_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::cdirection_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::chealth_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::chitbox_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::cvelocity_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+
+//    _registry.add_system(_mySystem, _registry.get_components<component::component_t>(), _registry.get_components<component::component1_t>(), _registry.get_components<component::component2_t>());
+}
+
+void Server::setUpComponents()
+{
+    Entity e = _registry.spawn_entity();
+
+    component::cdamage_t damage = { 0 };
+    _registry.add_component<component::cdamage_t>(_registry.entity_from_index(e), std::move(damage));
+
+    component::cdirection_t direction = { 0, 0 };
+    _registry.add_component<component::cdirection_t>(_registry.entity_from_index(e), std::move(direction));
+
+    component::chealth_t health = {10 };
+    _registry.add_component<component::chealth_t>(_registry.entity_from_index(e), std::move(health));
+
+    component::chitbox_t hitbox = {10, 10};
+    _registry.add_component<component::chitbox_t>(_registry.entity_from_index(e), std::move(hitbox));
+
+    component::cposition_t position = {10, 10};
+    _registry.add_component<component::cposition_t>(_registry.entity_from_index(e), std::move(position));
+
+    component::cvelocity_t velocity = {10 };
+    _registry.add_component<component::cvelocity_t>(_registry.entity_from_index(e), std::move(velocity));
 }
