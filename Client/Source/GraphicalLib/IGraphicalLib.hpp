@@ -9,6 +9,7 @@
 #define IGRAPHICALLIB_HPP_
 
 #include <iostream>
+#include <memory>
 
 #include "raylib.h"
 #include "Sprite.hpp"
@@ -77,14 +78,14 @@ namespace rtype {
              * @param position position of the sprite
              * @param size size of the sprite
              */
-            virtual auto createSprite(std::string const &imagePath, float const &size) -> Sprite * = 0;
+            virtual auto createSprite(std::string const &imagePath, float const &size, Rectangle const &rect) -> std::shared_ptr<Sprite> = 0;
             /**
              * @brief Draw a sprite
              * 
              * @param id id of the sprite
              */
-//            virtual auto drawSprite(std::size_t id) -> void = 0;
-            virtual auto drawSprite(Sprite const &sprite, Position const &position) -> void = 0;
+
+            virtual auto drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect) -> void = 0;
             virtual auto destroySprite(Sprite const &sprite) -> void = 0;
 
             /**

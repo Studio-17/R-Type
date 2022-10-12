@@ -11,6 +11,7 @@
     #include <iostream>
     #include <thread>
     #include <queue>
+    #include <map>
     #include <unordered_map>
 
     #include <asio/ip/udp.hpp>
@@ -42,9 +43,10 @@ class Server {
     protected:
 
     private:
+        void HandleReceive(asio::error_code const &e, std::size_t nbBytes);
         void ReceivePackets();
         void SendPackets(asio::error_code const &e, std::size_t nbBytes);
-        void CompleteExchnage(asio::error_code const &e, std::size_t nbBytes);
+        void CompleteExchange(asio::error_code const &e, std::size_t nbBytes);
 
         void threadLoop();
 
@@ -57,8 +59,18 @@ class Server {
 
         std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, bool>> _endpoints;
 
-        // std::thread _thread;
-        // bool _stop;
+        void callback_packet1() { std::cout << "callback1" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
+        void callback_packet2() { std::cout << "callback2" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
+        void callback_packet3() { std::cout << "callback3" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
+        void callback_packet4() { std::cout << "callback4" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
+        void callback_packet5() { std::cout << "callback5" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
+        void callback_packet6() { std::cout << "callback6" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
+        void callback_packet7() { std::cout << "callback7" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
+        void callback_packet8() { std::cout << "callback8" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
+        void callback_packet9() { std::cout << "callback9" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
+
+    typedef std::function<void()> callback_function;
+        std::map<int, callback_function> _callbacks;
 };
 
 #endif /* !SERVER_HPP_ */

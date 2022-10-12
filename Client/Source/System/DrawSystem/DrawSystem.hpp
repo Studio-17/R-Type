@@ -12,6 +12,7 @@
     #include "GraphicalLib.hpp"
     #include "CSprite.hpp"
     #include "CPosition.hpp"
+    #include "CRect.hpp"
 
 class DrawSystem {
     public:
@@ -30,10 +31,10 @@ class DrawSystem {
          * @brief Function that will be automaticaly called while the client is working (on loop)
          *
          * @param registry The registry that contains all the ECS
-         * @param mouses Sparse array of all mouse component of all entities
-         * @param keyboards Sparse array of all keyboard component of all entities
+         * @param positions Sparse array of all position component of all entities
+         * @param rectangles Sparse array of all rectangle component of all entities
          */
-        void operator()(Registry &registry, Sparse_array<component::csprite_t> &sprites, Sparse_array<component::cposition_t> &positions);
+        void operator()(Registry &registry, Sparse_array<component::csprite_t> &sprites, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles);
 
 
     protected:

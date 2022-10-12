@@ -77,14 +77,14 @@ namespace rtype {
              * @param position position of the sprite
              * @param size size of the sprite
              */
-            Sprite *createSprite(std::string const &imagePath, float const &size) override;
+            std::shared_ptr<Sprite> createSprite(std::string const &imagePath, float const &size, Rectangle const &rect) override;
             /**
              * @brief Draw the sprite
              * 
              * @param id id of the sprite
              */
-//            void drawSprite(std::size_t id) override;
-            void drawSprite(Sprite const &sprite, Position const &position) override;
+
+            void drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect) override;
             void destroySprite(Sprite const &sprite) override;
 
             /**
