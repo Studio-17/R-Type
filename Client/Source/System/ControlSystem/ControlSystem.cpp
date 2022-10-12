@@ -6,6 +6,9 @@
 */
 
 #include "ControlSystem.hpp"
+#include "CSprite.hpp"
+#include "CRect.hpp"
+#include "CPosition.hpp"
 
 ControlSystem::ControlSystem()
 {
@@ -28,6 +31,18 @@ void ControlSystem::operator()(Registry &registry, Sparse_array<component::cposi
                 pos->x -= vel->velocity;
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyRightCharCode()))
                 pos->x += vel->velocity;
+            if (key->keyboard->hasBeenPressed(key->keyboard->getKeySpaceCharCode())) {
+                Entity bullet = registry.spawn_entity();
+
+                component::crect_t rect = {0, 0, 18, 17, 1, 8};
+                registry.add_component<component::crect_t>(registry.entity_from_index(bullet), std::move(rect));
+
+                component::csprite_t sprite = {.sprite = _graphicLib->createSprite("Assets/sprites/r-typesheet3.gif", 1, (Rectangle){.x = rect.x, .y = rect.y, .width = rect.width, .height = rect.height})};
+                registry.add_component<component::csprite_t>(registry.entity_from_index(bullet), std::move(sprite));
+
+                component::cposition_t position = {10, 150};
+                registry.add_component<component::cposition_t>(registry.entity_from_index(bullet), std::move(position));
+            }
         }
     }
 }

@@ -68,7 +68,6 @@ void Client::handleSendPacket() {
     if (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.empty()) {
         std::vector<byte> &tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.front();
         _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.pop();
-        
     }
 }
 
@@ -88,16 +87,20 @@ void Client::setUpEcs()
 
 void Client::setUpComponents()
 {
-    Entity e = _registry.spawn_entity();
-    component::cposition_t position = {10, 50};
-    component::crect_t rect = {0, 0, 33.3125, 36, 1, 8};
-    component::csprite_t sprite = {.sprite = _graphicLib->createSprite("Assets/sprites/r-typesheet5.gif", 1, (Rectangle){.x = rect.x, .y = rect.y, .width = rect.width, .height = rect.height})};
-	component::velocity_t vel = {.velocity = 10};
-    component::ckeyboard_t keyboard = {.keyboard = 0};
+    Entity ship = _registry.spawn_entity();
 
-    _registry.add_component<component::csprite_t>(_registry.entity_from_index(e), std::move(sprite));
-    _registry.add_component<component::cposition_t>(_registry.entity_from_index(e), std::move(position));
-    _registry.add_component<component::crect_t>(_registry.entity_from_index(e), std::move(rect));
-	_registry.add_component<component::velocity_t>(_registry.entity_from_index(e), std::move(vel));
-	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(e), std::move(keyboard));
+    component::crect_t rect = {0, 0, 33.3125, 36, 1, 8};
+    _registry.add_component<component::crect_t>(_registry.entity_from_index(ship), std::move(rect));
+
+    component::csprite_t sprite = {.sprite = _graphicLib->createSprite("Assets/sprites/r-typesheet5.gif", 1, (Rectangle){.x = rect.x, .y = rect.y, .width = rect.width, .height = rect.height})};
+    _registry.add_component<component::csprite_t>(_registry.entity_from_index(ship), std::move(sprite));
+
+    component::cposition_t position = {10, 50};
+    _registry.add_component<component::cposition_t>(_registry.entity_from_index(ship), std::move(position));
+
+    component::velocity_t vel = {.velocity = 10};
+	_registry.add_component<component::velocity_t>(_registry.entity_from_index(ship), std::move(vel));
+
+    component::ckeyboard_t keyboard = {.keyboard = 0};
+	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(ship), std::move(keyboard));
 }

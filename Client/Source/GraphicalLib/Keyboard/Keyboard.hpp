@@ -111,6 +111,12 @@ class Keyboard {
          * @return int
          */
         int getKeyLeftCharCode() const;
+        /**
+         * @brief Get the Key Space Char Code object
+         *
+         * @return int
+         */
+        int getKeySpaceCharCode() const;
 
 
         /**
