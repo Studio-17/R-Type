@@ -51,14 +51,14 @@ bool rtype::GraphicalLib::windowShouldClose()
 }
 
 //Sprite
-std::shared_ptr<Sprite> rtype::GraphicalLib::createSprite(std::string const &imagePath, float const &size)
+std::shared_ptr<Sprite> rtype::GraphicalLib::createSprite(std::string const &imagePath, float const &size, Rectangle const &rect)
 {
-    return std::make_shared<Sprite>(imagePath, size);
+    return std::make_shared<Sprite>(imagePath, size, rect);
 }
 
-void rtype::GraphicalLib::drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position)
+void rtype::GraphicalLib::drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect)
 {
-    DrawTextureEx(sprite->getTexture(), (Vector2){position.getX(), position.getY()}, 0, 1, WHITE);
+    DrawTextureRec(sprite->getTexture(), rect, position.getVector2(), WHITE);
 }
 
 void rtype::GraphicalLib::destroySprite(Sprite const &sprite)

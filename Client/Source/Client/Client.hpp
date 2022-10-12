@@ -20,6 +20,7 @@
 	#include "Registry.hpp"
     #include "GraphicalLib.hpp"
 	#include "DrawSystem.hpp"
+	#include "RectSystem.hpp"
 
 class Client
 {
@@ -41,6 +42,7 @@ class Client
         Registry _registry;
 		bool _working;
 		DrawSystem _drawSystem;
+		RectSystem _rectSystem;
 };
 
 #endif /* !CLIENT_HPP_ */
