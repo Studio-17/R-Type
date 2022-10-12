@@ -10,6 +10,7 @@
 
     #include <vector>
     #include <iostream>
+    #include <cstring>
 
 using byte = unsigned char;
 
@@ -23,7 +24,7 @@ struct serializable_trait {
         return ret;
     }
 
-    static Serializable unserialize(std::vector<byte> &v) {
+    static Serializable unserialize(std::vector<byte> const &v) {
         Serializable s;
 
         std::memcpy(&s, v.data(), sizeof(Serializable));
@@ -39,7 +40,7 @@ struct serialize_header {
         std::vector<byte> bytes;
         bytes.resize(sizeof(u_int8_t));
 
-        memcpy(bytes.data(), &id, sizeof(u_int8_t));
+        std::memcpy(bytes.data(), &id, sizeof(u_int8_t));
         std::vector<byte> data = serializable_trait<Seriazable>::serialize(obj);
         bytes.insert(bytes.end(), data.begin(), data.end());
         return bytes;
@@ -48,7 +49,7 @@ struct serialize_header {
     static u_int8_t getId(std::vector<byte> const &bytes)
     {
         u_int8_t id;
-        memcpy(&id, bytes.data(), sizeof(u_int8_t));
+        std::memcpy(&id, bytes.data(), sizeof(u_int8_t));
         return id;
     };
 };

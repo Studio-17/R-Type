@@ -11,6 +11,7 @@ file(GLOB SOURCE_FILES
     Source/*.cpp
     Source/Component/*.cpp
     Source/Server/*.cpp
+    Source/System/ReceiveSystem/*.cpp
 )
 
 # specify the headers
@@ -18,6 +19,7 @@ include_directories(
     Source/
     Source/Component/
     Source/Server/
+    Source/System/ReceiveSystem/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
