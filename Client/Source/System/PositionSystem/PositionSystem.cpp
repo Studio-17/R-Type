@@ -18,4 +18,6 @@ PositionSystem::~PositionSystem()
 void PositionSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cposition_t> &position)
 {
     // Check si la queue est pas empty et modifier les positions de l'entité choisie
+    
+
 }
