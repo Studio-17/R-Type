@@ -209,39 +209,39 @@ void rtype::GraphicalLib::setSoundVolume(std::size_t id, float volume)
     _soundMap[id]->setVolume(volume);
 }
 
-
+//Input
 bool rtype::GraphicalLib::hasBeenPressed(int key)
 {
-    return _keyboard->hasBeenPressed(key);
+    return IsKeyPressed(key);
 }
 
 bool rtype::GraphicalLib::isBeingPressed(int key)
 {
-    return _keyboard->isBeingPressed(key);
+    return IsKeyDown(key);
 }
 
 bool rtype::GraphicalLib::hasBeenReleased(int key)
 {
-    return _keyboard->hasBeenReleased(key);
+    return IsKeyReleased(key);
 }
 
 bool rtype::GraphicalLib::isNotBeingPressed(int key)
 {
-    return _keyboard->isNotBeingPressed(key);
+    return IsKeyUp(key);
 }
 
 void rtype::GraphicalLib::setExitKey(int key)
 {
-    _keyboard->setExitKey(key);
+    return SetExitKey(key);
 }
 
 int rtype::GraphicalLib::getPressedKeycode()
 {
-    return _keyboard->getPressedKeycode();
+    return GetKeyPressed();
 }
 
 int rtype::GraphicalLib::getPressedCharcode()
 {
-    return _keyboard->getPressedCharcode();
+    return GetCharPressed();
 }
 

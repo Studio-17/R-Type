@@ -83,10 +83,13 @@ namespace rtype {
              * 
              * @param id id of the sprite
              */
-
             void drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect) override;
+            /**
+             * @brief Destroy the Sprite object
+             * 
+             * @param id id of the sprite
+             */
             void destroySprite(Sprite const &sprite) override;
-
             /**
              * @brief Set the Sprite Position object
              * 
