@@ -23,7 +23,9 @@ namespace component {
      */
     typedef struct cnetwork_queue_s {
         std::queue<std::vector<byte>> toSendNetworkQueue;
-
+        std::queue<std::vector<byte>> receivedNetworkQueue;
+        std::queue<std::vector<byte>> newEntityQueue;
+        std::queue<std::vector<byte>> updatePositionQueue;
     } cnetwork_queue_t;
 }
 
