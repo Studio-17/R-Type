@@ -20,7 +20,8 @@
     #include <asio/io_service.hpp>
     #include <asio/placeholders.hpp>
 
-    // #include <asio.hpp>
+    #include "Registry.hpp"
+    #include "Component/Components.hpp"
 
     #include "Structure.hpp"
     #include "Serialization.hpp"
@@ -39,6 +40,9 @@ class Server {
                 std::cerr << "bytes transferred: " << bytes_transferred << std::endl;
             }
         };
+
+        void setUpEcs();
+        void setUpComponents();
 
     protected:
 
@@ -71,6 +75,8 @@ class Server {
 
     typedef std::function<void()> callback_function;
         std::map<int, callback_function> _callbacks;
+
+    Registry _registry;
 };
 
 #endif /* !SERVER_HPP_ */
