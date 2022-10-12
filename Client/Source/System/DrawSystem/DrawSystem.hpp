@@ -14,6 +14,10 @@
     #include "CPosition.hpp"
     #include "CRect.hpp"
 
+/**
+ * @brief DrawSystem class that handles the drawing of all the entities
+ *
+ */
 class DrawSystem {
     public:
         /**
@@ -39,7 +43,7 @@ class DrawSystem {
 
     protected:
     private:
-        std::shared_ptr<rtype::GraphicalLib> _graphicLib;
+        std::shared_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
 };
 
 

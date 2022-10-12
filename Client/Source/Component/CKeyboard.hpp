@@ -8,6 +8,8 @@
 #ifndef CKEYBOARD_HPP_
     #define CKEYBOARD_HPP_
 
+    #include "Keyboard.hpp"
+
 /**
  * @brief Namespace for all components
  * 
@@ -18,12 +20,7 @@ namespace component {
      * 
      */
     typedef struct ckeyboard_s {
-        bool keyUp;
-        bool keyDown;
-        bool keyRight;
-        bool keyLeft;
-        bool keyEnter;
-        bool keySpace;
+        std::shared_ptr<Keyboard> keyboard; /**< Keyboard object */
     } ckeyboard_t;
 }
 

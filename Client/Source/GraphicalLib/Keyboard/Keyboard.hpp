@@ -32,6 +32,12 @@ class Keyboard {
         ~Keyboard();
 
         /**
+         * @brief Get the Key value
+         *
+         * @return int
+         */
+        int getKey() const;
+        /**
          * @brief Check if a key has been pressed
          *
          * @param key
@@ -82,6 +88,32 @@ class Keyboard {
          */
         int getPressedCharcode() const;
         /**
+         * @brief Get the Key Up Char Code object
+         *
+         * @return int
+         */
+        int getKeyUpCharCode() const;
+        /**
+         * @brief Get the Key Down Key Code object
+         *
+         * @return int
+         */
+        int getKeyDownCharCode() const;
+        /**
+         * @brief Get the Key Down Char Code object
+         *
+         * @return int
+         */
+        int getKeyRightCharCode() const;
+        /**
+         * @brief Get the Key Left Key Code object
+         *
+         * @return int
+         */
+        int getKeyLeftCharCode() const;
+
+
+        /**
          * @brief Get the Keys Pressed object
          *
          * @tparam ENUM
@@ -115,6 +147,7 @@ class Keyboard {
 
     protected:
     private:
+        int _key; ///< key pressed
 };
 
 

@@ -20,12 +20,7 @@ void RectSystem::operator()(Registry &registry, Sparse_array<component::csprite_
 
         if (rect->current_frame == rect->nb_frames)
             rect->current_frame = 1;
-        // rect->x = sp->sprite->getWidth()/rect->nb_frames * rect->current_frame;
-        rect->x = sp->sprite->getWidth()/rect->nb_frames * rect->current_frame;
-
+        rect->x = sp->sprite->getWidth() / rect->nb_frames * rect->current_frame;
         rect->current_frame++;
-        std::cout << rect->x << std::endl;
-        // std::cout << sp->sprite->getWidth() << std::endl;
     }
-
 }
