@@ -9,6 +9,8 @@
 #define CNETWORKQUEUE_HPP_
 
     #include <queue>
+    #include "Structures/NewEntity.hpp"
+    #include "Structures/Position.hpp"
 
 using byte = unsigned char;
 
@@ -24,8 +26,8 @@ namespace component {
     typedef struct cnetwork_queue_s {
         std::queue<std::vector<byte>> toSendNetworkQueue;
         std::queue<std::vector<byte>> receivedNetworkQueue;
-        std::queue<std::vector<byte>> newEntityQueue;
-        std::queue<std::vector<byte>> updatePositionQueue;
+        std::queue<packet_new_entity> newEntityQueue;
+        std::queue<packet_position> updatePositionQueue;
     } cnetwork_queue_t;
 }
 

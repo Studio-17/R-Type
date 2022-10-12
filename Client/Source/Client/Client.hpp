@@ -35,6 +35,10 @@ class Client
 	private:
 		void handleReceive();
 		void handleSendPacket();
+
+		void sendNewDirection(std::vector<byte> &byte);
+
+		void parsePacket(std::vector<byte> &bytes);
 		asio::io_context _context;
 		std::vector<byte> _bufferToGet;
 
