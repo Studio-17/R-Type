@@ -59,15 +59,23 @@ int Keyboard::getKeyUpCharCode() const
 {
     return KEY_UP;
 }
+
 int Keyboard::getKeyDownCharCode() const
 {
     return KEY_DOWN;
 }
+
 int Keyboard::getKeyRightCharCode() const
 {
     return KEY_RIGHT;
 }
+
 int Keyboard::getKeyLeftCharCode() const
 {
     return KEY_LEFT;
+}
+
+int Keyboard::getKeySpaceCharCode() const
+{
+    return KEY_SPACE;
 }

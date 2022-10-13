@@ -6,6 +6,9 @@
 */
 
 #include "ControlSystem.hpp"
+#include "CSprite.hpp"
+#include "CRect.hpp"
+#include "CPosition.hpp"
 
 ControlSystem::ControlSystem()
 {
@@ -28,6 +31,9 @@ void ControlSystem::operator()(Registry &registry, Sparse_array<component::cposi
                 pos->x -= vel->velocity;
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyRightCharCode()))
                 pos->x += vel->velocity;
+            if (key->keyboard->hasBeenPressed(key->keyboard->getKeySpaceCharCode())) {
+                // Send request to server to create a new entity bullet
+            }
         }
     }
 }
