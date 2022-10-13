@@ -37,6 +37,7 @@ enum ENTITY_TYPE {
     ENEMY,
     BUTTON,
     TEXT,
+    BULLET,
     UI,
     // GRAPHIC,
     // NETWORK

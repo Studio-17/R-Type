@@ -15,9 +15,10 @@
 #include "CPosition.hpp"
 #include "CRect.hpp"
 #include "Velocity.hpp"
+#include "CServerId.hpp"
+#include "CNetworkQueue.hpp"
 #include "Serialization.hpp"
 #include "Structure.hpp"
-#include "CNetworkQueue.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
@@ -29,6 +30,7 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _graphicLib->initWindow(800, 600, "R-Type", 60);
 
     setUpEcs();
+    setUpSystems();
     setUpComponents();
 }
 
@@ -74,10 +76,10 @@ void Client::handleSendPacket() {
 void Client::parsePacket(std::vector<byte> &bytes) {
     u_int8_t id = serialize_header::getId(bytes);
 
-    switch (id) {
-        case 1:
+    // switch (id) {
+    //     case 1:
 
-    }
+    // }
 
 }
 
@@ -95,10 +97,17 @@ void Client::setUpEcs()
     _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::crect_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 	_registry.register_component<component::velocity_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+	_registry.register_component<component::cserverid_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+	_registry.register_component<component::cnetwork_queue_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+}
 
+void Client::setUpSystems()
+{
 	_registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
     _registry.add_system(_rectSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::crect_t>());
     _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::velocity_t>(), _registry.get_components<component::ckeyboard_t>());
+    // _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
+    // _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
 }
 
 void Client::setUpComponents()

@@ -22,6 +22,8 @@
 	#include "DrawSystem.hpp"
 	#include "RectSystem.hpp"
 	#include "ControlSystem.hpp"
+	#include "NewEntitySystem.hpp"
+	#include "PositionSystem.hpp"
 
 class Client
 {
@@ -29,9 +31,10 @@ class Client
 		Client(std::string const &ip, std::string const &port, int hostPort);
 		~Client();
 
-		void setUpEcs(void);
-		void setUpComponents(void);
-		void machineRun(void);
+		void setUpEcs();
+		void setUpSystems();
+		void setUpComponents();
+		void machineRun();
 
 	private:
 		void handleReceive();
@@ -47,9 +50,13 @@ class Client
 		std::unique_ptr<UdpCommunication> _com;
         Registry _registry; ///< Registry that contains all the ECS
 		bool _working;
+
+		// Systems
 		DrawSystem _drawSystem; ///< System that draws the entities
 		RectSystem _rectSystem; ///< System that a part of a entity
 		ControlSystem _controlSystem; ///< System that controls the entities
+		NewEntitySystem _newEntitySystem; ///< System that creates new entities
+		PositionSystem _positionSystem; ///< System that updates the position of the entities
 };
 
 #endif /* !CLIENT_HPP_ */

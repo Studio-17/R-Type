@@ -10,6 +10,7 @@
 
     #include "Registry.hpp"
     #include "CNetworkQueue.hpp"
+    #include "CServerId.hpp"
     #include "CPosition.hpp"
 
 class PositionSystem {
@@ -17,7 +18,7 @@ class PositionSystem {
         PositionSystem();
         ~PositionSystem();
 
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cposition_t> &position);
+        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cposition_t> &position, Sparse_array<component::cserverid_t> &serverIds);
 
     protected:
     private:
