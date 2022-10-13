@@ -26,7 +26,7 @@ NewEntitySystem::~NewEntitySystem()
 void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds)
 {
     // Here check if the new entity queue is not empty and add the entity
-    if (!network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.empty()) {
+    if (!network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.empty()) {
         packet_new_entity newEntity = network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.front();
 
         Entity bullet = registry.spawn_entity();

@@ -15,6 +15,7 @@ systemNamespace::EventSystem::EventSystem()
 void systemNamespace::EventSystem::operator()(Registry &registry, Sparse_array<component::mouseState_t> &mouses, Sparse_array<component::ckeyboard_t> &keyboards)
 {
     for (size_t i = 0; i < keyboards.size(); i++) {
+        
     }
     for (size_t i = 0; i < mouses.size(); i++) {
         mouses[i].value().xPos = 1;

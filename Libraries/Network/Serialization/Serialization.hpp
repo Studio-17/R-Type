@@ -11,6 +11,14 @@
     #include <vector>
     #include <iostream>
     #include <cstring>
+    #include "Shoot.hpp"
+
+namespace NETWORK_CLIENT_TO_SERVER {
+    enum PACKET_TYPE {
+        SHOOT,
+        DIRECTION
+    };
+};
 
 using byte = unsigned char;
 
