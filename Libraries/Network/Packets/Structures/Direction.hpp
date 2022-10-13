@@ -6,12 +6,12 @@
 */
 
 #ifndef R_TYPE_DIRECTION_HPP
-#define R_TYPE_DIRECTION_HPP
+    #define R_TYPE_DIRECTION_HPP
 
-#include <cstdint>
+    #include <cstdint>
 
 struct packet_direction {
     uint16_t orientation; // 1:NORTH;2:EAST;3:SOUTH;4:WEST
 };
 
-#endif //R_TYPE_DIRECTION_HPP
+#endif /* !R_TYPE_DIRECTION_HPP */

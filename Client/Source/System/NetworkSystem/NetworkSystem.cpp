@@ -7,6 +7,7 @@
 
 #include "NetworkSystem.hpp"
 #include "Constant/Constant.hpp"
+#include "serialization.hpp"
 
 NetworkSystem::NetworkSystem()
 {

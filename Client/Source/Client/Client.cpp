@@ -47,8 +47,6 @@ void Client::machineRun(void)
     std::cout << "sended" << std::endl;
 
     while (!_graphicLib->windowShouldClose()) {
-        // _com->receive(_bufferToGet);//, std::bind(&Client::handleReceive, this));
-        // handleReceive();
         _graphicLib->startDrawingWindow();
             _graphicLib->clearScreen();
             _registry.run_systems();
@@ -76,17 +74,21 @@ void Client::handleSendPacket() {
 void Client::parsePacket(std::vector<byte> &bytes) {
     u_int8_t id = serialize_header::getId(bytes);
 
-    // switch (id) {
-    //     case 1:
-
-    // }
-
+    if (id == NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT)
+        sendNewShoot(bytes);
+    if (id == NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION)
+        sendNewDirection(bytes);
 }
 
-void Client::sendNewDirection(std::vector<byte> &byte)
+void Client::sendNewDirection(std::vector<byte> &bytes)
 {
-    (void)byte;
+    (void)bytes;
     // async send here;
+}
+
+void Client::sendNewShoot(std::vector<byte> &bytes)
+{
+    (void)bytes;
 }
 
 void Client::setUpEcs()
@@ -105,8 +107,8 @@ void Client::setUpSystems()
 {
 	_registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
     _registry.add_system(_rectSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::crect_t>());
-    _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::velocity_t>(), _registry.get_components<component::ckeyboard_t>());
-    // _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
+    _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::velocity_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>());
+    _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
     // _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
 }
 
@@ -128,4 +130,7 @@ void Client::setUpComponents()
 
     component::ckeyboard_t keyboard = {.keyboard = 0};
 	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(ship), std::move(keyboard));
+
+    component::cnetwork_queue_t network = {};
+    _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(ship), std::move(network));
 }

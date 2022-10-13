@@ -41,6 +41,7 @@ class Client
 		void handleSendPacket();
 
 		void sendNewDirection(std::vector<byte> &byte);
+		void sendNewShoot(std::vector<byte> &byte);
 
 		void parsePacket(std::vector<byte> &bytes);
 		asio::io_context _context;
