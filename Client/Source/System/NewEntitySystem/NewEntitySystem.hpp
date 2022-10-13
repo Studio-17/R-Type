@@ -17,6 +17,7 @@
     #include "CNetworkQueue.hpp"
     #include "CServerId.hpp"
     #include "Constant.hpp"
+    #include "CRect.hpp"
 
 class NewEntitySystem {
     public:
