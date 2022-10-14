@@ -7,27 +7,26 @@
 
 #include "Server.hpp"
 
-Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port))
-    //_thread(&Server::threadLoop, this), _stop(false)
+Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port)),
+    _thread(&Server::threadLoop, this), _isRunning(true)
 {
     ReceivePackets();
-
-    setUpEcs();
-    setUpComponents();
 
     _context.run();
 }
 
 Server::~Server()
 {
-    // _stop = true;
-    // _thread.join();
+    _isRunning = false;
+    _thread.join();
 
     _context.stop();
 }
 
 void Server::ReceivePackets()
 {
+    _buffer_to_get.clear();
+    _buffer_to_get.resize(1500);
     _com->async_receive(_buffer_to_get, std::bind(&Server::HandleReceive, this, std::placeholders::_1, std::placeholders::_2));
 }
 
@@ -40,7 +39,6 @@ void Server::HandleReceive(asio::error_code const &e, std::size_t nbBytes)
     _endpoints.at(endpointData.first).try_emplace(endpointData.second, true);
 
     _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(_buffer_to_get);
-    
     HandleSendPacket();
 }
 
@@ -74,9 +72,11 @@ void Server::CompleteExchange(std::error_code const &e, std::size_t nbBytes)
 
 void Server::threadLoop()
 {
-    // while (!_stop) {
-    //
-    // }
+    setUpEcs();
+    setUpComponents();
+
+    while (_isRunning)
+        _registry.run_systems();
 }
 
 void Server::setUpEcs()

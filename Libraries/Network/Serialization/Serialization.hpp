@@ -42,21 +42,23 @@ struct serializable_trait {
 
 struct serialize_header {
     template<class Seriazable>
-    static std::vector<byte> serializeHeader(u_int8_t id, Seriazable const &obj)
+    static std::vector<byte> serializeHeader(uint8_t id, Seriazable const &obj)
     {
+        std::cout << "id: "<< (int)id<< ". stop" << std::endl;
         std::vector<byte> bytes;
-        bytes.resize(sizeof(u_int8_t));
+        bytes.resize(sizeof(uint8_t));
 
-        std::memcpy(bytes.data(), &id, sizeof(u_int8_t));
+        std::memcpy(bytes.data(), &id, sizeof(uint8_t));
         std::vector<byte> data = serializable_trait<Seriazable>::serialize(obj);
         bytes.insert(bytes.end(), data.begin(), data.end());
         return bytes;
     };
 
-    static u_int8_t getId(std::vector<byte> const &bytes)
+    static uint8_t getId(std::vector<byte> const &bytes)
     {
-        u_int8_t id;
-        std::memcpy(&id, bytes.data(), sizeof(u_int8_t));
+        uint8_t id;
+        std::memcpy(&id, bytes.data(), sizeof(uint8_t));
+        std::cout << "new id: " << id << " . " << (int)id << std::endl;
         return id;
     };
 };

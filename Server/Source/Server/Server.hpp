@@ -72,6 +72,9 @@ class Server {
         std::shared_ptr<UdpCommunication> _com;
         std::vector<byte> _buffer_to_get;
 
+        std::thread _thread;
+        bool _isRunning;
+
         std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, bool>> _endpoints;
 
         Registry _registry;

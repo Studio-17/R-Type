@@ -45,9 +45,9 @@ namespace System {
             void addMoveOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
             void addShootOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
 
-            std::unordered_map<u_int8_t, std::function<void(std::vector<byte> const &, Sparse_array<component::cnetwork_queue_t> &)>> callBacks {
-                {1, std::bind(&ReceiveSystem::addHitOnQueue, this, std::placeholders::_1, std::placeholders::_2)},
-                {2, std::bind(&ReceiveSystem::addMoveOnQueue, this, std::placeholders::_1, std::placeholders::_2)},
+            std::unordered_map<uint8_t, std::function<void(std::vector<byte> const &, Sparse_array<component::cnetwork_queue_t> &)>> callBacks {
+                {0, std::bind(&ReceiveSystem::addHitOnQueue, this, std::placeholders::_1, std::placeholders::_2)},
+                {1, std::bind(&ReceiveSystem::addMoveOnQueue, this, std::placeholders::_1, std::placeholders::_2)},
                 {3, std::bind(&ReceiveSystem::addShootOnQueue, this, std::placeholders::_1, std::placeholders::_2)}
             };
     };
