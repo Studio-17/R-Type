@@ -7,7 +7,7 @@
 
 #include "NetworkSystem.hpp"
 #include "Constant/Constant.hpp"
-#include "serialization.hpp"
+#include "Serialization.hpp"
 
 NetworkSystem::NetworkSystem()
 {
@@ -21,6 +21,8 @@ void NetworkSystem::operator()(Registry &registry, Sparse_array<component::cnetw
 {
     if (!network[FORBIDDEN_IDS::NETWORK].receivedNetworkQueue.empty()) {
         // Here parse and send to the corresponing queue
+        std::vector<byte> &tmp = network[FORBIDDEN_IDS::NETWORK].receivedNetworkQueue.value().front();
+        u_int8_t id = serialize_header::getId(tmp);
     }
 
 }

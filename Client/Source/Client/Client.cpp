@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <functional>
 
 #include "Client.hpp"
 #include "CurrScene.hpp"
@@ -41,54 +42,32 @@ Client::~Client()
 
 void Client::machineRun(void)
 {
-	Header header {.id = rand() % 9, .data = 4, .pr = {.pt = 3, .second = 9}};
-	auto buffer_to_send = serializable_trait<Header>::serialize(header);
-	_com->send(buffer_to_send);
-    std::cout << "sended" << std::endl;
-
     while (!_graphicLib->windowShouldClose()) {
         _graphicLib->startDrawingWindow();
             _graphicLib->clearScreen();
             _registry.run_systems();
         _graphicLib->endDrawingWindow();
+        handleSendPacket();
     }
     _graphicLib->closeWindow();
-}
-
-void Client::handleReceive()
-{
-    u_int8_t id = serialize_header::getId(_bufferToGet);
-    std::vector<byte> data;
-    data.insert(data.begin(), _bufferToGet.begin() + sizeof(u_int8_t), _bufferToGet.end());
-    ServerResponse response = serializable_trait<ServerResponse>::unserialize(data);
-    std::cout << "response: " << response.code << std::endl;
 }
 
 void Client::handleSendPacket() {
     if (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.empty()) {
         std::vector<byte> &tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.front();
         _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.pop();
+        _com->async_send(tmp, std::function<void(std::error_code, std::size_t)>());
     }
 }
 
-void Client::parsePacket(std::vector<byte> &bytes) {
-    u_int8_t id = serialize_header::getId(bytes);
-
-    if (id == NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT)
-        sendNewShoot(bytes);
-    if (id == NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION)
-        sendNewDirection(bytes);
+void Client::handleReceive() {
+    _com->async_receive(_bufferToGet, std::bind(&Client::pushNewPacketsToQueue, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void Client::sendNewDirection(std::vector<byte> &bytes)
+void Client::pushNewPacketsToQueue(asio::error_code const &e, size_t nbBytes)
 {
-    (void)bytes;
-    // async send here;
-}
+    _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(_bufferToGet);
 
-void Client::sendNewShoot(std::vector<byte> &bytes)
-{
-    (void)bytes;
 }
 
 void Client::setUpEcs()
