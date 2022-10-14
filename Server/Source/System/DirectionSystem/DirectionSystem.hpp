@@ -1,28 +1,25 @@
 /*
 ** EPITECH PROJECT, 2022
-** R-Type
+** B-CPP-500-PAR-5-1-rtype-martin.vanaud
 ** File description:
-** MoveSystem
+** DirectionSystem
 */
 
-#ifndef MOVESYSTEM_HPP_
-#define MOVESYSTEM_HPP_
+#ifndef DIRECTIONSYSTEM_HPP_
+    #define DIRECTIONSYSTEM_HPP_
 
 #include "Registry.hpp"
 
 #include "Component/CNetworkQueue.hpp"
 #include "Component/CDirection.hpp"
-#include "Component/CPosition.hpp"
-#include "Component/CVelocity.hpp"
 
-class MoveSystem {
+class DirectionSystem {
     public:
-        MoveSystem();
+        DirectionSystem();
 
-        ~MoveSystem() = default;
+        ~DirectionSystem() = default;
 
         void operator()(Registry &registry,
-                        Sparse_array<component::cnetwork_queue_t> &netqueue,
                         Sparse_array<component::cdirection_t> &direction,
                         Sparse_array<component::cposition_t> &position,
                         Sparse_array<component::cvelocity_t> &velocity);
@@ -32,4 +29,4 @@ class MoveSystem {
     private:
 };
 
-#endif /* !MOVESYSTEM_HPP_ */
+#endif /* !DIRECTIONSYSTEM_HPP_ */

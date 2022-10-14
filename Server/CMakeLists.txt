@@ -12,6 +12,7 @@ file(GLOB SOURCE_FILES
     Source/Component/*.cpp
     Source/Server/*.cpp
     Source/System/*.cpp
+    Source/System/DirectionSystem/*.cpp
     Source/System/HitSystem/*.cpp
     Source/System/MoveSystem/*.cpp
     Source/System/ReceiveSystem/*.cpp
@@ -22,8 +23,10 @@ file(GLOB SOURCE_FILES
 include_directories(
     Source/
     Source/Component/
+    Source/Constant/
     Source/Server/
     Source/System/
+    Source/System/DirectionSystem/
     Source/System/HitSystem/
     Source/System/MoveSystem/
     Source/System/ReceiveSystem/

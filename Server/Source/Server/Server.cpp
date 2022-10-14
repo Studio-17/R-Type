@@ -5,25 +5,11 @@
 ** Server
 */
 
-#include <functional>
-
 #include "Server.hpp"
 
 Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port))
     //_thread(&Server::threadLoop, this), _stop(false)
 {
-    _callbacks = {
-        {1, [this] { callback_packet1(); }},
-        {2, [this] { callback_packet2(); }},
-        {3, [this] { callback_packet3(); }},
-        {4, [this] { callback_packet4(); }},
-        {5, [this] { callback_packet5(); }},
-        {6, [this] { callback_packet6(); }},
-        {7, [this] { callback_packet7(); }},
-        {8, [this] { callback_packet8(); }},
-        {9, [this] { callback_packet9(); }},
-    };
-
     ReceivePackets();
 
     setUpEcs();
@@ -42,46 +28,47 @@ Server::~Server()
 
 void Server::ReceivePackets()
 {
-    _com->async_receive(buffer_to_get, std::bind(&Server::HandleReceive, this, std::placeholders::_1, std::placeholders::_2));
+    _com->async_receive(_buffer_to_get, std::bind(&Server::HandleReceive, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Server::HandleReceive(asio::error_code const &e, std::size_t nbBytes)
 {
-    std::cout << "read" << std::endl;
+    std::cout << "Reading packet ..." << std::endl;
 
     std::pair<asio::ip::address, unsigned short> endpointData = _com->getEnpointInfo();
     _endpoints.try_emplace(endpointData.first, std::unordered_map<unsigned short, bool>());
     _endpoints.at(endpointData.first).try_emplace(endpointData.second, true);
 
-    Header tt = serializable_trait<Header>::unserialize(buffer_to_get);
-
-    std::cout << tt.id << std::endl;
-
-    _callbacks.at(tt.id)();
+    _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(_buffer_to_get);
+    
+    HandleSendPacket();
 }
 
-void Server::SendPackets(asio::error_code const &e, std::size_t nbBytes)
-{
-//    std::cout << "header: "<< tt.id << std::endl;
-//    ServerResponse ok = {
-//        .code = 200,
-//
-//        .status = true,
-//    };
-//
-    // std::vector<byte> buffer_to_send = serialize_header::serializeHeader<ServerResponse>(1, ok);
+void Server::HandleSendPacket() {
 
-//
+    std::cout << "Sending packet ..." << std::endl;
+
+    if (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.empty()) {
+        std::vector<byte> &tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.front();
+        _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.pop();
+
+        _com->async_send(tmp, std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2));
+    }
+}
+
+/*
 //    for (auto const &[address, portList] : _endpoints) {
 //        for (auto const &port : portList) {
 //            _com->async_send(buffer_to_send, std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2), address, port.first);
 //            std::cout << "send " << address<<" "<< port.first << std::endl;
 //        }
 //    }
-}
+*/
 
 void Server::CompleteExchange(std::error_code const &e, std::size_t nbBytes)
 {
+    std::cout << "Exchange completed !" << std::endl;
+
     ReceivePackets();
 }
 
@@ -101,7 +88,7 @@ void Server::setUpEcs()
     _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::cvelocity_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 
-//    _registry.add_system(_mySystem, _registry.get_components<component::component_t>(), _registry.get_components<component::component1_t>(), _registry.get_components<component::component2_t>());
+   _registry.add_system(_moveSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>());
 }
 
 void Server::setUpComponents()

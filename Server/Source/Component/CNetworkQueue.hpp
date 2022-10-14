@@ -11,6 +11,7 @@
     #include <queue>
 
     #include "Move.hpp"
+    #include "Shoot.hpp"
 
 using byte = unsigned char;
 
@@ -26,7 +27,7 @@ namespace component {
         std::queue<std::vector<byte>> toSendNetworkQueue;
 
         std::queue<packet_move> moveQueue;
-        // std::queue<> shootQueue;
+        std::queue<packet_shoot> shootQueue;
         // std::queue<> newPlayerQueue;
 
 
