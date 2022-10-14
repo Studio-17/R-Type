@@ -31,6 +31,7 @@
     // #include "Component/CVelocity.hpp"
 
     #include "System/MoveSystem/MoveSystem.hpp"
+    #include "System/ReceiveSystem/ReceiveSystem.hpp"
 
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
@@ -75,6 +76,7 @@ class Server {
 
         Registry _registry;
         MoveSystem _moveSystem;
+        System::ReceiveSystem _receiveSystem;
 
         bool _serverIsRunning = true;
 };

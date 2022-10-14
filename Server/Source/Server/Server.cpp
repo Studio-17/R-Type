@@ -87,13 +87,16 @@ void Server::setUpEcs()
     _registry.register_component<component::chitbox_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::cvelocity_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::cnetwork_queue_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 
    _registry.add_system(_moveSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>());
+   _registry.add_system(_receiveSystem, _registry.get_components<component::cnetwork_queue_t>());
 }
 
 void Server::setUpComponents()
 {
     Entity e = _registry.spawn_entity();
+    std::cout << e << std::endl;
 
     component::cdamage_t damage = { 0 };
     _registry.add_component<component::cdamage_t>(_registry.entity_from_index(e), std::move(damage));
@@ -112,4 +115,7 @@ void Server::setUpComponents()
 
     component::cvelocity_t velocity = {10 };
     _registry.add_component<component::cvelocity_t>(_registry.entity_from_index(e), std::move(velocity));
+
+    component::cnetwork_queue_t network = {};
+    _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(e), std::move(network));
 }
