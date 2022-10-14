@@ -13,6 +13,7 @@
     #include <queue>
     #include <map>
     #include <unordered_map>
+    #include <functional>
 
     #include <asio/ip/udp.hpp>
     #include <asio/error_code.hpp>
@@ -21,11 +22,20 @@
     #include <asio/placeholders.hpp>
 
     #include "Registry.hpp"
-    #include "Component/Components.hpp"
+    #include "Component/CDamage.hpp"
+    #include "Component/CDirection.hpp"
+    #include "Component/CHealth.hpp"
+    #include "Component/CHitBox.hpp"
+    #include "Component/CNetworkQueue.hpp"
+    #include "Component/CPosition.hpp"
+    // #include "Component/CVelocity.hpp"
 
-    #include "Structure.hpp"
+    #include "System/MoveSystem/MoveSystem.hpp"
+
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
+
+    #include "Constant.hpp"
 
 
 class Server {
@@ -47,9 +57,9 @@ class Server {
     protected:
 
     private:
-        void HandleReceive(asio::error_code const &e, std::size_t nbBytes);
         void ReceivePackets();
-        void SendPackets(asio::error_code const &e, std::size_t nbBytes);
+        void HandleReceive(asio::error_code const &e, std::size_t nbBytes);
+        void HandleSendPacket();
         void CompleteExchange(asio::error_code const &e, std::size_t nbBytes);
 
         void threadLoop();
@@ -59,24 +69,14 @@ class Server {
         std::queue<std::function<void(void)>> _responseQueue;
 
         std::shared_ptr<UdpCommunication> _com;
-        std::vector<byte> buffer_to_get;
+        std::vector<byte> _buffer_to_get;
 
         std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, bool>> _endpoints;
 
-        void callback_packet1() { std::cout << "callback1" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
-        void callback_packet2() { std::cout << "callback2" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
-        void callback_packet3() { std::cout << "callback3" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
-        void callback_packet4() { std::cout << "callback4" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
-        void callback_packet5() { std::cout << "callback5" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
-        void callback_packet6() { std::cout << "callback6" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
-        void callback_packet7() { std::cout << "callback7" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
-        void callback_packet8() { std::cout << "callback8" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
-        void callback_packet9() { std::cout << "callback9" << std::endl; std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2); };
+        Registry _registry;
+        MoveSystem _moveSystem;
 
-    typedef std::function<void()> callback_function;
-        std::map<int, callback_function> _callbacks;
-
-    Registry _registry;
+        bool _serverIsRunning = true;
 };
 
 #endif /* !SERVER_HPP_ */
