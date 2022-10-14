@@ -27,15 +27,15 @@ void ControlSystem::operator()(Registry &registry, Sparse_array<component::cposi
 
         if (pos && vel) {
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyUpCharCode()))
-                pos->y -= vel->velocity;
+                addToNetworkQueue(1, network);
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyDownCharCode()))
-                pos->y += vel->velocity;
+                addToNetworkQueue(1, network);
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyLeftCharCode()))
-                pos->x -= vel->velocity;
+                addToNetworkQueue(1, network);
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyRightCharCode()))
-                pos->x += vel->velocity;
+                addToNetworkQueue(1, network);
             if (key->keyboard->hasBeenPressed(key->keyboard->getKeySpaceCharCode())) {
-                // Send request to server to create a new entity bullet
+                addToNetworkQueue(1, network);
             }
         }
     }

@@ -39,11 +39,11 @@ class Client
 	private:
 		void handleReceive();
 		void handleSendPacket();
+		void pushNewPacketsToQueue(asio::error_code const &e, std::size_t nbBytes);
 
 		void sendNewDirection(std::vector<byte> &byte);
 		void sendNewShoot(std::vector<byte> &byte);
 
-		void parsePacket(std::vector<byte> &bytes);
 		asio::io_context _context;
 		std::vector<byte> _bufferToGet;
 

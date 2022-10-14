@@ -36,7 +36,6 @@ struct serializable_trait {
         Serializable s;
 
         std::memcpy(&s, v.data(), sizeof(Serializable));
-        // CALL_HANDLER<Serializable>(s);
         return s;
     }
 };
