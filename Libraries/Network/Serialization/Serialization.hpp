@@ -20,6 +20,14 @@ namespace NETWORK_CLIENT_TO_SERVER {
     };
 };
 
+namespace NETWORK_SERVER_TO_CLIENT {
+    enum PACKET_TYPE {
+        POSITION,
+        NEW_ENTITY,
+        DEAD
+    };
+};
+
 using byte = unsigned char;
 
 template <class Serializable>
@@ -44,7 +52,6 @@ struct serialize_header {
     template<class Seriazable>
     static std::vector<byte> serializeHeader(uint8_t id, Seriazable const &obj)
     {
-        std::cout << "id: "<< (int)id<< ". stop" << std::endl;
         std::vector<byte> bytes;
         bytes.resize(sizeof(uint8_t));
 
@@ -58,7 +65,6 @@ struct serialize_header {
     {
         uint8_t id;
         std::memcpy(&id, bytes.data(), sizeof(uint8_t));
-        std::cout << "new id: " << id << " . " << (int)id << std::endl;
         return id;
     };
 };

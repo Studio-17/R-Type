@@ -25,35 +25,37 @@ void ControlSystem::operator()(Registry &registry, Sparse_array<component::cposi
         auto &pos = positions[i];
         auto &vel = velocities[i];
         auto &key = keyboards[i];
+        int x = 0;
+        int y = 0;
 
         if (pos && vel) {
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyUpCharCode()))
-                addToNetworkQueue(1, network);
+                y = -1;
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyDownCharCode()))
-                addToNetworkQueue(1, network);
+                y = 1;
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyLeftCharCode()))
-                addToNetworkQueue(1, network);
+                x = -1;
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyRightCharCode()))
-                addToNetworkQueue(1, network);
-            if (key->keyboard->hasBeenPressed(key->keyboard->getKeySpaceCharCode())) {
-                addToNetworkQueue(1, network);
-            }
+                x = 1;
+            if (key->keyboard->hasBeenPressed(key->keyboard->getKeySpaceCharCode()))
+                x = 2;
+            if (x || y)
+                addToNetworkQueue(x, y, network);
         }
     }
 }
 
-void ControlSystem::addToNetworkQueue(int direction, Sparse_array<component::cnetwork_queue_t> &network) {
-    if (direction == 5) {
+void ControlSystem::addToNetworkQueue(int x, int y, Sparse_array<component::cnetwork_queue_t> &network) {
+    if (x == 2) {
         packet_shoot packet = {.id = 1};
         std::vector<byte> tmp = serialize_header::serializeHeader<packet_shoot>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT, packet);
         network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
     }
     else {
         packet_move packet;
-        packet.direction = direction;
+        packet.x = x;
+        packet.y = y;
         packet.playerId = 1;
-        // packet_direction packet = {.orientation = direction};
-        // std::vector<byte> tmp = serialize_header::serializeHeader<packet_move>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION, packet);
         std::vector<byte> tmp = serialize_header::serializeHeader<packet_move>(1, packet);
         network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
     }
