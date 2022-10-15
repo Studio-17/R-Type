@@ -41,7 +41,7 @@ class ControlSystem {
 		 * @param velocities Sparse array of all velocity component of all entities
 		 */
 		void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::velocity_t> &velocities, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network);
-		void addToNetworkQueue(int direction, Sparse_array<component::cnetwork_queue_t> &network);
+		void addToNetworkQueue(int x, int y, Sparse_array<component::cnetwork_queue_t> &network);
 
 
 	protected:

@@ -25,32 +25,41 @@ void ControlSystem::operator()(Registry &registry, Sparse_array<component::cposi
         auto &pos = positions[i];
         auto &vel = velocities[i];
         auto &key = keyboards[i];
+        int x, y = 0;
 
         if (pos && vel) {
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyUpCharCode()))
-                addToNetworkQueue(1, network);
+                y = -1;
+                // addToNetworkQueue(1, network);
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyDownCharCode()))
-                addToNetworkQueue(1, network);
+                y = 1;
+                // addToNetworkQueue(1, network);
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyLeftCharCode()))
-                addToNetworkQueue(1, network);
+                x = -1;
+                // addToNetworkQueue(1, network);
             if (key->keyboard->isBeingPressed(key->keyboard->getKeyRightCharCode()))
-                addToNetworkQueue(1, network);
+                x = 1;
+                // addToNetworkQueue(1, network);
             if (key->keyboard->hasBeenPressed(key->keyboard->getKeySpaceCharCode())) {
-                addToNetworkQueue(1, network);
+                x = 2;
+                // addToNetworkQueue(1, network);
             }
+            if (x && y)
+                addToNetworkQueue(x, y, network);
         }
     }
 }
 
-void ControlSystem::addToNetworkQueue(int direction, Sparse_array<component::cnetwork_queue_t> &network) {
-    if (direction == 5) {
+void ControlSystem::addToNetworkQueue(int x, int y, Sparse_array<component::cnetwork_queue_t> &network) {
+    if (x == 2) {
         packet_shoot packet = {.id = 1};
         std::vector<byte> tmp = serialize_header::serializeHeader<packet_shoot>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT, packet);
         network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
     }
     else {
         packet_move packet;
-        packet.direction = direction;
+        packet.x = x;
+        packet.x = y;
         packet.playerId = 1;
         // packet_direction packet = {.orientation = direction};
         // std::vector<byte> tmp = serialize_header::serializeHeader<packet_move>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION, packet);

@@ -25,7 +25,6 @@ void PositionSystem::operator()(Registry &registry, Sparse_array<component::cnet
 
         for (auto &serverId : serverIds) {
             if (serverId->id == positionPacket.id) {
-                // Attention c'est pas ca qu'il faut faire ici
                 position[serverId->id]->x = positionPacket.x;
                 position[serverId->id]->y = positionPacket.y;
                 // add index of sprite to update
