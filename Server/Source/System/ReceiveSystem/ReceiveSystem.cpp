@@ -14,19 +14,18 @@ System::ReceiveSystem::ReceiveSystem()
 
 void System::ReceiveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &queues)
 {
-    if (!queues[0]->receivedNetworkQueue.empty())
+    if (queues[0]->receivedNetworkQueue.empty())
         return;
     std::vector<byte> buffer = queues[0]->receivedNetworkQueue.front();
     queues[0]->receivedNetworkQueue.pop();
-
-    u_int8_t id = serialize_header::getId(buffer);
+    uint8_t id = serialize_header::getId(buffer);
 
     std::vector<byte> bufferWithoutId;
     bufferWithoutId.insert(bufferWithoutId.begin(), buffer.begin() + sizeof(id), buffer.end());
     try {
         callBacks.at(id)(bufferWithoutId, queues);
     } catch (std::out_of_range const &) {
-        std::cerr << "undefined packet id: " << std::endl;
+        std::cerr << "undefined packet id: " << id << std::endl;
     }
 }
 

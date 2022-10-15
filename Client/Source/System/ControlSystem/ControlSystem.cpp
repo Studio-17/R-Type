@@ -12,6 +12,7 @@
 #include "Serialization.hpp"
 #include "Constant/Constant.hpp"
 #include "Direction.hpp"
+#include "Move.hpp"
 
 ControlSystem::ControlSystem()
 {
@@ -48,8 +49,12 @@ void ControlSystem::addToNetworkQueue(int direction, Sparse_array<component::cne
         network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
     }
     else {
-        packet_direction packet = {.orientation = direction};
-        std::vector<byte> tmp = serialize_header::serializeHeader<packet_direction>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION, packet);
+        packet_move packet;
+        packet.direction = direction;
+        packet.playerId = 1;
+        // packet_direction packet = {.orientation = direction};
+        // std::vector<byte> tmp = serialize_header::serializeHeader<packet_move>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION, packet);
+        std::vector<byte> tmp = serialize_header::serializeHeader<packet_move>(1, packet);
         network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
     }
 }
