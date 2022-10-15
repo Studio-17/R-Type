@@ -102,7 +102,7 @@ void Client::setUpComponents()
     Entity ship = _registry.spawn_entity();
 
     // Parallax Entity
-    component::crect_t prect = {0, 0, 600, 800, 1, 600};
+    component::crect_t prect = {0, 0, 600, 800, 1, 6000};
     component::csprite_t psprite = {.sprite = _graphicLib->createSprite("Assets/parallax/parallax.png", 1, (Rectangle){.x = prect.x, .y = prect.y, .width = prect.width, .height = prect.height})};
     component::cposition_t pposition = {0, 0};
     component::velocity_t pvel = {.velocity = 10};
