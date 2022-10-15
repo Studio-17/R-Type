@@ -17,6 +17,8 @@ class NetworkSystem {
         ~NetworkSystem() = default;
 
         void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network);
+        void dispatchToPositionQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+        void dispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
 
 

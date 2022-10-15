@@ -32,6 +32,7 @@
 
     #include "System/MoveSystem/MoveSystem.hpp"
     #include "System/ReceiveSystem/ReceiveSystem.hpp"
+    #include "System/DirectionSystem/DirectionSystem.hpp"
 
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
@@ -54,6 +55,7 @@ class Server {
 
         void setUpEcs();
         void setUpComponents();
+        void machineRun();
 
     protected:
 
@@ -61,7 +63,6 @@ class Server {
         void ReceivePackets();
         void HandleReceive(asio::error_code const &e, std::size_t nbBytes);
         void HandleSendPacket();
-        void CompleteExchange(asio::error_code const &e, std::size_t nbBytes);
 
         void threadLoop();
 
@@ -79,6 +80,7 @@ class Server {
 
         Registry _registry;
         MoveSystem _moveSystem;
+        DirectionSystem _directionSystem;
         System::ReceiveSystem _receiveSystem;
 
         bool _serverIsRunning = true;

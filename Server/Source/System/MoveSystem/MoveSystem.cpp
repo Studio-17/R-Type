@@ -6,6 +6,9 @@
 */
 
 #include "MoveSystem.hpp"
+#include "Move.hpp"
+#include "Serialization.hpp"
+#include "Position.hpp"
 
 MoveSystem::MoveSystem()
 {
@@ -13,6 +16,13 @@ MoveSystem::MoveSystem()
 
 void MoveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction,Sparse_array<component::cposition_t> &position,Sparse_array<component::cvelocity_t> &velocity)
 {
+    for (unsigned short index = 0; index < position.size(); index++) {
+        position[index]->x += (velocity[index]->velocity * direction[index]->x);
+        position[index]->y += (velocity[index]->velocity * direction[index]->y);
+
+        if (direction[index]->x || direction[index]->y)
+            netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::POSITION, packet_position{index, position[index]->x, position[index]->y, 1}));
+    }
     // update la position
     // position = velocity * direction
 
