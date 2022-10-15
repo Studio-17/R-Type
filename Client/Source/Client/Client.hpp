@@ -26,6 +26,7 @@
 	#include "ControlSystem.hpp"
 	#include "NewEntitySystem.hpp"
 	#include "PositionSystem.hpp"
+	#include "MoveSystem.hpp"
 	#include "NetworkSystem.hpp"
 
 class Client
@@ -66,6 +67,7 @@ class Client
 		ControlSystem _controlSystem; ///< System that controls the entities
 		NewEntitySystem _newEntitySystem; ///< System that creates new entities
 		PositionSystem _positionSystem; ///< System that updates the position of the entities
+		MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
 };
 
 #endif /* !CLIENT_HPP_ */

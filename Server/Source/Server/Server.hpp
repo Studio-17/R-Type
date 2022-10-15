@@ -33,6 +33,7 @@
     #include "System/MoveSystem/MoveSystem.hpp"
     #include "System/ReceiveSystem/ReceiveSystem.hpp"
     #include "System/DirectionSystem/DirectionSystem.hpp"
+    #include "ShootSystem.hpp"
 
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
@@ -81,6 +82,7 @@ class Server {
         Registry _registry;
         MoveSystem _moveSystem;
         DirectionSystem _directionSystem;
+        ShootSystem _shootSystem;
         System::ReceiveSystem _receiveSystem;
 
         bool _serverIsRunning = true;

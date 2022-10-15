@@ -25,9 +25,11 @@ void DirectionSystem::operator()(Registry &registry, Sparse_array<component::cne
 {
     if (!netqueue[0]->moveQueue.empty()) {
         packet_move packet = netqueue[0]->moveQueue.front();
+        std::cout << "id: " << packet.playerId << std::endl;
         netqueue[0]->moveQueue.pop();
         position[packet.playerId]->x += (velocity[packet.playerId]->velocity * packet.x);
         position[packet.playerId]->y += (velocity[packet.playerId]->velocity * packet.y);
+        std::cout << "the new player id is " << packet.playerId << std::endl;
         netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::POSITION, {packet.playerId, position[packet.playerId]->x, position[packet.playerId]->y, 1}));
     }
     // revoit la nouvelle direction d'un client

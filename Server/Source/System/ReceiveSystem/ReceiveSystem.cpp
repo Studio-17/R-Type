@@ -43,6 +43,7 @@ void System::ReceiveSystem::addMoveOnQueue(std::vector<byte> const &data, Sparse
 
 void System::ReceiveSystem::addShootOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues)
 {
-
+    packet_shoot newMove = serializable_trait<packet_shoot>::unserialize(data);
+    queues[0]->shootQueue.push(newMove);
 }
 

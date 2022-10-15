@@ -11,7 +11,6 @@
 #include "CPosition.hpp"
 #include "Serialization.hpp"
 #include "Constant/Constant.hpp"
-#include "Direction.hpp"
 #include "Move.hpp"
 
 ControlSystem::ControlSystem()
@@ -19,33 +18,27 @@ ControlSystem::ControlSystem()
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void ControlSystem::operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::velocity_t> &velocities, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network)
+void ControlSystem::operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::cvelocity_t> &velocities, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverId)
 {
-    for (std::size_t i = 0; i < positions.size() && i < velocities.size() && i < keyboards.size(); i++) {
-        auto &pos = positions[i];
-        auto &vel = velocities[i];
-        auto &key = keyboards[i];
-        int x = 0;
-        int y = 0;
+    auto &key = keyboards[0];
+    int x = 0;
+    int y = 0;
 
-        if (pos && vel) {
-            if (key->keyboard->isBeingPressed(key->keyboard->getKeyUpCharCode()))
-                y = -1;
-            if (key->keyboard->isBeingPressed(key->keyboard->getKeyDownCharCode()))
-                y = 1;
-            if (key->keyboard->isBeingPressed(key->keyboard->getKeyLeftCharCode()))
-                x = -1;
-            if (key->keyboard->isBeingPressed(key->keyboard->getKeyRightCharCode()))
-                x = 1;
-            if (key->keyboard->hasBeenPressed(key->keyboard->getKeySpaceCharCode()))
-                x = 2;
-            if (x || y)
-                addToNetworkQueue(x, y, network);
-        }
-    }
+    if (key->keyboard->isBeingPressed(key->keyboard->getKeyUpCharCode()))
+        y = -1;
+    if (key->keyboard->isBeingPressed(key->keyboard->getKeyDownCharCode()))
+        y = 1;
+    if (key->keyboard->isBeingPressed(key->keyboard->getKeyLeftCharCode()))
+        x = -1;
+    if (key->keyboard->isBeingPressed(key->keyboard->getKeyRightCharCode()))
+        x = 1;
+    if (key->keyboard->hasBeenPressed(key->keyboard->getKeySpaceCharCode()))
+        x = 2;
+    if (x || y)
+        addToNetworkQueue(x, y, network, serverId[1]->id);
 }
 
-void ControlSystem::addToNetworkQueue(int x, int y, Sparse_array<component::cnetwork_queue_t> &network) {
+void ControlSystem::addToNetworkQueue(int x, int y, Sparse_array<component::cnetwork_queue_t> &network, std::size_t serverId) {
     if (x == 2) {
         packet_shoot packet = {.id = 1};
         std::vector<byte> tmp = serialize_header::serializeHeader<packet_shoot>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT, packet);

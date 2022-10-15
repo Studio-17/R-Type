@@ -18,6 +18,7 @@
     #include "CServerId.hpp"
     #include "Constant.hpp"
     #include "CRect.hpp"
+    #include "Serialization.hpp"
 
 class NewEntitySystem {
     public:

@@ -19,9 +19,9 @@ namespace component {
      * @brief A structure representing the velocity component that holds the velocity of an entity
      * 
      */
-    typedef struct cvelocity_s {
+    struct cvelocity_t {
         size_t velocity;
-    } cvelocity_t;
+    } ;
 }
 
 #endif /* !CVELOCITY_HPP_ */

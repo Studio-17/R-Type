@@ -22,6 +22,7 @@ file(GLOB SOURCE_FILES
     Source/System/ControlSystem/*.cpp
     Source/System/DrawSystem/*.cpp
     Source/System/EventSystem/*.cpp
+    Source/System/MoveSystem/*.cpp
     Source/System/NetworkSystem/*.cpp
     Source/System/NewEntitySystem/*.cpp
     Source/System/PositionSystem/*.cpp
@@ -46,6 +47,7 @@ include_directories(
     Source/System/ControlSystem/
     Source/System/DrawSystem/
     Source/System/EventSystem/
+    Source/System/MoveSystem/
     Source/System/NetworkSystem/
     Source/System/NewEntitySystem/
     Source/System/PositionSystem/
