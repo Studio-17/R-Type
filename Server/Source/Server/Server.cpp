@@ -52,6 +52,7 @@ void Server::HandleSendPacket() {
 
         _com->async_send(tmp, std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2));
     }
+    ReceivePackets();
 }
 
 /*
