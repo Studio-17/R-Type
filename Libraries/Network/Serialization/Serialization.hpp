@@ -28,6 +28,22 @@ namespace NETWORK_SERVER_TO_CLIENT {
     };
 };
 
+/**
+ * @brief An enum representing all the type an entity can take
+ * 
+ */
+enum ENTITY_TYPE {
+    PLAYER,
+    WALL,
+    ENEMY,
+    BUTTON,
+    TEXT,
+    BULLET,
+    UI,
+    // GRAPHIC,
+    // NETWORK
+};
+
 using byte = unsigned char;
 
 template <class Serializable>

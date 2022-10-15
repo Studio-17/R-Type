@@ -15,7 +15,7 @@
 #include "CKeyboard.hpp"
 #include "CPosition.hpp"
 #include "CRect.hpp"
-#include "Velocity.hpp"
+#include "CVelocity.hpp"
 #include "CServerId.hpp"
 #include "CNetworkQueue.hpp"
 #include "Serialization.hpp"
@@ -81,9 +81,10 @@ void Client::setUpEcs()
     _registry.register_component<component::csprite_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::crect_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
-	_registry.register_component<component::velocity_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+	_registry.register_component<component::cvelocity_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 	_registry.register_component<component::cserverid_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 	_registry.register_component<component::cnetwork_queue_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+	_registry.register_component<component::cdirection_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 }
 
 void Client::setUpSystems()
@@ -91,17 +92,26 @@ void Client::setUpSystems()
 	_registry.add_system(_networkSystem, _registry.get_components<component::cnetwork_queue_t>());
 	_registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
     _registry.add_system(_rectSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::crect_t>());
-    _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::velocity_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>());
+    _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
     _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
     _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
+    _registry.add_system(_moveSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>());
 }
 
 void Client::setUpComponents()
 {
+    Entity network = _registry.spawn_entity();
     Entity ship = _registry.spawn_entity();
 
+    component::cnetwork_queue_t nettwork = {};
+    _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(network), std::move(nettwork));
+
+    component::cserverid_t serverId = {.id = 1};
+    _registry.add_component<component::cserverid_t>(_registry.entity_from_index(ship), std::move(serverId));
     component::crect_t rect = {0, 0, 33.3125, 36, 1, 8};
     _registry.add_component<component::crect_t>(_registry.entity_from_index(ship), std::move(rect));
+    component::cdirection_t direction = {.x = 0, .y = 0};
+    _registry.add_component<component::cdirection_t>(_registry.entity_from_index(ship), std::move(direction));
 
     component::csprite_t sprite = {.sprite = _graphicLib->createSprite("Assets/sprites/r-typesheet5.gif", 1, (Rectangle){.x = rect.x, .y = rect.y, .width = rect.width, .height = rect.height})};
     _registry.add_component<component::csprite_t>(_registry.entity_from_index(ship), std::move(sprite));
@@ -109,17 +119,11 @@ void Client::setUpComponents()
     component::cposition_t position = {10, 50};
     _registry.add_component<component::cposition_t>(_registry.entity_from_index(ship), std::move(position));
 
-    component::velocity_t vel = {.velocity = 10};
-	_registry.add_component<component::velocity_t>(_registry.entity_from_index(ship), std::move(vel));
+    component::cvelocity_t vel = {.velocity = 10};
+	_registry.add_component<component::cvelocity_t>(_registry.entity_from_index(ship), std::move(vel));
 
     component::ckeyboard_t keyboard = {.keyboard = 0};
 	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(ship), std::move(keyboard));
-
-    component::cnetwork_queue_t network = {};
-    _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(ship), std::move(network));
-
-    component::cserverid_t serverId = {.id = 1};
-    _registry.add_component<component::cserverid_t>(_registry.entity_from_index(ship), std::move(serverId));
 }
 
 void Client::threadLoop()

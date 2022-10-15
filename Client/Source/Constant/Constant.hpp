@@ -27,20 +27,4 @@ enum SCENE {
     END = 2
 };
 
-/**
- * @brief An enum representing all the type an entity can take
- * 
- */
-enum ENTITY_TYPE {
-    PLAYER,
-    WALL,
-    ENEMY,
-    BUTTON,
-    TEXT,
-    BULLET,
-    UI,
-    // GRAPHIC,
-    // NETWORK
-};
-
 #endif /* !CONSTANT_HPP_ */

@@ -12,9 +12,10 @@
 	#include "Registry.hpp"
     #include "GraphicalLib.hpp"
 	#include "CPosition.hpp"
-	#include "Velocity.hpp"
+	#include "CVelocity.hpp"
 	#include "CKeyboard.hpp"
 	#include "CNetworkQueue.hpp"
+	#include "CServerId.hpp"
 
 /**
  * @brief ControlSystem class that handles the control of all the entities
@@ -40,8 +41,8 @@ class ControlSystem {
 		 * @param positions Sparse array of all position component of all entities
 		 * @param velocities Sparse array of all velocity component of all entities
 		 */
-		void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::velocity_t> &velocities, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network);
-		void addToNetworkQueue(int x, int y, Sparse_array<component::cnetwork_queue_t> &network);
+		void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::cvelocity_t> &velocities, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverId);
+		void addToNetworkQueue(int x, int y, Sparse_array<component::cnetwork_queue_t> &network, std::size_t serverId);
 
 
 	protected:

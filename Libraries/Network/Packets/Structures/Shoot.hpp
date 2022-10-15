@@ -12,6 +12,7 @@
 
     struct packet_shoot {
         uint16_t id; // id of the entity that is shooting
+        
     };
 
     struct packet_direction {
