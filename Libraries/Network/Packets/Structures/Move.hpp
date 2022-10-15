@@ -11,14 +11,9 @@
     #include <cstdint>
 
 struct packet_move {
-    enum Direction {
-        UP,
-        LEFT,
-        RIGHT,
-        DOWN
-    };
     uint16_t playerId;
-    uint16_t direction;
+    uint16_t x;
+    uint16_t y;
 };
 
 #endif /* !MOVE_HPP_ */

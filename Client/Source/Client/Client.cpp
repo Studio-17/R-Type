@@ -20,45 +20,49 @@
 #include "CNetworkQueue.hpp"
 #include "Serialization.hpp"
 #include "Structure.hpp"
+#include "Move.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
     _working(true)
 {
-    _context.run();
-
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
     _graphicLib->initWindow(800, 600, "R-Type", 60);
 
     setUpEcs();
     setUpSystems();
     setUpComponents();
+    _thread = std::thread(&Client::threadLoop, this);
 }
 
 Client::~Client()
 {
     _context.stop();
+    _working = false;
+    _thread.join();
 }
 
-void Client::machineRun(void)
+void Client::machineRun()
 {
     while (!_graphicLib->windowShouldClose()) {
         _graphicLib->startDrawingWindow();
             _graphicLib->clearScreen();
             _registry.run_systems();
         _graphicLib->endDrawingWindow();
-        handleSendPacket();
+        SendPacket();
     }
     _graphicLib->closeWindow();
+    _working = false;
 }
 
-void Client::handleSendPacket() {
+void Client::SendPacket() {
     if (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.empty()) {
-        std::vector<byte> tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.front();
-        _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.pop();
-        _com->async_send(tmp, std::function<void(std::error_code, std::size_t)>());
+        std::vector<byte> tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.front();
+        _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.pop();
+        _com->send(tmp);
     }
 }
+
 
 void Client::handleReceive() {
     _com->async_receive(_bufferToGet, std::bind(&Client::pushNewPacketsToQueue, this, std::placeholders::_1, std::placeholders::_2));
@@ -66,8 +70,8 @@ void Client::handleReceive() {
 
 void Client::pushNewPacketsToQueue(asio::error_code const &e, size_t nbBytes)
 {
-    _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(_bufferToGet);
-
+    _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->receivedNetworkQueue.push(_bufferToGet);
+    handleReceive();
 }
 
 void Client::setUpEcs()
@@ -84,11 +88,12 @@ void Client::setUpEcs()
 
 void Client::setUpSystems()
 {
+	_registry.add_system(_networkSystem, _registry.get_components<component::cnetwork_queue_t>());
 	_registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
     _registry.add_system(_rectSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::crect_t>());
     _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::velocity_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>());
     _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
-    // _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
+    _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
 }
 
 void Client::setUpComponents()
@@ -128,4 +133,13 @@ void Client::setUpComponents()
 
     component::cnetwork_queue_t network = {};
     _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(ship), std::move(network));
+
+    component::cserverid_t serverId = {.id = 1};
+    _registry.add_component<component::cserverid_t>(_registry.entity_from_index(ship), std::move(serverId));
+}
+
+void Client::threadLoop()
+{
+    handleReceive();
+    _context.run();
 }

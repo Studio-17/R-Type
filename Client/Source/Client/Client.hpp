@@ -8,6 +8,8 @@
 #ifndef CLIENT_HPP_
     #define CLIENT_HPP_
 
+	#include <thread>
+
 	#include <asio/buffer.hpp>
     #include <asio/ip/udp.hpp>
     #include <asio/error_code.hpp>
@@ -24,6 +26,7 @@
 	#include "ControlSystem.hpp"
 	#include "NewEntitySystem.hpp"
 	#include "PositionSystem.hpp"
+	#include "NetworkSystem.hpp"
 
 class Client
 {
@@ -38,21 +41,26 @@ class Client
 
 	private:
 		void handleReceive();
-		void handleSendPacket();
+		void SendPacket();
 		void pushNewPacketsToQueue(asio::error_code const &e, std::size_t nbBytes);
 
 		void sendNewDirection(std::vector<byte> &byte);
 		void sendNewShoot(std::vector<byte> &byte);
 
+		void threadLoop();
+
 		asio::io_context _context;
 		std::vector<byte> _bufferToGet;
+
 
         std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
 		std::unique_ptr<UdpCommunication> _com;
         Registry _registry; ///< Registry that contains all the ECS
+		std::thread _thread; ///< thread to handle ECS
 		bool _working;
 
 		// Systems
+		NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues
 		DrawSystem _drawSystem; ///< System that draws the entities
 		RectSystem _rectSystem; ///< System that a part of a entity
 		ControlSystem _controlSystem; ///< System that controls the entities

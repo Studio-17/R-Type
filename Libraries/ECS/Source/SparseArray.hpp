@@ -95,6 +95,13 @@ class Sparse_array {
         {
             return _data.size();
         };
+
+        void extend(size_t sizeToExtend)
+        {
+            for (size_t x = 0; x < sizeToExtend; x += 1)
+                _data.push_back(std::nullopt);
+        }
+
         reference_type insert_at(size_type pos, Component const &component)
         {
             if (pos > _data.size())
