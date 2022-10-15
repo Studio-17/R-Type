@@ -16,18 +16,16 @@ NetworkSystem::NetworkSystem()
 void NetworkSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network)
 {
     if (!network[FORBIDDEN_IDS::NETWORK]->receivedNetworkQueue.empty()) {
-        std::cout << "network sysytem" << std::endl;
-        // Here parse and send to the corresponing queue
         std::vector<byte> tmp = network[FORBIDDEN_IDS::NETWORK]->receivedNetworkQueue.front();
         uint8_t id = serialize_header::getId(tmp);
-        std::cout << "split"<<std::endl;
-        if (id == NETWORK_SERVER_TO_CLIENT::POSITION) {
-            std::cout << "position" << std::endl;
-            dispatchToPositionQueue(tmp, network);
-        } if (id == NETWORK_SERVER_TO_CLIENT::NEW_ENTITY) {
-            std::cout << "new entity" << std::endl;
-            dispatchToNewEntityQueue(tmp, network);
-        }
+
+        std::vector<byte> bufferWithoutId;
+        bufferWithoutId.insert(bufferWithoutId.begin(), tmp.begin() + sizeof(id), tmp.end());
+
+        if (id == NETWORK_SERVER_TO_CLIENT::POSITION)
+            dispatchToPositionQueue(bufferWithoutId, network);
+        if (id == NETWORK_SERVER_TO_CLIENT::NEW_ENTITY)
+            dispatchToNewEntityQueue(bufferWithoutId, network);
         network[FORBIDDEN_IDS::NETWORK]->receivedNetworkQueue.pop();
     }
 

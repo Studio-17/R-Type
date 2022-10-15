@@ -63,7 +63,6 @@ class Server {
         void ReceivePackets();
         void HandleReceive(asio::error_code const &e, std::size_t nbBytes);
         void HandleSendPacket();
-        void CompleteExchange(asio::error_code const &e, std::size_t nbBytes);
 
         void threadLoop();
 

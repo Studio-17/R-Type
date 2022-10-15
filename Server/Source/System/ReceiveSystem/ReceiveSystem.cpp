@@ -37,7 +37,6 @@ void System::ReceiveSystem::addHitOnQueue(std::vector<byte> const &data, Sparse_
 
 void System::ReceiveSystem::addMoveOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues)
 {
-    std::cout << "adding on queue" << std::endl;
     packet_move newMove = serializable_trait<packet_move>::unserialize(data);
     queues[0]->moveQueue.push(newMove);
 }

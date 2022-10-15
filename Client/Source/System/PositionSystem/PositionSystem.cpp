@@ -19,18 +19,14 @@ PositionSystem::~PositionSystem()
 
 void PositionSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cposition_t> &position, Sparse_array<component::cserverid_t> &serverIds)
 {
-    // Check si la queue est pas empty et modifier les positions de l'entité choisie
     if (!network[FORBIDDEN_IDS::NETWORK]->updatePositionQueue.empty()) {
         packet_position positionPacket = network[FORBIDDEN_IDS::NETWORK]->updatePositionQueue.front();
-
-        for (auto &serverId : serverIds) {
-            if (serverId->id == positionPacket.id) {
-                position[serverId->id]->x = positionPacket.x;
-                position[serverId->id]->y = positionPacket.y;
-                // add index of sprite to update
+        for (std::size_t index = 0; index != serverIds.size(); index++) {
+            if (serverIds[index]->id == positionPacket.id) {
+                position[index]->x = positionPacket.x;
+                position[index]->y = positionPacket.y;
             }
         }
-
         network[FORBIDDEN_IDS::NETWORK]->updatePositionQueue.pop();
     }
 }

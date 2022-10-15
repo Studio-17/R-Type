@@ -11,7 +11,6 @@ Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_cont
     _thread(&Server::threadLoop, this), _isRunning(true)
 {
     ReceivePackets();
-
     _context.run();
 }
 
@@ -30,8 +29,6 @@ void Server::ReceivePackets()
 
 void Server::HandleReceive(asio::error_code const &e, std::size_t nbBytes)
 {
-    std::cout << "Reading packet ..." << std::endl;
-
     std::pair<asio::ip::address, unsigned short> endpointData = _com->getEnpointInfo();
     _endpoints.try_emplace(endpointData.first, std::unordered_map<unsigned short, bool>());
     _endpoints.at(endpointData.first).try_emplace(endpointData.second, true);
@@ -42,27 +39,15 @@ void Server::HandleReceive(asio::error_code const &e, std::size_t nbBytes)
 
 void Server::HandleSendPacket() {
     if (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.empty()) {
-        std::cout << "Sending packet ..." << std::endl;
         std::vector<byte> tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.front();
-        std::cout << "sizetmp: " << tmp.size() << std::endl;
         _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.pop();
-
-        // _com->async_send(tmp, std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2));
         for (auto const &[address, portList] : _endpoints) {
             for (auto const &[port, isPresent] : portList) {
-                _com->async_send(tmp, std::bind(&Server::CompleteExchange, this, std::placeholders::_1, std::placeholders::_2), address, port);
-                std::cout << "send " << address<<" "<< port << std::endl;
+                _com->send(tmp);
             }
         }
     }
     ReceivePackets();
-}
-
-void Server::CompleteExchange(std::error_code const &e, std::size_t nbBytes)
-{
-    std::cout << "Exchange completed !" << std::endl;
-
-    // HandleSendPacket();
 }
 
 void Server::threadLoop()

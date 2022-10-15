@@ -41,7 +41,7 @@ class Client
 
 	private:
 		void handleReceive();
-		void handleSendPacket();
+		void SendPacket();
 		void pushNewPacketsToQueue(asio::error_code const &e, std::size_t nbBytes);
 
 		void sendNewDirection(std::vector<byte> &byte);
@@ -57,7 +57,6 @@ class Client
 		std::unique_ptr<UdpCommunication> _com;
         Registry _registry; ///< Registry that contains all the ECS
 		std::thread _thread; ///< thread to handle ECS
-		
 		bool _working;
 
 		// Systems
