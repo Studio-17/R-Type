@@ -73,16 +73,16 @@ class Registry
         };
 
         template <typename Component>
-        typename Sparse_array<Component>::reference_type add_component(Entity const &to, Component &&c)
+        typename Sparse_array<Component>::reference_type add_component(Entity const &e, Component &&c)
         {
             if (_componentsArrays.find(std::type_index(typeid(Component))) == _componentsArrays.end())
                 throw std::invalid_argument("Component not registered !");
             Sparse_array<Component> &sparseArray = std::any_cast<Sparse_array<Component> &>(_componentsArrays.at(std::type_index(typeid(Component))));
 
-            // if (to > sparseArray.size()) {
-            //     sparseArray.extend(1);
-            // }
-            return sparseArray.insert_at(to, c);
+            if (e > sparseArray.size()) {
+                sparseArray.extend((size_t) e - sparseArray.size());
+            }
+            return sparseArray.insert_at(e, c);
         };
 
         template <typename Component, typename ...Params>
