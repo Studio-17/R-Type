@@ -6,7 +6,7 @@
 */
 
 #ifndef GRAPHICALLIB_HPP_
-#define GRAPHICALLIB_HPP_
+    #define GRAPHICALLIB_HPP_
 
 
 #include <map>
@@ -34,12 +34,16 @@ namespace rtype {
              * @param title 
              * @param framerate 
              */
-            GraphicalLib(const int screenWidth, const int screenHeight, std::string title, const int framerate);
+            GraphicalLib();
             /**
              * @brief Destroy the Graphical Lib object
              * 
              */
             ~GraphicalLib();
+
+            void initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate) override;
+
+            void closeWindow() override;
 
             /**
              * @brief Clear the window
@@ -73,50 +77,54 @@ namespace rtype {
              * @param position position of the sprite
              * @param size size of the sprite
              */
-            void createSprite(std::size_t id, std::string const &imagePath, Position const &position, float const &size) override;
+            std::shared_ptr<Sprite> createSprite(std::string const &imagePath, float const &size, Rectangle const &rect) override;
             /**
              * @brief Draw the sprite
              * 
              * @param id id of the sprite
              */
-            void drawSprite(std::size_t id) override;
-            void destroySprite(std::size_t id) override;
-
+            void drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect) override;
+            /**
+             * @brief Destroy the Sprite object
+             * 
+             * @param id id of the sprite
+             */
+            void destroySprite(Sprite const &sprite) override;
             /**
              * @brief Set the Sprite Position object
              * 
              * @param id id of the sprite
              * @param position the new position of the sprite
              */
-            void setSpritePosition(std::size_t id, Position const &position) override;
+            void setSpritePosition(Sprite &sprite, Position const &position) override;
             /**
              * @brief Get the Sprite Position object
              * 
              * @param id id of the sprite
              * @return Position of the sprite
              */
-            Position getSpritePosition(std::size_t id) override;
+            Position getSpritePosition(Sprite const &sprite) override;
             /**
              * @brief Set the Sprite Scale object
              * 
              * @param id id of the sprite
              * @param scale the new scale of the sprite
              */
-            void setSpriteScale(std::size_t id, float scale) override;
+            void setSpriteScale(Sprite &sprite, float scale) override;
             /**
              * @brief Set the Sprite Rotation object
              * 
              * @param id id of the sprite
              * @param rotation the new rotation of the sprite
              */
-            void setSpriteRotation(std::size_t id, float rotation) override;
+            void setSpriteRotation(Sprite &sprite, float rotation) override;
             /**
              * @brief Get the Sprite Rotation object
              * 
              * @param id id of the sprite
              * @return a float that corespond to the rotation of the sprite
              */
-            float getSpriteRotation(std::size_t id) override;
+            float getSpriteRotation(Sprite const &sprite) override;
 
             /**
              * @brief Create a Text object

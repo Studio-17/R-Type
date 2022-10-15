@@ -7,32 +7,15 @@
 
 #include "Sprite.hpp"
 
-Sprite::Sprite(std::string const &imagePath, Position const &position, float const &scale)
+Sprite::Sprite(std::string const &imagePath, float const &scale, Rectangle const &rect)
 {
-    _position = position;
-    _imageTexture = LoadTexture(imagePath.c_str());
+    _texture = LoadTexture(imagePath.c_str());
     _rotation = 0.0f;
     _scale = scale;
 }
 
 Sprite::~Sprite()
 {
-    UnloadTexture(_imageTexture);
-}
-
-void Sprite::draw()
-{
-    DrawTextureEx(_imageTexture, (Vector2){_position.getX(), _position.getY()}, _rotation, _scale, WHITE);
-}
-
-void Sprite::setPosition(Position const &position)
-{
-    _position = position;
-}
-
-Position Sprite::getPosition()
-{
-    return _position;
 }
 
 void Sprite::setScale(float scale)
@@ -45,17 +28,42 @@ float Sprite::getScale()
     return _scale;
 }
 
+void Sprite::setPosition(Position const &position)
+{
+    _position = position;
+}
+
+Position Sprite::getPosition() const
+{
+    return _position;
+}
+
+float Sprite::getHeight()
+{
+    return _texture.height;
+}
+
+float Sprite::getWidth()
+{
+    return _texture.width;
+}
+
 void Sprite::setRotation(float rotation)
 {
     _rotation = rotation;
 }
 
-float Sprite::getRotation()
+float Sprite::getRotation() const
 {
     return _rotation;
 }
 
 void Sprite::setTexture(std::string const &imagePath)
 {
-    _imageTexture = LoadTexture(imagePath.c_str());
+    _texture = LoadTexture(imagePath.c_str());
+}
+
+Texture2D Sprite::getTexture() const
+{
+    return _texture;
 }

@@ -9,6 +9,10 @@
     #define SERVER_HPP_
 
     #include <iostream>
+    #include <thread>
+    #include <queue>
+    #include <map>
+    #include <unordered_map>
     #include <functional>
 
     #include <asio/ip/udp.hpp>
@@ -17,11 +21,22 @@
     #include <asio/io_service.hpp>
     #include <asio/placeholders.hpp>
 
-    #include <asio.hpp>
+    #include "Registry.hpp"
+    #include "Component/CDamage.hpp"
+    #include "Component/CDirection.hpp"
+    #include "Component/CHealth.hpp"
+    #include "Component/CHitBox.hpp"
+    #include "Component/CNetworkQueue.hpp"
+    #include "Component/CPosition.hpp"
+    // #include "Component/CVelocity.hpp"
 
-    #include "Structure.hpp"
+    #include "System/MoveSystem/MoveSystem.hpp"
+    #include "System/ReceiveSystem/ReceiveSystem.hpp"
+
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
+
+    #include "Constant.hpp"
 
 
 class Server {
@@ -37,18 +52,36 @@ class Server {
             }
         };
 
+        void setUpEcs();
+        void setUpComponents();
+
     protected:
 
     private:
         void ReceivePackets();
-        void SendPackets(asio::error_code const &e, std::size_t nbBytes);
-        void CompleteExchnage(asio::error_code const &e, std::size_t nbBytes);
+        void HandleReceive(asio::error_code const &e, std::size_t nbBytes);
+        void HandleSendPacket();
+        void CompleteExchange(asio::error_code const &e, std::size_t nbBytes);
+
+        void threadLoop();
 
         asio::io_context _context;
 
-        std::shared_ptr<UdpCommunication> _com;
-        std::vector<byte> buffer_to_get;
+        std::queue<std::function<void(void)>> _responseQueue;
 
+        std::shared_ptr<UdpCommunication> _com;
+        std::vector<byte> _buffer_to_get;
+
+        std::thread _thread;
+        bool _isRunning;
+
+        std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, bool>> _endpoints;
+
+        Registry _registry;
+        MoveSystem _moveSystem;
+        System::ReceiveSystem _receiveSystem;
+
+        bool _serverIsRunning = true;
 };
 
 #endif /* !SERVER_HPP_ */

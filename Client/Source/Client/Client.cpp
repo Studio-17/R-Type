@@ -6,60 +6,110 @@
 */
 
 #include <iostream>
+#include <functional>
 
 #include "Client.hpp"
-#include "Component/CurrScene.hpp"
-#include "Component/Mouse.hpp"
-#include "Component/CSprite.hpp"
-#include "Component/CKeyboard.hpp"
-#include "Component/CPosition.hpp"
-#include "LoadScene.hpp"
+#include "CurrScene.hpp"
+#include "Mouse.hpp"
+#include "CSprite.hpp"
+#include "CKeyboard.hpp"
+#include "CPosition.hpp"
+#include "CRect.hpp"
+#include "Velocity.hpp"
+#include "CServerId.hpp"
+#include "CNetworkQueue.hpp"
 #include "Serialization.hpp"
 #include "Structure.hpp"
 
-Client::Client(std::string const &ip, std::string const &port) :
-    _com(std::make_unique<UdpCommunication>(_context, 8081, port, ip)),
-    _registry(2), _working(true)
+Client::Client(std::string const &ip, std::string const &port, int hostPort) :
+    _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
+    _working(true)
 {
     _context.run();
+
+    _graphicLib = std::make_unique<rtype::GraphicalLib>();
+    _graphicLib->initWindow(800, 600, "R-Type", 60);
+
     setUpEcs();
-    // setUpComponents();
-    machineRun();
+    setUpSystems();
+    setUpComponents();
 }
 
 Client::~Client()
 {
+    _context.stop();
 }
 
 void Client::machineRun(void)
 {
-	Header header {.id = 8, .data = 4, .pr = {.pt = 3, .second = 9}};
-	auto buffer_to_send = serializable_trait<Header>::serialize(header);
-	_com->send(buffer_to_send);
-    std::cout << "sended" << std::endl;
-	// // receive();
-    while (!_loadScene.getGraphicalLib()->windowShouldClose()) {
-        _registry.run_systems();
+    while (!_graphicLib->windowShouldClose()) {
+        _graphicLib->startDrawingWindow();
+            _graphicLib->clearScreen();
+            _registry.run_systems();
+        _graphicLib->endDrawingWindow();
+        handleSendPacket();
     }
+    _graphicLib->closeWindow();
+}
+
+void Client::handleSendPacket() {
+    if (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.empty()) {
+        std::vector<byte> tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.front();
+        _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.pop();
+        _com->async_send(tmp, std::function<void(std::error_code, std::size_t)>());
+    }
+}
+
+void Client::handleReceive() {
+    _com->async_receive(_bufferToGet, std::bind(&Client::pushNewPacketsToQueue, this, std::placeholders::_1, std::placeholders::_2));
+}
+
+void Client::pushNewPacketsToQueue(asio::error_code const &e, size_t nbBytes)
+{
+    _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(_bufferToGet);
+
 }
 
 void Client::setUpEcs()
 {
-    _registry.register_component<component::currScene_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::ckeyboard_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::mouseState_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::csprite_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
-    _registry.register_component<component::csprite_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::crect_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+	_registry.register_component<component::velocity_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+	_registry.register_component<component::cserverid_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+	_registry.register_component<component::cnetwork_queue_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+}
 
-    _registry.add_component<component::currScene_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {SCENE::MENU, false});
-
-    _registry.add_system(_loadScene, _registry.get_components<component::currScene_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::mouseState_t>());
+void Client::setUpSystems()
+{
+	_registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
+    _registry.add_system(_rectSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::crect_t>());
+    _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::velocity_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>());
+    _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
+    // _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
 }
 
 void Client::setUpComponents()
 {
-    _registry.add_component<component::currScene_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {SCENE::MENU, false});
-    _registry.add_component<component::mouseState_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {0, 0, false});
-    _registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(FORBIDDEN_IDS::GRAPHIC), {false, false, false, false, false, false});
+    Entity ship = _registry.spawn_entity();
+
+    component::crect_t rect = {0, 0, 33.3125, 36, 1, 8};
+    _registry.add_component<component::crect_t>(_registry.entity_from_index(ship), std::move(rect));
+
+    component::csprite_t sprite = {.sprite = _graphicLib->createSprite("Assets/sprites/r-typesheet5.gif", 1, (Rectangle){.x = rect.x, .y = rect.y, .width = rect.width, .height = rect.height})};
+    _registry.add_component<component::csprite_t>(_registry.entity_from_index(ship), std::move(sprite));
+
+    component::cposition_t position = {10, 50};
+    _registry.add_component<component::cposition_t>(_registry.entity_from_index(ship), std::move(position));
+
+    component::velocity_t vel = {.velocity = 10};
+	_registry.add_component<component::velocity_t>(_registry.entity_from_index(ship), std::move(vel));
+
+    component::ckeyboard_t keyboard = {.keyboard = 0};
+	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(ship), std::move(keyboard));
+
+    component::cnetwork_queue_t network = {};
+    _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(ship), std::move(network));
 }

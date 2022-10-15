@@ -7,18 +7,25 @@
 
 #include "GraphicalLib.hpp"
 
-rtype::GraphicalLib::GraphicalLib(const int screenWidth, const int screenHeight, std::string title, const int framerate)
+rtype::GraphicalLib::GraphicalLib()
 {
-    InitWindow(screenWidth, screenHeight, title.c_str());
     _spriteMap = {};
     _textMap = {};
     _soundMap = {};
     _musicMap = {};
-
-    SetTargetFPS(framerate);
 }
 
 rtype::GraphicalLib::~GraphicalLib()
+{
+}
+
+void rtype::GraphicalLib::initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate)
+{
+    InitWindow(screenWidth, screenHeight, title.c_str());
+    SetTargetFPS(framerate);
+}
+
+void rtype::GraphicalLib::closeWindow()
 {
     CloseWindow();
 }
@@ -44,44 +51,44 @@ bool rtype::GraphicalLib::windowShouldClose()
 }
 
 //Sprite
-void rtype::GraphicalLib::createSprite(std::size_t id, std::string const &imagePath, Position const &position, float const &size)
+std::shared_ptr<Sprite> rtype::GraphicalLib::createSprite(std::string const &imagePath, float const &size, Rectangle const &rect)
 {
-    _spriteMap[id].reset(new Sprite(imagePath, position, size));
+    return std::make_shared<Sprite>(imagePath, size, rect);
 }
 
-void rtype::GraphicalLib::drawSprite(std::size_t id)
+void rtype::GraphicalLib::drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect)
 {
-    _spriteMap[id]->draw();
+    DrawTextureRec(sprite->getTexture(), rect, position.getVector2(), WHITE);
 }
 
-void rtype::GraphicalLib::destroySprite(std::size_t id)
+void rtype::GraphicalLib::destroySprite(Sprite const &sprite)
 {
-    _spriteMap.erase(id);
+    UnloadTexture(sprite.getTexture());
 }
 
-void rtype::GraphicalLib::setSpritePosition(std::size_t id, Position const &position)
+void rtype::GraphicalLib::setSpritePosition(Sprite &sprite, Position const &position)
 {
-    _spriteMap[id]->setPosition(position);
+    sprite.setPosition(position);
 }
 
-void rtype::GraphicalLib::setSpriteScale(std::size_t id, float scale)
+void rtype::GraphicalLib::setSpriteScale(Sprite &sprite, float scale)
 {
-    _spriteMap[id]->setScale(scale);
+    sprite.setScale(scale);
 }
 
-Position rtype::GraphicalLib::getSpritePosition(std::size_t id)
+Position rtype::GraphicalLib::getSpritePosition(Sprite const &sprite)
 {
-    return _spriteMap[id]->getPosition();
+    return sprite.getPosition();
 }
 
-void rtype::GraphicalLib::setSpriteRotation(std::size_t id, float rotation)
+void rtype::GraphicalLib::setSpriteRotation(Sprite &sprite, float rotation)
 {
-    _spriteMap[id]->setRotation(rotation);
+    sprite.setRotation(rotation);
 }
 
-float rtype::GraphicalLib::getSpriteRotation(std::size_t id)
+float rtype::GraphicalLib::getSpriteRotation(Sprite const &sprite)
 {
-    return _spriteMap[id]->getRotation();
+    return sprite.getRotation();
 }
 
 // Text
@@ -202,39 +209,39 @@ void rtype::GraphicalLib::setSoundVolume(std::size_t id, float volume)
     _soundMap[id]->setVolume(volume);
 }
 
-
+//Input
 bool rtype::GraphicalLib::hasBeenPressed(int key)
 {
-    return _keyboard->hasBeenPressed(key);
+    return IsKeyPressed(key);
 }
 
 bool rtype::GraphicalLib::isBeingPressed(int key)
 {
-    return _keyboard->isBeingPressed(key);
+    return IsKeyDown(key);
 }
 
 bool rtype::GraphicalLib::hasBeenReleased(int key)
 {
-    return _keyboard->hasBeenReleased(key);
+    return IsKeyReleased(key);
 }
 
 bool rtype::GraphicalLib::isNotBeingPressed(int key)
 {
-    return _keyboard->isNotBeingPressed(key);
+    return IsKeyUp(key);
 }
 
 void rtype::GraphicalLib::setExitKey(int key)
 {
-    _keyboard->setExitKey(key);
+    return SetExitKey(key);
 }
 
 int rtype::GraphicalLib::getPressedKeycode()
 {
-    return _keyboard->getPressedKeycode();
+    return GetKeyPressed();
 }
 
 int rtype::GraphicalLib::getPressedCharcode()
 {
-    return _keyboard->getPressedCharcode();
+    return GetCharPressed();
 }
 

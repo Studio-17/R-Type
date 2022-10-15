@@ -10,6 +10,15 @@
 
     #include <vector>
     #include <iostream>
+    #include <cstring>
+    #include "Shoot.hpp"
+
+namespace NETWORK_CLIENT_TO_SERVER {
+    enum PACKET_TYPE {
+        SHOOT,
+        DIRECTION
+    };
+};
 
 using byte = unsigned char;
 
@@ -23,13 +32,35 @@ struct serializable_trait {
         return ret;
     }
 
-    static Serializable unserialize(std::vector<byte> &v) {
+    static Serializable unserialize(std::vector<byte> const &v) {
         Serializable s;
 
         std::memcpy(&s, v.data(), sizeof(Serializable));
-        // CALL_HANDLER<Serializable>(s);
         return s;
     }
+};
+
+struct serialize_header {
+    template<class Seriazable>
+    static std::vector<byte> serializeHeader(uint8_t id, Seriazable const &obj)
+    {
+        std::cout << "id: "<< (int)id<< ". stop" << std::endl;
+        std::vector<byte> bytes;
+        bytes.resize(sizeof(uint8_t));
+
+        std::memcpy(bytes.data(), &id, sizeof(uint8_t));
+        std::vector<byte> data = serializable_trait<Seriazable>::serialize(obj);
+        bytes.insert(bytes.end(), data.begin(), data.end());
+        return bytes;
+    };
+
+    static uint8_t getId(std::vector<byte> const &bytes)
+    {
+        uint8_t id;
+        std::memcpy(&id, bytes.data(), sizeof(uint8_t));
+        std::cout << "new id: " << id << " . " << (int)id << std::endl;
+        return id;
+    };
 };
 
 #endif /* !SERIALIZATION_HPP_ */
