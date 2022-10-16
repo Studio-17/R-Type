@@ -44,7 +44,7 @@ void Server::HandleSendPacket() {
         std::vector<byte> &tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.front();
         for (auto const &[address, portList] : _endpoints) {
             for (auto const &[port, isPresent] : portList) {
-                _com->send(tmp);
+                _com->send(tmp, address, port);
             }
         }
         _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.pop();
