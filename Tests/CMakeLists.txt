@@ -1,22 +1,24 @@
 cmake_minimum_required(VERSION 3.17)
 
 # set the project name and version
-project(R-Type_Tests VERSION ${VERSION})
+project(R-Type VERSION ${VERSION})
 
 set(EXECUTABLE_NAME r-type_test)
 
 enable_testing()
 
-file(GLOB SOURCES
-    ../Libraries/ECS/Source/Entity.hpp
-)
-
 include_directories(
     ../Libraries/ECS/Source/
+    ../Libraries/Network/Serialization/
+    ../Libraries/Network/UdpCommunication/
+    ../Server/Source/Component/
 )
 
 file(GLOB TEST_SOURCES
-    Test.cpp
+    Source/TestComponent.cpp
+    Source/TestNetwork.cpp
+    Source/TestRegistry.cpp
+    Source/TestSystem.cpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES} ${TEST_SOURCES})

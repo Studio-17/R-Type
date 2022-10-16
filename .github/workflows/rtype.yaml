@@ -117,6 +117,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        # Setup the build machine with the most recent versions of CMake and Ninja. Both are cached if not already: on subsequent runs both will be quickly restored from GitHub cache service.
+      - uses: lukka/get-cmake@latest
 
       # Runs a bash file that executes unit tests (with criterion)
       - name: Configure building environment
