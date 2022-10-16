@@ -95,12 +95,26 @@ class Sprite {
          */
         Texture2D getTexture() const;
 
+        /**
+         * @brief Get the Rect object
+         * 
+         * @return Rectangle 
+         */
+        Rectangle getRect() const;
+        /**
+         * @brief Set the Rect object
+         * 
+         * @param rect rectangle of the sprite
+         */
+        void setRect(Rectangle const &rect);
+
     protected:
     private:
         Position _position; ///< Position of the sprite
         float _scale; ///< Scale of the sprite
         float _rotation; ///< Rotation of the sprite
         Texture2D _texture; ///< Texture of the sprite
+        Rectangle _rect; ///< Rectangle of the sprite
 };
 
 #endif /* !SPRITE_HPP_ */
