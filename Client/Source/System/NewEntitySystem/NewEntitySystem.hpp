@@ -18,6 +18,7 @@
     #include "CServerId.hpp"
     #include "Constant.hpp"
     #include "CRect.hpp"
+    #include "NewEntity.hpp"
     #include "Serialization.hpp"
 
 class NewEntitySystem {
@@ -26,6 +27,10 @@ class NewEntitySystem {
         ~NewEntitySystem();
 
         void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds);
+        void addBullet(Registry &registry, packet_new_entity &packet_new_entity);
+        void addShip(Registry &registry, packet_new_entity &packet_new_entity);
+        void addEnemy(Registry &registry, packet_new_entity &packet_new_entity);
+        void doesEntityAlreadyExist(int newEntityId);
 
     protected:
     private:

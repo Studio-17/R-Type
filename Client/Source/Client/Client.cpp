@@ -22,10 +22,12 @@
 #include "Structure.hpp"
 #include "CType.hpp"
 #include "Move.hpp"
+#include "NewConnexion.hpp"
+#include "CIdOfShip.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
-    _working(true)
+    _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
     _graphicLib->initWindow(800, 600, "R-Type", 60);
@@ -39,12 +41,20 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort) :
 Client::~Client()
 {
     _context.stop();
-    _working = false;
+    _connected = false;
     _thread.join();
+}
+
+void Client::tryToConnect()
+{
+    packet_new_connexion packet = {.id = 0};
+    std::vector<byte> bytes = serialize_header::serializeHeader<packet_new_connexion>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::NEW_CONNEXION, packet);
+    _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(bytes);
 }
 
 void Client::machineRun()
 {
+    tryToConnect();
     while (!_graphicLib->windowShouldClose()) {
         _graphicLib->startDrawingWindow();
             _graphicLib->clearScreen();
@@ -53,7 +63,7 @@ void Client::machineRun()
         SendPacket();
     }
     _graphicLib->closeWindow();
-    _working = false;
+    _connected = false;
 }
 
 void Client::SendPacket() {
@@ -86,15 +96,16 @@ void Client::setUpEcs()
 	_registry.register_component<component::cserverid_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 	_registry.register_component<component::cnetwork_queue_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 	_registry.register_component<component::cdirection_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
-    _registry.register_component<component::ctype_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+	_registry.register_component<component::cid_of_ship_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+  _registry.register_component<component::ctype_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 }
 
 void Client::setUpSystems()
 {
-	_registry.add_system(_networkSystem, _registry.get_components<component::cnetwork_queue_t>());
+	_registry.add_system(_networkSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cid_of_ship_t>());
 	_registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
     _registry.add_system(_rectSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::crect_t>());
-    _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
+    _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cid_of_ship_t>());
     _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
     _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
     _registry.add_system(_moveSystem, _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>());
@@ -104,7 +115,6 @@ void Client::setUpComponents()
 {
     Entity network = _registry.spawn_entity();
     Entity parallax = _registry.spawn_entity();
-    Entity ship = _registry.spawn_entity();
 
     // Network entity
     component::cnetwork_queue_t nnetwork = {};
@@ -113,30 +123,11 @@ void Client::setUpComponents()
     component::ctype_t ntype = {.type = NET};
     _registry.add_component<component::ctype_t>(_registry.entity_from_index(network), std::move(ntype));
 
-    component::cserverid_t serverId = {.id = 1};
-    _registry.add_component<component::cserverid_t>(_registry.entity_from_index(ship), std::move(serverId));
-
-    // Ship Entity
-    component::crect_t rect = {0, 0, 33.3125, 36, 1, 8};
-    _registry.add_component<component::crect_t>(_registry.entity_from_index(ship), std::move(rect));
-
-    component::cdirection_t direction = {.x = 0, .y = 0};
-    _registry.add_component<component::cdirection_t>(_registry.entity_from_index(ship), std::move(direction));
-
-    component::csprite_t sprite = {.sprite = _graphicLib->createSprite("Assets/sprites/r-typesheet5.gif", 1, (Rectangle){.x = rect.x, .y = rect.y, .width = rect.width, .height = rect.height})};
-    _registry.add_component<component::csprite_t>(_registry.entity_from_index(ship), std::move(sprite));
-
-    component::cposition_t position = {10, 50};
-    _registry.add_component<component::cposition_t>(_registry.entity_from_index(ship), std::move(position));
-
-    component::cvelocity_t vel = {.velocity = 10};
-	_registry.add_component<component::cvelocity_t>(_registry.entity_from_index(ship), std::move(vel));
+    component::cid_of_ship_t idOfShip = {.id = 0};
+    _registry.add_component<component::cid_of_ship_t>(_registry.entity_from_index(network), std::move(idOfShip));
 
     component::ckeyboard_t keyboard = {.keyboard = 0};
-	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(ship), std::move(keyboard));
-
-    component::ctype_t type = {.type = PLAYER};
-    _registry.add_component<component::ctype_t>(_registry.entity_from_index(ship), std::move(type));
+	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(network), std::move(keyboard));
 
     // Parallax Entity
     component::crect_t prect = {0, 0, 600, 800, 1, 6000};

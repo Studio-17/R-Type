@@ -14,7 +14,6 @@
 #include "CVelocity.hpp"
 
 #include "NewEntity.hpp"
-#include "Game.hpp"
 
 NewPlayerSystem::NewPlayerSystem()
 {
@@ -23,7 +22,6 @@ NewPlayerSystem::NewPlayerSystem()
 void NewPlayerSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type)
 {
     while (!netqueue[0]->newPlayerQueue.empty()) {
-        packet_game newPlayer = netqueue[0]->newPlayerQueue.front();
         Entity spaceShip = createSpaceShip(registry);
 
         netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_PLAYER, {spaceShip, position[spaceShip]->x, position[spaceShip]->y, 1, (uint16_t)type[spaceShip]->type}));

@@ -17,7 +17,6 @@
     #include <asio/io_service.hpp>
     #include <asio/placeholders.hpp>
 
-	#include "Network/Network.hpp"
 	#include "UdpCommunication.hpp"
 	#include "Registry.hpp"
     #include "GraphicalLib.hpp"
@@ -40,6 +39,8 @@ class Client
 		void setUpComponents();
 		void machineRun();
 
+		void tryToConnect();
+
 	private:
 		void handleReceive();
 		void SendPacket();
@@ -58,7 +59,7 @@ class Client
 		std::unique_ptr<UdpCommunication> _com;
         Registry _registry; ///< Registry that contains all the ECS
 		std::thread _thread; ///< thread to handle ECS
-		bool _working;
+		bool _connected;
 
 		// Systems
 		NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues

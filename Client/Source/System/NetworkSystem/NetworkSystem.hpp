@@ -10,15 +10,17 @@
 
     #include "Registry.hpp"
     #include "CNetworkQueue.hpp"
+    #include "CIdOfShip.hpp"
 
 class NetworkSystem {
     public:
         NetworkSystem();
         ~NetworkSystem() = default;
 
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network);
+        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip);
         void dispatchToPositionQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
         void dispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+        void handleNewPlayerAndDispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip);
 
 
 

@@ -10,7 +10,6 @@
 #include <regex>
 
 #include "Client.hpp"
-#include "Network/Network.hpp"
 
 static void printHelper()
 {

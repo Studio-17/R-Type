@@ -57,7 +57,6 @@ class Server {
 
         void setUpEcs();
         void setUpComponents();
-        void machineRun();
 
     protected:
 
