@@ -25,7 +25,17 @@ class Sparse_array {
         using size_type = typename container_t::size_type;
 
     public:
+        /**
+         * @brief Construct a new Sparse_array object
+         * 
+         */
         Sparse_array() = default;
+
+        /**
+         * @brief Construct a new Sparse_array object
+         * 
+         * @param sp_arr 
+         */
         explicit Sparse_array(Sparse_array const &sp_arr)
         {
             for (std::size_t i = 0; i < sp_arr.size(); i++) {
@@ -35,66 +45,155 @@ class Sparse_array {
                 _data[i] = sp_arr._data[i];
             }
         };
-        explicit Sparse_array(Sparse_array &&sp_arr) noexcept : _data(std::move(sp_arr._data))
-        {
-        };
+
+        /**
+         * @brief Construct a new Sparse_array object
+         * 
+         * @param sp_arr 
+         */
+        explicit Sparse_array(Sparse_array &&sp_arr) noexcept : _data(std::move(sp_arr._data)) {};
+
+        /**
+         * @brief Construct a new Sparse_array object
+         * 
+         * @param size 
+         */
         explicit Sparse_array(std::size_t size)
         {
             for (std::size_t i = 0; i < size; i++) {
                 _data.push_back(std::nullopt);
             }
         };
+
+        /**
+         * @brief Destroy the Sparse_array object
+         * 
+         */
         virtual ~Sparse_array() = default;
 
+        /**
+         * @brief Overload the operator =
+         * 
+         * @param sp_arr 
+         * @return Sparse_array& 
+         */
         Sparse_array &operator=(Sparse_array const &sp_arr)
         {
             std::swap(_data, sp_arr._data);
             return *this;
         };
+
+        /**
+         * @brief Overload the operator =
+         * 
+         * @param sp_arr 
+         * @return Sparse_array& 
+         */
         Sparse_array &operator=(Sparse_array &&sp_arr) noexcept
         {
             _data = std::move(sp_arr._data);
             return *this;
         };
+
+        /**
+         * @brief Overloads the operator []
+         * 
+         * @param idx 
+         * @return reference_type 
+         */
         reference_type operator[](size_t idx)
         {
             return _data[idx];
         };
+
+        /**
+         * @brief Overloads the operator [] const
+         * 
+         * @param idx 
+         * @return const_reference_type 
+         */
         const_reference_type operator[](size_t idx) const
         {
             return _data[idx];
         };
 
+        /**
+         * @brief Overloads the operator begin()
+         * 
+         * @return iterator 
+         */
         iterator begin()
         {
             return _data.begin();
         };
+
+        /**
+         * @brief Overloads the operator begin() const
+         * 
+         * @return const_iterator 
+         */
         const_iterator begin() const
         {
             return _data.begin();
         };
+
+        /**
+         * @brief Overloads the operator cbegin() const
+         * 
+         * @return const_iterator 
+         */
         const_iterator cbegin() const
         {
             return _data.cbegin();
         };
 
+        /**
+         * @brief Overloads the operator ebd()
+         * 
+         * @return iterator 
+         */
         iterator end()
         {
             return _data.end();
         };
+
+        /**
+         * @brief Overloads the operator end() const
+         * 
+         * @return const_iterator 
+         */
         const_iterator end() const
         {
             return _data.end();
         };
+
+        /**
+         * @brief Overloads the operator cend() const
+         * 
+         * @return const_iterator 
+         */
         const_iterator cend() const
         {
             return _data.cend();
         };
 
+        /**
+         * @brief Overloads the operator size()
+         * 
+         * @return size_type 
+         */
         size_type size() const
         {
             return _data.size();
         };
+
+        /**
+         * @brief Overloads the operator insert_at()
+         * 
+         * @param pos 
+         * @param component 
+         * @return reference_type 
+         */
         reference_type insert_at(size_type pos, Component const &component)
         {
             if (pos > _data.size())
@@ -110,6 +209,14 @@ class Sparse_array {
             _data.push_back(component);
             return _data.back();
         };
+
+        /**
+         * @brief Overloads the operator insert_at()
+         * 
+         * @param pos 
+         * @param component 
+         * @return reference_type 
+         */
         reference_type insert_at(size_type pos, Component &&component)
         {
             if (pos > _data.size())
@@ -126,6 +233,14 @@ class Sparse_array {
             return _data.back();
         };
 
+        /**
+         * @brief Overloads the operator emplace_at()
+         * 
+         * @tparam Params 
+         * @param pos 
+         * @param params 
+         * @return reference_type 
+         */
         template <class... Params>
         reference_type emplace_at(size_type pos, Params &&...params)
         {
@@ -137,6 +252,11 @@ class Sparse_array {
             return _data[pos];
         };
 
+        /**
+         * @brief Overloads the operator erase()
+         * 
+         * @param pos 
+         */
         void erase(size_type pos)
         {
             if (pos > _data.size())
@@ -146,6 +266,12 @@ class Sparse_array {
             _data[pos].reset();
         };
 
+        /**
+         * @brief Get the index object
+         * 
+         * @param val_type 
+         * @return size_type 
+         */
         size_type get_index(value_type const &val_type) const
         {
             auto tmp = std::addressof(val_type);
@@ -158,6 +284,10 @@ class Sparse_array {
         };
 
     private:
+        /**
+         * @brief A container named data, it holds the object informations
+         * 
+         */
         container_t _data;
 };
 
