@@ -124,19 +124,17 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/Epitec
 <!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
 
 ### Your First Code Contribution
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
-
--->
+Follow the next guidelines for any contribution on this repository
 
 ### Improving The Documentation
-<!-- TODO
-Updating, improving and correcting the documentation
-
--->
+The usage of DOxygen is mandatory, please document your functions, methods, class and other instances
+Feel free to be as detailed as possible.
 
 ## Styleguides
 ### Commit Messages
-<!-- TODO
+https://www.conventionalcommits.org/en/v1.0.0/#specification
 
--->
+### Coding Style Guidelines
+https://intra.epitech.eu/file/Public/technical-documentations/C/epitech_c_coding_style.pdf
+
+To enforce Coding Style use this command: `clang-format -style=file *.[ch]pp`

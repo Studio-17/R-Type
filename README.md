@@ -20,11 +20,9 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 ```bash
 git clone git@github:EpitechPromo2025/...
 
-git submodule update --init raylib/
+git submodule update --init asio/ raylib/ 
 
 mkdir -p Builds && cd Builds
-
-conan install .. --build=missing -s compiler.libcxx=libstdc++11 -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
  
 cmake ..
 
@@ -34,11 +32,75 @@ cmake --build . -- -j 4
 ## Usage
 
 ### Creating a system
-```bash
+```c++
+--- MySystem.hpp
+
+class MySystem {
+    public:
+        MySystem() {};
+
+        ~MySystem() = default;
+
+        void operator()(Registry &registry,
+                        Sparse_array<component::cnetwork_queue_t> &netqueue,
+                        Sparse_array<component::component1_t> &component1,
+                        Sparse_array<component::component2_t> &component2) {};
+
+    protected:
+
+    private:
+};
+
+---
+
+--- Main.cpp
+
+    void configureMySystem(Registry &_registry) {
+
+        MySystem _anAmazingSystem
+        
+        _registry.register_component<component::component1_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+        _registry.register_component<component::component2_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+
+        _registry.add_system(_anAmazingSystem, _registry.get_components<component::component1_t>(), _registry.get_components<component::component2_t>());
+
+        Entity e = _registry.spawn_entity();
+
+        component::component1_t component1 = { foo, fizz };
+        _registry.add_component<component::component1_t>(_registry.entity_from_index(e), std::move(component1));
+
+        component::component2_t component2 = { bar, buzz, foo };
+        _registry.add_component<component::component2_t>(_registry.entity_from_index(e), std::move(component2));
+
+    }
+
+    int main() {
+        
+        Registry _registry;
+
+        configureMySystem(_registry);
+
+        while (true) {
+            _registry.run_systems();
+        }
+
+    }
+
+  ---
 ```
 
 ### Adding a packet
-```bash
+```c++
+--- MyPacket.hpp
+
+struct packet_mypacket {
+    uint16_t foo;
+    uint16_t bar;
+    uint16_t foobar;
+};
+
+std::vector &serialized_packet = serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::MYPACKET, packet_mypacket)
+---
 ```
 
 ## Contributing
