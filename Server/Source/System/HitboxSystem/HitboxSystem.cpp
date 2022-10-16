@@ -35,10 +35,10 @@ void systemNamespace::HitboxSystem::HitboxSystem::operator()(Registry &registry,
                 auto &secondpos = positions[i];
                 if (secondtype->type != ENEMY) {
                     if (CheckCollision(firstrect, secondrect, firstpos, secondpos)) {
-                        if (secondtype->type == PLAYER);
-                        // destroy the enemy entity and the player entity
-                        if (secondtype->type == BULLET);
-                        // destroy the enemy entity and the bullet entity
+                        if (secondtype->type == PLAYER || secondtype->type == BULLET) {
+                            registry.kill_entity(registry.entity_from_index(i));
+                            registry.kill_entity(registry.entity_from_index(x));
+                        }
                     }
                 }
             }

@@ -17,7 +17,6 @@ file(GLOB SOURCE_FILES
     Source/GraphicalLib/Sprite/*.cpp
     Source/GraphicalLib/Text/*.cpp
     Source/GraphicalLib/Keyboard/*.cpp
-    Source/Network/*.cpp
     Source/System/*.cpp
     Source/System/ControlSystem/*.cpp
     Source/System/DrawSystem/*.cpp
@@ -42,7 +41,6 @@ include_directories(
     Source/GraphicalLib/Sprite/
     Source/GraphicalLib/Text/
     Source/GraphicalLib/Keyboard/
-    Source/Network/
     Source/System/
     Source/System/ControlSystem/
     Source/System/DrawSystem/

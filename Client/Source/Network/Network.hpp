@@ -10,6 +10,10 @@
 
     // #include <asio/ip/udp.hpp>
 
+/**
+ * @brief A structure that represents a position in the game space
+ * 
+ */
 struct position
 {
     int id;
@@ -18,14 +22,45 @@ struct position
     float y;
 };
 
+/**
+ * @brief The Network class, it handles communication with udp protocol
+ * 
+ */
 class Network
 {
 	public:
+		/**
+		 * @brief Construct a new Network object
+		 * 
+		 * @param host 
+		 * @param port 
+		 */
 		Network(std::string const &host, std::string const &port);
+
+		/**
+		 * @brief Destroy the Network object
+		 * 
+		 */
 		~Network();
 
+		/**
+		 * @brief A method to send a message using a string object
+		 * 
+		 * @param msg 
+		 */
 		void send(const std::string& msg);
+
+		/**
+		 * @brief A method to receive an object as a string
+		 * 
+		 * @return std::string 
+		 */
     	std::string receive(void);
+
+		/**
+		 * @brief A test method
+		 * 
+		 */
         void test(void);
 	private:
 };

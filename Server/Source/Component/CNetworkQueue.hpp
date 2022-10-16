@@ -12,6 +12,7 @@
 
     #include "Move.hpp"
     #include "Shoot.hpp"
+    #include "NewConnexion.hpp"
 
 using byte = unsigned char;
 
@@ -28,7 +29,7 @@ namespace component {
 
         std::queue<packet_move> moveQueue;
         std::queue<packet_shoot> shootQueue;
-        // std::queue<> newPlayerQueue;
+        std::queue<packet_new_connexion> newPlayerQueue;
 
 
     } cnetwork_queue_t;

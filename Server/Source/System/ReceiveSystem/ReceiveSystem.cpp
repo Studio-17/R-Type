@@ -47,3 +47,9 @@ void System::ReceiveSystem::addShootOnQueue(std::vector<byte> const &data, Spars
     queues[0]->shootQueue.push(newMove);
 }
 
+void System::ReceiveSystem::addNewPLayerOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues)
+{
+    std::cout << "[Server] new Connexion" << std::endl;
+    packet_new_connexion newMove = serializable_trait<packet_new_connexion>::unserialize(data);
+    queues[0]->newPlayerQueue.push(newMove);
+}
