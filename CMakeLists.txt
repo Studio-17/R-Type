@@ -29,6 +29,7 @@ target_link_libraries(asio INTERFACE -pthread)
 
 option(UNIT_TESTS "Build test with Criterion" OFF) #OFF by default
 if(UNIT_TESTS)
+    message("-- Building unit tests with libcriterion")
     add_subdirectory(Tests)
 endif()
 unset(UNIT_TESTS CACHE)
