@@ -19,6 +19,7 @@ NewEntitySystem::NewEntitySystem()
 
     _entityType[ENTITY_TYPE::PLAYER] = {"Assets/sprites/r-typesheet42.gif", {0, 0, 86, 33, 1, 5}};
     _entityType[ENTITY_TYPE::BULLET] = {"Assets/sprites/r-typesheet3.gif" , {0, 0, 18, 17, 1, 12}};
+    _entityType[ENTITY_TYPE::ENEMY] = {"Assets/sprites/BasicEnemySpriteSheet.gif", {0, 0, 34, 33.5, 1, 8}};
 }
 
 NewEntitySystem::~NewEntitySystem()
@@ -67,6 +68,20 @@ void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity
 
 void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity)
 {
+    Entity enemy = registry.spawn_entity();
+    std::cout << "bullet: " << enemy << " at id " << newEntity.id<<std::endl;
+    component::cdirection_t direction = {0, 0};
+    registry.add_component<component::cdirection_t>(registry.entity_from_index(enemy), std::move(direction));
+    component::crect_t rect = {_entityType.at(static_cast<ENTITY_TYPE>(newEntity.type)).second};
+    registry.add_component<component::crect_t>(registry.entity_from_index(enemy), std::move(rect));
+    component::csprite_t sprite = {.sprite = _graphicLib->createSprite(_entityType.at(static_cast<ENTITY_TYPE>(newEntity.type)).first, 1, (Rectangle){.x = rect.x, .y = rect.y, .width = rect.width, .height = rect.height})};
+    registry.add_component<component::csprite_t>(registry.entity_from_index(enemy), std::move(sprite));
+    component::cposition_t position = {.x = (float)newEntity.positionX, .y = (float)newEntity.positionY};
+    registry.add_component<component::cposition_t>(registry.entity_from_index(enemy), std::move(position));
+    component::cserverid_t serverId = {.id = newEntity.id};
+    registry.add_component<component::cserverid_t>(registry.entity_from_index(enemy), std::move(serverId));
+    component::cvelocity_t velocity = {.velocity = 8};
+    registry.add_component<component::cvelocity_t>(registry.entity_from_index(enemy), std::move(velocity));
 }
 
 void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity)
