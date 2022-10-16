@@ -137,6 +137,9 @@ Updating, improving and correcting the documentation
 
 ## Styleguides
 ### Commit Messages
-<!-- TODO
+https://www.conventionalcommits.org/en/v1.0.0/#specification
 
--->
+### Coding Style Guidelines
+https://intra.epitech.eu/file/Public/technical-documentations/C/epitech_c_coding_style.pdf
+
+To enforce Coding Style use this command: `clang-format -style=file *.[ch]pp`

@@ -12,6 +12,7 @@ Sprite::Sprite(std::string const &imagePath, float const &scale, Rectangle const
     _texture = LoadTexture(imagePath.c_str());
     _rotation = 0.0f;
     _scale = scale;
+    _rect = rect;
 }
 
 Sprite::~Sprite()
@@ -66,4 +67,14 @@ void Sprite::setTexture(std::string const &imagePath)
 Texture2D Sprite::getTexture() const
 {
     return _texture;
+}
+
+Rectangle Sprite::getRect() const
+{
+    return _rect;
+}
+
+void Sprite::setRect(Rectangle const &rect)
+{
+    _rect = rect;
 }

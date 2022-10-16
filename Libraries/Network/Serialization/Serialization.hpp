@@ -25,7 +25,7 @@ namespace NETWORK_SERVER_TO_CLIENT {
     enum PACKET_TYPE {
         POSITION,
         NEW_ENTITY,
-        DEAD,
+        KILL_ENTITY,
         NEW_PLAYER
     };
 };
@@ -49,8 +49,19 @@ enum ENTITY_TYPE {
 
 using byte = unsigned char;
 
+/**
+ * @brief A templated class to serialize and unserialize a packet (as a std::vector of bytes)
+ * 
+ * @tparam Serializable 
+ */
 template <class Serializable>
 struct serializable_trait {
+    /**
+     * @brief A method to serialize an object (the object passed as template argument) into a vector of byte
+     * 
+     * @param obj 
+     * @return std::vector<byte> 
+     */
     static std::vector<byte> serialize(Serializable const &obj) {
         std::vector<byte> ret;
 
@@ -59,6 +70,12 @@ struct serializable_trait {
         return ret;
     }
 
+    /**
+     * @brief A method to unserialize a vector of byte into an object (passed as template argument)
+     * 
+     * @param v 
+     * @return Serializable 
+     */
     static Serializable unserialize(std::vector<byte> const &v) {
         Serializable s;
 

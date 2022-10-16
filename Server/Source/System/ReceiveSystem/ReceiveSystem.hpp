@@ -43,11 +43,35 @@ namespace System {
 
         protected:
         private:
+            /**
+             * @brief Adds a packet to the queue of hits handling
+             * 
+             * @param data 
+             * @param queues 
+             */
             void addHitOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
+
+            /**
+             * @brief Adds a packet to the queue of movement handling
+             * 
+             * @param data 
+             * @param queues 
+             */
             void addMoveOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
+
+            /**
+             * @brief Adds a packet to the queue of shoot handling
+             * 
+             * @param data 
+             * @param queues 
+             */
             void addShootOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
             void addNewPLayerOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
 
+            /**
+             * @brief A map that links every OnQueue method to a type of packet
+             * 
+             */
             std::unordered_map<uint8_t, std::function<void(std::vector<byte> const &, Sparse_array<component::cnetwork_queue_t> &)>> callBacks {
                 // {0, std::bind(&ReceiveSystem::addHitOnQueue, this, std::placeholders::_1, std::placeholders::_2)},
                 {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::NEW_CONNEXION, std::bind(&ReceiveSystem::addNewPLayerOnQueue, this, std::placeholders::_1, std::placeholders::_2)},

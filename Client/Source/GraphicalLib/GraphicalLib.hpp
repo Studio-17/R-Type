@@ -41,8 +41,20 @@ namespace rtype {
              */
             ~GraphicalLib();
 
+            /**
+             * @brief A method to initialize a window object
+             * 
+             * @param screenWidth 
+             * @param screenHeight 
+             * @param title 
+             * @param framerate 
+             */
             void initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate) override;
 
+            /**
+             * @brief A method to close a window
+             * 
+             */
             void closeWindow() override;
 
             /**
@@ -125,6 +137,16 @@ namespace rtype {
              * @return a float that corespond to the rotation of the sprite
              */
             float getSpriteRotation(Sprite const &sprite) override;
+
+            /**
+             * @brief 
+             * 
+             * @param sprite1 rect of the first sprite
+             * @param sprite2 rect of the second sprite
+             * @return true if the two sprites are colliding
+             * @return false if the two sprites are not colliding
+             */
+            bool checkCollisions(Sprite const &sprite1, Sprite const &sprite2);
 
             /**
              * @brief Create a Text object

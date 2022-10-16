@@ -19,9 +19,9 @@ namespace component {
      * @brief A structure representing the type component of an entity
      * 
      */
-    struct ctype_t {
+    typedef struct ctype_s {
         ENTITY_TYPE type;
-    };
+    } ctype_t;
 }
 
 #endif /* !CTYPE_HPP_ */

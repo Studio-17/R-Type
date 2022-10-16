@@ -72,13 +72,52 @@ class Position {
          */
         Position &operator =(float pos);
 
+        /**
+         * @brief Overload the + operator
+         * 
+         * @param value 
+         * @return Position 
+         */
         Position operator +(float value);
+        
+        /**
+         * @brief Overload the + operator for Position objects
+         * 
+         * @param position 
+         * @return Position 
+         */
         Position operator +(Position const &position);
 
+        /**
+         * @brief Overload the - operator
+         * 
+         * @param value 
+         * @return Position 
+         */
         Position operator -(float value);
+
+        /**
+         * @brief Overload the - operator for Position objects
+         * 
+         * @param position 
+         * @return Position 
+         */
         Position operator -(Position const &position);
 
+        /**
+         * @brief Overload the * operator
+         * 
+         * @param value 
+         * @return Position 
+         */
         Position operator *(float value);
+
+        /**
+         * @brief Overload the * operator for Position objects
+         * 
+         * @param position 
+         * @return Position 
+         */
         Position operator *(Position const &position);
 
         /**
@@ -239,10 +278,44 @@ class Position {
  */
 std::ostream &operator<<(std::ostream &, const Position &);
 
+/**
+ * @brief overload of < function to print its result (true or false)
+ * 
+ * @param position 
+ * @param value 
+ * @return true 
+ * @return false 
+ */
 bool operator <(Position const &position, float value);
+
+/**
+ * @brief overload of < function to print its result (true or false) for a Position object
+ * 
+ * @param position 
+ * @param position2 
+ * @return true 
+ * @return false 
+ */
 bool operator <(Position const &position, Position const &position2);
 
+/**
+ * @brief overload of > function to print its result (true or false)
+ * 
+ * @param position 
+ * @param value 
+ * @return true 
+ * @return false 
+ */
 bool operator >(Position const &position, float value);
+
+/**
+ * @brief overload of > function to print its result (true or false) for a Position object
+ * 
+ * @param position 
+ * @param position2 
+ * @return true 
+ * @return false 
+ */
 bool operator >(Position const &position, Position const &position2);
 
 #endif /* !POSITION_HPP_ */

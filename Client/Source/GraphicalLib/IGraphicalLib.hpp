@@ -48,8 +48,16 @@ namespace rtype {
 
             virtual auto initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate) -> void = 0;
 
+            /**
+             * @brief A method to close the window
+             * 
+             */
             virtual auto closeWindow() -> void = 0;
 
+            /**
+             * @brief A method to clear the window
+             * 
+             */
             virtual auto clearScreen() -> void = 0;
             /**
              * @brief Start drawing in the window
@@ -123,6 +131,16 @@ namespace rtype {
              * @return float rotation of the sprite
              */
             virtual auto getSpriteRotation(Sprite const &sprite) -> float = 0;
+
+            /**
+             * @brief 
+             * 
+             * @param sprite1 rect of the first sprite
+             * @param sprite2 rect of the second sprite
+             * @return true if the two sprites are colliding
+             * @return false if the two sprites are not colliding
+             */
+            virtual auto checkCollisions(Sprite const &sprite1, Sprite const &sprite2) -> bool = 0;
 
             /**
              * @brief Create a Text object

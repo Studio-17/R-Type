@@ -91,6 +91,11 @@ float rtype::GraphicalLib::getSpriteRotation(Sprite const &sprite)
     return sprite.getRotation();
 }
 
+bool rtype::GraphicalLib::checkCollisions(Sprite const &sprite1, Sprite const &sprite2)
+{
+    return CheckCollisionRecs(sprite1.getRect(), sprite2.getRect());
+}
+
 // Text
 void rtype::GraphicalLib::createText(std::size_t id, std::string const &filename, std::string const &text, int fontSize, Color const &color, Position const &position)
 {
