@@ -13,7 +13,6 @@
     #include "CPosition.hpp"
     #include "CRect.hpp"
     #include "CNetworkQueue.hpp"
-    #include "CServerId.hpp"
 
 /**
  * @brief Namespace for systems
@@ -40,6 +39,18 @@ namespace systemNamespace {
             /**
              * @brief 
              * 
+             * @param rec1 
+             * @param rec2 
+             * @param pos1 
+             * @param pos2 
+             * @return true 
+             * @return false 
+             */
+            bool CheckCollision(std::optional<component::crect_t> &rec1, std::optional<component::crect_t> &rec2, std::optional<component::cposition_t> &pos1, std::optional<component::cposition_t> &pos2);
+
+            /**
+             * @brief 
+             * 
              * @param registry The registry that contains all the ECS
              * @param types Sparse array of all type component of all entities
              * @param positions Sparse array of all position component of all entities
@@ -50,13 +61,11 @@ namespace systemNamespace {
             void operator()(Registry &registry, Sparse_array<component::ctype_t> &types,
                                                 Sparse_array<component::cposition_t> &positions,
                                                 Sparse_array<component::crect_t> &rects,
-                                                Sparse_array<component::cnetwork_queue_t> &network_queues,
-                                                Sparse_array<component::cserverid_t> &server_ids);
+                                                Sparse_array<component::cnetwork_queue_t> &network_queues);
 
 
         protected:
         private:
-            int _graphicLib; // Need to replace the type
     };
 };
 

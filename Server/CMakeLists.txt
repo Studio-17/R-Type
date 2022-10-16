@@ -13,10 +13,10 @@ file(GLOB SOURCE_FILES
     Source/Server/*.cpp
     Source/System/*.cpp
     Source/System/DirectionSystem/*.cpp
-    Source/System/HitSystem/*.cpp
     Source/System/MoveSystem/*.cpp
     Source/System/ReceiveSystem/*.cpp
     Source/System/ShootSystem/*.cpp
+    Source/System/HitboxSystem/*.cpp
     Source/System/SpawnEnemySystem/*.cpp
 )
 
@@ -28,10 +28,10 @@ include_directories(
     Source/Server/
     Source/System/
     Source/System/DirectionSystem/
-    Source/System/HitSystem/
     Source/System/MoveSystem/
     Source/System/ReceiveSystem/
     Source/System/ShootSystem/
+    Source/System/HitboxSystem/
     Source/System/SpawnEnemySystem/
 )
 

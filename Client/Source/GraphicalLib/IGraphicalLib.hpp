@@ -125,6 +125,16 @@ namespace rtype {
             virtual auto getSpriteRotation(Sprite const &sprite) -> float = 0;
 
             /**
+             * @brief 
+             * 
+             * @param sprite1 rect of the first sprite
+             * @param sprite2 rect of the second sprite
+             * @return true if the two sprites are colliding
+             * @return false if the two sprites are not colliding
+             */
+            virtual auto checkCollisions(Sprite const &sprite1, Sprite const &sprite2) -> bool = 0;
+
+            /**
              * @brief Create a Text object
              * 
              * @param id id of the text
