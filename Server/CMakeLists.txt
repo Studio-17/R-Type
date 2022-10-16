@@ -14,6 +14,7 @@ file(GLOB SOURCE_FILES
     Source/System/*.cpp
     Source/System/DirectionSystem/*.cpp
     Source/System/MoveSystem/*.cpp
+    Source/System/NewPlayerSystem/*.cpp
     Source/System/ReceiveSystem/*.cpp
     Source/System/ShootSystem/*.cpp
     Source/System/HitboxSystem/*.cpp
@@ -29,6 +30,7 @@ include_directories(
     Source/System/
     Source/System/DirectionSystem/
     Source/System/MoveSystem/
+    Source/System/NewPlayerSystem/
     Source/System/ReceiveSystem/
     Source/System/ShootSystem/
     Source/System/HitboxSystem/

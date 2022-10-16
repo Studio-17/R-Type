@@ -32,11 +32,12 @@ void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cne
         packet_new_entity newEntity = network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.front();
         network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.pop();
 
-        if (newEntity.id == ENTITY_TYPE::BULLET)
+        std::cout << "[CLIENT] New entity system" << std::endl;
+        if (newEntity.type == ENTITY_TYPE::BULLET)
             addBullet(registry, newEntity);
-        if (newEntity.id == ENTITY_TYPE::ENEMY)
+        if (newEntity.type == ENTITY_TYPE::ENEMY)
             addEnemy(registry, newEntity);
-        if (newEntity.id == ENTITY_TYPE::PLAYER)
+        if (newEntity.type == ENTITY_TYPE::PLAYER)
             addShip(registry, newEntity);
     }
 }
@@ -44,7 +45,6 @@ void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cne
 void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity)
 {
     Entity bullet = registry.spawn_entity();
-    std::cout << "bullet: " << bullet << " at id " << newEntity.id<<std::endl;
 
     component::cdirection_t direction = {1, 0};
     registry.add_component<component::cdirection_t>(registry.entity_from_index(bullet), std::move(direction));
@@ -71,8 +71,8 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity)
 
 void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity)
 {
+    std::cout << "[CLIENT]: new player ship" << std::endl;
     Entity ship = registry.spawn_entity();
-    std::cout << "bullet: " << ship << " at id " << newEntity.id<<std::endl;
     component::cdirection_t direction = {0, 0};
     registry.add_component<component::cdirection_t>(registry.entity_from_index(ship), std::move(direction));
     component::crect_t rect = {_entityType.at(static_cast<ENTITY_TYPE>(newEntity.type)).second};

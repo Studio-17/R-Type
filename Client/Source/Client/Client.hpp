@@ -17,7 +17,6 @@
     #include <asio/io_service.hpp>
     #include <asio/placeholders.hpp>
 
-	#include "Network/Network.hpp"
 	#include "UdpCommunication.hpp"
 	#include "Registry.hpp"
     #include "GraphicalLib.hpp"

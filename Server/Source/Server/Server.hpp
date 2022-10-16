@@ -34,6 +34,7 @@
     #include "System/ReceiveSystem/ReceiveSystem.hpp"
     #include "System/DirectionSystem/DirectionSystem.hpp"
     #include "ShootSystem.hpp"
+    #include "System/NewPlayerSystem/NewPlayerSystem.hpp"
     #include "System/SpawnEnemySystem/SpawnEnemySystem.hpp"
 
     #include "Serialization.hpp"
@@ -85,12 +86,6 @@ class Server {
          * 
          */
         void setUpComponents();
-
-        /**
-         * @brief A method to start the server core functions
-         * 
-         */
-        void machineRun();
 
     protected:
 
@@ -186,6 +181,11 @@ class Server {
          * 
          */
         ShootSystem _shootSystem;
+        /**
+         * @brief An object NewPlayerSystem to manage it in the server
+         *
+         */
+        NewPlayerSystem _newPlayerSystem;
 
         /**
          * @brief An object SpawnEnemySystem to manage it in the server
