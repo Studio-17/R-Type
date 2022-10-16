@@ -36,7 +36,7 @@ void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cne
         std::cout << "[CLIENT] New entity system with type: "<< newEntity.type << std::endl;
         if (newEntity.type == ENTITY_TYPE::BULLET)
             addBullet(registry, newEntity);
-        if (newEntity.type == ENTITY_TYPE::ENEMY) {
+        if (newEntity.type == ENTITY_TYPE::ENEMY)
             addEnemy(registry, newEntity);
         if (newEntity.type == ENTITY_TYPE::PLAYER)
             addShip(registry, newEntity);
