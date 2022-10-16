@@ -19,10 +19,10 @@ void MoveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork
 {
     for (unsigned short index = 0; index < position.size(); index++) {
         if (position[index] && velocity[index] && direction[index]) {
-            std::cout << index << std::endl;
-            if (position[index]->x > 850) {
-                std::cout << "[Server] killed entity: " << position[index]->x << std::endl;
-                sendKillEntityPacket(registry, index, netqueue);
+            if (position[index]->x > 1920) {
+                registry.kill_entity((Entity)index);
+                std::cout << "[Server] killed entity: " << index << std::endl;
+                // sendKillEntityPacket(registry, index, netqueue);
             }
             position[index]->x += (velocity[index]->velocity * direction[index]->x);
             position[index]->y += (velocity[index]->velocity * direction[index]->y);

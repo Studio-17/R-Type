@@ -18,8 +18,6 @@ void MoveSystem::operator()(Registry &registry, Sparse_array<component::cdirecti
 {
     for (unsigned short index = 1; index < position.size() && index < velocity.size() && index < velocity.size(); index++) {
         position[index]->x += (velocity[index]->velocity * direction[index]->x);
-        if (position[index]->x > 800)
-            position[index]->x = 0;
         position[index]->y += (velocity[index]->velocity * direction[index]->y);
     }
     // update la position
