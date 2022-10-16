@@ -17,6 +17,7 @@ file(GLOB SOURCE_FILES
     Source/System/MoveSystem/*.cpp
     Source/System/ReceiveSystem/*.cpp
     Source/System/ShootSystem/*.cpp
+    Source/System/SpawnEnemySystem/*.cpp
 )
 
 # specify the headers
@@ -31,6 +32,7 @@ include_directories(
     Source/System/MoveSystem/
     Source/System/ReceiveSystem/
     Source/System/ShootSystem/
+    Source/System/SpawnEnemySystem/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
