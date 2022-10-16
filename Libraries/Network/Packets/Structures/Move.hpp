@@ -10,6 +10,10 @@
 
     #include <cstdint>
 
+/**
+ * @brief A packet to handle the entity movements
+ * 
+ */
 struct packet_move {
     enum DIRECTION {
         PLUS = 1,

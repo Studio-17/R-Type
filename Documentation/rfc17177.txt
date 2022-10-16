@@ -18,9 +18,9 @@ This RFC consists of the following sections:
         2.1 - Asynchronous
         2.2 - MultiThreading
         2.3 - Header
-        2.4 - Sending Requests
+        2.4 - Receiving a packet
             2.4.1 - Examples
-        2.5 - Sending Responses
+        2.5 - Sending a packet
             2.5.1 - Examples
         2.6 - 
 
@@ -28,8 +28,6 @@ This RFC consists of the following sections:
         3.1 - Handler
         3.2 - Event types
             3.2.1 - Examples
-        3.3 - Callbacks
-            3.3.1 - Examples
 
     4. Connection
         4.1 - Establishing a Connection
@@ -137,64 +135,159 @@ This RFC consists of the following sections:
         };
 
 
-2.4.    Sending Requests
-    .
-    .
-    .
+2.4.    Receiving a packet
+    A packet is always received through UDP, using the asio library. We implemented
+    the async_receive_from() function. It takes a buffer to fill, the endpoint of the 
+    client and a callback to hanle the packet.
+
+    When receiving a packet, the server or the client must unserialize it. As it arrives
+    as a std::vector of bytes, it is then transformed as an object readable and usable
+    by both the client or the server. This object is called a datagram and the definition
+    of those handled can be found in section 2.6 Datagrams.
+
+    If a packet is not received, it is considered as not fatal, the process can continue
+    as normal. In most case, the packet is retrieved in its entierty and so can be used.
 
 2.4.1   Examples
-    .
-    .
-    .
+    As an example: 
 
+    The first step is to collect the packet. For that we have a communication module that
+    can acces the async_receive method that will handle the udp socket connection. Once 
+    done, a buffer is fille (as a vector of byte) and can then be intereted.
 
-2.5.    Sending Responses
-    .
-    .
-    .
+    Each packet contains the datagram and before it, its type so that it can be unserialized
+    into the correct object.
+
+2.5.    Sending a packet
+    Sending a packet is almost the same processus as shown in the receiving part. But we
+    start by serializing the object into a buffer that can be sent thtough udp as a datagram.
+    And then we use the send_to() function of the asio library to transmit it to the server
+    or the client.
+
+    When sending a packet, breakpoints as set so that only a defined packet can be sent and 
+    intereted by an instane. If the packet is ill formatted it will not be validated thus not
+    sent.
 
 2.5.1.   Examples
-    .
-    .
-    .
+    As an example:
+
+    The first step is to build the packet. So we serialize it into the buffer. Once in a form 
+    that can be interpreted by the receiving part. It is sent using the udp socket connection.
+    And a copy of the packet is sent to all the client in the case where the server sends it.
 
 
 2.6.    Datagrams
     Here is a complete list of all the current datagrams implemented:
-    .
-    .
-    .
 
+        struct packet_damage {
+            uint16_t damage;
+        };
+
+        struct packet_game {
+            uint16_t status;
+        };
+
+        struct packet_health {
+            uint16_t health_points;
+        };
+
+        struct packet_kill_entity {
+            uint16_t id;
+        };
+
+        struct packet_create_lobby {
+            uint16_t lobby_id;
+        };
+
+        struct packet_join_lobby {
+            uint16_t status;
+            uint16_t lobby_id;
+        };
+
+        struct packet_lobby_allow {
+            uint16_t status;
+        };
+
+        struct packet_lobby_info {
+            uint16_t player1;
+            uint16_t player2;
+            uint16_t player3;
+            uint16_t player4;
+        };
+
+        struct packet_move {
+            enum DIRECTION {
+                PLUS = 1,
+                MOIN = 2
+            };
+            uint16_t playerId;
+            uint16_t x;
+            uint16_t y;
+        };
+
+        struct packet_new_connexion {
+            uint16_t id;
+        };
+
+        struct packet_new_entity {
+            uint16_t id;
+            uint16_t positionX;
+            uint16_t positionY;
+            uint16_t direction;
+            uint16_t type;
+        };
+
+        struct packet_position {
+            uint16_t id;
+            uint16_t x;
+            uint16_t y;
+            uint16_t index;
+        };
+
+        struct packet_shoot {
+            uint16_t id;
+                
+        };
+
+        struct packet_direction {
+                uint16_t orientation;
+        };
+
+        struct packet_velocity {
+            uint16_t velocity;
+        };
 
 
                               3.  EVENTS
 
 3.1.    Handler
-    .
-    .
-    .
+    On top of the sending and receiving methods we have many events that triggers
+    them. Each event is linked to a handler in order to keep a hand on the packets
+    and their usage.
+
+    In most case, a handler is an object consitued of a queue of tasks to do and
+    a method to handle each task. A task is the processus of handling a packet.
 
 
 3.2.    Event types
-    .
-    .
-    .
+    We count 4 different events that deals with packets and udp protocols.
+    Events happen when a packet is received and informations from the server
+    must be updated. As a result, it must be spread to all the others clients
+    so they can display the correct data.
+
 
 3.2.1.  Examples
-    .
-    .
-    .
-
-
-3.3.    Callbacks
-    .
-    .
-    .
-
-3.3.1.  Examples
-    .
-    .
-    .
+    - When a player change direction, we update its data server-side and send
+      the updated information to all the clients
+    - When a player collide with a game object, we check if its an enemy,
+      other player or a bound of the playing area. The handler then makes the
+      adjustements or may call other handlers. For example, when a player collides
+      with an enemy, the health handler is called to remove life health_points
+    - When a player moves in the area, the position is updated server-side and
+      the updated data is sent to all the clients.
+    - When a player shoots a bullet, the new entity is created and the information
+      is sent to all the clients. The server then handles the movement of the bullet
+      and its interactions with the other entities
 
 
 

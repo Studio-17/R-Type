@@ -36,8 +36,19 @@ struct Header {
     td pr;
 };
 
+/**
+ * @brief A templated structure to handle the serialization processus of packets and std::vector of bytes
+ * 
+ * @tparam  
+ */
 template <>
 struct serializable_trait<Header> {
+    /**
+     * @brief A method to serialize a packet as a type (passed in the template)
+     * 
+     * @param obj 
+     * @return std::vector<byte> 
+     */
     static std::vector<byte> serialize(Header const &obj) {
         std::vector<byte> ret;
 
@@ -49,6 +60,12 @@ struct serializable_trait<Header> {
         return ret;
     };
 
+    /**
+     * @brief A method to unserialize a packet as a type (passed in the template)
+     * 
+     * @param v 
+     * @return Header 
+     */
     static Header unserialize(std::vector<byte> &v) {
         Header s;
         std::vector<byte> tmp;
