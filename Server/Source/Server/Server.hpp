@@ -9,6 +9,10 @@
     #define SERVER_HPP_
 
     #include <iostream>
+    #include <thread>
+    #include <queue>
+    #include <map>
+    #include <unordered_map>
     #include <functional>
 
     #include <asio/ip/udp.hpp>
@@ -17,14 +21,30 @@
     #include <asio/io_service.hpp>
     #include <asio/placeholders.hpp>
 
-    #include <asio.hpp>
+    #include "Registry.hpp"
+    #include "Component/CDamage.hpp"
+    #include "Component/CDirection.hpp"
+    #include "Component/CHealth.hpp"
+    #include "Component/CHitBox.hpp"
+    #include "Component/CNetworkQueue.hpp"
+    #include "Component/CPosition.hpp"
+    // #include "Component/CVelocity.hpp"
 
-    #include "Structure.hpp"
+    #include "System/MoveSystem/MoveSystem.hpp"
+    #include "System/ReceiveSystem/ReceiveSystem.hpp"
+    #include "System/DirectionSystem/DirectionSystem.hpp"
+    #include "ShootSystem.hpp"
+    #include "System/SpawnEnemySystem/SpawnEnemySystem.hpp"
+
     #include "Serialization.hpp"
+    #include "UdpCommunication.hpp"
+
+    #include "Constant.hpp"
+
 
 class Server {
     public:
-        Server(asio::io_service &service, short const port);
+        Server(short const port);
         ~Server();
 
         void CommunicationHandler(const std::error_code& error, std::size_t bytes_transferred) {
@@ -35,17 +55,39 @@ class Server {
             }
         };
 
+        void setUpEcs();
+        void setUpComponents();
+        void machineRun();
+
     protected:
 
     private:
         void ReceivePackets();
-        void SendPackets(const asio::error_code &e, std::size_t nbBytes);
-        void CompleteExchnage(const asio::error_code &e, std::size_t nbBytes);
+        void HandleReceive(asio::error_code const &e, std::size_t nbBytes);
+        void HandleSendPacket();
 
-        std::shared_ptr<asio::ip::udp::socket> _socket;
-        asio::ip::udp::endpoint _destination;
-        std::vector<byte> buffer_to_get;
+        void threadLoop();
 
+        asio::io_context _context;
+
+        std::queue<std::function<void(void)>> _responseQueue;
+
+        std::shared_ptr<UdpCommunication> _com;
+        std::vector<byte> _buffer_to_get;
+
+        std::thread _thread;
+        bool _isRunning;
+
+        std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, bool>> _endpoints;
+
+        Registry _registry;
+        MoveSystem _moveSystem;
+        DirectionSystem _directionSystem;
+        ShootSystem _shootSystem;
+        SpawnEnemySystem _spawnEnemySystem;
+        System::ReceiveSystem _receiveSystem;
+
+        bool _serverIsRunning = true;
 };
 
 #endif /* !SERVER_HPP_ */

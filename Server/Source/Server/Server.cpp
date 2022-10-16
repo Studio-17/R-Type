@@ -5,47 +5,117 @@
 ** Server
 */
 
-#include <functional>
-
 #include "Server.hpp"
 
-Server::Server(asio::io_service &service, short const port)
+Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port)),
+    _thread(&Server::threadLoop, this), _isRunning(true)
 {
-    _socket = std::make_shared<asio::ip::udp::socket>(service, asio::ip::udp::endpoint(asio::ip::udp::v4(), port));
-
     ReceivePackets();
+    _context.run();
 }
 
 Server::~Server()
 {
+    _isRunning = false;
+    _thread.join();
+
+    _context.stop();
 }
 
 void Server::ReceivePackets()
 {
-    buffer_to_get.clear();
-    buffer_to_get.resize(1500);
-    _socket->async_receive_from(asio::buffer(buffer_to_get.data(), 1500), _destination, bind(&Server::SendPackets, this, std::placeholders::_1, std::placeholders::_2));
+    _com->async_receive(_buffer_to_get, std::bind(&Server::HandleReceive, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void Server::SendPackets(const asio::error_code &e, std::size_t nbBytes)
+void Server::HandleReceive(asio::error_code const &e, std::size_t nbBytes)
 {
-    Header tt = serializable_trait<Header>::unserialize(buffer_to_get);
-    ServerResponse ok = {
-        .code = 200,
+    std::pair<asio::ip::address, unsigned short> endpointData = _com->getEnpointInfo();
+    _endpoints.try_emplace(endpointData.first, std::unordered_map<unsigned short, bool>());
+    _endpoints.at(endpointData.first).try_emplace(endpointData.second, true);
 
-        .status = true,
-    };
-
-    std::vector<char> buffer_to_send;
-
-    buffer_to_send.reserve(sizeof(ServerResponse));
-
-    std::memcpy(buffer_to_send.data(), &ok, sizeof(ServerResponse));
-
-    _socket->async_send_to(asio::buffer(buffer_to_send.data(), sizeof(ServerResponse)), _destination, bind(&Server::CompleteExchnage, this, std::placeholders::_1, std::placeholders::_2));
+    _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(_buffer_to_get);
+    HandleSendPacket();
 }
 
-void Server::CompleteExchnage(const std::error_code &e, std::size_t nbBytes)
-{
+void Server::HandleSendPacket() {
+    if (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.empty()) {
+        std::vector<byte> &tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.front();
+        for (auto const &[address, portList] : _endpoints) {
+            for (auto const &[port, isPresent] : portList) {
+                _com->send(tmp);
+            }
+        }
+        _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.pop();
+        std::cout << "[SERVER] queue size:  " << _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.size() << std::endl;
+    }
     ReceivePackets();
+}
+
+void Server::threadLoop()
+{
+    setUpEcs();
+    setUpComponents();
+    while (_isRunning) {
+        _registry.run_systems();
+    }
+}
+
+void Server::setUpEcs()
+{
+    _registry.register_component<component::cdamage_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::cdirection_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::chealth_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::chitbox_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::cposition_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::cvelocity_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::cnetwork_queue_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+
+   _registry.add_system(_moveSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>());
+   _registry.add_system(_directionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>());
+   _registry.add_system(_receiveSystem, _registry.get_components<component::cnetwork_queue_t>());
+   _registry.add_system(_shootSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>());
+   _registry.add_system(_spawnEnemySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>());
+}
+
+void Server::setUpComponents()
+{
+    Entity networkEntity = _registry.spawn_entity();
+    Entity spaceShip = _registry.spawn_entity();
+    std::cout << networkEntity << std::endl;
+
+    component::cdamage_t damage = { 0 };
+    _registry.add_component<component::cdamage_t>(_registry.entity_from_index(networkEntity), std::move(damage));
+
+    component::cdirection_t direction = { 0, 0 };
+    _registry.add_component<component::cdirection_t>(_registry.entity_from_index(networkEntity), std::move(direction));
+
+    component::cdirection_t dirrection = { 0, 0 };
+    _registry.add_component<component::cdirection_t>(_registry.entity_from_index(spaceShip), std::move(dirrection));
+
+    component::chealth_t health = {10 };
+    _registry.add_component<component::chealth_t>(_registry.entity_from_index(networkEntity), std::move(health));
+
+    component::chitbox_t hitbox = {10, 10};
+    _registry.add_component<component::chitbox_t>(_registry.entity_from_index(networkEntity), std::move(hitbox));
+
+    component::cposition_t position = {10, 10};
+    _registry.add_component<component::cposition_t>(_registry.entity_from_index(networkEntity), std::move(position));
+
+    component::cposition_t possition = {10, 10};
+    _registry.add_component<component::cposition_t>(_registry.entity_from_index(spaceShip), std::move(possition));
+
+    component::cvelocity_t velocity = {10 };
+    _registry.add_component<component::cvelocity_t>(_registry.entity_from_index(networkEntity), std::move(velocity));
+
+    component::cvelocity_t vellocity = {10 };
+    _registry.add_component<component::cvelocity_t>(_registry.entity_from_index(spaceShip), std::move(vellocity));
+
+    component::cnetwork_queue_t network = {};
+    _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(networkEntity), std::move(network));
+}
+
+void Server::machineRun()
+{
+    while (_isRunning)
+        _registry.run_systems();
 }

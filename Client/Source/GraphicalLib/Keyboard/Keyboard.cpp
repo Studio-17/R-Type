@@ -15,6 +15,11 @@ Keyboard::~Keyboard()
 {
 }
 
+int Keyboard::getKey() const
+{
+    return _key;
+}
+
 bool Keyboard::hasBeenPressed(int key) const
 {
     return IsKeyPressed(key);
@@ -42,14 +47,35 @@ void Keyboard::setExitKey(int key)
 
 int Keyboard::getPressedKeycode() const
 {
-    int key = GetKeyPressed();
-
-    return key;
+    return GetKeyPressed();
 }
 
 int Keyboard::getPressedCharcode() const
 {
-    int key = GetCharPressed();
+    return GetCharPressed();
+}
 
-    return key;
+int Keyboard::getKeyUpCharCode() const
+{
+    return KEY_UP;
+}
+
+int Keyboard::getKeyDownCharCode() const
+{
+    return KEY_DOWN;
+}
+
+int Keyboard::getKeyRightCharCode() const
+{
+    return KEY_RIGHT;
+}
+
+int Keyboard::getKeyLeftCharCode() const
+{
+    return KEY_LEFT;
+}
+
+int Keyboard::getKeySpaceCharCode() const
+{
+    return KEY_SPACE;
 }

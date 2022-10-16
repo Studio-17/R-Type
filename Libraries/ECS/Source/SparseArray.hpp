@@ -188,6 +188,17 @@ class Sparse_array {
         };
 
         /**
+         * @brief Overload the operator extend()
+         * 
+         * @param sizeToExtend 
+         */
+        void extend(size_t sizeToExtend)
+        {
+            for (size_t x = 0; x < sizeToExtend; x += 1)
+                _data.push_back(std::nullopt);
+        }
+
+        /**
          * @brief Overloads the operator insert_at()
          * 
          * @param pos 

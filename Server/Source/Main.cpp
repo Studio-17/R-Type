@@ -5,22 +5,31 @@
 ** Main
 */
 
-#include <iostream>
-
-#include <asio/io_service.hpp>
+#include <regex>
 
 #include "Server.hpp"
 
-int main(void)
+static void printHelper()
 {
-    try {
-        asio::io_service service;
+    std::cout << "./r-type_server [port]" << std::endl;
+}
 
-        Server server(service, 8080);
+static bool check_port(std::string const &port)
+{
+    if (std::regex_match(port, std::regex("^[0-9]{1,5}$")))
+        return true;
+    std::cout << "The port must be between 0 and 99999" << std::endl;
+    return false;
+}
 
-        service.run();
-    } catch (std::exception const &e) {
-        std::cerr << e.what() << std::endl;
+int main(int ac, char **av)
+{
+    if (ac != 2 || !check_port(std::string(av[1]))) {
+        printHelper();
+        return 84;
     }
+
+    Server server(std::stoi(av[1]));
+
     return 0;
 }
