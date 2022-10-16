@@ -34,11 +34,56 @@ cmake --build . -- -j 4
 ## Usage
 
 ### Creating a system
-```bash
+```c++
+--- MySystem.hpp
+
+class MySystem {
+    public:
+        MySystem() {};
+
+        ~MySystem() = default;
+
+        void operator()(Registry &registry,
+                        Sparse_array<component::cnetwork_queue_t> &netqueue,
+                        Sparse_array<component::component1_t> &component1,
+                        Sparse_array<component::component2_t> &component2) {};
+
+    protected:
+
+    private:
+};
+
+---
+
+--- Main.cpp
+
+  Registry _registry;
+  
+  _registry.register_component<component::component1_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+  _registry.register_component<component::component2_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+
+  Entity e = _registry.spawn_entity();
+
+  component::component1_t component1 = { foo, fizz };
+  _registry.add_component<component::component1_t>(_registry.entity_from_index(e), std::move(component1));
+
+  component::component2_t component2 = { bar, buzz, foo };
+  _registry.add_component<component::component2_t>(_registry.entity_from_index(e), std::move(component2));
+
+  ---
 ```
 
 ### Adding a packet
-```bash
+```c++
+--- MyPacket.hpp
+
+struct packet_mypacket {
+    uint16_t foo;
+    uint16_t bar;
+    uint16_t foobar;
+};
+
+---
 ```
 
 ## Contributing

@@ -41,8 +41,20 @@ namespace rtype {
              */
             ~GraphicalLib();
 
+            /**
+             * @brief A method to initialize a window object
+             * 
+             * @param screenWidth 
+             * @param screenHeight 
+             * @param title 
+             * @param framerate 
+             */
             void initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate) override;
 
+            /**
+             * @brief A method to close a window
+             * 
+             */
             void closeWindow() override;
 
             /**
