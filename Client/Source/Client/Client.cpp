@@ -20,6 +20,7 @@
 #include "CNetworkQueue.hpp"
 #include "Serialization.hpp"
 #include "Structure.hpp"
+#include "CType.hpp"
 #include "Move.hpp"
 #include "NewConnexion.hpp"
 #include "CIdOfShip.hpp"
@@ -96,7 +97,7 @@ void Client::setUpEcs()
 	_registry.register_component<component::cnetwork_queue_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 	_registry.register_component<component::cdirection_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 	_registry.register_component<component::cid_of_ship_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
-
+  _registry.register_component<component::ctype_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 }
 
 void Client::setUpSystems()
@@ -113,35 +114,26 @@ void Client::setUpSystems()
 void Client::setUpComponents()
 {
     Entity network = _registry.spawn_entity();
+    Entity parallax = _registry.spawn_entity();
     Entity ship = _registry.spawn_entity();
 
-    component::cnetwork_queue_t nettwork = {};
-    _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(network), std::move(nettwork));
+    // Network entity
+    component::cnetwork_queue_t nnetwork = {};
+    _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(network), std::move(nnetwork));
+
+    component::ctype_t ntype = {.type = NET};
+    _registry.add_component<component::ctype_t>(_registry.entity_from_index(network), std::move(ntype));
 
     component::cid_of_ship_t idOfShip = {.id = 0};
     _registry.add_component<component::cid_of_ship_t>(_registry.entity_from_index(network), std::move(idOfShip));
 
     component::cserverid_t serverId = {.id = 1};
     _registry.add_component<component::cserverid_t>(_registry.entity_from_index(ship), std::move(serverId));
-    Entity parallax = _registry.spawn_entity();
-
-    // Parallax Entity
-    component::crect_t prect = {0, 0, 600, 800, 1, 6000};
-    component::csprite_t psprite = {.sprite = _graphicLib->createSprite("Assets/parallax/parallax.png", 1, (Rectangle){.x = prect.x, .y = prect.y, .width = prect.width, .height = prect.height})};
-    component::cposition_t pposition = {0, 0};
-    component::cvelocity_t pvel = {.velocity = 10};
-	_registry.add_component<component::cvelocity_t>(_registry.entity_from_index(parallax), std::move(pvel));
-    component::ckeyboard_t pkeyboard = {.keyboard = 0};
-	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(parallax), std::move(pkeyboard));
-    component::cnetwork_queue_t pnetwork = {};
-    _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(parallax), std::move(pnetwork));
-    _registry.add_component<component::crect_t>(_registry.entity_from_index(parallax), std::move(prect));
-     _registry.add_component<component::csprite_t>(_registry.entity_from_index(parallax), std::move(psprite));
-     _registry.add_component<component::cposition_t>(_registry.entity_from_index(parallax), std::move(pposition));
 
     // Ship Entity
     component::crect_t rect = {0, 0, 33.3125, 36, 1, 8};
     _registry.add_component<component::crect_t>(_registry.entity_from_index(ship), std::move(rect));
+
     component::cdirection_t direction = {.x = 0, .y = 0};
     _registry.add_component<component::cdirection_t>(_registry.entity_from_index(ship), std::move(direction));
 
@@ -156,6 +148,26 @@ void Client::setUpComponents()
 
     component::ckeyboard_t keyboard = {.keyboard = 0};
 	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(ship), std::move(keyboard));
+
+    component::ctype_t type = {.type = PLAYER};
+    _registry.add_component<component::ctype_t>(_registry.entity_from_index(ship), std::move(type));
+
+    // Parallax Entity
+    component::crect_t prect = {0, 0, 600, 800, 1, 6000};
+    _registry.add_component<component::crect_t>(_registry.entity_from_index(parallax), std::move(prect));
+
+    component::csprite_t psprite = {.sprite = _graphicLib->createSprite("Assets/parallax/parallax.png", 1, (Rectangle){.x = prect.x, .y = prect.y, .width = prect.width, .height = prect.height})};
+    _registry.add_component<component::csprite_t>(_registry.entity_from_index(parallax), std::move(psprite));
+
+    component::cposition_t pposition = {0, 0};
+    _registry.add_component<component::cposition_t>(_registry.entity_from_index(parallax), std::move(pposition));
+
+    component::cdirection_t pdirection = {.x = 0, .y = 0};
+    _registry.add_component<component::cdirection_t>(_registry.entity_from_index(parallax), std::move(pdirection));
+
+    component::ctype_t ptype = {.type = UI};
+    _registry.add_component<component::ctype_t>(_registry.entity_from_index(parallax), std::move(ptype));
+
 }
 
 void Client::threadLoop()

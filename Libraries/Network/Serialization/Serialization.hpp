@@ -42,6 +42,7 @@ enum ENTITY_TYPE {
     TEXT,
     BULLET,
     UI,
+    NET,
     // GRAPHIC,
     // NETWORK
 };
