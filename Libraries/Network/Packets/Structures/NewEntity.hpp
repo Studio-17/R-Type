@@ -10,6 +10,10 @@
 
     #include <cstdint>
 
+/**
+ * @brief A packet to handle a new entity informations
+ * 
+ */
 struct packet_new_entity {
     uint16_t id; // id of new entity;
     uint16_t positionX; // x position of new entity;

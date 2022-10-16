@@ -10,6 +10,10 @@
 
 #include <cstdint>
 
+/**
+ * @brief A packet to handle the velocity of an entity
+ * 
+ */
 struct packet_velocity {
     uint16_t velocity;
 };

@@ -20,11 +20,9 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 ```bash
 git clone git@github:EpitechPromo2025/...
 
-git submodule update --init raylib/
+git submodule update --init asio/ raylib/ 
 
 mkdir -p Builds && cd Builds
-
-conan install .. --build=missing -s compiler.libcxx=libstdc++11 -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
  
 cmake ..
 
@@ -57,18 +55,36 @@ class MySystem {
 
 --- Main.cpp
 
-  Registry _registry;
-  
-  _registry.register_component<component::component1_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
-  _registry.register_component<component::component2_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    void configureMySystem(Registry &_registry) {
 
-  Entity e = _registry.spawn_entity();
+        MySystem _anAmazingSystem
+        
+        _registry.register_component<component::component1_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+        _registry.register_component<component::component2_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 
-  component::component1_t component1 = { foo, fizz };
-  _registry.add_component<component::component1_t>(_registry.entity_from_index(e), std::move(component1));
+        _registry.add_system(_anAmazingSystem, _registry.get_components<component::component1_t>(), _registry.get_components<component::component2_t>());
 
-  component::component2_t component2 = { bar, buzz, foo };
-  _registry.add_component<component::component2_t>(_registry.entity_from_index(e), std::move(component2));
+        Entity e = _registry.spawn_entity();
+
+        component::component1_t component1 = { foo, fizz };
+        _registry.add_component<component::component1_t>(_registry.entity_from_index(e), std::move(component1));
+
+        component::component2_t component2 = { bar, buzz, foo };
+        _registry.add_component<component::component2_t>(_registry.entity_from_index(e), std::move(component2));
+
+    }
+
+    int main() {
+        
+        Registry _registry;
+
+        configureMySystem(_registry);
+
+        while (true) {
+            _registry.run_systems();
+        }
+
+    }
 
   ---
 ```
@@ -83,6 +99,7 @@ struct packet_mypacket {
     uint16_t foobar;
 };
 
+std::vector &serialized_packet = serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::MYPACKET, packet_mypacket)
 ---
 ```
 
