@@ -34,6 +34,7 @@
     #include "System/ReceiveSystem/ReceiveSystem.hpp"
     #include "System/DirectionSystem/DirectionSystem.hpp"
     #include "ShootSystem.hpp"
+    #include "System/NewPlayerSystem/NewPlayerSystem.hpp"
 
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
@@ -83,6 +84,7 @@ class Server {
         MoveSystem _moveSystem;
         DirectionSystem _directionSystem;
         ShootSystem _shootSystem;
+        NewPlayerSystem _newPlayerSystem;
         System::ReceiveSystem _receiveSystem;
 
         bool _serverIsRunning = true;

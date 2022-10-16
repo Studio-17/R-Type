@@ -13,6 +13,8 @@
     #include "Move.hpp"
     #include "Shoot.hpp"
 
+    #include "Game.hpp"
+
 using byte = unsigned char;
 
 /**
@@ -28,7 +30,7 @@ namespace component {
 
         std::queue<packet_move> moveQueue;
         std::queue<packet_shoot> shootQueue;
-        // std::queue<> newPlayerQueue;
+        std::queue<packet_game> newPlayerQueue;
 
 
     } cnetwork_queue_t;

@@ -22,7 +22,6 @@ void ShootSystem::operator()(Registry &registry, Sparse_array<component::cnetwor
         packet_shoot packet = netqueue[0]->shootQueue.front();
         netqueue[0]->shootQueue.pop();
         Entity bullet = createBullet(registry, position, packet.id);
-        std::cout << bullet << std::endl;
         netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {bullet, position[bullet]->x, position[bullet]->y, 1, ENTITY_TYPE::BULLET}));
     }
 }

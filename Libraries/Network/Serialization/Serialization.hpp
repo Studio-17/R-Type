@@ -24,6 +24,7 @@ namespace NETWORK_SERVER_TO_CLIENT {
     enum PACKET_TYPE {
         POSITION,
         NEW_ENTITY,
+        NEW_PLAYER,
         DEAD
     };
 };
