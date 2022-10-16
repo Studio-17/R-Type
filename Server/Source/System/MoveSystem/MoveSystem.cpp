@@ -18,8 +18,8 @@ void MoveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork
 {
     for (unsigned short index = 0; index < position.size(); index++) {
         position[index]->x += (velocity[index]->velocity * direction[index]->x);
-        if (position[index]->x > 1920)
-            position[index]->x = 0;
+        // if (position[index]->x > 1920)
+        //     position[index]->x = 0;
         position[index]->y += (velocity[index]->velocity * direction[index]->y);
             // std::cout << "entity no:" << index << " at pos: " << position[index]->x << " , " << position[index]->y << std::endl;
 

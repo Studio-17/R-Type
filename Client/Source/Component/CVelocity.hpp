@@ -20,7 +20,7 @@ namespace component {
      * 
      */
     typedef struct cvelocity_s {
-        size_t velocity;
+        int velocity;
     } cvelocity_t;
 }
 
