@@ -16,7 +16,8 @@
 namespace NETWORK_CLIENT_TO_SERVER {
     enum PACKET_TYPE {
         SHOOT,
-        DIRECTION
+        DIRECTION,
+        NEW_CONNEXION
     };
 };
 
@@ -24,7 +25,8 @@ namespace NETWORK_SERVER_TO_CLIENT {
     enum PACKET_TYPE {
         POSITION,
         NEW_ENTITY,
-        DEAD
+        DEAD,
+        NEW_PLAYER
     };
 };
 
