@@ -10,6 +10,10 @@
 
     #include <cstdint>
 
+    /**
+     * @brief A packet to handle the killing of an entity
+     * 
+     */
     struct packet_kill_entity {
         uint16_t id;
     };

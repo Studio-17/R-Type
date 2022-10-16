@@ -10,6 +10,10 @@
 
 #include <cstdint>
 
+/**
+ * @brief A packet to handle the position of an entity in the game area
+ * 
+ */
 struct packet_position {
     uint16_t id; // id of the entity to update position
     uint16_t x;

@@ -10,6 +10,10 @@
 
 #include <cstdint>
 
+/**
+ * @brief A packet to handle the game current status
+ * 
+ */
 struct packet_game {
     uint16_t status; // 0:STARTING;1:RUNNING;2:STOPPED
 };

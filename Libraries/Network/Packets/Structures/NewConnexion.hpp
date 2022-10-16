@@ -10,6 +10,10 @@
 
     #include <cstdint>
 
+/**
+ * @brief A packet to handle new connections to the game
+ * 
+ */
 struct packet_new_connexion {
     uint16_t id;
 };

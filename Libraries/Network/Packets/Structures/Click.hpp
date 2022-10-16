@@ -10,6 +10,10 @@
 
 #include <cstdint>
 
+/**
+ * @brief A pakcet to handle a click form mouse or keyboard
+ * 
+ */
 struct packet_click {
     
 };
