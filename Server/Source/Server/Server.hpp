@@ -41,12 +41,31 @@
 
     #include "Constant.hpp"
 
-
+/**
+ * @brief 
+ * 
+ */
 class Server {
     public:
+        /**
+         * @brief Construct a new Server object
+         * 
+         * @param port 
+         */
         Server(short const port);
+
+        /**
+         * @brief Destroy the Server object
+         * 
+         */
         ~Server();
 
+        /**
+         * @brief A method to handle the packets received if an error occurs
+         * 
+         * @param error 
+         * @param bytes_transferred 
+         */
         void CommunicationHandler(const std::error_code& error, std::size_t bytes_transferred) {
             if (error) {
                 std::cerr << error.message() << std::endl;
@@ -55,38 +74,135 @@ class Server {
             }
         };
 
+        /**
+         * @brief Set the Up Ecs object
+         * 
+         */
         void setUpEcs();
+
+        /**
+         * @brief Set the Up Components object
+         * 
+         */
         void setUpComponents();
+
+        /**
+         * @brief A method to start the server core functions
+         * 
+         */
         void machineRun();
 
     protected:
 
     private:
+        /**
+         * @brief A method to recivie a packet using the communication module
+         * 
+         */
         void ReceivePackets();
+
+        /**
+         * @brief A method to handle the reception of a packet and dispatch it to the appropriate system
+         * 
+         * @param e 
+         * @param nbBytes 
+         */
         void HandleReceive(asio::error_code const &e, std::size_t nbBytes);
+
+        /**
+         * @brief A method to send a packet using the communication module and systems
+         * 
+         */
         void HandleSendPacket();
 
+        /**
+         * @brief A method to configure and handle the threadloop
+         * 
+         */
         void threadLoop();
 
+        /**
+         * @brief An asio context object that handles basic I/O
+         * 
+         */
         asio::io_context _context;
 
+        /**
+         * @brief A queue that manages the tasks to be done by the systems using the packets received
+         * 
+         */
         std::queue<std::function<void(void)>> _responseQueue;
 
+        /**
+         * @brief A shared pointer to a module used for communicating through udp sockets
+         * 
+         */
         std::shared_ptr<UdpCommunication> _com;
+
+        /**
+         * @brief A buffer as a vector of bytes to communicate packets
+         * 
+         */
         std::vector<byte> _buffer_to_get;
 
+        /**
+         * @brief A thread object to concurently run the asio context and the systems
+         * 
+         */
         std::thread _thread;
+
+        /**
+         * @brief A boolean to handle the server's main loop
+         * 
+         */
         bool _isRunning;
 
+        /**
+         * @brief A map containing all the clients addresses and ports
+         * 
+         */
         std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, bool>> _endpoints;
 
+        /**
+         * @brief An object Registry for the server to interact with it
+         * 
+         */
         Registry _registry;
+
+        /**
+         * @brief An object MoveSystem to manage it in the server
+         * 
+         */
         MoveSystem _moveSystem;
+
+        /**
+         * @brief An object DirectionSystem to manage it in the server
+         * 
+         */
         DirectionSystem _directionSystem;
+
+        /**
+         * @brief An object ShootSystem to manage it in the server
+         * 
+         */
         ShootSystem _shootSystem;
+
+        /**
+         * @brief An object SpawnEnemySystem to manage it in the server
+         * 
+         */
         SpawnEnemySystem _spawnEnemySystem;
+
+        /**
+         * @brief An object ReceiveSystem to manage it in the server
+         * 
+         */
         System::ReceiveSystem _receiveSystem;
 
+        /**
+         * @brief A boolean to manage the server loop
+         * 
+         */
         bool _serverIsRunning = true;
 };
 
