@@ -29,8 +29,10 @@ void KillSystem::operator()(Registry &registry, Sparse_array<component::cnetwork
 void KillSystem::killEntity(Registry &registry, std::size_t id, Sparse_array<component::cserverid_t> &serverId)
 {
     for (std::size_t x = 0; x < serverId.size(); x += 1) {
-        if (serverId[x] == id)
+        if (serverId[x] == id) {
+            std::cout << "[Client] received kill entity" << std::endl;
             registry.kill_entity(registry.entity_from_index(x));
+        }
     }
 }
 
