@@ -33,10 +33,10 @@ void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cne
         packet_new_entity newEntity = network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.front();
         network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.pop();
 
-        std::cout << "[CLIENT] New entity system" << std::endl;
+        std::cout << "[CLIENT] New entity system with type: "<< newEntity.type << std::endl;
         if (newEntity.type == ENTITY_TYPE::BULLET)
             addBullet(registry, newEntity);
-        if (newEntity.type == ENTITY_TYPE::ENEMY)
+        if (newEntity.type == ENTITY_TYPE::ENEMY) {
             addEnemy(registry, newEntity);
         if (newEntity.type == ENTITY_TYPE::PLAYER)
             addShip(registry, newEntity);
@@ -69,8 +69,7 @@ void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity
 void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity)
 {
     Entity enemy = registry.spawn_entity();
-    std::cout << "bullet: " << enemy << " at id " << newEntity.id<<std::endl;
-    component::cdirection_t direction = {0, 0};
+    component::cdirection_t direction = {-1, 0};
     registry.add_component<component::cdirection_t>(registry.entity_from_index(enemy), std::move(direction));
     component::crect_t rect = {_entityType.at(static_cast<ENTITY_TYPE>(newEntity.type)).second};
     registry.add_component<component::crect_t>(registry.entity_from_index(enemy), std::move(rect));
@@ -80,7 +79,7 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity)
     registry.add_component<component::cposition_t>(registry.entity_from_index(enemy), std::move(position));
     component::cserverid_t serverId = {.id = newEntity.id};
     registry.add_component<component::cserverid_t>(registry.entity_from_index(enemy), std::move(serverId));
-    component::cvelocity_t velocity = {.velocity = 8};
+    component::cvelocity_t velocity = {.velocity = 1};
     registry.add_component<component::cvelocity_t>(registry.entity_from_index(enemy), std::move(velocity));
 }
 

@@ -20,8 +20,8 @@ namespace component {
      * 
      */
     typedef struct cdirection_s {
-        size_t x;
-        size_t y;
+        int x;
+        int y;
     } cdirection_t;
 }
 
