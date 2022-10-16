@@ -84,23 +84,23 @@ void Server::setUpComponents()
 {
     Entity networkEntity = _registry.spawn_entity();
 
-    component::cdamage_t damage = { 0 };
-    _registry.add_component<component::cdamage_t>(_registry.entity_from_index(networkEntity), std::move(damage));
+    // component::cdamage_t damage = { 0 };
+    // _registry.add_component<component::cdamage_t>(_registry.entity_from_index(networkEntity), std::move(damage));
 
-    component::cdirection_t direction = { 0, 0 };
-    _registry.add_component<component::cdirection_t>(_registry.entity_from_index(networkEntity), std::move(direction));
+    // component::cdirection_t direction = { 0, 0 };
+    // _registry.add_component<component::cdirection_t>(_registry.entity_from_index(networkEntity), std::move(direction));
 
-    component::chealth_t health = {10 };
-    _registry.add_component<component::chealth_t>(_registry.entity_from_index(networkEntity), std::move(health));
+    // component::chealth_t health = {10 };
+    // _registry.add_component<component::chealth_t>(_registry.entity_from_index(networkEntity), std::move(health));
 
-    component::chitbox_t hitbox = {10, 10};
-    _registry.add_component<component::chitbox_t>(_registry.entity_from_index(networkEntity), std::move(hitbox));
+    // component::chitbox_t hitbox = {10, 10};
+    // _registry.add_component<component::chitbox_t>(_registry.entity_from_index(networkEntity), std::move(hitbox));
 
-    component::cposition_t position = {10, 10};
-    _registry.add_component<component::cposition_t>(_registry.entity_from_index(networkEntity), std::move(position));
+    // component::cposition_t position = {10, 10};
+    // _registry.add_component<component::cposition_t>(_registry.entity_from_index(networkEntity), std::move(position));
 
-    component::cvelocity_t velocity = {10 };
-    _registry.add_component<component::cvelocity_t>(_registry.entity_from_index(networkEntity), std::move(velocity));
+    // component::cvelocity_t velocity = {10 };
+    // _registry.add_component<component::cvelocity_t>(_registry.entity_from_index(networkEntity), std::move(velocity));
 
     component::cnetwork_queue_t network = {};
     _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(networkEntity), std::move(network));
