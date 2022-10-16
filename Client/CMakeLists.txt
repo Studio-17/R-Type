@@ -27,7 +27,6 @@ file(GLOB SOURCE_FILES
     Source/System/NewEntitySystem/*.cpp
     Source/System/PositionSystem/*.cpp
     Source/System/RectSystem/*cpp
-    Source/System/HitboxSystem/*cpp
 )
 
 # specify the headers
@@ -53,7 +52,6 @@ include_directories(
     Source/System/NewEntitySystem/
     Source/System/PositionSystem/
     Source/System/RectSystem/
-    Source/System/HitboxSystem/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable
