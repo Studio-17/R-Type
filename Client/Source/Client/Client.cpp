@@ -22,10 +22,12 @@
 #include "Structure.hpp"
 #include "CType.hpp"
 #include "Move.hpp"
+#include "NewConnexion.hpp"
+#include "CIdOfShip.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
-    _working(true)
+    _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
     _graphicLib->initWindow(800, 600, "R-Type", 60);
@@ -39,12 +41,20 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort) :
 Client::~Client()
 {
     _context.stop();
-    _working = false;
+    _connected = false;
     _thread.join();
+}
+
+void Client::tryToConnect()
+{
+    packet_new_connexion packet = {.id = 0};
+    std::vector<byte> bytes = serialize_header::serializeHeader<packet_new_connexion>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::NEW_CONNEXION, packet);
+    _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(bytes);
 }
 
 void Client::machineRun()
 {
+    tryToConnect();
     while (!_graphicLib->windowShouldClose()) {
         _graphicLib->startDrawingWindow();
             _graphicLib->clearScreen();
@@ -53,7 +63,7 @@ void Client::machineRun()
         SendPacket();
     }
     _graphicLib->closeWindow();
-    _working = false;
+    _connected = false;
 }
 
 void Client::SendPacket() {
@@ -86,12 +96,13 @@ void Client::setUpEcs()
 	_registry.register_component<component::cserverid_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 	_registry.register_component<component::cnetwork_queue_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 	_registry.register_component<component::cdirection_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
-    _registry.register_component<component::ctype_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+	_registry.register_component<component::cid_of_ship_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+  _registry.register_component<component::ctype_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 }
 
 void Client::setUpSystems()
 {
-	_registry.add_system(_networkSystem, _registry.get_components<component::cnetwork_queue_t>());
+	_registry.add_system(_networkSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cid_of_ship_t>());
 	_registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
     _registry.add_system(_rectSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::crect_t>());
     _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
@@ -112,6 +123,9 @@ void Client::setUpComponents()
 
     component::ctype_t ntype = {.type = NET};
     _registry.add_component<component::ctype_t>(_registry.entity_from_index(network), std::move(ntype));
+
+    component::cid_of_ship_t idOfShip = {.id = 0};
+    _registry.add_component<component::cid_of_ship_t>(_registry.entity_from_index(network), std::move(idOfShip));
 
     component::cserverid_t serverId = {.id = 1};
     _registry.add_component<component::cserverid_t>(_registry.entity_from_index(ship), std::move(serverId));
