@@ -13,7 +13,7 @@
 struct packet_move {
     enum DIRECTION {
         PLUS = 1,
-        MOIN = 2
+        MINUS = 2
     };
     uint16_t playerId;
     uint16_t x;

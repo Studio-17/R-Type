@@ -17,7 +17,6 @@
     #include <asio/io_service.hpp>
     #include <asio/placeholders.hpp>
 
-	#include "Network/Network.hpp"
 	#include "UdpCommunication.hpp"
 	#include "Registry.hpp"
     #include "GraphicalLib.hpp"
@@ -29,38 +28,116 @@
 	#include "MoveSystem.hpp"
 	#include "NetworkSystem.hpp"
 
+/**
+ * @brief The Client class, it defines a client and its interactions with the server
+ * 
+ */
 class Client
 {
 	public:
+		/**
+		 * @brief Construct a new Client object
+		 * 
+		 * @param ip 
+		 * @param port 
+		 * @param hostPort 
+		 */
 		Client(std::string const &ip, std::string const &port, int hostPort);
+
+		/**
+		 * @brief Destroy the Client object
+		 * 
+		 */
 		~Client();
 
+		/**
+		 * @brief Set the Up Ecs object
+		 * 
+		 */
 		void setUpEcs();
+
+		/**
+		 * @brief Set the Up Systems object
+		 * 
+		 */
 		void setUpSystems();
+
+		/**
+		 * @brief Set the Up Components object
+		 * 
+		 */
 		void setUpComponents();
+
+		/**
+		 * @brief A method to launch the core features of a client
+		 * 
+		 */
 		void machineRun();
 
+		/**
+		 * @brief A method to try to connect to a target server 
+		 * 
+		 */
 		void tryToConnect();
 
 	private:
+		/**
+		 * @brief A method to recieve a packet through udp protocol
+		 * 
+		 */
 		void handleReceive();
+
+		/**
+		 * @brief A method to send a packet through udp protocol
+		 * 
+		 */
 		void SendPacket();
+
+		/**
+		 * @brief A method to push all the packets to the main queue
+		 * 
+		 * @param e 
+		 * @param nbBytes 
+		 */
 		void pushNewPacketsToQueue(asio::error_code const &e, std::size_t nbBytes);
 
+		/**
+		 * @brief A method to send a changement of direction
+		 * 
+		 * @param byte 
+		 */
 		void sendNewDirection(std::vector<byte> &byte);
+
+		/**
+		 * @brief A method to send a new shot has been fired by the client
+		 * 
+		 * @param byte 
+		 */
 		void sendNewShoot(std::vector<byte> &byte);
 
+		/**
+		 * @brief A method to configure and load the threadloop
+		 * 
+		 */
 		void threadLoop();
 
+		/**
+		 * @brief An asio context object to handle basic I/O
+		 * 
+		 */
 		asio::io_context _context;
-		std::vector<byte> _bufferToGet;
 
+		/**
+		 * @brief A buffer to receive as a vector of bytes
+		 * 
+		 */
+		std::vector<byte> _bufferToGet;
 
         std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
 		std::unique_ptr<UdpCommunication> _com;
         Registry _registry; ///< Registry that contains all the ECS
 		std::thread _thread; ///< thread to handle ECS
-		bool _connected;
+		bool _connected; ///< A boolean to check if the clientis conncted to the server
 
 		// Systems
 		NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues

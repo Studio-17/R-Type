@@ -21,7 +21,7 @@
          * 
          */
         typedef struct cid_of_ship_s {
-            std::size_t id;
+            uint16_t id;
         } cid_of_ship_t;
     }
 

@@ -20,7 +20,7 @@
  */
 namespace systemNamespace {
     /**
-     * @brief System in charge of all the hitboxes
+     * @brief The Hitbox System class, it handles everything related to collisions between entities
      * 
      */
     class HitboxSystem {
@@ -37,7 +37,7 @@ namespace systemNamespace {
             ~HitboxSystem() = default;
 
             /**
-             * @brief 
+             * @brief A method to check if a collision happened
              * 
              * @param rec1 
              * @param rec2 
@@ -49,7 +49,7 @@ namespace systemNamespace {
             bool CheckCollision(std::optional<component::crect_t> &rec1, std::optional<component::crect_t> &rec2, std::optional<component::cposition_t> &pos1, std::optional<component::cposition_t> &pos2);
 
             /**
-             * @brief 
+             * @brief The main handler for the Hitbox System
              * 
              * @param registry The registry that contains all the ECS
              * @param types Sparse array of all type component of all entities

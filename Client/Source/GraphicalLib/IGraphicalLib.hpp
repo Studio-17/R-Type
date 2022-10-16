@@ -48,8 +48,16 @@ namespace rtype {
 
             virtual auto initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate) -> void = 0;
 
+            /**
+             * @brief A method to close the window
+             * 
+             */
             virtual auto closeWindow() -> void = 0;
 
+            /**
+             * @brief A method to clear the window
+             * 
+             */
             virtual auto clearScreen() -> void = 0;
             /**
              * @brief Start drawing in the window
