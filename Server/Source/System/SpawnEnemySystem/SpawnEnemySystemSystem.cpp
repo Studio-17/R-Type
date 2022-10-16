@@ -42,7 +42,7 @@ Entity SpawnEnemySystem::createEnemy(Registry &registry)
     component::chitbox_t hitbox = { 10, 10 };
     registry.add_component<component::chitbox_t>(registry.entity_from_index(enemy), std::move(hitbox));
 
-    component::cposition_t position = { 900, std::rand() % 600 };
+    component::cposition_t position = { 900, static_cast<float>(std::rand() % 600) };
     registry.add_component<component::cposition_t>(registry.entity_from_index(enemy), std::move(position));
 
     component::cvelocity_t velocity = { 1 };
