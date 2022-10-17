@@ -13,6 +13,7 @@
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CPosition.hpp"
     #include "Component/CType.hpp"
+    #include "CTimer.hpp"
 
 /**
  * @brief The SpawnEnemy System class, it handles all packets related to the spawn of an enemy in the game
@@ -39,7 +40,7 @@ class SpawnEnemySystem {
          * @param netqueue 
          * @param position 
          */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type);
+        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer);
 
         /**
          * @brief Create a Enemy object

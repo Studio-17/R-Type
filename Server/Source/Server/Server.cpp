@@ -82,7 +82,7 @@ void Server::setUpEcs()
    _registry.add_system(_directionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>());
    _registry.add_system(_receiveSystem, _registry.get_components<component::cnetwork_queue_t>());
    _registry.add_system(_shootSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>());
-   _registry.add_system(_spawnEnemySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::ctype_t>());
+   _registry.add_system(_spawnEnemySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::ctype_t>(), _registry.get_components<component::ctimer_t>());
    _registry.add_system(_newPlayerSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::ctype_t>());
    _registry.add_system(_hitboxSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::ctype_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>(), _registry.get_components<component::ckilled_t>());
 }
@@ -112,6 +112,6 @@ void Server::setUpComponents()
     component::cnetwork_queue_t network = {};
     _registry.add_component<component::cnetwork_queue_t>(_registry.entity_from_index(networkEntity), std::move(network));
 
-    component::ctimer_t timer = {.deltaTime = std::chrono::steady_clock::now()};
+    component::ctimer_t timer = {.deltaTime = std::chrono::steady_clock::now(), .spawnEnemyDeltaTime = std::chrono::steady_clock::now()};
     _registry.add_component<component::ctimer_t>(_registry.entity_from_index(networkEntity), std::move(timer));
 }

@@ -63,7 +63,7 @@ void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity
     component::cserverid_t serverId = {.id = newEntity.id};
     registry.add_component<component::cserverid_t>(registry.entity_from_index(bullet), std::move(serverId));
 
-    component::cvelocity_t velocity = {.velocity = 4};
+    component::cvelocity_t velocity = {.velocity = 14};
     registry.add_component<component::cvelocity_t>(registry.entity_from_index(bullet), std::move(velocity));
     registry.add_component<component::ckilled_t>(registry.entity_from_index(bullet), {false});
 }
