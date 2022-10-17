@@ -27,6 +27,7 @@
 	#include "PositionSystem.hpp"
 	#include "MoveSystem.hpp"
 	#include "NetworkSystem.hpp"
+	#include "KillSystem.hpp"
 
 /**
  * @brief The Client class, it defines a client and its interactions with the server
@@ -147,6 +148,7 @@ class Client
 		NewEntitySystem _newEntitySystem; ///< System that creates new entities
 		PositionSystem _positionSystem; ///< System that updates the position of the entities
 		MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
+		KillSystem _killSystem; ///< System that kill entity
 };
 
 #endif /* !CLIENT_HPP_ */

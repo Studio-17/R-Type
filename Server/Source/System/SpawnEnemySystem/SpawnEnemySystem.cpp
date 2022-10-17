@@ -11,6 +11,8 @@
 #include <ctime>
 
 #include "CVelocity.hpp"
+#include "CRect.hpp"
+#include "CKilled.hpp"
 #include "Component/CDirection.hpp"
 #include "Component/CHitBox.hpp"
 #include "Serialization.hpp"
@@ -38,7 +40,7 @@ Entity SpawnEnemySystem::createEnemy(Registry &registry)
 {
     Entity enemy = registry.spawn_entity();
 
-    component::cdirection_t direction = { 0, 0 };
+    component::cdirection_t direction = { -1, 0 };
     registry.add_component<component::cdirection_t>(registry.entity_from_index(enemy), std::move(direction));
 
     component::chitbox_t hitbox = { 10, 10 };
@@ -47,9 +49,11 @@ Entity SpawnEnemySystem::createEnemy(Registry &registry)
     component::cposition_t position = { 700, static_cast<float>(std::rand() % 600) };
     registry.add_component<component::cposition_t>(registry.entity_from_index(enemy), std::move(position));
 
-    component::cvelocity_t velocity = { 1 };
+    component::cvelocity_t velocity = { 0 };
     registry.add_component<component::cvelocity_t>(registry.entity_from_index(enemy), std::move(velocity));
     registry.add_component<component::ctype_t>(registry.entity_from_index(enemy), {ENTITY_TYPE::ENEMY});
+    registry.add_component<component::crect_t>(registry.entity_from_index(enemy), {34, 33.5});
+    registry.add_component<component::ckilled_t>(registry.entity_from_index(enemy), {false});
 
     return enemy;
 }
