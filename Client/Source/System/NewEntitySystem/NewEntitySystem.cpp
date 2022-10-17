@@ -27,13 +27,23 @@ NewEntitySystem::~NewEntitySystem()
 {
 }
 
+static bool findEntity(Sparse_array<component::cserverid_t> &serverIds, uint16_t idToFind)
+{
+    for (std::size_t id = 0; id != serverIds.size(); id++) {
+        if (serverIds[id]->id == idToFind)
+            return true;
+    }
+    return false;
+}
+
 void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds)
 {
     // Here check if the new entity queue is not empty and add the entity
-    if (!network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.empty()) {
+    while (!network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.empty()) {
         packet_new_entity newEntity = network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.front();
         network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.pop();
-
+        if (findEntity(serverIds, newEntity.id))
+            continue;
         std::cout << "[CLIENT] New entity system with type: "<< newEntity.type << std::endl;
         if (newEntity.type == ENTITY_TYPE::BULLET)
             addBullet(registry, newEntity);
