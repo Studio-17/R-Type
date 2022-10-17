@@ -15,11 +15,14 @@ MoveSystem::MoveSystem()
 {
 }
 
-void MoveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction,Sparse_array<component::cposition_t> &position,Sparse_array<component::cvelocity_t> &velocity)
+void MoveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction,Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ckilled_t> &killed)
 {
     for (unsigned short index = 0; index < position.size(); index++) {
+        if (killed[index]->isDead)
+            continue;
         if (position[index] && velocity[index] && direction[index]) {
             if (position[index]->x > 1920) {
+                killed[index]->isDead = true;
                 registry.kill_entity((Entity)index);
                 std::cout << "[Server] killed entity: " << index << std::endl;
                 // sendKillEntityPacket(registry, index, netqueue);
