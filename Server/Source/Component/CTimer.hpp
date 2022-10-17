@@ -13,6 +13,7 @@
     namespace component {
         struct ctimer_t {
             std::chrono::steady_clock::time_point deltaTime;
+            std::chrono::steady_clock::time_point spawnEnemyDeltaTime;
         };
     }
 

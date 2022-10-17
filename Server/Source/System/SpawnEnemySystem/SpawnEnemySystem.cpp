@@ -24,16 +24,17 @@ SpawnEnemySystem::SpawnEnemySystem()
     _created = false;
 }
 
-void SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type)
+void SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer)
 {
-    if (!_created) {
-        Entity enemy = createEnemy(registry);
-
-        std::cout << "[Server] adding new enemy" << std::endl;
-        std::cout << "[SERVER] Position: x " <<position[enemy]->x <<" ,y "<<position[enemy]->y<< std::endl;
-        netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {enemy, position[enemy]->x, position[enemy]->y, 3, type[enemy]->type}));
-        _created = true;
-    }
+    if (std::chrono::steady_clock::now() - timer[0]->spawnEnemyDeltaTime > (std::chrono::nanoseconds)3000000000)
+        timer[0]->spawnEnemyDeltaTime = std::chrono::steady_clock::now();
+    else
+        return;
+    Entity enemy = createEnemy(registry);
+    std::cout << "[Server] adding new enemy" << std::endl;
+    std::cout << "[SERVER] Position: x " <<position[enemy]->x <<" ,y "<<position[enemy]->y<< std::endl;
+    netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {enemy, position[enemy]->x, position[enemy]->y, 3, type[enemy]->type}));
+    _created = true;
 }
 
 Entity SpawnEnemySystem::createEnemy(Registry &registry)
