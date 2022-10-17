@@ -12,6 +12,8 @@
     #include "GraphicalLib.hpp"
     #include "CSprite.hpp"
     #include "CRect.hpp"
+    #include "CTimer.hpp"
+    #include "CType.hpp"
 
 /**
  * @brief System that draws a part of all entities
@@ -36,7 +38,10 @@ class RectSystem {
          * @param sprites Sparse array of all sprite component of all entities
          * @param rectangles Sparse array of all rectangle component of all entities
          */
-        void operator()(Registry &registry, Sparse_array<component::csprite_t> &sprites, Sparse_array<component::crect_t> &rectangles);
+        void operator()(Registry &registry, Sparse_array<component::csprite_t> &sprites,
+                                            Sparse_array<component::crect_t> &rectangles,
+                                            Sparse_array<component::ctimer_t> &timer,
+                                            Sparse_array<component::ctype_t> &types);
 
     protected:
     private:

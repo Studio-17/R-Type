@@ -108,7 +108,7 @@ void Client::setUpSystems()
 {
 	_registry.add_system(_networkSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cid_of_ship_t>());
 	_registry.add_system(_drawSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>(), _registry.get_components<component::ckilled_t>());
-    _registry.add_system(_rectSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::crect_t>());
+    _registry.add_system(_rectSystem, _registry.get_components<component::csprite_t>(), _registry.get_components<component::crect_t>(), _registry.get_components<component::ctimer_t>(), _registry.get_components<component::ctype_t>());
     _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cid_of_ship_t>());
     _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
     _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
@@ -134,7 +134,7 @@ void Client::setUpComponents()
     component::ckeyboard_t keyboard = {.keyboard = 0};
 	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(network), std::move(keyboard));
 
-    component::ctimer_t timer = {.deltaTime = std::chrono::steady_clock::now()};
+    component::ctimer_t timer = {.deltaTime = std::chrono::steady_clock::now(), .animTimer = std::chrono::steady_clock::now()};
 	_registry.add_component<component::ctimer_t>(_registry.entity_from_index(network), std::move(timer));
 
     // Parallax Entity
@@ -153,6 +153,7 @@ void Client::setUpComponents()
     component::ctype_t ptype = {.type = UI};
     _registry.add_component<component::ctype_t>(_registry.entity_from_index(parallax), std::move(ptype));
     _registry.add_component<component::ckilled_t>(_registry.entity_from_index(parallax), {false});
+
 
 }
 
