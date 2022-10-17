@@ -25,7 +25,7 @@ void NewPlayerSystem::operator()(Registry &registry, Sparse_array<component::cne
         Entity spaceShip = createSpaceShip(registry);
 
         std::cout <<"[SERVER] adding new player" << std::endl;
-        netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_PLAYER, {spaceShip, position[spaceShip]->x, position[spaceShip]->y, 1, (uint16_t)type[spaceShip]->type}));
+        netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_PLAYER, {spaceShip, position[spaceShip]->x, position[spaceShip]->y, 1, type[spaceShip]->type}));
         for (std::size_t index = 1; index != position.size(); index++) {
             if (index == spaceShip)
                 continue;

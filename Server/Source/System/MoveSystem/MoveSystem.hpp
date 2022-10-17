@@ -48,7 +48,7 @@ class MoveSystem {
                         Sparse_array<component::cposition_t> &position,
                         Sparse_array<component::cvelocity_t> &velocity);
 
-        void sendKillEntityPacket(Registry &registry, int id, Sparse_array<component::cnetwork_queue_t> &netqueue);
+        void sendKillEntityPacket(Registry &registry, uint16_t id, Sparse_array<component::cnetwork_queue_t> &netqueue);
 
     protected:
 

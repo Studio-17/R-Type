@@ -30,7 +30,7 @@ void MoveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork
     }
 }
 
-void MoveSystem::sendKillEntityPacket(Registry &registry, int id, Sparse_array<component::cnetwork_queue_t> &netqueue)
+void MoveSystem::sendKillEntityPacket(Registry &registry, uint16_t id, Sparse_array<component::cnetwork_queue_t> &netqueue)
 {
     std::cout << "Kill entity send" << id << std::endl;
     packet_kill_entity packet = {.id = id};
