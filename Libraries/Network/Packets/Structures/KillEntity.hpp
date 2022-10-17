@@ -15,7 +15,7 @@
      * 
      */
     struct packet_kill_entity {
-        uint16_t id;
+        int id;
     };
 
 #endif /* !KILLENTITY_HPP_ */
