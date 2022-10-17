@@ -19,6 +19,8 @@ void MoveSystem::operator()(Registry &registry, Sparse_array<component::cdirecti
     for (unsigned short index = 1; index < position.size() && index < velocity.size() && index < velocity.size(); index++) {
         if (killed[index]->isDead)
             continue;
+        if (position[index]->x > 1920)
+                killed[index]->isDead = true;
         position[index]->x += (velocity[index]->velocity * direction[index]->x);
         position[index]->y += (velocity[index]->velocity * direction[index]->y);
     }

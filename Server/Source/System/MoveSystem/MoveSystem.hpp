@@ -14,6 +14,7 @@
 #include "Component/CDirection.hpp"
 #include "Component/CPosition.hpp"
 #include "Component/CVelocity.hpp"
+#include "Component/CKilled.hpp"
 
 /**
  * @brief The Move System class, it handles all packets related to movement by the clients
@@ -46,7 +47,8 @@ class MoveSystem {
                         Sparse_array<component::cnetwork_queue_t> &netqueue,
                         Sparse_array<component::cdirection_t> &direction,
                         Sparse_array<component::cposition_t> &position,
-                        Sparse_array<component::cvelocity_t> &velocity);
+                        Sparse_array<component::cvelocity_t> &velocity,
+                        Sparse_array<component::ckilled_t> &killed);
 
         void sendKillEntityPacket(Registry &registry, uint16_t id, Sparse_array<component::cnetwork_queue_t> &netqueue);
 
