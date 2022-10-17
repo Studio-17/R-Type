@@ -25,6 +25,7 @@
 #include "Move.hpp"
 #include "NewConnexion.hpp"
 #include "CIdOfShip.hpp"
+#include "CTimer.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
@@ -100,6 +101,7 @@ void Client::setUpEcs()
 	_registry.register_component<component::cid_of_ship_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::ctype_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
     _registry.register_component<component::ckilled_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
+    _registry.register_component<component::ctimer_t>([](Registry &registry, Entity const &entity) -> void {}, [](Registry &registry, Entity const &entity) -> void {});
 }
 
 void Client::setUpSystems()
@@ -110,7 +112,7 @@ void Client::setUpSystems()
     _registry.add_system(_controlSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cid_of_ship_t>());
     _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
     _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
-    _registry.add_system(_moveSystem, _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ckilled_t>());
+    _registry.add_system(_moveSystem, _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ckilled_t>(), _registry.get_components<component::ctimer_t>());
     _registry.add_system(_killSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>(), _registry.get_components<component::ckilled_t>());
 }
 
@@ -131,6 +133,9 @@ void Client::setUpComponents()
 
     component::ckeyboard_t keyboard = {.keyboard = 0};
 	_registry.add_component<component::ckeyboard_t>(_registry.entity_from_index(network), std::move(keyboard));
+
+    component::ctimer_t timer = {.deltaTime = std::chrono::steady_clock::now()};
+	_registry.add_component<component::ctimer_t>(_registry.entity_from_index(network), std::move(timer));
 
     // Parallax Entity
     component::crect_t prect = {0, 0, 600, 800, 1, 6000};

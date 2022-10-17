@@ -15,8 +15,12 @@ MoveSystem::MoveSystem()
 {
 }
 
-void MoveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction,Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ckilled_t> &killed)
+void MoveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction,Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ckilled_t> &killed, Sparse_array<component::ctimer_t> &timer)
 {
+    if (std::chrono::steady_clock::now() - timer[0]->deltaTime > (std::chrono::nanoseconds)100000000)
+        timer[0]->deltaTime = std::chrono::steady_clock::now();
+    else
+        return;
     for (unsigned short index = 0; index < position.size(); index++) {
         if (killed[index]->isDead)
             continue;
