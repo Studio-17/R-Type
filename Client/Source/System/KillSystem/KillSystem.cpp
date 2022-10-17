@@ -29,7 +29,6 @@ void KillSystem::killEntity(Registry &registry, std::size_t id, Sparse_array<com
     for (std::size_t x = 0; x < serverId.size(); x += 1) {
         if (serverId[x]->id == id)
             killed[x]->isDead = true;
-            registry.kill_entity(registry.entity_from_index(x));
     }
 }
 

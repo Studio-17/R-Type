@@ -8,7 +8,7 @@
 #ifndef CSERVERID_HPP_
     #define CSERVERID_HPP_
 
-    #include <string>
+    #include <cstdint>
 
 /**
  * @brief Namespace for all components
@@ -20,7 +20,7 @@ namespace component {
      *
      */
     typedef struct cserverid_s {
-        std::size_t id;
+        uint16_t id;
     } cserverid_t;
 }
 

@@ -20,8 +20,6 @@ void MoveSystem::operator()(Registry &registry, Sparse_array<component::cdirecti
         if (killed[index]->isDead)
             continue;
         position[index]->x += (velocity[index]->velocity * direction[index]->x);
-        if (position[index]->x > 800)
-            position[index]->x = 0;
         position[index]->y += (velocity[index]->velocity * direction[index]->y);
     }
     // update la position
