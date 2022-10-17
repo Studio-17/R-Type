@@ -39,7 +39,7 @@ void ControlSystem::operator()(Registry &registry, Sparse_array<component::cposi
         addToNetworkQueue(x, y, network, idOfShip[0]->id);
 }
 
-void ControlSystem::addToNetworkQueue(uint16_t x, uint16_t y, Sparse_array<component::cnetwork_queue_t> &network, uint16_t idOfShip) {
+void ControlSystem::addToNetworkQueue(float x, float y, Sparse_array<component::cnetwork_queue_t> &network, uint16_t idOfShip) {
     std::vector<byte> tmp;
     if (x == 3)
         tmp = serialize_header::serializeHeader<packet_shoot>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT, {idOfShip});

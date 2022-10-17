@@ -77,7 +77,7 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity)
     registry.add_component<component::crect_t>(registry.entity_from_index(enemy), std::move(rect));
     component::csprite_t sprite = {.sprite = _graphicLib->createSprite(_entityType.at(static_cast<ENTITY_TYPE>(newEntity.type)).first, 1, (Rectangle){.x = rect.x, .y = rect.y, .width = rect.width, .height = rect.height})};
     registry.add_component<component::csprite_t>(registry.entity_from_index(enemy), std::move(sprite));
-    component::cposition_t position = {.x = (float)newEntity.positionX, .y = (float)newEntity.positionY};
+    component::cposition_t position = {.x = newEntity.positionX, .y = newEntity.positionY};
     registry.add_component<component::cposition_t>(registry.entity_from_index(enemy), std::move(position));
     component::cserverid_t serverId = {.id = newEntity.id};
     registry.add_component<component::cserverid_t>(registry.entity_from_index(enemy), std::move(serverId));
@@ -97,7 +97,7 @@ void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity)
     registry.add_component<component::crect_t>(registry.entity_from_index(ship), std::move(rect));
     component::csprite_t sprite = {.sprite = _graphicLib->createSprite(_entityType.at(static_cast<ENTITY_TYPE>(newEntity.type)).first, 1, (Rectangle){.x = rect.x, .y = rect.y, .width = rect.width, .height = rect.height})};
     registry.add_component<component::csprite_t>(registry.entity_from_index(ship), std::move(sprite));
-    component::cposition_t position = {.x = (float)newEntity.positionX, .y = (float)newEntity.positionY};
+    component::cposition_t position = {.x = newEntity.positionX, .y = newEntity.positionY};
     registry.add_component<component::cposition_t>(registry.entity_from_index(ship), std::move(position));
     component::cserverid_t serverId = {.id = newEntity.id};
     registry.add_component<component::cserverid_t>(registry.entity_from_index(ship), std::move(serverId));

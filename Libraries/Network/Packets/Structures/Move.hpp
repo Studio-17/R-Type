@@ -20,8 +20,8 @@ struct packet_move {
         MINUS = 2
     };
     uint16_t playerId;
-    uint16_t x;
-    uint16_t y;
+    float x;
+    float y;
 };
 
 #endif /* !MOVE_HPP_ */
