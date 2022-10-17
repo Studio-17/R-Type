@@ -13,12 +13,13 @@
     #include "CPosition.hpp"
     #include "CRect.hpp"
     #include "CNetworkQueue.hpp"
+    #include "CKilled.hpp"
 
 /**
  * @brief Namespace for systems
  * 
  */
-namespace systemNamespace {
+namespace System {
     /**
      * @brief The Hitbox System class, it handles everything related to collisions between entities
      * 
@@ -58,10 +59,11 @@ namespace systemNamespace {
              * @param network_queues Sparse array of all network queue component of all entities
              * @param server_ids Sparse array of all server id component of all entities
              */
-            void operator()(Registry &registry, Sparse_array<component::ctype_t> &types,
+            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues,
+                                                Sparse_array<component::ctype_t> &types,
                                                 Sparse_array<component::cposition_t> &positions,
                                                 Sparse_array<component::crect_t> &rects,
-                                                Sparse_array<component::cnetwork_queue_t> &network_queues);
+                                                Sparse_array<component::ckilled_t> &killed);
 
 
         protected:

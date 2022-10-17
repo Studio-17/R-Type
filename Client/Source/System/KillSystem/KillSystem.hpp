@@ -8,10 +8,11 @@
 #ifndef KILLSYSTEM_HPP_
     #define KILLSYSTEM_HPP_
 
+    #include <iostream>
     #include "Registry.hpp"
     #include "CNetworkQueue.hpp"
     #include "CServerId.hpp"
-    #include <iostream>
+    #include "CKilled.hpp"
 
 /**
  * @brief KillSystem class that handles the killing of entities
@@ -38,7 +39,7 @@ class KillSystem {
          * @param network 
          * @param serverId 
          */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverId);
+        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverId, Sparse_array<component::ckilled_t> &killed);
 
         /**
          * @brief A method to kill an entity
@@ -47,7 +48,7 @@ class KillSystem {
          * @param id 
          * @param serverId 
          */
-        void killEntity(Registry &registry, std::size_t id, Sparse_array<component::cserverid_t> &serverId);
+        void killEntity(Registry &registry, std::size_t id, Sparse_array<component::cserverid_t> &serverId, Sparse_array<component::ckilled_t> &killed);
 
     protected:
     private:

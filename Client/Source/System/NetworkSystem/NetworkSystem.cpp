@@ -10,6 +10,7 @@
 #include "Serialization.hpp"
 #include "Position.hpp"
 #include "NewEntity.hpp"
+#include "KillEntity.hpp"
 
 NetworkSystem::NetworkSystem()
 {
@@ -24,11 +25,12 @@ void NetworkSystem::operator()(Registry &registry, Sparse_array<component::cnetw
         std::vector<byte> bufferWithoutId;
         bufferWithoutId.insert(bufferWithoutId.begin(), tmp.begin() + sizeof(id), tmp.end());
 
-        std::cout << "[CLIENT] Spliting" << std::endl;
         if (id == NETWORK_SERVER_TO_CLIENT::POSITION)
             dispatchToPositionQueue(bufferWithoutId, network);
         if (id == NETWORK_SERVER_TO_CLIENT::NEW_ENTITY)
             dispatchToNewEntityQueue(bufferWithoutId, network);
+        if (id == NETWORK_SERVER_TO_CLIENT::KILL_ENTITY)
+            dispatchToKillEntityQueue(bufferWithoutId, network);
         if (id == NETWORK_SERVER_TO_CLIENT::NEW_PLAYER)
             handleNewPlayerAndDispatchToNewEntityQueue(bufferWithoutId, network, idOfShip);
         network[FORBIDDEN_IDS::NETWORK]->receivedNetworkQueue.pop();
@@ -46,6 +48,12 @@ void NetworkSystem::dispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_ar
 {
     packet_new_entity packet = serializable_trait<packet_new_entity>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.push(packet);
+}
+
+void NetworkSystem::dispatchToKillEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+{
+    packet_kill_entity packet = serializable_trait<packet_kill_entity>::unserialize(bytes);
+    network[FORBIDDEN_IDS::NETWORK]->killEntityQueue.push(packet);
 }
 
 void NetworkSystem::handleNewPlayerAndDispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)

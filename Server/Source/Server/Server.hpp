@@ -36,6 +36,7 @@
     #include "ShootSystem.hpp"
     #include "System/NewPlayerSystem/NewPlayerSystem.hpp"
     #include "System/SpawnEnemySystem/SpawnEnemySystem.hpp"
+    #include "System/HitboxSystem/HitboxSystem.hpp"
 
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
@@ -199,6 +200,7 @@ class Server {
          */
         System::ReceiveSystem _receiveSystem;
 
+        System::HitboxSystem _hitboxSystem;
         /**
          * @brief A boolean to manage the server loop
          * 

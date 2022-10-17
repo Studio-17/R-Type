@@ -12,6 +12,8 @@
 #include "CDirection.hpp"
 #include "CPosition.hpp"
 #include "CVelocity.hpp"
+#include "CKilled.hpp"
+#include "CRect.hpp"
 
 #include "NewEntity.hpp"
 
@@ -29,7 +31,7 @@ void NewPlayerSystem::operator()(Registry &registry, Sparse_array<component::cne
         for (std::size_t index = 1; index != position.size(); index++) {
             if (index == spaceShip)
                 continue;
-            netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {(Entity)index, position[index]->x, position[index]->y, 1, (uint16_t)type[index]->type}));
+            netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {(Entity)index, position[index]->x, position[index]->y, 1, type[index]->type}));
         }
         netqueue[0]->newPlayerQueue.pop();
     }
@@ -43,5 +45,7 @@ Entity NewPlayerSystem::createSpaceShip(Registry &registry)
     registry.add_component<component::cposition_t>(registry.entity_from_index(spaceShip), {10, 10});
     registry.add_component<component::cvelocity_t>(registry.entity_from_index(spaceShip), {10});
     registry.add_component<component::ctype_t>(registry.entity_from_index(spaceShip), {ENTITY_TYPE::PLAYER});
+    registry.add_component<component::crect_t>(registry.entity_from_index(spaceShip), {17.2, 33});
+    registry.add_component<component::ckilled_t>(registry.entity_from_index(spaceShip), {false});
     return spaceShip;
 }

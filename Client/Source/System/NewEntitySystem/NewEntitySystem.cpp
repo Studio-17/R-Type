@@ -12,13 +12,14 @@
 #include "CPosition.hpp"
 #include "CDirection.hpp"
 #include "CVelocity.hpp"
+#include "CKilled.hpp"
 
 NewEntitySystem::NewEntitySystem()
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 
     _entityType[ENTITY_TYPE::PLAYER] = {"Assets/sprites/r-typesheet42.gif", {0, 0, 17.2, 33, 1, 5}};
-    _entityType[ENTITY_TYPE::BULLET] = {"Assets/sprites/r-typesheet3.gif" , {0, 0, 18, 17, 1, 12}};
+    _entityType[ENTITY_TYPE::BULLET] = {"Assets/sprites/bullet.png", {0, 0, 14, 48.5, 1, 2}};
     _entityType[ENTITY_TYPE::ENEMY] = {"Assets/sprites/BasicEnemySpriteSheet.gif", {0, 0, 34, 33.5, 1, 8}};
 }
 
@@ -64,6 +65,7 @@ void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity
 
     component::cvelocity_t velocity = {.velocity = 8};
     registry.add_component<component::cvelocity_t>(registry.entity_from_index(bullet), std::move(velocity));
+    registry.add_component<component::ckilled_t>(registry.entity_from_index(bullet), {false});
 }
 
 void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity)
@@ -79,8 +81,10 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity)
     registry.add_component<component::cposition_t>(registry.entity_from_index(enemy), std::move(position));
     component::cserverid_t serverId = {.id = newEntity.id};
     registry.add_component<component::cserverid_t>(registry.entity_from_index(enemy), std::move(serverId));
-    component::cvelocity_t velocity = {.velocity = 1};
+    component::cvelocity_t velocity = {.velocity = 0};
     registry.add_component<component::cvelocity_t>(registry.entity_from_index(enemy), std::move(velocity));
+    registry.add_component<component::ckilled_t>(registry.entity_from_index(enemy), {false});
+
 }
 
 void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity)
@@ -99,4 +103,5 @@ void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity)
     registry.add_component<component::cserverid_t>(registry.entity_from_index(ship), std::move(serverId));
     component::cvelocity_t velocity = {.velocity = 8};
     registry.add_component<component::cvelocity_t>(registry.entity_from_index(ship), std::move(velocity));
+    registry.add_component<component::ckilled_t>(registry.entity_from_index(ship), {false});
 }

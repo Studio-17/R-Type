@@ -14,6 +14,7 @@
 #include "CDirection.hpp"
 #include "CPosition.hpp"
 #include "CVelocity.hpp"
+#include "CKilled.hpp"
 
 /**
  * @brief MoveSystem class that handles the movement of the entities
@@ -45,7 +46,8 @@ class MoveSystem {
         void operator()(Registry &registry,
                         Sparse_array<component::cdirection_t> &direction,
                         Sparse_array<component::cposition_t> &position,
-                        Sparse_array<component::cvelocity_t> &velocity);
+                        Sparse_array<component::cvelocity_t> &velocity,
+                        Sparse_array<component::ckilled_t> &killed);
 
     protected:
 

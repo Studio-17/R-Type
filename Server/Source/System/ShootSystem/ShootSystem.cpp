@@ -11,6 +11,8 @@
 #include "NewEntity.hpp"
 #include "CVelocity.hpp"
 #include "CType.hpp"
+#include "CRect.hpp"
+#include "CKilled.hpp"
 
 ShootSystem::ShootSystem()
 {
@@ -45,5 +47,7 @@ Entity ShootSystem::createBullet(Registry &registry, Sparse_array<component::cpo
     component::cvelocity_t velocity = {1 };
     registry.add_component<component::cvelocity_t>(registry.entity_from_index(bullet), std::move(velocity));
     registry.add_component<component::ctype_t>(registry.entity_from_index(bullet), {ENTITY_TYPE::BULLET});
+    registry.add_component<component::crect_t>(registry.entity_from_index(bullet), {18, 17});
+    registry.add_component<component::ckilled_t>(registry.entity_from_index(bullet), {false});
     return bullet;
 }
