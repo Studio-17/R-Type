@@ -1,6 +1,6 @@
 # B-CPP-500-PAR-5-1-rtype
 
-![image](https://github.com/EpitechPromo2025/B-CPP-500-PAR-5-1-rtype-martin.vanaud/.github/files/rtype.jpg)
+![image](https://github.com/EpitechPromo2025/B-CPP-500-PAR-5-1-rtype-martin.vanaud/blob/master/.github/files/rtype.jpg)
 
 For those of you who may not know this best-selling video game, which accounts for countless lost hours
 of our childhood, here is a little introduction.
@@ -106,7 +106,7 @@ std::vector &serialized_packet = serialize_header::serializeHeader<packet_positi
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate and read the [CONTRIBUTING.md](https://github.com/EpitechPromo2025/B-CPP-500-PAR-5-1-rtype-martin.vanaud/CONTRIBUTING.md)
+Please make sure to update tests as appropriate and read the [CONTRIBUTING.md](https://github.com/EpitechPromo2025/B-CPP-500-PAR-5-1-rtype-martin.vanaud/blob/master/CONTRIBUTING.md)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
