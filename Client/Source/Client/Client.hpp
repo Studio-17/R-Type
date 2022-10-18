@@ -39,9 +39,9 @@ class Client
 		/**
 		 * @brief Construct a new Client object
 		 * 
-		 * @param ip 
-		 * @param port 
-		 * @param hostPort 
+		 * @param ip ip of the client
+		 * @param port port of the client
+		 * @param hostPort port of the host
 		 */
 		Client(std::string const &ip, std::string const &port, int hostPort);
 
@@ -97,22 +97,22 @@ class Client
 		/**
 		 * @brief A method to push all the packets to the main queue
 		 * 
-		 * @param e 
-		 * @param nbBytes 
+		 * @param e error code of asio
+		 * @param nbBytes nb of bytes to read
 		 */
 		void pushNewPacketsToQueue(asio::error_code const &e, std::size_t nbBytes);
 
 		/**
 		 * @brief A method to send a changement of direction
 		 * 
-		 * @param byte 
+		 * @param byte bytes to read
 		 */
 		void sendNewDirection(std::vector<byte> &byte);
 
 		/**
 		 * @brief A method to send a new shot has been fired by the client
 		 * 
-		 * @param byte 
+		 * @param byte bytes to read
 		 */
 		void sendNewShoot(std::vector<byte> &byte);
 
@@ -122,20 +122,12 @@ class Client
 		 */
 		void threadLoop();
 
-		/**
-		 * @brief An asio context object to handle basic I/O
-		 * 
-		 */
-		asio::io_context _context;
+		asio::io_context _context; ///< An asio context object to handle basic I/O
 
-		/**
-		 * @brief A buffer to receive as a vector of bytes
-		 * 
-		 */
-		std::vector<byte> _bufferToGet;
+		std::vector<byte> _bufferToGet; ///< A buffer to receive as a vector of bytes
 
         std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
-		std::unique_ptr<UdpCommunication> _com;
+		std::unique_ptr<UdpCommunication> _com; ///< A shared pointer to a module used for communicating through udp sockets
         Registry _registry; ///< Registry that contains all the ECS
 		std::thread _thread; ///< thread to handle ECS
 		bool _connected; ///< A boolean to check if the clientis conncted to the server

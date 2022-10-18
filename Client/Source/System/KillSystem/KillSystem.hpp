@@ -35,18 +35,18 @@ class KillSystem {
         /**
          * @brief Function that will be automaticaly called while the client is working (on loop)
          * 
-         * @param registry 
-         * @param network 
-         * @param serverId 
+         * @param registry registry of the client
+         * @param network the sparse array of network entities
+         * @param serverId the sparse array of serverId entities
          */
         void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverId, Sparse_array<component::ckilled_t> &killed);
 
         /**
          * @brief A method to kill an entity
          * 
-         * @param registry 
-         * @param id 
-         * @param serverId 
+         * @param registry the registry of the client
+         * @param id the id of the entity to kill
+         * @param serverId the sparse array of serverId entities
          */
         void killEntity(Registry &registry, std::size_t id, Sparse_array<component::cserverid_t> &serverId, Sparse_array<component::ckilled_t> &killed);
 

@@ -42,40 +42,40 @@ class NewEntitySystem {
         /**
          * @brief Function that will be automaticaly called while the client is working (on loop)
          * 
-         * @param registry 
-         * @param network 
-         * @param serverIds 
+         * @param registry registry of the client
+         * @param network the sparse array of network entities
+         * @param serverIds the sparse array of serverId entities
          */
         void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds);
 
         /**
          * @brief A method to add a new bullet entity
          * 
-         * @param registry 
-         * @param packet_new_entity 
+         * @param registry the registry of the client
+         * @param packet_new_entity the packet containing the new entity
          */
         void addBullet(Registry &registry, packet_new_entity &packet_new_entity);
 
         /**
          * @brief A method to add a new ship entity
          * 
-         * @param registry 
-         * @param packet_new_entity 
+         * @param registry the registry of the client
+         * @param packet_new_entity the packet containing the new entity
          */
         void addShip(Registry &registry, packet_new_entity &packet_new_entity);
 
         /**
          * @brief A method to add a new enemy entity
          * 
-         * @param registry 
-         * @param packet_new_entity 
+         * @param registry the registry of the client
+         * @param packet_new_entity the packet containing the new entity
          */
         void addEnemy(Registry &registry, packet_new_entity &packet_new_entity);
 
         /**
          * @brief A method to check if an entity already exists
          * 
-         * @param newEntityId 
+         * @param newEntityId the id of the new entity
          */
         void doesEntityAlreadyExist(int newEntityId);
 

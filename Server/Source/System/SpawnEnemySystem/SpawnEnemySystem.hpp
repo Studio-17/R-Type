@@ -26,7 +26,7 @@ class SpawnEnemySystem {
          * 
          */
         SpawnEnemySystem();
-        
+
         /**
          * @brief Destroy the Spawn Enemy System object
          * 
@@ -36,27 +36,23 @@ class SpawnEnemySystem {
         /**
          * @brief The main handler for the SpawnEnemy System
          * 
-         * @param registry 
-         * @param netqueue 
-         * @param position 
+         * @param registry the registry of the server
+         * @param netqueue the sparse array of network entities
+         * @param position the sparse array of position entities
          */
         void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer);
 
         /**
          * @brief Create a Enemy object
          * 
-         * @param registry 
-         * @return Entity 
+         * @param registry the registry of the server
+         * @return Entity the entity of the enemy
          */
         Entity createEnemy(Registry &registry);
 
     protected:
     private:
-        /**
-         * @brief A boolean to notify that an enemy was created
-         * 
-         */
-        bool _created;
+        bool _created; ///< Boolean that indicates if the enemy has been created
 };
 
 #endif /* !SPAWNENEMYSYSTEM_HPP_ */

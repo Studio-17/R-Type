@@ -31,12 +31,14 @@ class RectSystem {
          */
         ~RectSystem() = default;
 
-         /**
+        /**
          * @brief Function that will be automaticaly called while the client is working (on loop)
-         *
-         * @param registry The registry that contains all the ECS
-         * @param sprites Sparse array of all sprite component of all entities
-         * @param rectangles Sparse array of all rectangle component of all entities
+         * 
+         * @param registry registry of the client
+         * @param sprites sparse array of sprite entities
+         * @param rectangles sparse array of rectangle entities
+         * @param timer sparse array of timer entities
+         * @param types sparse array of type entities
          */
         void operator()(Registry &registry, Sparse_array<component::csprite_t> &sprites,
                                             Sparse_array<component::crect_t> &rectangles,

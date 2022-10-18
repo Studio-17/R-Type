@@ -138,9 +138,9 @@ class Keyboard {
         /**
          * @brief Get the Keys Has Been Pressed object
          * 
-         * @tparam ENUM 
-         * @param map 
-         * @return std::map<ENUM, bool> 
+         * @tparam ENUM key
+         * @param map map of the keys
+         * @return std::map<ENUM, bool> map of the keys that have been pressed
          */
         template<typename ENUM>
         std::map<ENUM, bool> getKeysHasBeenPressed(std::map<ENUM, int> map) const

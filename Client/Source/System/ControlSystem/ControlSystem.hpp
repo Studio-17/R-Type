@@ -47,10 +47,10 @@ class ControlSystem {
 		/**
 		 * @brief A method to add a task for the server through the network queue
 		 * 
-		 * @param x 
-		 * @param y 
-		 * @param network 
-		 * @param idOfShip 
+		 * @param x The x position of the task
+		 * @param y The y position of the task
+		 * @param network network queue
+		 * @param idOfShip id of the ship
 		 */
 		void addToNetworkQueue(float x, float y, Sparse_array<component::cnetwork_queue_t> &network, uint16_t idOfShip);
 

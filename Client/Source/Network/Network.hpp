@@ -32,8 +32,8 @@ class Network
 		/**
 		 * @brief Construct a new Network object
 		 * 
-		 * @param host 
-		 * @param port 
+		 * @param host host of the server
+		 * @param port port of the server
 		 */
 		Network(std::string const &host, std::string const &port);
 
@@ -46,7 +46,7 @@ class Network
 		/**
 		 * @brief A method to send a message using a string object
 		 * 
-		 * @param msg 
+		 * @param msg message to send
 		 */
 		void send(const std::string& msg);
 

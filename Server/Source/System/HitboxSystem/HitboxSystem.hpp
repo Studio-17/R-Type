@@ -40,12 +40,12 @@ namespace System {
             /**
              * @brief A method to check if a collision happened
              * 
-             * @param rec1 
-             * @param rec2 
-             * @param pos1 
-             * @param pos2 
-             * @return true 
-             * @return false 
+             * @param rec1 the first rectangle
+             * @param rec2 the second rectangle
+             * @param pos1 the first position
+             * @param pos2 the second position
+             * @return true if a collision happened
+             * @return false if no collision happened
              */
             bool CheckCollision(std::optional<component::crect_t> &rec1, std::optional<component::crect_t> &rec2, std::optional<component::cposition_t> &pos1, std::optional<component::cposition_t> &pos2);
 
@@ -53,11 +53,11 @@ namespace System {
              * @brief The main handler for the Hitbox System
              * 
              * @param registry The registry that contains all the ECS
+             * @param network_queues Sparse array of all network queue component of all entities
              * @param types Sparse array of all type component of all entities
              * @param positions Sparse array of all position component of all entities
              * @param rects Sparse array of all rect component of all entities
-             * @param network_queues Sparse array of all network queue component of all entities
-             * @param server_ids Sparse array of all server id component of all entities
+             * @param killed Sparse array of all killed component of all entities
              */
             void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues,
                                                 Sparse_array<component::ctype_t> &types,

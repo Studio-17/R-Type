@@ -37,19 +37,19 @@ class ShootSystem {
         /**
          * @brief The main handler for the Shoot System
          * 
-         * @param registry 
-         * @param netqueue 
-         * @param position 
+         * @param registry the registry of the server
+         * @param netqueue the sparse array of network entities
+         * @param position the sparse array of position entities
          */
         void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position);
 
         /**
          * @brief Create a Bullet object
          * 
-         * @param registry 
-         * @param position 
-         * @param playerId 
-         * @return Entity 
+         * @param registry the registry of the server
+         * @param position the sparse array of position entities
+         * @param playerId the id of the player who shot
+         * @return Entity the bullet entity
          */
         Entity createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId);
 
