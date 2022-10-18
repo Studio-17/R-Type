@@ -38,11 +38,13 @@ class MoveSystem {
         /**
          * @brief The main handler for the Move System
          * 
-         * @param registry 
-         * @param netqueue 
-         * @param direction 
-         * @param position 
-         * @param velocity 
+         * @param registry the registry of the server
+         * @param netqueue the sparse array of network entities
+         * @param direction the sparse array of direction entities
+         * @param position the sparse array of position entities
+         * @param velocity the sparse array of velocity entities
+         * @param killed the sparse array of killed entities
+         * @param timer the sparse array of timer entities
          */
         void operator()(Registry &registry,
                         Sparse_array<component::cnetwork_queue_t> &netqueue,

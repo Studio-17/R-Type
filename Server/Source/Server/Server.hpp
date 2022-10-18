@@ -200,6 +200,10 @@ class Server {
          */
         System::ReceiveSystem _receiveSystem;
 
+        /**
+         * @brief An object HitboxSystem to manage it in the server
+         * 
+         */
         System::HitboxSystem _hitboxSystem;
         /**
          * @brief A boolean to manage the server loop

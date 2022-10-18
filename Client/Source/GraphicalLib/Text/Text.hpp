@@ -20,11 +20,11 @@ class Text {
         /**
          * @brief Construct a new Text object
          * 
-         * @param filename 
-         * @param text 
-         * @param fontSize 
-         * @param color 
-         * @param position 
+         * @param filename filename of the text
+         * @param text text to display
+         * @param fontSize size of the text
+         * @param color color of the text
+         * @param position position of the text
          */
         Text(std::string const &filename, std::string const &text, int fontSize, Color const &color, Position const &position);
         /**
@@ -42,38 +42,38 @@ class Text {
         /**
          * @brief Set the Position of the text
          * 
-         * @param position 
+         * @param position position of the text
          */
         void setPosition(Position const &position);
         /**
          * @brief Get the Position of the text
          * 
-         * @return Position 
+         * @return Position of the text
          */
         Position getPosition();
 
         /**
          * @brief Set the Color of the text
          * 
-         * @param color 
+         * @param color color of the text
          */
         void setText(std::string const &text);
         /**
          * @brief Get the Color of the text
          * 
-         * @return Color 
+         * @return Color of the text
          */
         std::string getText();
         /**
          * @brief Set the Color of the text
          * 
-         * @param color 
+         * @param color color of the text
          */
         void setFontSize(int fontSize);
         /**
          * @brief Get the Color of the text
          * 
-         * @return Color 
+         * @return Color of the text
          */
         void setColor(Color const &color);
 
