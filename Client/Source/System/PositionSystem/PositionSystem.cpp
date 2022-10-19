@@ -21,10 +21,10 @@ void PositionSystem::operator()(Registry &registry, Sparse_array<component::cnet
 {
     while (!network[FORBIDDEN_IDS::NETWORK]->updatePositionQueue.empty()) {
         packet_position &positionPacket = network[FORBIDDEN_IDS::NETWORK]->updatePositionQueue.front();
-        std::cout << "the new postion id is "<< positionPacket.id << " at pos "<< positionPacket.x << " , "<< positionPacket.y << std::endl;
+        // std::cout << "the new postion id is "<< positionPacket.id << " at pos "<< positionPacket.x << " , "<< positionPacket.y << std::endl;
         for (std::size_t index = 0; index != serverIds.size(); index++) {
             if (serverIds[index]->id == positionPacket.id) {
-                std::cout << "is good at id" << index << "("<< serverIds[index]->id<<", "<<  positionPacket.id <<")"<< std::endl;
+                // std::cout << "is good at id" << index << "("<< serverIds[index]->id<<", "<<  positionPacket.id <<")"<< std::endl;
                 position[index]->x = positionPacket.x;
                 position[index]->y = positionPacket.y;
             }

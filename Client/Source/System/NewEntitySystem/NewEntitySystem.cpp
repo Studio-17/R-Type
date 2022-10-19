@@ -44,7 +44,7 @@ void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cne
         network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.pop();
         if (findEntity(serverIds, newEntity.id))
             continue;
-        std::cout << "[CLIENT] New entity system with type: "<< newEntity.type << std::endl;
+        // std::cout << "[CLIENT] New entity system with type: "<< newEntity.type << std::endl;
         if (newEntity.type == ENTITY_TYPE::BULLET)
             addBullet(registry, newEntity);
         if (newEntity.type == ENTITY_TYPE::ENEMY)
@@ -99,7 +99,7 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity)
 
 void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity)
 {
-    std::cout << "[CLIENT]: new player ship" << std::endl;
+    // std::cout << "[CLIENT]: new player ship" << std::endl;
     Entity ship = registry.spawn_entity();
     component::cdirection_t direction = {0, 0};
     registry.add_component<component::cdirection_t>(registry.entity_from_index(ship), std::move(direction));

@@ -58,7 +58,7 @@ void NetworkSystem::dispatchToKillEntityQueue(std::vector<byte> &bytes, Sparse_a
 
 void NetworkSystem::handleNewPlayerAndDispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
 {
-    std::cout << "[CLIENT] new player" << std::endl;
+    // std::cout << "[CLIENT] new player" << std::endl;
     packet_new_entity packet = serializable_trait<packet_new_entity>::unserialize(bytes);
     if (idOfShip[FORBIDDEN_IDS::NETWORK]->id == 0)
         idOfShip[FORBIDDEN_IDS::NETWORK]->id = packet.id;

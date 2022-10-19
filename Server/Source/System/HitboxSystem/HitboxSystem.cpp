@@ -18,9 +18,9 @@ bool System::HitboxSystem::CheckCollision(std::optional<component::crect_t> &rec
     if (pos1->y < (pos2->y + rec2->height) && (pos1->y + rec1->height) > pos2->y) {
         // std::cout << "[Server] same y" << std::endl;
         if ((pos1->x < (pos2->x + rec2->width) && (pos1->x + rec1->width) > pos2->x)) {
-            std::cout << "first "<< pos1->x << " second "<<pos2->x << std::endl;
-            std::cout << "rect "<< rec1->width<< " second " << rec2->width << std::endl;
-            std::cout << "[Server] same x" << std::endl;
+            // std::cout << "first "<< pos1->x << " second "<<pos2->x << std::endl;
+            // std::cout << "rect "<< rec1->width<< " second " << rec2->width << std::endl;
+            // std::cout << "[Server] same x" << std::endl;
             return true;
         }
     }
@@ -48,7 +48,7 @@ void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_a
                 continue;
             if (CheckCollision(firstrect, secondrect, firstpos, secondpos)) {
                 if (secondtype->type == PLAYER || secondtype->type == BULLET) {
-                    std::cout << "[SERVER] collision between " <<firsttype->type<< " and "<< secondtype->type<< std::endl;
+                    // std::cout << "[SERVER] collision between " <<firsttype->type<< " and "<< secondtype->type<< std::endl;
                     killed[i]->isDead = true;
                     killed[x]->isDead = true;
                     registry.kill_entity(registry.entity_from_index(i));
