@@ -40,6 +40,7 @@
 
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
+    #include "IUdpCommunication.hpp"
 
     #include "Constant.hpp"
 
@@ -133,7 +134,7 @@ class Server {
          * @brief A shared pointer to a module used for communicating through udp sockets
          * 
          */
-        std::shared_ptr<UdpCommunication> _com;
+        std::shared_ptr<IUdpCommunication> _com;
 
         /**
          * @brief A buffer as a vector of bytes to communicate packets
