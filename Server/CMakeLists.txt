@@ -37,11 +37,15 @@ include_directories(
     Source/System/SpawnEnemySystem/
 )
 
+find_package(asio CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
+
 # Add executable target with source files listed in SOURCE_FILES variable
 add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
-target_link_libraries(${EXECUTABLE_NAME} r-type_library_ecs)
-target_link_libraries(${EXECUTABLE_NAME} r-type_library_network)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE r-type_library_ecs)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE r-type_library_network)
 
-target_link_libraries(${EXECUTABLE_NAME} -lpthread)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE -lpthread)
 
-target_link_libraries(${EXECUTABLE_NAME} asio)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE asio asio::asio)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE nlohmann_json::nlohmann_json)

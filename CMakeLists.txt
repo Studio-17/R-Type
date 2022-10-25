@@ -37,7 +37,9 @@ unset(UNIT_TESTS CACHE)
 # Get all project files
 file(GLOB_RECURSE
     ALL_CXX_SOURCE_FILES
-    *.[ch]pp
+    Source/*.[ch]pp
+    Libraries/*.[ch]pp
+    Server/*.[ch]pp
 )
 
 # Adding clang-format target if executable is found
