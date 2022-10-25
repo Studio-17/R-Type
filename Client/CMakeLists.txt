@@ -15,6 +15,7 @@ file(GLOB SOURCE_FILES
     Source/GraphicalLib/Music/*.cpp
     Source/GraphicalLib/Sound/*.cpp
     Source/GraphicalLib/Sprite/*.cpp
+    Source/GraphicalLib/MyTexture/*.cpp
     Source/GraphicalLib/Text/*.cpp
     Source/GraphicalLib/Keyboard/*.cpp
     Source/System/*.cpp
@@ -27,6 +28,7 @@ file(GLOB SOURCE_FILES
     Source/System/PositionSystem/*.cpp
     Source/System/RectSystem/*cpp
     Source/System/KillSystem/*cpp
+    Source/AssetManager/*.cpp
 )
 
 # specify the headers
@@ -40,6 +42,7 @@ include_directories(
     Source/GraphicalLib/Music/
     Source/GraphicalLib/Sound/
     Source/GraphicalLib/Sprite/
+    Source/GraphicalLib/MyTexture/
     Source/GraphicalLib/Text/
     Source/GraphicalLib/Keyboard/
     Source/System/
@@ -52,7 +55,13 @@ include_directories(
     Source/System/PositionSystem/
     Source/System/RectSystem/
     Source/System/KillSystem/
+    Source/AssetManager/
 )
+
+include(FetchContent)
+
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz)
+FetchContent_MakeAvailable(json)
 
 # Add executable target with source files listed in SOURCE_FILES variable
 add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
@@ -65,3 +74,5 @@ target_link_libraries(${EXECUTABLE_NAME} raylib)
 target_link_libraries(${EXECUTABLE_NAME} -lpthread)
 
 target_link_libraries(${EXECUTABLE_NAME} asio)
+
+target_link_libraries(${EXECUTABLE_NAME} nlohmann_json::nlohmann_json)
