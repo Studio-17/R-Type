@@ -17,13 +17,13 @@ namespace component {
      * @brief A structure representing the rectangle component that holds the rectangle of an entity
      * 
      */
-    typedef struct crect_s {
+    struct crect_t {
         float x;
         float y;
-        float height;
         float width;
+        float height;
         int current_frame;
         int nb_frames;
-    } crect_t;
+    };
 }
 #endif /* !CRECT_HPP_ */
