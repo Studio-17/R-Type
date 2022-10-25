@@ -20,11 +20,13 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 ```bash
 git clone git@github:EpitechPromo2025/...
 
-git submodule update --init asio/ raylib/ 
+https://vcpkg.io/en/getting-started.html
 
-mkdir -p Builds && cd Builds
+[sudo] vcpkg install asio nlohmann-json raylib
+[sudo] vcpkg list
+[sudo] vcpkg integrate install
  
-cmake ..
+cmake -B Builds -S . -DCMAKE_TOOLCHAIN_FILE= /opt/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 cmake --build . -- -j 4
 ```
