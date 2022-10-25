@@ -70,6 +70,6 @@ target_link_libraries(${EXECUTABLE_NAME} PRIVATE r-type_library_errors)
 
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE -lpthread)
 
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE asio asio::asio)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE asio::asio)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE raylib)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE nlohmann_json::nlohmann_json)
