@@ -18,9 +18,9 @@ NewEntitySystem::NewEntitySystem()
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 
-    _entityType[ENTITY_TYPE::PLAYER] = {"Assets/sprites/r-typesheet42.gif", {0, 0, 17.2, 33, 1, 5}};
-    _entityType[ENTITY_TYPE::BULLET] = {"Assets/sprites/bullet.png", {0, 0, 14, 48.5, 1, 2}};
-    _entityType[ENTITY_TYPE::ENEMY] = {"Assets/sprites/BasicEnemySpriteSheet.gif", {0, 0, 34, 33.5, 1, 8}};
+    _entityType[ENTITY_TYPE::PLAYER] = {"Assets/sprites/r-typesheet42.gif", {0, 0, 33, 17.2, 1, 5}};
+    _entityType[ENTITY_TYPE::BULLET] = {"Assets/sprites/bullet.png", {0, 0, 48.5, 14, 1, 2}};
+    _entityType[ENTITY_TYPE::ENEMY] = {"Assets/sprites/BasicEnemySpriteSheet.gif", {0, 0, 33.5, 34, 1, 8}};
 }
 
 NewEntitySystem::~NewEntitySystem()

@@ -138,7 +138,7 @@ void Client::setUpComponents()
 	_registry.add_component<component::ctimer_t>(_registry.entity_from_index(network), std::move(timer));
 
     // Parallax Entity
-    component::crect_t prect = {0, 0, 600, 800, 1, 6000};
+    component::crect_t prect = {0, 0, 800, 600, 1, 6000};
     _registry.add_component<component::crect_t>(_registry.entity_from_index(parallax), std::move(prect));
 
     component::csprite_t psprite = {.sprite = _graphicLib->createSprite("Assets/parallax/parallax.png", 1, (Rectangle){.x = prect.x, .y = prect.y, .width = prect.width, .height = prect.height})};
