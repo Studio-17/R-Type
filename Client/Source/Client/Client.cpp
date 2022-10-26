@@ -143,8 +143,7 @@ void Client::setUpComponents()
 	_registry.add_component<component::casset_t>(network, std::move(assets));
 
     // Parallax Entity
-    // component::crect_t prect = {0, 0, 600, 800, 1, 6000};
-    component::crect_t prect = assets.assets.at(1).getRectangle();
+    component::crect_t prect = assets.assets.at(ENTITY_TYPE::WALL).getRectangle();
     _registry.add_component<component::crect_t>(parallax, std::move(prect));
 
     component::cposition_t pposition = {0, 0};
@@ -155,7 +154,7 @@ void Client::setUpComponents()
 
     component::ctype_t ptype = {.type = UI};
     _registry.add_component<component::ctype_t>(parallax, std::move(ptype));
-    component::cassetid_t assetId = {.assets = 1};
+    component::cassetid_t assetId = {.assets = ENTITY_TYPE::WALL};
 
     _registry.add_component<component::cassetid_t>(parallax, std::move(assetId));
 }
