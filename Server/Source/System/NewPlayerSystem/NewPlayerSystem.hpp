@@ -12,7 +12,6 @@
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CPosition.hpp"
     #include "CType.hpp"
-    #include "CKilled.hpp"
 
 /**
  * @brief NewPlayerSystem class that handles the new player
@@ -40,7 +39,8 @@ class NewPlayerSystem {
          * @param type sparse array of type entities
          * @param killed sparse array of killed entities
          */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type,  Sparse_array<component::ckilled_t> &killed);
+        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type);
+
     protected:
     private:
         Entity createSpaceShip(Registry &registry); ///< Function that creates a spaceship

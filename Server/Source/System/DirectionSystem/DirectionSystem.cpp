@@ -22,16 +22,19 @@ DirectionSystem::DirectionSystem()
 {
 }
 
-void DirectionSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction,Sparse_array<component::cposition_t> &position,Sparse_array<component::cvelocity_t> &velocity)
+void DirectionSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity)
 {
-    if (!netqueue[0]->moveQueue.empty()) {
-        packet_move packet = netqueue[0]->moveQueue.front();
-        netqueue[0]->moveQueue.pop();
-        std::unordered_map<uint16_t, int> movement {{0, 0}, {1, 1}, {2, -1}};
-        int resultY = velocity[packet.playerId].value().velocity * movement[packet.y];
-        int resultX = velocity[packet.playerId].value().velocity * movement[packet.x];
-        position[packet.playerId]->x += resultX;
-        position[packet.playerId]->y += resultY;
-        netqueue[0]->toSendNetworkQueue.push(serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::POSITION, {packet.playerId, position[packet.playerId]->x, position[packet.playerId]->y, 1}));
+    if (!netqueue[0].value().moveQueue.empty()) {
+        packet_move packet = netqueue[0].value().moveQueue.front();
+        netqueue[0].value().moveQueue.pop();
+        if (velocity[packet.playerId] && position[packet.playerId]) {
+            std::unordered_map<uint16_t, int> movement {{0, 0}, {1, 1}, {2, -1}};
+            int resultY = velocity[packet.playerId].value().velocity * movement[packet.y];
+            int resultX = velocity[packet.playerId].value().velocity * movement[packet.x];
+
+            position[packet.playerId].value().x += resultX;
+            position[packet.playerId].value().y += resultY;
+            netqueue[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::POSITION, {packet.playerId, position[packet.playerId].value().x, position[packet.playerId].value().y, 1}));
+        }
     }
 }

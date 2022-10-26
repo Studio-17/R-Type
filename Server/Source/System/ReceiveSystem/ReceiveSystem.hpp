@@ -40,7 +40,6 @@ namespace System {
              */
             void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &queues);
 
-
         protected:
         private:
             /**

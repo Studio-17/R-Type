@@ -37,7 +37,7 @@ class NewEntitySystem {
          * @brief Destroy the New Entity System object
          * 
          */
-        ~NewEntitySystem();
+        ~NewEntitySystem() = default;
 
         /**
          * @brief Function that will be automaticaly called while the client is working (on loop)
