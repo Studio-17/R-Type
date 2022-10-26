@@ -52,7 +52,6 @@ class SpawnEnemySystem {
 
     protected:
     private:
-        bool _created; ///< Boolean that indicates if the enemy has been created
 };
 
 #endif /* !SPAWNENEMYSYSTEM_HPP_ */
