@@ -12,7 +12,6 @@
     #include "Registry.hpp"
     #include "CNetworkQueue.hpp"
     #include "CServerId.hpp"
-    #include "CSprite.hpp"
     #include "GraphicalLib.hpp"
 
 /**
@@ -40,7 +39,7 @@ class KillSystem {
          * @param network the sparse array of network entities
          * @param serverId the sparse array of serverId entities
          */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverId, Sparse_array<component::csprite_t> &sprites);
+        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverId);
 
         /**
          * @brief A method to kill an entity
@@ -49,7 +48,7 @@ class KillSystem {
          * @param id the id of the entity to kill
          * @param serverId the sparse array of serverId entities
          */
-        void killEntity(Registry &registry, std::size_t id, Sparse_array<component::cserverid_t> &serverId, Sparse_array<component::csprite_t> &sprites);
+        void killEntity(Registry &registry, std::size_t id, Sparse_array<component::cserverid_t> &serverId);
 
     protected:
     private:

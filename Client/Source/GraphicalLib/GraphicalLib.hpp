@@ -14,6 +14,7 @@
 #include <memory>
 #include <string>
 #include "IGraphicalLib.hpp"
+#include "MyTexture.hpp"
 
 /**
  * @brief rtype namespace
@@ -96,6 +97,14 @@ namespace rtype {
              * @param id id of the sprite
              */
             void drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect) override;
+            /**
+             * @brief Draw the sprite
+             *
+             * @param texture texture to draw
+             * @param position position of the texture to draw
+             * @param rect rect of the texture to draw
+             */
+            void drawSprite(MyTexture const &texture, Position const &position, Rectangle const &rect);
             /**
              * @brief Destroy the Sprite object
              * 

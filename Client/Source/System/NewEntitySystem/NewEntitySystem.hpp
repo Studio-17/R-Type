@@ -18,6 +18,7 @@
     #include "CServerId.hpp"
     #include "Constant.hpp"
     #include "CRect.hpp"
+    #include "CAsset.hpp"
     #include "NewEntity.hpp"
     #include "Serialization.hpp"
 
@@ -46,7 +47,7 @@ class NewEntitySystem {
          * @param network the sparse array of network entities
          * @param serverIds the sparse array of serverId entities
          */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds);
+        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds, Sparse_array<component::casset_t> &assets);
 
         /**
          * @brief A method to add a new bullet entity
@@ -54,7 +55,7 @@ class NewEntitySystem {
          * @param registry the registry of the client
          * @param packet_new_entity the packet containing the new entity
          */
-        void addBullet(Registry &registry, packet_new_entity &packet_new_entity);
+        void addBullet(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets);
 
         /**
          * @brief A method to add a new ship entity
@@ -62,7 +63,7 @@ class NewEntitySystem {
          * @param registry the registry of the client
          * @param packet_new_entity the packet containing the new entity
          */
-        void addShip(Registry &registry, packet_new_entity &packet_new_entity);
+        void addShip(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets);
 
         /**
          * @brief A method to add a new enemy entity
@@ -70,7 +71,7 @@ class NewEntitySystem {
          * @param registry the registry of the client
          * @param packet_new_entity the packet containing the new entity
          */
-        void addEnemy(Registry &registry, packet_new_entity &packet_new_entity);
+        void addEnemy(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets);
 
         /**
          * @brief A method to check if an entity already exists
