@@ -18,8 +18,8 @@ NetworkSystem::NetworkSystem()
 
 void NetworkSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
 {
-    if (!network[FORBIDDEN_IDS::NETWORK]->receivedNetworkQueue.empty()) {
-        std::vector<byte> tmp = network[FORBIDDEN_IDS::NETWORK]->receivedNetworkQueue.front();
+    if (!network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.empty()) {
+        std::vector<byte> tmp = network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.front();
         uint8_t id = serialize_header::getId(tmp);
 
         std::vector<byte> bufferWithoutId;
@@ -33,7 +33,7 @@ void NetworkSystem::operator()(Registry &registry, Sparse_array<component::cnetw
             dispatchToKillEntityQueue(bufferWithoutId, network);
         if (id == NETWORK_SERVER_TO_CLIENT::NEW_PLAYER)
             handleNewPlayerAndDispatchToNewEntityQueue(bufferWithoutId, network, idOfShip);
-        network[FORBIDDEN_IDS::NETWORK]->receivedNetworkQueue.pop();
+        network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.pop();
     }
 
 }
@@ -41,27 +41,28 @@ void NetworkSystem::operator()(Registry &registry, Sparse_array<component::cnetw
 void NetworkSystem::dispatchToPositionQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
 {
     packet_position packet = serializable_trait<packet_position>::unserialize(bytes);
-    network[FORBIDDEN_IDS::NETWORK]->updatePositionQueue.push(packet);
+    network[FORBIDDEN_IDS::NETWORK].value().updatePositionQueue.push(packet);
 }
 
 void NetworkSystem::dispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
 {
     packet_new_entity packet = serializable_trait<packet_new_entity>::unserialize(bytes);
-    network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.push(packet);
+    network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.push(packet);
 }
 
 void NetworkSystem::dispatchToKillEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
 {
     packet_kill_entity packet = serializable_trait<packet_kill_entity>::unserialize(bytes);
-    network[FORBIDDEN_IDS::NETWORK]->killEntityQueue.push(packet);
+    network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.push(packet);
 }
 
 void NetworkSystem::handleNewPlayerAndDispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
 {
     // std::cout << "[CLIENT] new player" << std::endl;
     packet_new_entity packet = serializable_trait<packet_new_entity>::unserialize(bytes);
-    if (idOfShip[FORBIDDEN_IDS::NETWORK]->id == 0)
-        idOfShip[FORBIDDEN_IDS::NETWORK]->id = packet.id;
-    network[FORBIDDEN_IDS::NETWORK]->newEntityQueue.push(packet);
+
+    if (idOfShip[FORBIDDEN_IDS::NETWORK].value().id == 0)
+        idOfShip[FORBIDDEN_IDS::NETWORK].value().id = packet.id;
+    network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.push(packet);
 }
 

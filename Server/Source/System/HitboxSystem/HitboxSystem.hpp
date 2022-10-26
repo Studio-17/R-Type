@@ -13,7 +13,6 @@
     #include "CPosition.hpp"
     #include "CRect.hpp"
     #include "CNetworkQueue.hpp"
-    #include "CKilled.hpp"
 
 /**
  * @brief Namespace for systems
@@ -62,8 +61,7 @@ namespace System {
             void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues,
                                                 Sparse_array<component::ctype_t> &types,
                                                 Sparse_array<component::cposition_t> &positions,
-                                                Sparse_array<component::crect_t> &rects,
-                                                Sparse_array<component::ckilled_t> &killed);
+                                                Sparse_array<component::crect_t> &rects);
 
 
         protected:

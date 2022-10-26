@@ -12,7 +12,6 @@
     #include "GraphicalLib.hpp"
     #include "CPosition.hpp"
     #include "CRect.hpp"
-    #include "CKilled.hpp"
     #include "CAsset.hpp"
     #include "CAssetId.hpp"
 
@@ -40,7 +39,7 @@ class DrawSystem {
          * @param positions Sparse array of all position component of all entities
          * @param rectangles Sparse array of all rectangle component of all entities
          */
-        void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::ckilled_t> &killed, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId);
+        void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId);
 
 
     protected:

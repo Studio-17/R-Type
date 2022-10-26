@@ -110,7 +110,7 @@ namespace rtype {
              * 
              * @param id id of the sprite
              */
-            void destroySprite(Sprite const &sprite) override;
+            void destroySprite(std::shared_ptr<Sprite> sprite) override;
             /**
              * @brief Set the Sprite Position object
              * 

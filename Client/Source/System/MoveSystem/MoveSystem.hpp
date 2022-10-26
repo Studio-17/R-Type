@@ -14,7 +14,6 @@
 #include "CDirection.hpp"
 #include "CPosition.hpp"
 #include "CVelocity.hpp"
-#include "CKilled.hpp"
 #include "CTimer.hpp"
 
 /**
@@ -49,11 +48,9 @@ class MoveSystem {
                         Sparse_array<component::cdirection_t> &direction,
                         Sparse_array<component::cposition_t> &position,
                         Sparse_array<component::cvelocity_t> &velocity,
-                        Sparse_array<component::ckilled_t> &killed,
                         Sparse_array<component::ctimer_t> &timer);
 
     protected:
-
     private:
 };
 

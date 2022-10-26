@@ -27,14 +27,14 @@ class Sparse_array {
     public:
         /**
          * @brief Construct a new Sparse_array object
-         * 
+         *
          */
         Sparse_array() = default;
 
         /**
          * @brief Construct a new Sparse_array object
          * 
-         * @param sp_arr 
+         * @param sp_arr
          */
         explicit Sparse_array(Sparse_array const &sp_arr)
         {
@@ -48,15 +48,15 @@ class Sparse_array {
 
         /**
          * @brief Construct a new Sparse_array object
-         * 
-         * @param sp_arr 
+         *
+         * @param sp_arr
          */
         explicit Sparse_array(Sparse_array &&sp_arr) noexcept : _data(std::move(sp_arr._data)) {};
 
         /**
          * @brief Construct a new Sparse_array object
-         * 
-         * @param size 
+         *
+         * @param size
          */
         explicit Sparse_array(std::size_t size)
         {
@@ -67,15 +67,15 @@ class Sparse_array {
 
         /**
          * @brief Destroy the Sparse_array object
-         * 
+         *
          */
         virtual ~Sparse_array() = default;
 
         /**
          * @brief Overload the operator =
-         * 
-         * @param sp_arr 
-         * @return Sparse_array& 
+         *
+         * @param sp_arr
+         * @return Sparse_array&
          */
         Sparse_array &operator=(Sparse_array const &sp_arr)
         {
@@ -85,9 +85,9 @@ class Sparse_array {
 
         /**
          * @brief Overload the operator =
-         * 
-         * @param sp_arr 
-         * @return Sparse_array& 
+         *
+         * @param sp_arr
+         * @return Sparse_array&
          */
         Sparse_array &operator=(Sparse_array &&sp_arr) noexcept
         {
@@ -97,9 +97,9 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator []
-         * 
-         * @param idx 
-         * @return reference_type 
+         *
+         * @param idx
+         * @return reference_type
          */
         reference_type operator[](size_t idx)
         {
@@ -108,9 +108,9 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator [] const
-         * 
-         * @param idx 
-         * @return const_reference_type 
+         *
+         * @param idx
+         * @return const_reference_type
          */
         const_reference_type operator[](size_t idx) const
         {
@@ -119,8 +119,8 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator begin()
-         * 
-         * @return iterator 
+         *
+         * @return iterator
          */
         iterator begin()
         {
@@ -129,8 +129,8 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator begin() const
-         * 
-         * @return const_iterator 
+         *
+         * @return const_iterator
          */
         const_iterator begin() const
         {
@@ -139,8 +139,8 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator cbegin() const
-         * 
-         * @return const_iterator 
+         *
+         * @return const_iterator
          */
         const_iterator cbegin() const
         {
@@ -149,8 +149,8 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator ebd()
-         * 
-         * @return iterator 
+         *
+         * @return iterator
          */
         iterator end()
         {
@@ -159,8 +159,8 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator end() const
-         * 
-         * @return const_iterator 
+         *
+         * @return const_iterator
          */
         const_iterator end() const
         {
@@ -169,8 +169,8 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator cend() const
-         * 
-         * @return const_iterator 
+         *
+         * @return const_iterator
          */
         const_iterator cend() const
         {
@@ -179,8 +179,8 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator size()
-         * 
-         * @return size_type 
+         *
+         * @return size_type
          */
         size_type size() const
         {
@@ -189,8 +189,8 @@ class Sparse_array {
 
         /**
          * @brief Overload the operator extend()
-         * 
-         * @param sizeToExtend 
+         *
+         * @param sizeToExtend
          */
         void extend(size_t sizeToExtend)
         {
@@ -200,10 +200,10 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator insert_at()
-         * 
-         * @param pos 
-         * @param component 
-         * @return reference_type 
+         *
+         * @param pos
+         * @param component
+         * @return reference_type
          */
         reference_type insert_at(size_type pos, Component const &component)
         {
@@ -223,10 +223,10 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator insert_at()
-         * 
-         * @param pos 
-         * @param component 
-         * @return reference_type 
+         *
+         * @param pos
+         * @param component
+         * @return reference_type
          */
         reference_type insert_at(size_type pos, Component &&component)
         {
@@ -246,11 +246,11 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator emplace_at()
-         * 
-         * @tparam Params 
-         * @param pos 
-         * @param params 
-         * @return reference_type 
+         *
+         * @tparam Params
+         * @param pos
+         * @param params
+         * @return reference_type
          */
         template <class... Params>
         reference_type emplace_at(size_type pos, Params &&...params)
@@ -265,23 +265,19 @@ class Sparse_array {
 
         /**
          * @brief Overloads the operator erase()
-         * 
-         * @param pos 
+         *
+         * @param pos
          */
         void erase(size_type pos)
         {
-            if (pos > _data.size())
-                throw std::invalid_argument("Invalid pos in emplace_at (SparseArray)");
-            auto tmp = _data.get_allocator();
-            std::allocator_traits<decltype(tmp)>::destroy(tmp, std::addressof(_data[pos]));
-            _data[pos].reset();
+            _data[pos] = std::nullopt;
         };
 
         /**
          * @brief Get the index object
-         * 
-         * @param val_type 
-         * @return size_type 
+         *
+         * @param val_type
+         * @return size_type
          */
         size_type get_index(value_type const &val_type) const
         {
@@ -295,11 +291,7 @@ class Sparse_array {
         };
 
     private:
-        /**
-         * @brief A container named data, it holds the object informations
-         * 
-         */
-        container_t _data;
+        container_t _data; ///< A container named data, it holds the object informations
 };
 
 #endif /* !SPARSEARRAY_HPP_ */
