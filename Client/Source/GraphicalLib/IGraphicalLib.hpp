@@ -94,7 +94,7 @@ namespace rtype {
              */
 
             virtual auto drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect) -> void = 0;
-            virtual auto destroySprite(Sprite const &sprite) -> void = 0;
+            virtual auto destroySprite(std::shared_ptr<Sprite> sprite) -> void = 0;
 
             /**
              * @brief Set the Sprite Position object
