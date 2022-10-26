@@ -35,12 +35,16 @@ namespace NETWORK_SERVER_TO_CLIENT {
  * 
  */
 enum ENTITY_TYPE {
-    PLAYER,
     WALL,
+    PLAYER,
+    GREENSPACESHIP,
+    REDSPACESHIP,
+    PURPLESPACESHIP,
+    MARINESPACESHIP,
     ENEMY,
+    BULLET,
     BUTTON,
     TEXT,
-    BULLET,
     UI,
     NET,
     // GRAPHIC,

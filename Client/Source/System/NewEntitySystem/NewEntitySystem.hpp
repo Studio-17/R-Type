@@ -83,7 +83,6 @@ class NewEntitySystem {
     protected:
     private:
         std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
-        std::map<ENTITY_TYPE, std::pair<std::string, component::crect_t>> _entityType; ///< Map of the entity type
 };
 
 #endif /* !NEWENTITYSYSTEM_HPP_ */

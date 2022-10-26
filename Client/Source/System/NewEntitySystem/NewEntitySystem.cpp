@@ -17,9 +17,6 @@ NewEntitySystem::NewEntitySystem()
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 
-    _entityType[ENTITY_TYPE::PLAYER] = {"Assets/sprites/r-typesheet42.gif", {0, 0, 33, 17.2, 1, 5}};
-    _entityType[ENTITY_TYPE::BULLET] = {"Assets/sprites/bullet.png", {0, 0, 48.5, 14, 1, 2}};
-    _entityType[ENTITY_TYPE::ENEMY] = {"Assets/sprites/BasicEnemySpriteSheet.gif", {0, 0, 33.5, 34, 1, 8}};
 }
 
 static bool findEntity(Sparse_array<component::cserverid_t> &serverIds, uint16_t idToFind)
@@ -59,7 +56,6 @@ void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity
     registry.add_component<component::cdirection_t>(bullet, std::move(direction));
 
     component::crect_t rect = asset.at(newEntity.type).getRectangle();
-    // component::crect_t rect = {_entityType.at(static_cast<ENTITY_TYPE>(newEntity.type)).second};
     registry.add_component<component::crect_t>(registry.entity_from_index(bullet), std::move(rect));
 
     component::cposition_t position = {.x = (float)newEntity.positionX, .y = (float)newEntity.positionY};
@@ -87,7 +83,6 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity,
     registry.add_component<component::cdirection_t>(enemy, std::move(direction));
     component::crect_t rect = asset.at(newEntity.type).getRectangle();
 
-    // component::crect_t rect = {_entityType.at(static_cast<ENTITY_TYPE>(newEntity.type)).second};
     registry.add_component<component::crect_t>(enemy, std::move(rect));
     component::cposition_t position = {.x = newEntity.positionX, .y = newEntity.positionY};
     registry.add_component<component::cposition_t>(enemy, std::move(position));
@@ -111,7 +106,6 @@ void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, 
 
     component::cdirection_t direction = {0, 0};
     registry.add_component<component::cdirection_t>(ship, std::move(direction));
-    // component::crect_t rect = {_entityType.at(static_cast<ENTITY_TYPE>(newEntity.type)).second};
     component::crect_t rect = asset.at(newEntity.type).getRectangle();
     registry.add_component<component::crect_t>(ship, std::move(rect));
     component::cposition_t position = {.x = newEntity.positionX, .y = newEntity.positionY};
