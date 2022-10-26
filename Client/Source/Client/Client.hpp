@@ -29,6 +29,8 @@
 	#include "NetworkSystem.hpp"
 	#include "KillSystem.hpp"
 
+	#include "AssetManager.hpp"
+
 /**
  * @brief The Client class, it defines a client and its interactions with the server
  * 
@@ -131,6 +133,7 @@ class Client
         Registry _registry; ///< Registry that contains all the ECS
 		std::thread _thread; ///< thread to handle ECS
 		bool _connected; ///< A boolean to check if the clientis conncted to the server
+		AssetManager _assetManager;
 
 		// Systems
 		NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues

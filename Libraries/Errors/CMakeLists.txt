@@ -10,11 +10,15 @@ set(LIBRARY_NAME r-type_library_errors)
 file(GLOB LIB_HEADER
     ./**
     Source/*.hpp
+    Source/Errors/*.hpp
+    Source/File/*.hpp
 )
 
 file(GLOB
-    .
-    Source
+    ./
+    Source/
+    Source/Errors/
+    Source/File/
 )
 
 # Add executable target with source files listed in SOURCE_FILES variable

@@ -61,6 +61,11 @@ void rtype::GraphicalLib::drawSprite(std::shared_ptr<Sprite> const &sprite, Posi
     DrawTextureRec(sprite->getTexture(), rect, position.getVector2(), WHITE);
 }
 
+void rtype::GraphicalLib::drawSprite(MyTexture const &texture, Position const &position, Rectangle const &rect)
+{
+    DrawTextureRec(texture.getTexture(), rect, position.getVector2(), WHITE);
+}
+
 void rtype::GraphicalLib::destroySprite(Sprite const &sprite)
 {
     UnloadTexture(sprite.getTexture());

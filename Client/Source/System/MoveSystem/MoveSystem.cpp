@@ -19,7 +19,6 @@ void MoveSystem::operator()(Registry &registry, Sparse_array<component::cdirecti
 {
     if ((std::chrono::steady_clock::now() - timer[FORBIDDEN_IDS::NETWORK]->deltaTime) > (std::chrono::nanoseconds)100000000) {
         timer[FORBIDDEN_IDS::NETWORK]->deltaTime = std::chrono::steady_clock::now();
-        std::cout << "Chorno > 5000"  << std::endl;
     }
     else
         return;

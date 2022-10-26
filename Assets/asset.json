@@ -1,0 +1,26 @@
+{
+    "bullet": {
+        "id": 5,
+        "nbFrame": 2,
+        "scale": 1.0,
+        "texture": "Assets/sprites/bullet.png"
+    },
+    "enemy": {
+        "id": 2,
+        "nbFrame": 8,
+        "scale": 1.0,
+        "texture": "Assets/sprites/BasicEnemySpriteSheet.gif"
+    },
+    "player": {
+        "id": 0,
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "Assets/sprites/r-typesheet42.gif"
+    },
+    "backgroud": {
+        "id": 1,
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "Assets/parallax/parallax.png"
+    }
+}

@@ -6,7 +6,6 @@
 */
 
 #include "ControlSystem.hpp"
-#include "CSprite.hpp"
 #include "CRect.hpp"
 #include "CPosition.hpp"
 #include "Serialization.hpp"
