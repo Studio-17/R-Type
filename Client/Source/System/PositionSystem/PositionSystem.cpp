@@ -17,7 +17,7 @@ PositionSystem::~PositionSystem()
 {
 }
 
-void PositionSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cposition_t> &position, Sparse_array<component::cserverid_t> &serverIds)
+void PositionSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cposition_t> &position, Sparse_array<component::cserverid_t> &serverIds)
 {
     while (!network[FORBIDDEN_IDS::NETWORK].value().updatePositionQueue.empty()) {
         packet_position &positionPacket = network[FORBIDDEN_IDS::NETWORK].value().updatePositionQueue.front();

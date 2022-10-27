@@ -30,7 +30,7 @@ bool System::HitboxSystem::CheckCollision(std::optional<component::crect_t> &rec
 void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::ctype_t> &types, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects)
 {
     if (network_queues[0]) {
-        for (int i = 0; i < types.size() && i < positions.size() && i < rects.size(); i++) {
+        for (std::size_t i = 0; i < types.size() && i < positions.size() && i < rects.size(); i++) {
             if (types[i] && positions[i] && rects[i]) {
                 auto &firsttype = types[i];
                 auto &firstpos = positions[i];
@@ -38,7 +38,7 @@ void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_a
 
                 if (firsttype.value().type != ENEMY)
                     continue;
-                for (int x = 0; x < types.size() && x < positions.size() && x < rects.size(); x++) {
+                for (std::size_t x = 0; x < types.size() && x < positions.size() && x < rects.size(); x++) {
                     if (types[x] && positions[x] && rects[x]) {
                         if (x == i)
                             continue;
@@ -50,8 +50,8 @@ void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_a
                             continue;
                         if (CheckCollision(firstrect, secondrect, firstpos, secondpos)) {
                             if (secondtype.value().type == PLAYER || secondtype.value().type == BULLET) {
-                                network_queues[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {i}));
-                                network_queues[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {x}));
+                                network_queues[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(i)}));
+                                network_queues[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(x)}));
                                 registry.kill_entity(registry.entity_from_index(i));
                                 registry.kill_entity(registry.entity_from_index(x));
                             }

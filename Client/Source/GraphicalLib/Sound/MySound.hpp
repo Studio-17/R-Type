@@ -20,9 +20,8 @@ class MySound {
         /**
          * @brief Construct a new My Sound object
          * 
-         * @param path 
          */
-        MySound(std::string const &filename);
+        MySound();
         /**
          * @brief Destroy the My Sound object
          * 
@@ -30,7 +29,7 @@ class MySound {
         ~MySound();
 
         /**
-         * @brief Play the sound
+         * @brief Play the sound[[ maybe_unused ]]
          * 
          */
         void play();

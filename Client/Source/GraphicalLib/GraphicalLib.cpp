@@ -184,9 +184,9 @@ void rtype::GraphicalLib::updateMusicStream(std::size_t id)
 }
 
 //Sounds
-void rtype::GraphicalLib::createSound(std::size_t id, std::string const &filename)
+void rtype::GraphicalLib::createSound(std::size_t id, [[ maybe_unused ]] std::string const &filename)
 {
-    _soundMap[id].reset(new MySound(filename));
+    _soundMap[id].reset(new MySound);
 }
 
 void rtype::GraphicalLib::playSound(std::size_t id)

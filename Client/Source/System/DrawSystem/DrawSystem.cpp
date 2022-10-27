@@ -13,7 +13,7 @@ DrawSystem::DrawSystem()
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void DrawSystem::operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId)
+void DrawSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId)
 {
     for (std::size_t i = 1; i < positions.size() && i < rectangles.size(); i++) {
         auto &pos = positions[i];

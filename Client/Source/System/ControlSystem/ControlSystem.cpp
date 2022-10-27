@@ -17,7 +17,7 @@ ControlSystem::ControlSystem()
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void ControlSystem::operator()(Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
+void ControlSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
 {
     auto &key = keyboards[0];
     uint16_t x = 0;

@@ -13,6 +13,10 @@ MyTexture::MyTexture(std::string const &texturePath) :
 {
 }
 
+MyTexture::MyTexture()
+{
+}
+
 MyTexture::~MyTexture()
 {
 }
