@@ -12,7 +12,7 @@ System::ReceiveSystem::ReceiveSystem()
 {
 }
 
-void System::ReceiveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &queues)
+void System::ReceiveSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &queues)
 {
     if (queues[0].value().receivedNetworkQueue.empty())
         return;
@@ -28,12 +28,6 @@ void System::ReceiveSystem::operator()(Registry &registry, Sparse_array<componen
         std::cerr << "undefined packet id: " << id << std::endl;
     }
 }
-
-void System::ReceiveSystem::addHitOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues)
-{
-
-}
-
 
 void System::ReceiveSystem::addMoveOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues)
 {

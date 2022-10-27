@@ -30,7 +30,7 @@ void Server::ReceivePackets()
     _com->async_receive(_buffer_to_get, std::bind(&Server::HandleReceive, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void Server::HandleReceive(asio::error_code const &e, std::size_t nbBytes)
+void Server::HandleReceive([[ maybe_unused ]] asio::error_code const &e, [[ maybe_unused ]] std::size_t nbBytes)
 {
     std::pair<asio::ip::address, unsigned short> endpointData = _com->getEnpointInfo();
     _endpoints.try_emplace(endpointData.first, std::unordered_map<unsigned short, bool>());

@@ -6,6 +6,9 @@ project(R-Type-Client VERSION ${VERSION})
 # set executable name
 set(EXECUTABLE_NAME r-type_client)
 
+# set compilation flags
+add_compile_options("-Wall" "-Wextra" "-Werror" "-Wuninitialized" "-Winit-self")
+
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp

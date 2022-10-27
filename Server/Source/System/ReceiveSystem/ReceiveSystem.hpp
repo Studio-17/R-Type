@@ -42,13 +42,13 @@ namespace System {
 
         protected:
         private:
-            /**
-             * @brief Adds a packet to the queue of hits handling
-             * 
-             * @param data 
-             * @param queues 
-             */
-            void addHitOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
+            // /**
+            //  * @brief Adds a packet to the queue of hits handling
+            //  * 
+            //  * @param data 
+            //  * @param queues 
+            //  */
+            // void addHitOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
 
             /**
              * @brief Adds a packet to the queue of movement handling
@@ -65,6 +65,13 @@ namespace System {
              * @param queues 
              */
             void addShootOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
+
+            /**
+             * @brief Adds a packet to the queue of new player handling
+             * 
+             * @param data 
+             * @param queues 
+             */
             void addNewPLayerOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
 
             /**

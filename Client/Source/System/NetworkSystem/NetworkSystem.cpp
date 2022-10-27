@@ -16,7 +16,7 @@ NetworkSystem::NetworkSystem()
 {
 }
 
-void NetworkSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
+void NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
 {
     if (!network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.empty()) {
         std::vector<byte> tmp = network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.front();

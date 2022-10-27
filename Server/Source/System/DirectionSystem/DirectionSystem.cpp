@@ -22,7 +22,7 @@ DirectionSystem::DirectionSystem()
 {
 }
 
-void DirectionSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity)
+void DirectionSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, [[ maybe_unused ]] Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity)
 {
     if (!netqueue[0].value().moveQueue.empty()) {
         packet_move packet = netqueue[0].value().moveQueue.front();

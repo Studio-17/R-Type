@@ -32,7 +32,7 @@ void SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cn
     if (position[enemy] && type[enemy]) {
         std::cout << "[SERVER] adding new enemy" << std::endl;
         std::cout << "[SERVER] Position: x " << position[enemy].value().x << " ,y "<< position[enemy].value().y << std::endl;
-        netqueue[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {enemy, position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type)}));
+        netqueue[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type)}));
     }
 }
 

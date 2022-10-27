@@ -15,7 +15,7 @@
 class MyTexture {
     public:
         MyTexture(std::string const &texturePath);
-        MyTexture() {};
+        MyTexture();
         ~MyTexture();
 
         Texture2D getTexture() const;
