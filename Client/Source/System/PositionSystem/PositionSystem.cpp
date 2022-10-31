@@ -13,10 +13,6 @@ PositionSystem::PositionSystem()
 {
 }
 
-PositionSystem::~PositionSystem()
-{
-}
-
 void PositionSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cposition_t> &position, Sparse_array<component::cserverid_t> &serverIds)
 {
     while (!network[FORBIDDEN_IDS::NETWORK].value().updatePositionQueue.empty()) {
@@ -30,6 +26,6 @@ void PositionSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_ar
                 }
             }
         }
-        network[FORBIDDEN_IDS::NETWORK]->updatePositionQueue.pop();
+        network[FORBIDDEN_IDS::NETWORK].value().updatePositionQueue.pop();
     }
 }

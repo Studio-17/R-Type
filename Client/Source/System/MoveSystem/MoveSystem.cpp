@@ -29,8 +29,8 @@ void MoveSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<
             //     continue;
             // if (position[index].value().x > 1920)
             //         killed[index].value().isDead = true;
-            position[index].value().x += (velocity[index].value().velocity * direction[index].value().x);
-            position[index].value().y += (velocity[index].value().velocity * direction[index].value().y);
+            position[index]->x += (velocity[index]->velocity * direction[index]->x);
+            position[index]->y += (velocity[index]->velocity * direction[index]->y);
         }
     }
     // update la position

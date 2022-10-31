@@ -19,6 +19,7 @@
     #include "Constant.hpp"
     #include "CRect.hpp"
     #include "CAsset.hpp"
+
     #include "NewEntity.hpp"
     #include "Serialization.hpp"
 

@@ -6,15 +6,16 @@
 */
 
 #ifndef MOVESYSTEM_HPP_
-#define MOVESYSTEM_HPP_
+    #define MOVESYSTEM_HPP_
 
-#include "Registry.hpp"
+    #include "Registry.hpp"
 
-#include "CNetworkQueue.hpp"
-#include "CDirection.hpp"
-#include "CPosition.hpp"
-#include "CVelocity.hpp"
-#include "CTimer.hpp"
+    #include "CNetworkQueue.hpp"
+    #include "CDirection.hpp"
+    #include "CPosition.hpp"
+    #include "CVelocity.hpp"
+    #include "CTimer.hpp"
+    #include "CCurrScene.hpp"
 
 /**
  * @brief MoveSystem class that handles the movement of the entities
@@ -35,13 +36,12 @@ class MoveSystem {
         ~MoveSystem() = default;
 
         /**
-         * @brief The main handler for the Move System
+         * @brief 
          * 
          * @param registry the registry of the server
          * @param direction the sparse array of direction entities
          * @param position the sparse array of position entities
          * @param velocity the sparse array of velocity entities
-         * @param killed the sparse array of killed entities
          * @param timer the sparse array of timer entities
          */
         void operator()(Registry &registry,
