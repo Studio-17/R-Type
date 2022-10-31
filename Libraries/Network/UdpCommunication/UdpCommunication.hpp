@@ -28,10 +28,10 @@ class UdpCommunication : public IUdpCommunication {
         UdpCommunication(asio::io_context &context, asio::ip::port_type const &port) : _context(context),
         _socket(_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), port)) {};
 
-        UdpCommunication(asio::io_context &context, asio::ip::port_type const &port, std::string const &connexionPort, std::string const &ip) : _context(context),
+        UdpCommunication(asio::io_context &context, asio::ip::port_type const &port, std::string const &connectionPort, std::string const &ip) : _context(context),
         _socket(_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), port)) {
             asio::ip::udp::resolver resolver(context);
-	        asio::ip::udp::resolver::query query(asio::ip::udp::v4(), ip, connexionPort);
+	        asio::ip::udp::resolver::query query(asio::ip::udp::v4(), ip, connectionPort);
 	        asio::ip::udp::resolver::iterator iter = resolver.resolve(query);
 	        _endpoint = *iter;
         };

@@ -225,7 +225,7 @@ This RFC consists of the following sections:
             uint16_t y;
         };
 
-        struct packet_new_connexion {
+        struct packet_new_connection {
             uint16_t id;
         };
 
