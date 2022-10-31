@@ -37,6 +37,7 @@
     #include "System/NewPlayerSystem/NewPlayerSystem.hpp"
     #include "System/SpawnEnemySystem/SpawnEnemySystem.hpp"
     #include "System/HitboxSystem/HitboxSystem.hpp"
+    #include "System/DisconnectionSystem/DisconnectionSystem.hpp"
 
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
@@ -203,12 +204,16 @@ class Server {
 
         /**
          * @brief An object HitboxSystem to manage it in the server
-         * 
          */
         System::HitboxSystem _hitboxSystem;
+
+        /**
+         * @brief An object DisconnectionSystem to manage it in the server
+         */
+        DisconnectionSystem _disconnectionSystem;
+
         /**
          * @brief A boolean to manage the server loop
-         * 
          */
         bool _serverIsRunning = true;
 };
