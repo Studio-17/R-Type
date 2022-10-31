@@ -28,7 +28,7 @@ void DirectionSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_a
         packet_move packet = netqueue[0].value().moveQueue.front();
         netqueue[0].value().moveQueue.pop();
         if (velocity[packet.playerId] && position[packet.playerId]) {
-            std::unordered_map<uint16_t, int> movement {{0, 0}, {1, 1}, {2, -1}};
+            std::unordered_map<uint16_t, int> movement = {{0, 0}, {1, 1}, {2, -1}};
             int resultY = velocity[packet.playerId].value().velocity * movement[packet.y];
             int resultX = velocity[packet.playerId].value().velocity * movement[packet.x];
 

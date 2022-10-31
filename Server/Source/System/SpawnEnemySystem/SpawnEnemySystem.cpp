@@ -14,6 +14,8 @@
 #include "CRect.hpp"
 #include "Component/CDirection.hpp"
 #include "Component/CHitBox.hpp"
+#include "CCurrScene.hpp"
+
 #include "Serialization.hpp"
 #include "NewEntity.hpp"
 
@@ -38,21 +40,14 @@ void SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cn
 
 Entity SpawnEnemySystem::createEnemy(Registry &registry)
 {
-    Entity enemy = registry.spawn_entity();
-
-    component::cdirection_t direction = { -1, 0 };
-    registry.add_component<component::cdirection_t>(enemy, std::move(direction));
-
-    component::chitbox_t hitbox = { 10, 10 };
-    registry.add_component<component::chitbox_t>(enemy, std::move(hitbox));
-
-    component::cposition_t position = { 700, static_cast<float>(std::rand() % 600) };
-    registry.add_component<component::cposition_t>(enemy, std::move(position));
-
-    component::cvelocity_t velocity = { 4 };
-    registry.add_component<component::cvelocity_t>(enemy, std::move(velocity));
-
-    registry.add_component<component::ctype_t>(enemy, {ENTITY_TYPE::ENEMY});
-    registry.add_component<component::crect_t>(enemy, {34, 33.5});
+    Entity enemy = registry.spawn_entity_with(
+        component::cdirection_t{ .x = -1, .y = 0 },
+        component::chitbox_t{ .height = 10, .width = 10 },
+        component::cposition_t{ .x = 700, .y = static_cast<float>(std::rand() % 600) },
+        component::cvelocity_t{ .velocity = 4 },
+        component::ctype_t{ .type = ENTITY_TYPE::ENEMY },
+        component::crect_t{ .height = 34, .width = 33.5 },
+        component::ccurrscene_t{ .currScene = SCENE::GAME }
+    );
     return enemy;
 }

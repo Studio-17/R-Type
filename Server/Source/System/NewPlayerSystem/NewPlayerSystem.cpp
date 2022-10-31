@@ -8,11 +8,13 @@
 #include "NewPlayerSystem.hpp"
 
 #include "Serialization.hpp"
+#include "Constant.hpp"
 
 #include "CDirection.hpp"
 #include "CPosition.hpp"
 #include "CVelocity.hpp"
 #include "CRect.hpp"
+#include "CCurrScene.hpp"
 
 #include "NewEntity.hpp"
 
@@ -27,12 +29,12 @@ void NewPlayerSystem::operator()(Registry &registry, Sparse_array<component::cne
 
         if (position[spaceShip] && type[spaceShip]) {
             std::cout <<"[SERVER] adding new player" << std::endl;
-            netqueue[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_PLAYER, {static_cast<uint16_t>(spaceShip), position[spaceShip].value().x, position[spaceShip].value().y, 1, type[spaceShip].value().type}));
+            netqueue[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_PLAYER, {static_cast<uint16_t>(spaceShip), position[spaceShip].value().x, position[spaceShip].value().y, 1, static_cast<uint16_t>(type[spaceShip].value().type)}));
             for (std::size_t index = 1; index != position.size(); index++) {
                 if (position[index] && type[index]) {
                     if (index == spaceShip)
                         continue;
-                    netqueue[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {static_cast<uint16_t>(registry.entity_from_index(index)), position[index].value().x, position[index].value().y, 1, type[index].value().type}));
+                    netqueue[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {static_cast<uint16_t>(registry.entity_from_index(index)), position[index].value().x, position[index].value().y, 1, static_cast<uint16_t>(type[index].value().type)}));
                 }
             }
         }
@@ -42,21 +44,13 @@ void NewPlayerSystem::operator()(Registry &registry, Sparse_array<component::cne
 
 Entity NewPlayerSystem::createSpaceShip(Registry &registry)
 {
-    Entity spaceShip = registry.spawn_entity();
-
-    component::cdirection_t dir = {0, 0};
-    registry.add_component<component::cdirection_t>(spaceShip, std::move(dir));
-
-    component::cposition_t pos = {10, 10};
-    registry.add_component<component::cposition_t>(spaceShip, std::move(pos));
-
-    component::cvelocity_t vel = {10};
-    registry.add_component<component::cvelocity_t>(spaceShip, std::move(vel));
-
-    component::ctype_t type = {ENTITY_TYPE::PLAYER};
-    registry.add_component<component::ctype_t>(spaceShip, std::move(type));
-
-    component::crect_t rect = {17.2, 33};
-    registry.add_component<component::crect_t>(spaceShip, std::move(rect));
+    Entity spaceShip = registry.spawn_entity_with(
+        component::cdirection_t{ .x = 0, .y = 0},
+        component::cposition_t{ .x = 10, .y = 10},
+        component::cvelocity_t{ .velocity = 10},
+        component::ctype_t{ .type = ENTITY_TYPE::PLAYER},
+        component::crect_t{ .height = 17.2, .width = 33},
+        component::ccurrscene_t{ .currScene = SCENE::GAME}
+    );
     return spaceShip;
 }
