@@ -5,6 +5,7 @@
 ** MyTexture
 */
 
+#include <iostream>
 #include "MyTexture.hpp"
 
 MyTexture::MyTexture(std::string const &texturePath) :
@@ -12,19 +13,25 @@ MyTexture::MyTexture(std::string const &texturePath) :
 {
 }
 
+MyTexture::MyTexture()
+{
+}
+
 MyTexture::~MyTexture()
 {
 }
 
-Texture2D &MyTexture::getTexture()
+Texture2D MyTexture::getTexture() const
 {
     return _texture;
 }
 
-std::pair<int, int> MyTexture::getSize()
+int MyTexture::getWidth() const
 {
-    int width = _texture.width;
-    int height = _texture.height;
-    std::pair<int, int> sz(width, height);
-    return sz;
+    return _texture.width;
+}
+
+int MyTexture::getHeight() const
+{
+    return _texture.height;
 }

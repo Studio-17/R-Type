@@ -7,7 +7,7 @@
 
 #include "MySound.hpp"
 
-MySound::MySound(std::string const &filename)
+MySound::MySound()
 {
 }
 

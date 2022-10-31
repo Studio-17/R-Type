@@ -15,10 +15,12 @@
 class MyTexture {
     public:
         MyTexture(std::string const &texturePath);
+        MyTexture();
         ~MyTexture();
 
-        Texture2D &getTexture();
-        std::pair<int, int> getSize();
+        Texture2D getTexture() const;
+        int getWidth() const;
+        int getHeight() const;
 
     protected:
     private:

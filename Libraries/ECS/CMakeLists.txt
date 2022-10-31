@@ -6,6 +6,9 @@ project(R-Type_Library_ECS VERSION ${VERSION})
 # set executable name
 set(LIBRARY_NAME r-type_library_ecs)
 
+# set compilation flags
+add_compile_options("-Wall" "-Wextra" "-Werror" "-Wuninitialized" "-Winit-self")
+
 # specify the headers
 file(GLOB LIB_HEADER
     ./**

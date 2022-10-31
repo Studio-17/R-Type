@@ -13,6 +13,9 @@ set(VERSION 0.1.0)
 # set executable name
 set(EXECUTABLE_NAME r-type_server)
 
+# set compilation flags
+add_compile_options("-Wall" "-Wextra" "-Werror" "-Wuninitialized" "-Winit-self")
+
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp

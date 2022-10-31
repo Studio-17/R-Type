@@ -6,6 +6,7 @@
 */
 
 #include <array>
+#include <iostream>
 
 #include "Asset.hpp"
 
@@ -13,11 +14,27 @@ Asset::Asset(nlohmann::json const &jsonData) :
     _texture(jsonData.value("texture", "")), _scale(jsonData.value("scale", 1.0))
 {
     _rectangle.nb_frames = jsonData.value("nbFrame", 1);
-    std::pair<float, float> size = _texture.getSize();
-    _rectangle.width = size.first / _rectangle.nb_frames;
-    _rectangle.height = size.second / _rectangle.nb_frames;
+    _rectangle.current_frame = 1;
+    _rectangle.width = _texture.getWidth() / _rectangle.nb_frames;
+    _rectangle.height = _texture.getHeight();
 }
 
 Asset::~Asset()
 {
 }
+
+MyTexture &Asset::getTexture()
+{
+    return _texture;
+}
+
+float Asset::getScale() const
+{
+    return _scale;
+}
+
+component::crect_t Asset::getRectangle() const
+{
+    return _rectangle;
+}
+

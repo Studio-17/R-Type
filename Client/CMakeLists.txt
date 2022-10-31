@@ -13,6 +13,9 @@ set(VERSION 0.1.0)
 # set executable name
 set(EXECUTABLE_NAME r-type_client)
 
+# set compilation flags
+add_compile_options("-Wall" "-Wextra" "-Werror" "-Wuninitialized" "-Winit-self")
+
 # specify the sources
 file(GLOB SOURCE_FILES
     Source/*.cpp
@@ -28,7 +31,6 @@ file(GLOB SOURCE_FILES
     Source/System/*.cpp
     Source/System/ControlSystem/*.cpp
     Source/System/DrawSystem/*.cpp
-    Source/System/EventSystem/*.cpp
     Source/System/MoveSystem/*.cpp
     Source/System/NetworkSystem/*.cpp
     Source/System/NewEntitySystem/*.cpp
@@ -55,7 +57,6 @@ include_directories(
     Source/System/
     Source/System/ControlSystem/
     Source/System/DrawSystem/
-    Source/System/EventSystem/
     Source/System/MoveSystem/
     Source/System/NetworkSystem/
     Source/System/NewEntitySystem/

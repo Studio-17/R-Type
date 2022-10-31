@@ -18,12 +18,15 @@ class Asset {
         Asset(nlohmann::json const &jsonData);
         ~Asset();
 
+        MyTexture &getTexture();
+        float getScale() const;
+        component::crect_t getRectangle() const;
+
     protected:
     private:
         MyTexture _texture;
         float _scale;
         component::crect_t _rectangle;
-        int _nbFrame;
 };
 
 #endif /* !ASSET_HPP_ */

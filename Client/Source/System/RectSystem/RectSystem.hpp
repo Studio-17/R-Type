@@ -10,10 +10,11 @@
 
     #include "Registry.hpp"
     #include "GraphicalLib.hpp"
-    #include "CSprite.hpp"
     #include "CRect.hpp"
     #include "CTimer.hpp"
     #include "CType.hpp"
+    #include "CAsset.hpp"
+    #include "CAssetId.hpp"
 
 /**
  * @brief System that draws a part of all entities
@@ -40,10 +41,11 @@ class RectSystem {
          * @param timer sparse array of timer entities
          * @param types sparse array of type entities
          */
-        void operator()(Registry &registry, Sparse_array<component::csprite_t> &sprites,
-                                            Sparse_array<component::crect_t> &rectangles,
+        void operator()(Registry &registry, Sparse_array<component::crect_t> &rectangles,
                                             Sparse_array<component::ctimer_t> &timer,
-                                            Sparse_array<component::ctype_t> &types);
+                                            Sparse_array<component::ctype_t> &types,
+                                            Sparse_array<component::casset_t> &assets,
+                                            Sparse_array<component::cassetid_t> &assetid);
 
     protected:
     private:

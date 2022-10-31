@@ -19,9 +19,10 @@
 class AssetManager {
     public:
         AssetManager(std::string const &assetsFile);
+        AssetManager();
         ~AssetManager();
 
-
+        Asset at(std::size_t const &index) const;
         void loadAssets(std::string const &filepath);
         enum ASSET_ID {
             spaceship_blue,

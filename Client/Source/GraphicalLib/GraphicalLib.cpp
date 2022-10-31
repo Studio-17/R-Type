@@ -61,9 +61,14 @@ void rtype::GraphicalLib::drawSprite(std::shared_ptr<Sprite> const &sprite, Posi
     DrawTextureRec(sprite->getTexture(), rect, position.getVector2(), WHITE);
 }
 
-void rtype::GraphicalLib::destroySprite(Sprite const &sprite)
+void rtype::GraphicalLib::drawSprite(MyTexture const &texture, Position const &position, Rectangle const &rect)
 {
-    UnloadTexture(sprite.getTexture());
+    DrawTextureRec(texture.getTexture(), rect, position.getVector2(), WHITE);
+}
+
+void rtype::GraphicalLib::destroySprite(std::shared_ptr<Sprite> sprite)
+{
+    UnloadTexture(sprite->getTexture());
 }
 
 void rtype::GraphicalLib::setSpritePosition(Sprite &sprite, Position const &position)
@@ -179,9 +184,9 @@ void rtype::GraphicalLib::updateMusicStream(std::size_t id)
 }
 
 //Sounds
-void rtype::GraphicalLib::createSound(std::size_t id, std::string const &filename)
+void rtype::GraphicalLib::createSound(std::size_t id, [[ maybe_unused ]] std::string const &filename)
 {
-    _soundMap[id].reset(new MySound(filename));
+    _soundMap[id].reset(new MySound);
 }
 
 void rtype::GraphicalLib::playSound(std::size_t id)

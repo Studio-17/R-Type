@@ -71,8 +71,6 @@ class NetworkSystem {
          */
         void handleNewPlayerAndDispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip);
 
-
-
     protected:
     private:
 };

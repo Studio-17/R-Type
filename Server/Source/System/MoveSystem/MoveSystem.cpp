@@ -15,20 +15,16 @@ MoveSystem::MoveSystem()
 {
 }
 
-void MoveSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction,Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ckilled_t> &killed, Sparse_array<component::ctimer_t> &timer)
+void MoveSystem::operator()(Registry &registry, [[ maybe_unused ]] Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ctimer_t> &timer)
 {
-    if (std::chrono::steady_clock::now() - timer[0]->deltaTime > (std::chrono::nanoseconds)100000000)
-        timer[0]->deltaTime = std::chrono::steady_clock::now();
+    if (std::chrono::steady_clock::now() - timer[0].value().deltaTime > (std::chrono::nanoseconds)100000000)
+        timer[0].value().deltaTime = std::chrono::steady_clock::now();
     else
         return;
-    for (unsigned short index = 0; index < position.size(); index++) {
-        if (killed[index]->isDead)
-            continue;
+    for (std::size_t index = 0; index < position.size(); index++) {
         if (position[index] && velocity[index] && direction[index]) {
             if (position[index]->x > 1920) {
-                killed[index]->isDead = true;
-                registry.kill_entity((Entity)index);
-                // std::cout << "[Server] killed entity: " << index << std::endl;
+                registry.kill_entity(registry.entity_from_index(index));
                 // sendKillEntityPacket(registry, index, netqueue);
             }
             position[index]->x += (velocity[index]->velocity * direction[index]->x);
@@ -44,5 +40,5 @@ void MoveSystem::sendKillEntityPacket(Registry &registry, uint16_t id, Sparse_ar
     std::vector<byte> bytes = serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, packet);
     registry.kill_entity(registry.entity_from_index(id));
 
-    netqueue[0]->toSendNetworkQueue.push(bytes);
+    netqueue[0].value().toSendNetworkQueue.push(bytes);
 }

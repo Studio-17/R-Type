@@ -42,7 +42,7 @@ class ControlSystem {
 		 * @param positions Sparse array of all position component of all entities
 		 * @param velocities Sparse array of all velocity component of all entities
 		 */
-		void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::cvelocity_t> &velocities, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip);
+		void operator()(Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip);
 
 		/**
 		 * @brief A method to add a task for the server through the network queue
@@ -53,7 +53,6 @@ class ControlSystem {
 		 * @param idOfShip id of the ship
 		 */
 		void addToNetworkQueue(float x, float y, Sparse_array<component::cnetwork_queue_t> &network, uint16_t idOfShip);
-
 
 	protected:
 	private:
