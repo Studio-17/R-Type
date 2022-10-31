@@ -15,7 +15,6 @@
     #include "CPosition.hpp"
     #include "CVelocity.hpp"
     #include "CTimer.hpp"
-    #include "CCurrScene.hpp"
 
 /**
  * @brief MoveSystem class that handles the movement of the entities

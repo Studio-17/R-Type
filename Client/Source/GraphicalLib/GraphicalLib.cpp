@@ -101,6 +101,21 @@ bool rtype::GraphicalLib::checkCollisions(Sprite const &sprite1, Sprite const &s
     return CheckCollisionRecs(sprite1.getRect(), sprite2.getRect());
 }
 
+bool rtype::GraphicalLib::checkMouseCollision(Position const &position, Sprite const &sprite)
+{
+    return CheckCollisionPointRec(position.getVector2(), sprite.getRect());
+}
+
+bool rtype::GraphicalLib::IsLeftMouseButtonPressed()
+{
+    return IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+}
+
+Position rtype::GraphicalLib::getMousePosition()
+{
+    return Position(GetMousePosition());
+}
+
 // Text
 void rtype::GraphicalLib::createText(std::size_t id, std::string const &filename, std::string const &text, int fontSize, Color const &color, Position const &position)
 {

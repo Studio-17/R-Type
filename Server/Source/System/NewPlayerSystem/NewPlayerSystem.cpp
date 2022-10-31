@@ -14,7 +14,7 @@
 #include "CPosition.hpp"
 #include "CVelocity.hpp"
 #include "CRect.hpp"
-#include "CCurrScene.hpp"
+#include "CSceneId.hpp"
 
 #include "NewEntity.hpp"
 
@@ -50,7 +50,7 @@ Entity NewPlayerSystem::createSpaceShip(Registry &registry)
         component::cvelocity_t{ .velocity = 10},
         component::ctype_t{ .type = ENTITY_TYPE::PLAYER},
         component::crect_t{ .height = 17.2, .width = 33},
-        component::ccurrscene_t{ .currScene = SCENE::GAME}
+        component::csceneid_t{ .sceneId = SCENE::GAME}
     );
     return spaceShip;
 }

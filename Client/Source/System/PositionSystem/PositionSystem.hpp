@@ -12,7 +12,6 @@
     #include "CNetworkQueue.hpp"
     #include "CServerId.hpp"
     #include "CPosition.hpp"
-    #include "CCurrScene.hpp"
 
 /**
  * @brief PositionSystem class that handles the position of the entities

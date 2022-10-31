@@ -14,7 +14,7 @@
     #include "CRect.hpp"
     #include "CAsset.hpp"
     #include "CAssetId.hpp"
-    #include "CCurrScene.hpp"
+    #include "CSceneId.hpp"
     #include "Constant.hpp"
 
 /**
@@ -43,13 +43,12 @@ class DrawSystem {
          * @param assets the sparse array of asset entities
          * @param assetsId the sparse array of assetId entities
          */
-        void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId, Sparse_array<component::ccurrscene_t> &currScene);
+        void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId, Sparse_array<component::csceneid_t> &scenesId);
 
 
     protected:
     private:
         std::shared_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
-        SCENE _currScene; ///< Current scene
 };
 
 

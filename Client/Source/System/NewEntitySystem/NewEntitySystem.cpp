@@ -11,7 +11,7 @@
 #include "CDirection.hpp"
 #include "CVelocity.hpp"
 #include "CAssetId.hpp"
-#include "CCurrScene.hpp"
+#include "CSceneId.hpp"
 
 NewEntitySystem::NewEntitySystem()
 {
@@ -55,7 +55,7 @@ void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity
         component::cserverid_t{ .id = newEntity.id },
         component::cvelocity_t{ .velocity = 14 },
         component::cassetid_t{ .assets = newEntity.type },
-        component::ccurrscene_t{ .currScene = SCENE::GAME }
+        component::csceneid_t{ .sceneId = SCENE::GAME }
     );
 }
 
@@ -70,7 +70,7 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity,
         component::cserverid_t{ .id = newEntity.id },
         component::cvelocity_t{ .velocity = 4 },
         component::cassetid_t{ .assets = newEntity.type },
-        component::ccurrscene_t{ .currScene = SCENE::GAME }
+        component::csceneid_t{ .sceneId = SCENE::GAME }
     );
 }
 
@@ -85,6 +85,6 @@ void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, 
         component::cserverid_t{ .id = newEntity.id },
         component::cvelocity_t{ .velocity = 4 },
         component::cassetid_t{ .assets = newEntity.type },
-        component::ccurrscene_t{ .currScene = SCENE::GAME }
+        component::csceneid_t{ .sceneId = SCENE::GAME }
     );
 }

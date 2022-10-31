@@ -157,6 +157,12 @@ namespace rtype {
              */
             bool checkCollisions(Sprite const &sprite1, Sprite const &sprite2);
 
+            bool checkMouseCollision(Position const &position, Sprite const &sprite);
+
+            bool IsLeftMouseButtonPressed();
+
+            Position getMousePosition();
+
             /**
              * @brief Create a Text object
              * 

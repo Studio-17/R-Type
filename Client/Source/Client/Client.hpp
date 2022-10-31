@@ -28,6 +28,7 @@
 	#include "MoveSystem.hpp"
 	#include "NetworkSystem.hpp"
 	#include "KillSystem.hpp"
+	#include "MouseSystem.hpp"
 
 	#include "AssetManager.hpp"
 
@@ -144,6 +145,7 @@ class Client
 		PositionSystem _positionSystem; ///< System that updates the position of the entities
 		MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
 		KillSystem _killSystem; ///< System that kill entity
+		MouseSystem _mouseSystem; ///< System that handle mouse events
 };
 
 #endif /* !CLIENT_HPP_ */

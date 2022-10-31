@@ -14,7 +14,7 @@
 #include "CRect.hpp"
 #include "Component/CDirection.hpp"
 #include "Component/CHitBox.hpp"
-#include "CCurrScene.hpp"
+#include "CSceneId.hpp"
 
 #include "Serialization.hpp"
 #include "NewEntity.hpp"
@@ -47,7 +47,7 @@ Entity SpawnEnemySystem::createEnemy(Registry &registry)
         component::cvelocity_t{ .velocity = 4 },
         component::ctype_t{ .type = ENTITY_TYPE::ENEMY },
         component::crect_t{ .height = 34, .width = 33.5 },
-        component::ccurrscene_t{ .currScene = SCENE::GAME }
+        component::csceneid_t{ .sceneId = SCENE::GAME }
     );
     return enemy;
 }

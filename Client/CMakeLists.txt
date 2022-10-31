@@ -30,7 +30,9 @@ file(GLOB SOURCE_FILES
     Source/System/PositionSystem/*.cpp
     Source/System/RectSystem/*cpp
     Source/System/KillSystem/*cpp
+    Source/System/MouseSystem/*cpp
     Source/AssetManager/*.cpp
+    Source/Button/*.cpp
 )
 
 # specify the headers
@@ -56,7 +58,9 @@ include_directories(
     Source/System/PositionSystem/
     Source/System/RectSystem/
     Source/System/KillSystem/
+    Source/System/MouseSystem/
     Source/AssetManager/
+    Source/Button/
 )
 
 find_package(asio CONFIG REQUIRED)
