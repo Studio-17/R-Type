@@ -21,6 +21,6 @@ void DrawSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<
         if (!assets[FORBIDDEN_IDS::NETWORK])
             continue;
         if (pos && rect)
-            _graphicLib->drawSprite(assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetsId[i].value().assets).getTexture(), (Position){pos.value().x, pos.value().y, 0}, (Rectangle){.x = rect.value().x, .y = rect.value().y, .width = rect.value().width, .height = rect.value().height});
+            _graphicLib->drawSprite(assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetsId[i].value().assets).getTexture(), Position(pos.value().x, pos.value().y, 0), Rectangle(rect.value().x, rect.value().y, rect.value().width, rect.value().height));
     }
 }

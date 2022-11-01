@@ -11,7 +11,7 @@
 #include <iostream>
 #include <memory>
 
-#include "raylib.h"
+#include <raylib.h>
 #include "Sprite.hpp"
 #include "Text.hpp"
 #include "MySound.hpp"

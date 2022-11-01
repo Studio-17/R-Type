@@ -10,12 +10,20 @@
 
 	#include <thread>
 
+	#if defined(_WIN32)
+	#define NOGDI // All GDI defines and routines
+	#define NOUSER// All USER defines and routines
+	#endif
+
 	#include <asio/buffer.hpp>
     #include <asio/ip/udp.hpp>
     #include <asio/error_code.hpp>
     #include <asio/io_context.hpp>
     #include <asio/io_service.hpp>
     #include <asio/placeholders.hpp>
+	
+	#undef near
+	#undef far
 
 	#include "UdpCommunication.hpp"
 	#include "Registry.hpp"

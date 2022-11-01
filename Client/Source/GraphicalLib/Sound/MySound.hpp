@@ -9,7 +9,7 @@
 #define MYSOUND_HPP_
 
 #include <string>
-#include "raylib.h"
+#include <raylib.h>
 
 /**
  * @brief MySound class
