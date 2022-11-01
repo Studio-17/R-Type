@@ -11,7 +11,6 @@
     #include <iostream>
     #include <string>
     #include "Datas/Position/Position.hpp"
-    #include <raylib.h>
 
 /**
  * @brief Sprite class
