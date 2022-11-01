@@ -24,7 +24,7 @@ void ShootSystem::operator()(Registry &registry, Sparse_array<component::cnetwor
         netqueue[0].value().shootQueue.pop();
         if (position[packet.id]) {
             Entity bullet = createBullet(registry, position, packet.id);
-            netqueue[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {static_cast<uint16_t>(bullet), position[bullet].value().x, position[bullet].value().y, 1, ENTITY_TYPE::BULLET}));
+            netqueue[0].value().toSendNetworkQueue.push({0, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {static_cast<uint16_t>(bullet), position[bullet].value().x, position[bullet].value().y, 1, ENTITY_TYPE::BULLET})});
         }
     }
 }

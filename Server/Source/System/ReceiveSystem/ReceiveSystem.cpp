@@ -26,7 +26,7 @@ void System::ReceiveSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
     try {
         callBacks.at(id)(bufferWithoutId, queues);
     } catch (std::out_of_range const &) {
-        std::cerr << "undefined packet id: " << id << std::endl;
+        std::cout << "undefined packet id: " << id << std::endl;
     }
 }
 
@@ -52,4 +52,10 @@ void System::ReceiveSystem::addDisconnectionOnQueue(std::vector<byte> const &dat
 {
     packet_disconnection disconnection = serializable_trait<packet_disconnection>::unserialize(data);
     queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.push(disconnection);
+}
+
+void System::ReceiveSystem::addJoinLobbyOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues)
+{
+    packet_join_lobby join_lobby = serializable_trait<packet_join_lobby>::unserialize(data);
+    queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.push(join_lobby);
 }

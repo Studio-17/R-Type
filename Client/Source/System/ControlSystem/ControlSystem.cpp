@@ -10,6 +10,7 @@
 #include "CPosition.hpp"
 #include "Serialization.hpp"
 #include "Constant/Constant.hpp"
+#include "Lobbies.hpp"
 #include "Move.hpp"
 
 ControlSystem::ControlSystem()
@@ -33,6 +34,8 @@ void ControlSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_arr
         x = packet_move::DIRECTION::PLUS;
     if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySpaceCharCode()))
         x = 3;
+    if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeyEnterCharCode()))
+        x = 4;
     if (x || y)
         addToNetworkQueue(x, y, network, idOfShip[FORBIDDEN_IDS::NETWORK].value().id);
 }
@@ -43,6 +46,8 @@ void ControlSystem::addToNetworkQueue(float x, float y, Sparse_array<component::
 
     if (x == 3)
         tmp = serialize_header::serializeHeader<packet_shoot>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT, {idOfShip});
+    else if (x == 4)
+        tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {1});
     else
         tmp = serialize_header::serializeHeader<packet_move>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION, {idOfShip, x, y});
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);

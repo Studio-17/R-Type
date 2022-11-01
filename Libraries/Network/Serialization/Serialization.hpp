@@ -18,7 +18,13 @@ namespace NETWORK_CLIENT_TO_SERVER {
         SHOOT,
         DIRECTION,
         NEW_CONNECTION,
-        DISCONNECTION
+        DISCONNECTION,
+        // Rework
+        NEW_CLIENT,
+        GET_LOBBYS,
+        CREATE_LOBBY,
+        START_GAME,
+        JOIN_LOBBY
     };
 };
 
@@ -27,7 +33,13 @@ namespace NETWORK_SERVER_TO_CLIENT {
         POSITION,
         NEW_ENTITY,
         KILL_ENTITY,
-        NEW_PLAYER
+        NEW_PLAYER,
+        // Rework
+        NEW_CLIENT_RESPONSE,
+        SEND_LOBBYS,
+        CREATE_LOBBY_RESPONSE,
+        NUMBER_PLAYERS_IN_ROOM
+
     };
 };
 

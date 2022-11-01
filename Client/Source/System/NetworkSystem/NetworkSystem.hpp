@@ -63,6 +63,14 @@ class NetworkSystem {
         void dispatchToKillEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
         /**
+         * @brief A method to send informations to the get lobbies queue
+         * 
+         * @param bytes the bytes to send
+         * @param network the sparse array of network entities
+         */
+        void dispatchToGetLobbiesQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+
+        /**
          * @brief A method to send informations to the new player queue
          * 
          * @param bytes the bytes to send

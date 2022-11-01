@@ -30,6 +30,7 @@ file(GLOB SOURCE_FILES
     Source/System/PositionSystem/*.cpp
     Source/System/RectSystem/*cpp
     Source/System/KillSystem/*cpp
+    Source/System/GetLobbiesSystem/*.cpp
     Source/AssetManager/*.cpp
 )
 
@@ -56,6 +57,7 @@ include_directories(
     Source/System/PositionSystem/
     Source/System/RectSystem/
     Source/System/KillSystem/
+    Source/System/GetLobbiesSystem/
     Source/AssetManager/
 )
 

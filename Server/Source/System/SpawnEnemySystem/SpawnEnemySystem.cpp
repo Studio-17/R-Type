@@ -30,7 +30,7 @@ void SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cn
         return;
     Entity enemy = createEnemy(registry);
     if (position[enemy] && type[enemy]) {
-        netqueue[0].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type)}));
+        netqueue[0].value().toSendNetworkQueue.push({1, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type)})});
     }
 }
 

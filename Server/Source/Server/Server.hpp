@@ -28,6 +28,7 @@
     #include "Component/CHitBox.hpp"
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CPosition.hpp"
+    #include "Component/CLobbiesToEntities.hpp"
     // #include "Component/CVelocity.hpp"
 
     #include "System/MoveSystem/MoveSystem.hpp"
@@ -38,6 +39,7 @@
     #include "System/SpawnEnemySystem/SpawnEnemySystem.hpp"
     #include "System/HitboxSystem/HitboxSystem.hpp"
     #include "System/DisconnectionSystem/DisconnectionSystem.hpp"
+    #include "System/NewClientSystem/NewClientSystem.hpp"
 
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
@@ -155,12 +157,15 @@ class Server {
          */
         bool _isRunning;
 
+        // Rework
         /**
          * @brief A map containing all the clients addresses and ports
          * 
          */
-        std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, bool>> _endpoints;
-
+        std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, int>> _endpoints;
+        // std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, bool>> _endpoints;
+        int client_id = 0;
+        //*
         /**
          * @brief An object Registry for the server to interact with it
          * 
@@ -211,6 +216,11 @@ class Server {
          * @brief An object DisconnectionSystem to manage it in the server
          */
         DisconnectionSystem _disconnectionSystem;
+
+        /**
+         * @brief An object DisconnectionSystem to manage it in the server
+         */
+        NewClientSystem _newClientSystem;
 
         /**
          * @brief A boolean to manage the server loop

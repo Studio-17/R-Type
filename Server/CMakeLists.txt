@@ -23,6 +23,7 @@ file(GLOB SOURCE_FILES
     Source/System/ShootSystem/*.cpp
     Source/System/HitboxSystem/*.cpp
     Source/System/SpawnEnemySystem/*.cpp
+    Source/System/NewClientSystem/*.cpp
 )
 
 # specify the headers
@@ -40,6 +41,7 @@ include_directories(
     Source/System/ShootSystem/
     Source/System/HitboxSystem/
     Source/System/SpawnEnemySystem/
+    Source/System/NewClientSystem/
 )
 
 find_package(asio CONFIG REQUIRED)

@@ -28,6 +28,7 @@
 	#include "MoveSystem.hpp"
 	#include "NetworkSystem.hpp"
 	#include "KillSystem.hpp"
+	#include "GetLobbiesSystem/GetLobbiesSystem.hpp"
 
 	#include "AssetManager.hpp"
 
@@ -82,6 +83,12 @@ class Client
 		 * 
 		 */
 		void tryToConnect();
+
+		/**
+		 * @brief A method to call juste before a client is deconected
+		 * 
+		 */
+		void disconnect();
 
 	private:
 		/**
@@ -144,6 +151,7 @@ class Client
 		PositionSystem _positionSystem; ///< System that updates the position of the entities
 		MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
 		KillSystem _killSystem; ///< System that kill entity
+		GetLobbiesSystem _getLobbiesSystem;
 };
 
 #endif /* !CLIENT_HPP_ */
