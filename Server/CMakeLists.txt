@@ -47,10 +47,16 @@ include_directories(
     Source/System/ShootSystem/
     Source/System/HitboxSystem/
     Source/System/SpawnEnemySystem/
-    "${CMAKE_SOURCE_DIR}/vcpkg/installed/x86-windows/include/"
 )
 
-link_directories("${CMAKE_SOURCE_DIR}/vcpkg/installed/x86-windows/lib/")
+if(MSVC)
+    include_directories("${CMAKE_SOURCE_DIR}/vcpkg/installed/x86-windows/include/")
+    link_directories("${CMAKE_SOURCE_DIR}/vcpkg/installed/x86-windows/lib/")
+endif()
+
+if(UNIX)
+    include_directories("${CMAKE_SOURCE_DIR}/vcpkg/installed/x64-linux/include/")
+endif()
 
 find_package(asio CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
@@ -59,8 +65,6 @@ find_package(nlohmann_json CONFIG REQUIRED)
 add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE r-type_library_ecs)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE r-type_library_network)
-
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE -lpthread)
 
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE asio)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE nlohmann_json::nlohmann_json)
