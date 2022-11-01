@@ -7,9 +7,7 @@ project(R-Type_Library_Errors VERSION ${VERSION})
 set(LIBRARY_NAME r-type_library_errors)
 
 # set compilation flags
-if(UNIX)
-    add_compile_options("-Wall" "-Wextra" "-Werror" "-Wuninitialized" "-Winit-self")
-endif()
+add_compile_options("-Wall" "-Wextra" "-Werror" "-Wuninitialized" "-Winit-self")
 
 # specify the headers
 file(GLOB LIB_HEADER

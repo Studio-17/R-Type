@@ -15,17 +15,21 @@ players will be able to fight together the evil Bydos!
 
 ## Installation
 
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+
 ```bash
 git clone git@github:EpitechPromo2025/...
 
-https://docs.conan.io/en/1.46/installation.html
+https://vcpkg.io/en/getting-started.html
 
-conan install . --install-folder cmake-build-release --build=missing -c tools.system.package_manager:mode=installs -c tools.system.package_manager:sudo=True
+[sudo] vcpkg install asio nlohmann-json raylib
+[sudo] vcpkg list
+[sudo] vcpkg integrate install
+ 
+cmake -B Builds -S . -DCMAKE_TOOLCHAIN_FILE= /opt/vcpkg/scripts/buildsystems/vcpkg.cmake
 
-cmake -B Builds -DCMAKE_TOOLCHAIN_FILE=cmake-build-release/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
-
-cmake --build Builds -- -j 4
- ```
+cmake --build . -- -j 4
+```
 
 ## Usage
 

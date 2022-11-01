@@ -1,3 +1,6 @@
-[submodule "vcpkg"]
-	path = vcpkg
-	url = https://github.com/Microsoft/vcpkg.git
+[submodule "raylib"]
+	path = raylib
+	url = https://github.com/raysan5/raylib/
+[submodule "asio"]
+	path = asio
+	url = https://github.com/chriskohlhoff/asio/
