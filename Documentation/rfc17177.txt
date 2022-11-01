@@ -225,7 +225,7 @@ This RFC consists of the following sections:
             uint16_t y;
         };
 
-        struct packet_new_connexion {
+        struct packet_new_connection {
             uint16_t id;
         };
 
@@ -246,7 +246,6 @@ This RFC consists of the following sections:
 
         struct packet_shoot {
             uint16_t id;
-                
         };
 
         struct packet_direction {
@@ -257,6 +256,9 @@ This RFC consists of the following sections:
             uint16_t velocity;
         };
 
+        struct packet_disconnection {
+            uint16_t id;
+        };
 
                               3.  EVENTS
 

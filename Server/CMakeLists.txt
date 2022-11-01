@@ -25,6 +25,7 @@ file(GLOB SOURCE_FILES
     Source/Server/*.cpp
     Source/System/*.cpp
     Source/System/DirectionSystem/*.cpp
+    Source/System/DisconnectionSystem/*.cpp
     Source/System/MoveSystem/*.cpp
     Source/System/NewPlayerSystem/*.cpp
     Source/System/ReceiveSystem/*.cpp
@@ -41,6 +42,7 @@ include_directories(
     Source/Server/
     Source/System/
     Source/System/DirectionSystem/
+    Source/System/DisconnectionSystem/
     Source/System/MoveSystem/
     Source/System/NewPlayerSystem/
     Source/System/ReceiveSystem/

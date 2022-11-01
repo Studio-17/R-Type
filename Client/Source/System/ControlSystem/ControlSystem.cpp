@@ -34,7 +34,7 @@ void ControlSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_arr
     if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySpaceCharCode()))
         x = 3;
     if (x || y)
-        addToNetworkQueue(x, y, network, idOfShip[0].value().id);
+        addToNetworkQueue(x, y, network, idOfShip[FORBIDDEN_IDS::NETWORK].value().id);
 }
 
 void ControlSystem::addToNetworkQueue(float x, float y, Sparse_array<component::cnetwork_queue_t> &network, uint16_t idOfShip)
@@ -44,6 +44,6 @@ void ControlSystem::addToNetworkQueue(float x, float y, Sparse_array<component::
     if (x == 3)
         tmp = serialize_header::serializeHeader<packet_shoot>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT, {idOfShip});
     else
-        tmp = serialize_header::serializeHeader<packet_move>(1, {idOfShip, x, y});
+        tmp = serialize_header::serializeHeader<packet_move>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION, {idOfShip, x, y});
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
 }

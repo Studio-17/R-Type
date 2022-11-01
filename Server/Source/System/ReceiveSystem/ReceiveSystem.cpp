@@ -7,6 +7,7 @@
 
 #include "ReceiveSystem.hpp"
 #include "Serialization.hpp"
+#include "Constant.hpp"
 
 System::ReceiveSystem::ReceiveSystem()
 {
@@ -32,18 +33,23 @@ void System::ReceiveSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
 void System::ReceiveSystem::addMoveOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues)
 {
     packet_move newMove = serializable_trait<packet_move>::unserialize(data);
-    queues[0].value().moveQueue.push(newMove);
+    queues[FORBIDDEN_IDS::NETWORK].value().moveQueue.push(newMove);
 }
 
 void System::ReceiveSystem::addShootOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues)
 {
     packet_shoot newMove = serializable_trait<packet_shoot>::unserialize(data);
-    queues[0].value().shootQueue.push(newMove);
+    queues[FORBIDDEN_IDS::NETWORK].value().shootQueue.push(newMove);
 }
 
 void System::ReceiveSystem::addNewPLayerOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues)
 {
-    // std::cout << "[Server] new Connexion" << std::endl;
-    packet_new_connexion newMove = serializable_trait<packet_new_connexion>::unserialize(data);
-    queues[0].value().newPlayerQueue.push(newMove);
+    packet_new_connection newMove = serializable_trait<packet_new_connection>::unserialize(data);
+    queues[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.push(newMove);
+}
+
+void System::ReceiveSystem::addDisconnectionOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues)
+{
+    packet_disconnection disconnection = serializable_trait<packet_disconnection>::unserialize(data);
+    queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.push(disconnection);
 }
