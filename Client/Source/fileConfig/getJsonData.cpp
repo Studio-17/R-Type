@@ -10,15 +10,13 @@
 #include <string>
 #include <fstream>
 
-#include "FileError.hpp"
-
 nlohmann::json getJsonData(std::string const &filepath)
 {
     nlohmann::json jsonData;
     std::ifstream confStream(filepath);
 
     if (!confStream.is_open())
-        throw Error::FileError("file " + filepath + " failed to open");
+        throw ("file " + filepath + " failed to open");
     confStream >> jsonData;
     confStream.close();
     return jsonData;

@@ -11,6 +11,7 @@
 #include <iostream>
 
 #include "AssetManager.hpp"
+#include "fileConfig.hpp"
 
 AssetManager::AssetManager(std::string const &assetsFile)
 {
@@ -32,24 +33,13 @@ Asset AssetManager::at(std::size_t const &index) const
     return _assets.at(index);
 }
 
-nlohmann::json AssetManager::getJsonData(std::string const &filepath)
-{
-    nlohmann::json jsonData;
-    std::ifstream confStream(filepath);
-
-    if (!confStream.is_open())
-        throw ("file " + filepath + " failed to open");
-    confStream >> jsonData;
-    confStream.close();
-    return jsonData;
-}
-
 void AssetManager::loadAssets(std::string const &filepath)
 {
     nlohmann::json jsonData;
     std::size_t id = 0;
 
     try {
+
         jsonData = getJsonData(filepath);
     } catch (std::exception const &e) {
         std::cerr << e.what() << std::endl;

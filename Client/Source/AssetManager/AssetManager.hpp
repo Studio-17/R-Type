@@ -31,7 +31,6 @@ class AssetManager {
         };
     protected:
     private:
-        nlohmann::json getJsonData(std::string const &filepath);
         void saveAssets(std::string const &filepath);
 
         // std::unordered_map<ASSET_ID, Asset> _assets;
