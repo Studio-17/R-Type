@@ -29,6 +29,7 @@
 	#include "NetworkSystem.hpp"
 	#include "KillSystem.hpp"
 	#include "GetLobbiesSystem/GetLobbiesSystem.hpp"
+	#include "SetNbPlayerInLobbySystem.hpp"
 
 	#include "AssetManager.hpp"
 
@@ -152,6 +153,7 @@ class Client
 		MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
 		KillSystem _killSystem; ///< System that kill entity
 		GetLobbiesSystem _getLobbiesSystem;
+		SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem;
 };
 
 #endif /* !CLIENT_HPP_ */

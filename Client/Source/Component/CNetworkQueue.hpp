@@ -30,6 +30,7 @@ namespace component {
         std::queue<std::vector<byte>> receivedNetworkQueue;
         std::queue<packet_new_entity> newEntityQueue;
         std::queue<packet_position> updatePositionQueue;
+        std::queue<packet_nb_players_in_lobby> nbPlayerInLobbyQueue;
         std::queue<packet_kill_entity> killEntityQueue;
         std::queue<packet_send_lobbies> getLobbiesQueue;
     } cnetwork_queue_t;

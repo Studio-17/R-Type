@@ -107,8 +107,9 @@ void Server::setUpEcs()
     // _registry.add_system(_spawnEnemySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::ctype_t>(), _registry.get_components<component::ctimer_t>());
     //    _registry.add_system(_newPlayerSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::ctype_t>());
     // _registry.add_system(_hitboxSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::ctype_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
-    _registry.add_system(_disconnectionSystem, _registry.get_components<component::cnetwork_queue_t>());
+    _registry.add_system(_disconnectionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::clobby_id_t>(), _registry.get_components<component::clobbies_to_entities_t>(), _registry.get_components<component::cnet_id_to_client_id_t>());
     _registry.add_system(_newClientSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cnet_id_to_client_id_t>(), _registry.get_components<component::clobbies_to_entities_t>());
+    _registry.add_system(_joinLobbySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::clobby_id_t>(), _registry.get_components<component::clobbies_to_entities_t>(), _registry.get_components<component::cnet_id_to_client_id_t>());
 }
 
 void Server::setUpComponents()

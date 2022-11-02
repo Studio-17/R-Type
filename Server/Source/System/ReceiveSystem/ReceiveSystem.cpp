@@ -56,6 +56,7 @@ void System::ReceiveSystem::addDisconnectionOnQueue(std::vector<byte> const &dat
 
 void System::ReceiveSystem::addJoinLobbyOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues)
 {
+    std::cout << "[SERVER] Join Lobby request has been sent by Client " << clientId << std::endl;
     packet_join_lobby join_lobby = serializable_trait<packet_join_lobby>::unserialize(data);
     queues[FORBIDDEN_IDS::NETWORK].value().joinLobbyQueue.push(std::pair<int, packet_join_lobby>(clientId, join_lobby));
 }

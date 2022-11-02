@@ -24,6 +24,7 @@ file(GLOB SOURCE_FILES
     Source/System/HitboxSystem/*.cpp
     Source/System/SpawnEnemySystem/*.cpp
     Source/System/NewClientSystem/*.cpp
+    Source/System/JoinLobbySystem/*.cpp
 )
 
 # specify the headers
@@ -42,6 +43,7 @@ include_directories(
     Source/System/HitboxSystem/
     Source/System/SpawnEnemySystem/
     Source/System/NewClientSystem/
+    Source/System/JoinLobbySystem/
 )
 
 find_package(asio CONFIG REQUIRED)

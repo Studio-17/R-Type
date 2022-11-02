@@ -12,13 +12,15 @@
     #include "CNetworkQueue.hpp"
     #include "CLobbyId.hpp"
     #include "CLobbiesToEntities.hpp"
+    #include "CNetIdToClientId.hpp"
 
 class JoinLobbySystem {
     public:
         JoinLobbySystem();
         ~JoinLobbySystem() = default;
 
-        void operator()(Sparse_array<component::cnetwork_queue_t> &networkQueue, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities);
+        void operator()([[ maybe_unused ]]Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId);
+        void changeClientLobby(int netClientId, int newLobbyId, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId);
 
     protected:
     private:

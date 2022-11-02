@@ -31,6 +31,7 @@ file(GLOB SOURCE_FILES
     Source/System/RectSystem/*cpp
     Source/System/KillSystem/*cpp
     Source/System/GetLobbiesSystem/*.cpp
+    Source/System/SetNbPlayerInLobbySystem/*.cpp
     Source/AssetManager/*.cpp
 )
 
@@ -58,6 +59,7 @@ include_directories(
     Source/System/RectSystem/
     Source/System/KillSystem/
     Source/System/GetLobbiesSystem/
+    Source/System/SetNbPlayerInLobbySystem/
     Source/AssetManager/
 )
 
