@@ -15,6 +15,7 @@
     #include "NewConnection.hpp"
     #include "Disconnection.hpp"
     #include "Lobbies.hpp"
+    #include "StartGame.hpp"
 
 using byte = unsigned char;
 
@@ -34,6 +35,7 @@ namespace component {
         std::queue<std::pair<int, packet_new_connection>> newPlayerQueue;
         std::queue<std::pair<int, packet_disconnection>> disconnectionQueue;
         std::queue<std::pair<int, packet_join_lobby>> joinLobbyQueue;
+        std::queue<std::pair<int, packet_start_game>> startGameQueue;
 
     } cnetwork_queue_t;
 }
