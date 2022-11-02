@@ -101,9 +101,9 @@ bool rtype::GraphicalLib::checkCollisions(Sprite const &sprite1, Sprite const &s
     return CheckCollisionRecs(sprite1.getRect(), sprite2.getRect());
 }
 
-bool rtype::GraphicalLib::checkMouseCollision(Position const &position, Sprite const &sprite)
+bool rtype::GraphicalLib::checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width)
 {
-    return CheckCollisionPointRec(position.getVector2(), sprite.getRect());
+    return CheckCollisionPointRec((Vector2){position.getX(), position.getY()}, (Rectangle){x, y, height, width});
 }
 
 bool rtype::GraphicalLib::IsLeftMouseButtonPressed()
@@ -113,7 +113,8 @@ bool rtype::GraphicalLib::IsLeftMouseButtonPressed()
 
 Position rtype::GraphicalLib::getMousePosition()
 {
-    return Position(GetMousePosition());
+    Vector2 mousePosition = GetMousePosition();
+    return (Position){mousePosition.x, mousePosition.y};
 }
 
 // Text

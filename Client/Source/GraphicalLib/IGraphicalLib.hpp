@@ -18,6 +18,7 @@
 #include "MyMusic.hpp"
 #include "Keyboard.hpp"
 #include "Datas/Position/Position.hpp"
+#include <utility>
 
 /**
  * @brief rtype namespace
@@ -96,7 +97,7 @@ namespace rtype {
             virtual auto drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect) -> void = 0;
             virtual auto destroySprite(std::shared_ptr<Sprite> sprite) -> void = 0;
 
-            virtual auto checkMouseCollision(Position const &position, Sprite const &sprite) -> bool = 0;
+            virtual auto checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width) -> bool = 0;
 
             virtual auto IsLeftMouseButtonPressed() -> bool = 0;
 
