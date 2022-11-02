@@ -51,6 +51,6 @@
         "id": 8,
         "nbFrame": 1,
         "scale": 1.0,
-        "texture": "Assets/parallax/button.png"
+        "texture": "Assets/sprites/button.png"
     }
 }

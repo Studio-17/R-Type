@@ -147,9 +147,9 @@ void Client::setUpComponents()
     // Menu Scene
     Entity button = _registry.spawn_entity_with(
         component::crect_t{ assetMan.assets.at(8).getRectangle() },
-        component::cposition_t{ .x = 0, .y = 0 },
+        component::cposition_t{ .x = 500, .y = 500 },
         component::ctype_t{ .type = BUTTON },
-        component::cassetid_t{ .assets = 0 },
+        component::cassetid_t{ .assets = 8 },
         component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
     );
 }
