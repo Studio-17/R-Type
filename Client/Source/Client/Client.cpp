@@ -21,12 +21,13 @@
 #include "Structure.hpp"
 #include "CType.hpp"
 #include "Move.hpp"
-#include "NewConnexion.hpp"
+#include "NewConnection.hpp"
 #include "CIdOfShip.hpp"
 #include "CTimer.hpp"
 #include "CAsset.hpp"
 #include "CAssetId.hpp"
 #include "Asset.hpp"
+#include "Disconnection.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
@@ -50,8 +51,8 @@ Client::~Client()
 
 void Client::tryToConnect()
 {
-    packet_new_connexion packet = {.id = 0};
-    std::vector<byte> bytes = serialize_header::serializeHeader<packet_new_connexion>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::NEW_CONNEXION, packet);
+    packet_new_connection packet = {.id = 0};
+    std::vector<byte> bytes = serialize_header::serializeHeader<packet_new_connection>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::NEW_CONNECTION, packet);
     _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(bytes);
 }
 
@@ -67,10 +68,15 @@ void Client::machineRun()
     }
     _graphicLib->closeWindow();
     _connected = false;
+    packet_disconnection packet;
+    packet.disconnection = _registry.get_components<component::cid_of_ship_t>()[FORBIDDEN_IDS::NETWORK].value().id;
+    auto tmp = serialize_header::serializeHeader<packet_disconnection>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DISCONNECTION, packet);
+    _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+    SendPacket();
 }
 
 void Client::SendPacket() {
-    if (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.empty()) {
+    while (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.empty()) {
         std::vector<byte> tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.front();
         _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.pop();
         _com->send(tmp);

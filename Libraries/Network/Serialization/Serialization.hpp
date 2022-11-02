@@ -17,7 +17,8 @@ namespace NETWORK_CLIENT_TO_SERVER {
     enum PACKET_TYPE {
         SHOOT,
         DIRECTION,
-        NEW_CONNEXION
+        NEW_CONNECTION,
+        DISCONNECTION
     };
 };
 
