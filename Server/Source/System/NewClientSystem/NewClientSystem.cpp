@@ -16,15 +16,15 @@ NewClientSystem::NewClientSystem() {
 
 void NewClientSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities) {
     while (!netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.empty()) {
-        packet_new_connection newConnect = netqueue[0].value().newPlayerQueue.front();
+        std::pair<int, packet_new_connection> newConnect = netqueue[0].value().newPlayerQueue.front();
 
         // CREATE A CLIENT ENTITY
         Entity newClient = registry.spawn_entity();
 
         // ADD A NETWORK ID TO CLIENT ENTITY
         component::cnetwork_id_t netId;
-        std::cout << "new client connected with id " << newConnect.id << std::endl;
-        netId.id = newConnect.id;
+        std::cout << "new client connected with id " << newConnect.second.id << std::endl;
+        netId.id = newConnect.second.id;
         registry.add_component<component::cnetwork_id_t>(newClient, std::move(netId));
 
         // GIVE A LOBBY ID WHERE THE CLIENT IS
@@ -32,7 +32,7 @@ void NewClientSystem::operator()(Registry &registry, Sparse_array<component::cne
         lobbyId.id = 0;
         registry.add_component<component::clobby_id_t>(newClient, std::move(lobbyId));
 
-        netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.try_emplace(newConnect.id, newClient);
+        netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.try_emplace(newConnect.second.id, newClient);
         lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(1, std::vector<Entity>());
         lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(2, std::vector<Entity>());
         lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(3, std::vector<Entity>());

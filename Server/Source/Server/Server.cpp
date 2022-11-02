@@ -47,10 +47,10 @@ void Server::HandleReceive([[ maybe_unused ]] asio::error_code const &e, [[ mayb
         _endpoints.at(endpointData.first).at(endpointData.second) = client_id;
         client_id++;
         std::vector<byte> new_buffer = serialize_header::serializeHeader<packet_new_connection>(NETWORK_CLIENT_TO_SERVER::NEW_CLIENT, new_connect);
-        _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(new_buffer);
+        _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(std::pair<int, std::vector<byte>>(client_id, new_buffer));
     } else
         //*
-        _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(_buffer_to_get);
+        _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(std::pair<int, std::vector<byte>> (_endpoints.at(endpointData.first).at(endpointData.second), _buffer_to_get));
 
     ReceivePackets();
 }
