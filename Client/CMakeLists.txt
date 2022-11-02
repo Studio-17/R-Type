@@ -31,7 +31,6 @@ file(GLOB SOURCE_FILES
     Source/System/RectSystem/*cpp
     Source/System/KillSystem/*cpp
     Source/System/MouseSystem/*cpp
-    Source/System/ButtonSystem/*.cpp
     Source/fileConfig/*.cpp
     Source/AssetManager/*.cpp
 )
@@ -60,7 +59,6 @@ include_directories(
     Source/System/RectSystem/
     Source/System/KillSystem/
     Source/System/MouseSystem/
-    Source/System/ButtonSystem/
     Source/AssetManager/
     Source/fileConfig/
 )

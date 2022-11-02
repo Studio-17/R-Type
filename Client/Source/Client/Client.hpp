@@ -29,7 +29,6 @@
 	#include "NetworkSystem.hpp"
 	#include "KillSystem.hpp"
 	#include "MouseSystem.hpp"
-	#include "ButtonSystem.hpp"
 
 	#include "AssetManager.hpp"
 
@@ -119,6 +118,13 @@ class Client
 		 * @param byte bytes to read
 		 */
 		void sendNewShoot(std::vector<byte> &byte);
+
+		/**
+		 * @brief A method to load the assets of the button
+		 * 
+		 * @param byte bytes to read
+		 */
+		void loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets);
 
 		/**
 		 * @brief A method to configure and load the threadloop
