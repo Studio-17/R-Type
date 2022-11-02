@@ -97,6 +97,21 @@ class Registry
         };
 
         /**
+         * @brief A method that create an entity and add all components you want to it
+         *
+         * @tparam Components
+         * @param cmps
+         * @return Entity
+         */
+        template <class ...Components>
+        Entity spawn_entity_with(Components && ...components) {
+            Entity e = spawn_entity();
+
+            (add_component(e, std::forward<Components>(components)), ...);
+            return e;
+        }
+
+        /**
          * @brief A method to get an entity with its index
          *
          * @param idx

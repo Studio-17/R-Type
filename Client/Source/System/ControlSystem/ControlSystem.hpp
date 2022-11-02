@@ -17,6 +17,7 @@
 	#include "CNetworkQueue.hpp"
 	#include "CServerId.hpp"
 	#include "CIdOfShip.hpp"
+	#include "CSceneId.hpp"
 
 /**
  * @brief ControlSystem class that handles the control of all the entities
@@ -37,12 +38,14 @@ class ControlSystem {
 
 		/**
 		 * @brief Function that will be automaticaly called while the client is working (on loop)
-		 *
-		 * @param registry The registry that contains all the ECS
-		 * @param positions Sparse array of all position component of all entities
-		 * @param velocities Sparse array of all velocity component of all entities
+		 * 
+		 * @param registry the registry of the server
+		 * @param keyboards the sparse array of keyboard entities
+		 * @param network the sparse array of network entities
+		 * @param idOfShip the sparse array of idOfShip entities
+		 * @param scenesId the sparse array of scenesId entities
 		 */
-		void operator()(Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip);
+		void operator()(Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip, Sparse_array<component::csceneid_t> &scenesId);
 
 		/**
 		 * @brief A method to add a task for the server through the network queue

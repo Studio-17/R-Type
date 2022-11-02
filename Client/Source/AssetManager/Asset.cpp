@@ -15,6 +15,8 @@ Asset::Asset(nlohmann::json const &jsonData) :
 {
     _rectangle.nb_frames = jsonData.value("nbFrame", 1);
     _rectangle.current_frame = 1;
+    _rectangle.x = 0;
+    _rectangle.y = 0;
     _rectangle.width = _texture.getWidth() / _rectangle.nb_frames;
     _rectangle.height = _texture.getHeight();
 }

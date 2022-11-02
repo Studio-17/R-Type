@@ -1,0 +1,10 @@
+{
+    "menu button": {
+        "textureId": 8,
+        "position": [300, 300]
+    },
+    "menu button2": {
+        "textureId": 9,
+        "position": [100, 300]
+    }
+}

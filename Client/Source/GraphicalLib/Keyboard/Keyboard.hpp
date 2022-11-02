@@ -118,6 +118,9 @@ class Keyboard {
          */
         int getKeySpaceCharCode() const;
 
+        int getKeySCharCode() const;
+        int getKeyDCharCode() const;
+
 
         /**
          * @brief Get the Keys Pressed object

@@ -2,11 +2,11 @@
 ** EPITECH PROJECT, 2022
 ** B-CPP-500-PAR-5-1-rtype-martin.vanaud
 ** File description:
-** CurrScene
+** CSceneId
 */
 
-#ifndef CURRSCENE_HPP_
-    #define CURRSCENE_HPP_
+#ifndef CSCENEID_HPP_
+    #define CSCENEID_HPP_
 
     #include "Constant.hpp"
 
@@ -19,10 +19,9 @@ namespace component {
      * @brief Structure representing the current scene loaded
      *
      */
-    typedef struct currScene_s {
-        SCENE currScene; ///< Current scene loaded
-        bool isLoaded; ///< Is the scene loaded
-    } currScene_t;
+    typedef struct csceneid_s {
+        SCENE sceneId; ///< Id of a scene linked to the enum SCENE
+    } csceneid_t;
 }
 
-#endif /* !CURRSCENE_HPP_ */
+#endif /* !CSCENEID_HPP_ */
