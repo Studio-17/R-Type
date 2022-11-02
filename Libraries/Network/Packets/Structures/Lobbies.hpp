@@ -54,4 +54,11 @@ struct packet_join_lobby {
     int id;
 };
 
+/**
+ * @brief A packet to tell the server you want to join a room
+ */
+struct packet_nb_players_in_lobby {
+    int nbPlayers;
+};
+
 #endif /* !LOBBIES_HPP_ */
