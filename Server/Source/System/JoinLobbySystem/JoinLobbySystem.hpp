@@ -16,7 +16,7 @@
 class JoinLobbySystem {
     public:
         JoinLobbySystem();
-        ~JoinLobbySystem();
+        ~JoinLobbySystem() = default;
 
         void operator()(Sparse_array<component::cnetwork_queue_t> &networkQueue, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities);
 

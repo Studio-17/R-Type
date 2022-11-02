@@ -118,6 +118,12 @@ class Keyboard {
          */
         int getKeySpaceCharCode() const;
 
+        /**
+         * @brief Get the Key Enter Char Code object
+         *
+         * @return int
+         */
+        int getKeyEnterCharCode() const;
 
         /**
          * @brief Get the Keys Pressed object
