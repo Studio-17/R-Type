@@ -40,6 +40,7 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     setUpSystems();
     setUpComponents();
     _thread = std::thread(&Client::threadLoop, this);
+    _registry.add_system(_buttonSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>(), _registry.get_components<component::casset_t>());
 }
 
 Client::~Client()
@@ -150,14 +151,14 @@ void Client::setUpComponents()
         component::csceneid_t{ .sceneId = SCENE::ALL }
     );
 
-    // Menu Scene
-    Entity button = _registry.spawn_entity_with(
-        component::crect_t{ assetMan.assets.at(8).getRectangle() },
-        component::cposition_t{ .x = 500, .y = 500 },
-        component::ctype_t{ .type = BUTTON },
-        component::cassetid_t{ .assets = 8 },
-        component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
-    );
+    // // Menu Scene
+    // Entity button = _registry.spawn_entity_with(
+    //     component::crect_t{ assetMan.assets.at(8).getRectangle() },
+    //     component::cposition_t{ .x = 500, .y = 500 },
+    //     component::ctype_t{ .type = BUTTON },
+    //     component::cassetid_t{ .assets = 8 },
+    //     component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
+    // );
 }
 
 void Client::threadLoop()

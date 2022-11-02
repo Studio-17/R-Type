@@ -52,5 +52,11 @@
         "nbFrame": 1,
         "scale": 1.0,
         "texture": "Assets/sprites/button.png"
+    },
+    "button2": {
+        "id": 9,
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "Assets/sprites/button.png"
     }
 }
