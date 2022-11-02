@@ -15,13 +15,18 @@
 	#include "CSceneId.hpp"
     #include "CRect.hpp"
     #include "CType.hpp"
+    #include "Constant.hpp"
 
 class MouseSystem {
     public:
         MouseSystem();
         ~MouseSystem() = default;
 
-		void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects, Sparse_array<component::csceneid_t> &sceneId, Sparse_array<component::ctype_t> &types);
+		void operator()(Registry &registry,
+                        Sparse_array<component::cposition_t> &positions,
+                        Sparse_array<component::crect_t> &rects,
+                        Sparse_array<component::csceneid_t> &scenesId,
+                        Sparse_array<component::ctype_t> &types);
 
     protected:
     private:

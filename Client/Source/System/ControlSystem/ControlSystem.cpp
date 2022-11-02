@@ -38,10 +38,10 @@ void ControlSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_arr
             if (x || y)
                 addToNetworkQueue(x, y, network, idOfShip[0].value().id);
         }
-        if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySCharCode()))
-            scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
-        if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeyDCharCode()))
-            scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
+        // if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySCharCode()))
+        //     scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
+        // if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeyDCharCode()))
+        //     scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
     }
 }
 
