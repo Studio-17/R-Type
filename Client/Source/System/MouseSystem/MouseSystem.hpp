@@ -11,10 +11,10 @@
     #include "Registry.hpp"
     #include "GraphicalLib.hpp"
 	#include "CPosition.hpp"
-	// #include "CNetworkQueue.hpp"
 	#include "CSceneId.hpp"
     #include "CRect.hpp"
     #include "CType.hpp"
+    #include "CCallback.hpp"
     #include "Constant.hpp"
 
 class MouseSystem {
@@ -26,7 +26,8 @@ class MouseSystem {
                         Sparse_array<component::cposition_t> &positions,
                         Sparse_array<component::crect_t> &rects,
                         Sparse_array<component::csceneid_t> &scenesId,
-                        Sparse_array<component::ctype_t> &types);
+                        Sparse_array<component::ctype_t> &types,
+                        Sparse_array<component::ccallback_t> &callbacks);
 
     protected:
     private:

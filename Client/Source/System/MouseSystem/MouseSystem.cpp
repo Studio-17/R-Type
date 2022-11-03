@@ -12,7 +12,7 @@ MouseSystem::MouseSystem()
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void MouseSystem::operator()([[ maybe_unused ]] Registry &registry, [[ maybe_unused ]] Sparse_array<component::cposition_t> &positions, [[ maybe_unused ]] Sparse_array<component::crect_t> &rects, [[ maybe_unused ]] Sparse_array<component::csceneid_t> &scenesId, [[ maybe_unused ]] Sparse_array<component::ctype_t> &types)
+void MouseSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::ctype_t> &types, Sparse_array<component::ccallback_t> &callbacks)
 {
     Position mouse = _graphicLib->getMousePosition();
 
@@ -22,9 +22,11 @@ void MouseSystem::operator()([[ maybe_unused ]] Registry &registry, [[ maybe_unu
             auto &scene = scenesId[i];
             auto &type = types[i];
             auto &pos = positions[i];
+            auto &callback = callbacks[i];
 
-            if (type->type == ENTITY_TYPE::BUTTON && scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId == scene->sceneId && _graphicLib->checkMouseCollision(_graphicLib->getMousePosition(), pos->x, pos->y, rect->width, rect->height) && _graphicLib->IsLeftMouseButtonPressed())
-                scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
+            if (type->type == ENTITY_TYPE::BUTTON && scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId == scene->sceneId && _graphicLib->checkMouseCollision(_graphicLib->getMousePosition(), pos->x, pos->y, rect->width, rect->height) && _graphicLib->IsLeftMouseButtonPressed()) {
+                callback.value().callback();
+            }
         }
     }
 }

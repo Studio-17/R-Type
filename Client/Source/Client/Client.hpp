@@ -9,6 +9,8 @@
     #define CLIENT_HPP_
 
 	#include <thread>
+	#include <unordered_map>
+	#include <functional>
 
 	#include <asio/buffer.hpp>
     #include <asio/ip/udp.hpp>
@@ -79,10 +81,18 @@ class Client
 		void machineRun();
 
 		/**
-		 * @brief A method to try to connect to a target server 
+		 * @brief A method to try to connect to a target server
 		 * 
 		 */
 		void tryToConnect();
+
+		/**
+		 * @brief A method to load the assets of the button
+		 * 
+		 * @param byte bytes to read
+		 */
+		void loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets);
+
 
 	private:
 		/**
@@ -120,17 +130,12 @@ class Client
 		void sendNewShoot(std::vector<byte> &byte);
 
 		/**
-		 * @brief A method to load the assets of the button
-		 * 
-		 * @param byte bytes to read
-		 */
-		void loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets);
-
-		/**
 		 * @brief A method to configure and load the threadloop
 		 * 
 		 */
 		void threadLoop();
+		void startBtn();
+		void otherBtn();
 
 		asio::io_context _context; ///< An asio context object to handle basic I/O
 
@@ -142,6 +147,8 @@ class Client
 		std::thread _thread; ///< thread to handle ECS
 		bool _connected; ///< A boolean to check if the clientis conncted to the server
 		AssetManager _assetManager;
+		// std::map<std::size_t, std::function<void(void)>> _callbackMap; ///< A map of callbacks
+		std::vector<std::function<void(void)>> _callbackMap; ///< A map of callbacks
 
 		// Systems
 		NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues
@@ -153,7 +160,6 @@ class Client
 		MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
 		KillSystem _killSystem; ///< System that kill entity
 		MouseSystem _mouseSystem; ///< System that handle mouse events
-		ButtonSystem _buttonSystem; ///< System that handle button events
 };
 
 #endif /* !CLIENT_HPP_ */
