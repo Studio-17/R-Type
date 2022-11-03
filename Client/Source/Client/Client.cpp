@@ -145,12 +145,12 @@ void Client::setUpComponents()
     );
 
     Entity parallax = _registry.spawn_entity_with(
-        component::crect_t{ assetMan.assets.at(0).getRectangle() },
+        component::crect_t{ assetMan.assets.at("parallax").getRectangle() },
         component::cposition_t{ .x = 0, .y = 0 },
         component::cdirection_t{ .x = -1, .y = 0 },
         component::ctype_t{ .type = UI },
         component::cvelocity_t{ .velocity = 1 },
-        component::cassetid_t{ .assets = 0 },
+        component::cassetid_t{ .assets = "parallax" },
         component::csceneid_t{ .sceneId = SCENE::ALL }
     );
 
@@ -169,7 +169,7 @@ static nlohmann::json getJsonData(std::string const &filepath)
     return jsonData;
 }
 
-void Client::startBtn()
+void Client::startGameScene()
 {
     _registry.get_components<component::csceneid_t>()[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
 }
@@ -186,13 +186,13 @@ void Client::loadButton(std::string const &filepath, Sparse_array<component::cas
     }
 
     _callbackMap = {
-        std::bind(&Client::startBtn, this),
+        {"start-game", std::bind(&Client::startGameScene, this)}
     };
 
     for (auto &oneData: jsonData) {
-        std::size_t assetId = oneData.value("textureId", 0);
+        std::string assetId = oneData.value("textureId", "button");
         std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
-        std::size_t callbackType = oneData.value("callback-type", -1);
+        std::string callbackType = oneData.value("callback-type", "undifined");
 
         Entity button = _registry.spawn_entity_with(
             component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle() },

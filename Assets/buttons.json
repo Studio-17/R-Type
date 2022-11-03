@@ -1,7 +1,7 @@
 {
     "start-btn": {
-        "textureId": 8,
+        "textureId": "button",
         "position": [300, 300],
-        "callback-type": 0
+        "callback-type": "start-game"
     }
 }

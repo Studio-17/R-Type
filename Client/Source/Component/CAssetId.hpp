@@ -20,7 +20,7 @@ namespace component {
      *
      */
     struct cassetid_t {
-        std::size_t assets;
+        std::string assets;
     };
 }
 
