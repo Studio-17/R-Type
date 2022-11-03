@@ -1,10 +1,7 @@
 {
-    "menu button": {
+    "start-btn": {
         "textureId": 8,
-        "position": [300, 300]
-    },
-    "menu button2": {
-        "textureId": 9,
-        "position": [100, 300]
+        "position": [300, 300],
+        "callback-type": 0
     }
 }
