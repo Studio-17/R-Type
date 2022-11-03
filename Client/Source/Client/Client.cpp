@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <functional>
+#include <fstream>
 
 #include "Client.hpp"
 #include "CSceneId.hpp"
@@ -40,7 +41,6 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     setUpSystems();
     setUpComponents();
     _thread = std::thread(&Client::threadLoop, this);
-    _registry.add_system(_buttonSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>(), _registry.get_components<component::casset_t>());
 }
 
 Client::~Client()
@@ -140,25 +140,57 @@ void Client::setUpComponents()
         component::casset_t{ .assets = assetMan.assets },
         component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
     );
+    // std::cout << "YO" << std::endl;
 
     Entity parallax = _registry.spawn_entity_with(
-        component::crect_t{ assetMan.assets.at(0).getRectangle() },
+        component::crect_t{ assetMan.assets.at("parallax").getRectangle() },
         component::cposition_t{ .x = 0, .y = 0 },
         component::cdirection_t{ .x = -1, .y = 0 },
         component::ctype_t{ .type = UI },
         component::cvelocity_t{ .velocity = 1 },
-        component::cassetid_t{ .assets = 0 },
+        component::cassetid_t{ .assets = "parallax" },
         component::csceneid_t{ .sceneId = SCENE::ALL }
     );
+    // std::cout << "COOL" << std::endl;
 
-    // // Menu Scene
-    // Entity button = _registry.spawn_entity_with(
-    //     component::crect_t{ assetMan.assets.at(8).getRectangle() },
-    //     component::cposition_t{ .x = 500, .y = 500 },
-    //     component::ctype_t{ .type = BUTTON },
-    //     component::cassetid_t{ .assets = 8 },
-    //     component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
-    // );
+    loadButton("Assets/buttons.json", _registry.get_components<component::casset_t>());
+}
+
+static nlohmann::json getJsonData(std::string const &filepath)
+{
+    nlohmann::json jsonData;
+    std::ifstream confStream(filepath);
+
+    if (!confStream.is_open())
+        throw ("file " + filepath + " failed to open");
+    confStream >> jsonData;
+    confStream.close();
+    return jsonData;
+}
+
+void Client::loadButton(std::string const &filepath, [[ maybe_unused ]]Sparse_array<component::casset_t> &assets)
+{
+    nlohmann::json jsonData;
+
+    try {
+        jsonData = getJsonData(filepath);
+    } catch (std::exception const &e) {
+        std::cerr << e.what() << std::endl;
+        return;
+    }
+
+    for (auto &oneData: jsonData) {
+        std::string assetId = oneData.value("textureId", "button");
+        std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
+
+        Entity button = _registry.spawn_entity_with(
+            component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle() },
+            component::cposition_t{ pos[0], pos[1] },
+            component::ctype_t{ .type = BUTTON },
+            component::cassetid_t{ .assets = assetId },
+            component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
+        );
+    }
 }
 
 void Client::threadLoop()
