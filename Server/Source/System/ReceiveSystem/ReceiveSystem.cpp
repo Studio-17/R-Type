@@ -60,3 +60,10 @@ void System::ReceiveSystem::addJoinLobbyOnQueue(std::vector<byte> const &data, i
     packet_join_lobby join_lobby = serializable_trait<packet_join_lobby>::unserialize(data);
     queues[FORBIDDEN_IDS::NETWORK].value().joinLobbyQueue.push(std::pair<int, packet_join_lobby>(clientId, join_lobby));
 }
+
+void System::ReceiveSystem::addStartGameOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues)
+{
+    std::cout << "[SERVER] Receice system : Start Game request has been sent by Client " << clientId << std::endl;
+    packet_start_game start_game = serializable_trait<packet_start_game>::unserialize(data);
+    queues[FORBIDDEN_IDS::NETWORK].value().startGameQueue.push(std::pair<int, packet_start_game>(clientId, start_game));
+}

@@ -9,6 +9,7 @@
 #include "CLobbyId.hpp"
 #include "Constant.hpp"
 #include "Lobbies.hpp"
+#include "NewConnection.hpp"
 #include "Serialization.hpp"
 
 NewClientSystem::NewClientSystem() {
@@ -23,7 +24,7 @@ void NewClientSystem::operator()(Registry &registry, Sparse_array<component::cne
 
         // ADD A NETWORK ID TO CLIENT ENTITY
         component::cnetwork_id_t netId;
-        std::cout << "new client connected with id " << newConnect.second.id << std::endl;
+        std::cout << "New client System : network client id:  " << newConnect.second.id << std::endl;
         netId.id = newConnect.second.id;
         registry.add_component<component::cnetwork_id_t>(newClient, std::move(netId));
 
@@ -41,13 +42,13 @@ void NewClientSystem::operator()(Registry &registry, Sparse_array<component::cne
         lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(lobbyId.id).push_back(newClient);
 
         netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.pop();
-        sendLobbiesStatus(netqueue, lobbiesToEntities);
+        sendLobbiesStatus(newClient, netqueue, lobbiesToEntities);
         // for (auto &[netId, clientId]: netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId)
         //     std::cout << "[CLIENT] ids: " << netId << ", " << clientId << std::endl;
     }
 }
 
-void NewClientSystem::sendLobbiesStatus(Sparse_array<component::cnetwork_queue_t> &networkQueue, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities) {
+void NewClientSystem::sendLobbiesStatus(int clientId, Sparse_array<component::cnetwork_queue_t> &networkQueue, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities) {
     packet_send_lobbies sendLobbiesPacket;
 
     sendLobbiesPacket.nbOfLobbies = 3;
@@ -56,6 +57,9 @@ void NewClientSystem::sendLobbiesStatus(Sparse_array<component::cnetwork_queue_t
     sendLobbiesPacket.nbPlayersLobbyThree = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(3).size();
 
 
-    std::vector<byte> data = serialize_header::serializeHeader<packet_send_lobbies>(NETWORK_SERVER_TO_CLIENT::SEND_LOBBYS, sendLobbiesPacket);
-    networkQueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(std::pair<int, std::vector<byte>>(0, data));
+    packet_new_connection_response newConnectResponse;
+    newConnectResponse.id = clientId;
+    networkQueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(std::pair<int, std::vector<byte>>(0, serialize_header::serializeHeader<packet_new_connection_response>(NETWORK_SERVER_TO_CLIENT::NEW_CLIENT_RESPONSE, newConnectResponse)));
+    std::cout << " New client system : send Lobbies status : new client ecs id :  "<< clientId << std::endl;
+    networkQueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(std::pair<int, std::vector<byte>>(0, serialize_header::serializeHeader<packet_send_lobbies>(NETWORK_SERVER_TO_CLIENT::SEND_LOBBYS, sendLobbiesPacket)));
 }

@@ -45,8 +45,10 @@ void NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_arr
             handleNewPlayerAndDispatchToNewEntityQueue(bufferWithoutId, network, idOfShip);
         if (id == NETWORK_SERVER_TO_CLIENT::SEND_LOBBYS)
             dispatchToGetLobbiesQueue(bufferWithoutId, network);
-        if (id == NETWORK_SERVER_TO_CLIENT::NB_PLAYERS_IN_LOBBY)
+        if (id == NETWORK_SERVER_TO_CLIENT::NUMBER_PLAYERS_IN_LOBBY)
             dispatchNbPlayersInLobbyQueue(bufferWithoutId, network);
+        if (id == NETWORK_SERVER_TO_CLIENT::NEW_CLIENT_RESPONSE)
+            dispatchNetworkClientIdQueue(bufferWithoutId, network);
 
         network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.pop();
     }
@@ -91,3 +93,10 @@ void NetworkSystem::dispatchNbPlayersInLobbyQueue(std::vector<byte> &bytes, Spar
     packet_nb_players_in_lobby packet = serializable_trait<packet_nb_players_in_lobby>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK].value().nbPlayerInLobbyQueue.push(packet);
 }
+
+void NetworkSystem::dispatchNetworkClientIdQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+{
+    packet_new_connection_response packet = serializable_trait<packet_new_connection_response>::unserialize(bytes);
+    network[FORBIDDEN_IDS::NETWORK].value().newConnectionResponseQueue.push(packet);
+}
+

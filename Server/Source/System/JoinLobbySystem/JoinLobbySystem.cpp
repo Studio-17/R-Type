@@ -53,7 +53,7 @@ void JoinLobbySystem::operator()([[ maybe_unused ]]Registry &registry, Sparse_ar
                 return;
             }
 
-            networkQueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({packet.second.id, serialize_header::serializeHeader<packet_nb_players_in_lobby>(NETWORK_SERVER_TO_CLIENT::NB_PLAYERS_IN_LOBBY, nbPlayersInLobby)});
+            networkQueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({packet.second.id, serialize_header::serializeHeader<packet_nb_players_in_lobby>(NETWORK_SERVER_TO_CLIENT::NUMBER_PLAYERS_IN_LOBBY, nbPlayersInLobby)});
             networkQueue[FORBIDDEN_IDS::NETWORK].value().joinLobbyQueue.pop();
         }
     }

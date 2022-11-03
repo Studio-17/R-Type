@@ -82,7 +82,23 @@ namespace System {
              */
             void addDisconnectionOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues);
 
+            /**
+             * @brief Add a packet to the queue of join lobby handling
+             * 
+             * @param data 
+             * @param clientId 
+             * @param queues 
+             */
             void addJoinLobbyOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues);
+
+            /**
+             * @brief Add a packet to the queue of start game handling
+             * 
+             * @param data 
+             * @param clientId 
+             * @param queues 
+             */
+            void addStartGameOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues);
 
 
             /**
@@ -98,7 +114,9 @@ namespace System {
                 {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION, std::bind(&ReceiveSystem::addMoveOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)},
                 {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT, std::bind(&ReceiveSystem::addShootOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)},
                 {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DISCONNECTION, std::bind(&ReceiveSystem::addDisconnectionOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)},
-                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, std::bind(&ReceiveSystem::addJoinLobbyOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)}
+                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, std::bind(&ReceiveSystem::addJoinLobbyOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)},
+                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::START_GAME, std::bind(&ReceiveSystem::addStartGameOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)}
+
             };
     };
 };

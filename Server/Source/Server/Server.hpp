@@ -35,12 +35,13 @@
     #include "System/ReceiveSystem/ReceiveSystem.hpp"
     #include "System/DirectionSystem/DirectionSystem.hpp"
     #include "ShootSystem.hpp"
-    #include "System/NewPlayerSystem/NewPlayerSystem.hpp"
+    // #include "System/NewPlayerSystem/NewPlayerSystem.hpp"
     #include "System/SpawnEnemySystem/SpawnEnemySystem.hpp"
     #include "System/HitboxSystem/HitboxSystem.hpp"
     #include "System/DisconnectionSystem/DisconnectionSystem.hpp"
     #include "System/NewClientSystem/NewClientSystem.hpp"
     #include "System/JoinLobbySystem/JoinLobbySystem.hpp"
+    #include "StartGameSystem.hpp"
 
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
@@ -141,13 +142,14 @@ class Server {
         MoveSystem _moveSystem; ///< An object MoveSystem to manage it in the server
         DirectionSystem _directionSystem; ///< An object DirectionSystem to manage it in the server
         ShootSystem _shootSystem; ///< An object ShootSystem to manage it in the server
-        NewPlayerSystem _newPlayerSystem; ///< An object NewPlayerSystem to manage it in the server
+        // NewPlayerSystem _newPlayerSystem; ///< An object NewPlayerSystem to manage it in the server
         SpawnEnemySystem _spawnEnemySystem; ///< An object SpawnEnemySystem to manage it in the server
         System::ReceiveSystem _receiveSystem; ///< An object ReceiveSystem to manage it in the server
         System::HitboxSystem _hitboxSystem; ///< An object HitboxSystem to manage it in the server
         DisconnectionSystem _disconnectionSystem; ///< An object DisconnectionSystem to manage it in the server
         NewClientSystem _newClientSystem; ///< An object DisconnectionSystem to manage it in the server
-        JoinLobbySystem _joinLobbySystem; ///< An object DisconnectionSystem to manage it in the server
+        JoinLobbySystem _joinLobbySystem; ///< An object DisconnectionSystem to manage it in the 
+        StartGameSystem _startGameSystem;
 
         bool _serverIsRunning = true; ///< A boolean to manage the server loop
 };

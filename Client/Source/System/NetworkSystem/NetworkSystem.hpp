@@ -87,6 +87,15 @@ class NetworkSystem {
          */
         void dispatchNbPlayersInLobbyQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
+
+        /**
+         * @brief A method to send informations to the network client id queue
+         * 
+         * @param bytes 
+         * @param network 
+         */
+        void dispatchNetworkClientIdQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+
     protected:
     private:
 };

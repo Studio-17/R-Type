@@ -8,11 +8,12 @@
 #ifndef CNETWORKQUEUE_HPP_
 #define CNETWORKQUEUE_HPP_
 
-    #include <queue>
-    #include "Structures/NewEntity.hpp"
-    #include "Structures/Position.hpp"
-    #include "KillEntity.hpp"
-    #include "Lobbies.hpp"
+#include "KillEntity.hpp"
+#include "Lobbies.hpp"
+#include "NewConnection.hpp"
+#include "Structures/NewEntity.hpp"
+#include "Structures/Position.hpp"
+#include <queue>
 
 using byte = unsigned char;
 
@@ -33,6 +34,7 @@ namespace component {
         std::queue<packet_nb_players_in_lobby> nbPlayerInLobbyQueue;
         std::queue<packet_kill_entity> killEntityQueue;
         std::queue<packet_send_lobbies> getLobbiesQueue;
+        std::queue<packet_new_connection_response> newConnectionResponseQueue;
     } cnetwork_queue_t;
 }
 

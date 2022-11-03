@@ -38,8 +38,7 @@ namespace NETWORK_SERVER_TO_CLIENT {
         NEW_CLIENT_RESPONSE,
         SEND_LOBBYS,
         CREATE_LOBBY_RESPONSE,
-        NB_PLAYERS_IN_LOBBY,
-
+        NUMBER_PLAYERS_IN_LOBBY,
     };
 };
 

@@ -30,6 +30,7 @@
 	#include "KillSystem.hpp"
 	#include "GetLobbiesSystem/GetLobbiesSystem.hpp"
 	#include "SetNbPlayerInLobbySystem.hpp"
+	#include "NewClientResponseSystem.hpp"
 
 	#include "AssetManager.hpp"
 
@@ -154,6 +155,7 @@ class Client
 		KillSystem _killSystem; ///< System that kill entity
 		GetLobbiesSystem _getLobbiesSystem;
 		SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem;
+		NewClientResponseSystem _newClientResponseSystem;
 };
 
 #endif /* !CLIENT_HPP_ */
