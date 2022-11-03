@@ -1,6 +1,8 @@
 {
-    "menu button": {
+    "start-btn": {
         "textureId": "button",
-        "position": [300, 300]
+        "position": [300, 300],
+        "scene": 4,
+        "callback-type": "start-game"
     }
 }
