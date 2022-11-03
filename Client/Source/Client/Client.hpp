@@ -153,7 +153,6 @@ class Client
 		MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
 		KillSystem _killSystem; ///< System that kill entity
 		MouseSystem _mouseSystem; ///< System that handle mouse events
-		ButtonSystem _buttonSystem; ///< System that handle button events
 };
 
 #endif /* !CLIENT_HPP_ */

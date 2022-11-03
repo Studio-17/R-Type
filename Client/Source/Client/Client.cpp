@@ -140,16 +140,18 @@ void Client::setUpComponents()
         component::casset_t{ .assets = assetMan.assets },
         component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
     );
+    // std::cout << "YO" << std::endl;
 
     Entity parallax = _registry.spawn_entity_with(
-        component::crect_t{ assetMan.assets.at(0).getRectangle() },
+        component::crect_t{ assetMan.assets.at("parallax").getRectangle() },
         component::cposition_t{ .x = 0, .y = 0 },
         component::cdirection_t{ .x = -1, .y = 0 },
         component::ctype_t{ .type = UI },
         component::cvelocity_t{ .velocity = 1 },
-        component::cassetid_t{ .assets = 0 },
+        component::cassetid_t{ .assets = "parallax" },
         component::csceneid_t{ .sceneId = SCENE::ALL }
     );
+    // std::cout << "COOL" << std::endl;
 
     loadButton("Assets/buttons.json", _registry.get_components<component::casset_t>());
 }
@@ -166,7 +168,7 @@ static nlohmann::json getJsonData(std::string const &filepath)
     return jsonData;
 }
 
-void Client::loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets)
+void Client::loadButton(std::string const &filepath, [[ maybe_unused ]]Sparse_array<component::casset_t> &assets)
 {
     nlohmann::json jsonData;
 
@@ -178,7 +180,7 @@ void Client::loadButton(std::string const &filepath, Sparse_array<component::cas
     }
 
     for (auto &oneData: jsonData) {
-        std::size_t assetId = oneData.value("textureId", 0);
+        std::string assetId = oneData.value("textureId", "button");
         std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
 
         Entity button = _registry.spawn_entity_with(

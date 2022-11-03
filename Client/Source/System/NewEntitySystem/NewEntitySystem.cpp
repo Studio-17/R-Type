@@ -16,6 +16,11 @@
 NewEntitySystem::NewEntitySystem()
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
+    _entityType = {
+        {7, "bullet"},
+        {6, "enemy"},
+        {1, "blueSpaceShip"}
+    };
 }
 
 static bool findEntity(Sparse_array<component::cserverid_t> &serverIds, uint16_t idToFind)
@@ -50,11 +55,11 @@ void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity
 
     Entity bullet = registry.spawn_entity_with(
         component::cdirection_t{ .x = 1, .y = 0 },
-        component::crect_t{ asset.at(newEntity.type).getRectangle() },
+        component::crect_t{ asset.at(_entityType.at(newEntity.type)).getRectangle() },
         component::cposition_t{ .x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY) },
         component::cserverid_t{ .id = newEntity.id },
         component::cvelocity_t{ .velocity = 14 },
-        component::cassetid_t{ .assets = newEntity.type },
+        component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
         component::csceneid_t{ .sceneId = SCENE::GAME }
     );
 }
@@ -65,11 +70,11 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity,
 
     Entity enemy = registry.spawn_entity_with(
         component::cdirection_t{ .x = -1, .y = 0 },
-        component::crect_t{ asset.at(newEntity.type).getRectangle() },
+        component::crect_t{ asset.at(_entityType.at(newEntity.type)).getRectangle() },
         component::cposition_t{ .x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY) },
         component::cserverid_t{ .id = newEntity.id },
         component::cvelocity_t{ .velocity = 4 },
-        component::cassetid_t{ .assets = newEntity.type },
+        component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
         component::csceneid_t{ .sceneId = SCENE::GAME }
     );
 }
@@ -80,11 +85,11 @@ void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, 
 
     Entity enemy = registry.spawn_entity_with(
         component::cdirection_t{ .x = 0, .y = 0},
-        component::crect_t{ asset.at(newEntity.type).getRectangle() },
+        component::crect_t{ asset.at(_entityType.at(newEntity.type)).getRectangle() },
         component::cposition_t{ .x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY) },
         component::cserverid_t{ .id = newEntity.id },
         component::cvelocity_t{ .velocity = 4 },
-        component::cassetid_t{ .assets = newEntity.type },
+        component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
         component::csceneid_t{ .sceneId = SCENE::GAME }
     );
 }
