@@ -119,6 +119,8 @@ class Client
 		 */
 		void sendNewShoot(std::vector<byte> &byte);
 
+		void loadParallax(Sparse_array<component::casset_t> &assets);
+
 		/**
 		 * @brief A method to load the assets of the button
 		 * 
