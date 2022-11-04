@@ -8,45 +8,41 @@
 #include <iostream>
 #include <cstdlib>
 #include <regex>
+#include <algorithm>
 
 #include "Client.hpp"
 
-static void printHelper()
+static std::map<std::string, std::string> getConfigurationFiles(char const * const* av)
 {
-	std::cout << "./r-type_client [ip] [port] [hostPort]" << std::endl;
-}
+    std::map<std::string, std::string> configurations;
+    std::regex jsonRegex("[A-Za-z0-9-_]+.json");
 
-static bool isGoodArguments(std::string const &ip, std::string const &port, std::string const &hostPort)
-{
-    std::regex portRegex("^[0-9]{1,5}$");
-    std::regex ipRegex("^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$");
+    for (int index = 1; av[index]; index += 1) {
+        if (std::regex_search(av[index], jsonRegex)) {
 
-    if (std::regex_match(port, portRegex) && std::regex_match(hostPort, portRegex))
-        return true;
-    else {
-        std::cout << "The port must be between 0 and 99999" << std::endl;
-        return false;
+            std::string filepath(av[index]);
+            std::string base_filename = filepath.substr(filepath.find_last_of("/\\") + 1);
+            std::string::size_type const p(base_filename.find_last_of('.'));
+            std::string file_without_extension = base_filename.substr(0, p);
+            std::for_each(file_without_extension.begin(), file_without_extension.end(), [](char & c) {
+                c = ::toupper(c);
+            });
+
+            configurations.insert({file_without_extension, av[index]});
+        }
     }
 
-    if (std::regex_match(ip, ipRegex))
-        return true;
-    else {
-        std::cout << "The ip address must match the following pattern ^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$" << std::endl;
-        return false;
-    }
+    if (configurations.empty())
+        exit(84);
+
+    return configurations;
 }
 
-int main(int ac, char const * const* av)
+int main(int ac [[maybe_unused]], char const * const* av)
 {
-	if (ac != 4 || !isGoodArguments(av[1], av[2], av[3])) {
-		printHelper();
-		return (0);
-	}
+    std::map<std::string, std::string> configurationFiles = getConfigurationFiles(av);
 
-	std::string currentHost;
-	strcmp(av[1], "localhost") == 0 ? currentHost = "127.0.0.1" : currentHost = av[1];
-
-	Client client(currentHost, std::string(av[2]), std::atoi(av[3]));
+	Client client(std::string("localhost"), std::string("8080"), 8081, configurationFiles);
 
     client.machineRun();
 

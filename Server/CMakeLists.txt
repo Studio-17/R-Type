@@ -1,13 +1,15 @@
 cmake_minimum_required(VERSION 3.17)
 
 # set the project name and version
-project(R-Type-Server VERSION ${VERSION})
+project("R-Type" VERSION ${VERSION})
 
 # set executable name
 set(EXECUTABLE_NAME r-type_server)
 
 # set compilation flags
-add_compile_options("-Wall" "-Wextra" "-Werror" "-Wuninitialized" "-Winit-self")
+if(UNIX)
+    add_compile_options("-Wall" "-Wextra" "-Werror" "-Wuninitialized" "-Winit-self")
+endif()
 
 # specify the sources
 file(GLOB SOURCE_FILES
@@ -47,6 +49,15 @@ include_directories(
     Source/System/JoinLobbySystem/
     Source/System/StartGameSystem/
 )
+
+if(MSVC)
+    include_directories("${CMAKE_SOURCE_DIR}/vcpkg_installed/x86-windows/include/")
+    link_directories("${CMAKE_SOURCE_DIR}/vcpkg_installed/x86-windows/lib/")
+endif()
+
+if(UNIX)
+    include_directories("${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-linux/include/")
+endif()
 
 find_package(asio CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)

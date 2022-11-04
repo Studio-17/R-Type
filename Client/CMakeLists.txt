@@ -1,13 +1,38 @@
 cmake_minimum_required(VERSION 3.17)
 
 # set the project name and version
-project(R-Type-Client VERSION ${VERSION})
+project("R-Type" VERSION ${VERSION})
+
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# set project variables
+set(VERSION 0.1.0)
 
 # set executable name
 set(EXECUTABLE_NAME r-type_client)
 
+find_package(raylib 4.0.0 QUIET) # QUIET or REQUIRED
+if (NOT raylib_FOUND) # If there's none, fetch and build raylib
+  include(FetchContent)
+  FetchContent_Declare(
+    raylib
+    URL https://github.com/raysan5/raylib/archive/refs/tags/4.0.0.tar.gz
+  )
+  FetchContent_GetProperties(raylib)
+  if (NOT raylib_POPULATED) # Have we downloaded raylib yet?
+    set(FETCHCONTENT_QUIET NO)
+    FetchContent_Populate(raylib)
+    set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
+    add_subdirectory(${raylib_SOURCE_DIR} ${raylib_BINARY_DIR})
+  endif()
+endif()
+
 # set compilation flags
-add_compile_options("-Wall" "-Wextra" "-Werror" "-Wuninitialized" "-Winit-self")
+if(UNIX)
+    add_compile_options("-Wall" "-Wextra" "-Werror" "-Wuninitialized" "-Winit-self")
+endif()
 
 # specify the sources
 file(GLOB SOURCE_FILES
@@ -69,8 +94,17 @@ include_directories(
     Source/fileConfig/
 )
 
+if(MSVC)
+    include_directories("${CMAKE_SOURCE_DIR}/vcpkg_installed/x86-windows/include/")
+    link_directories("${CMAKE_SOURCE_DIR}/vcpkg_installed/x86-windows/lib/")
+endif()
+
+if(UNIX)
+    include_directories("${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-linux/include/")
+endif()
+
 find_package(asio CONFIG REQUIRED)
-find_package(raylib CONFIG REQUIRED)
+#find_package(raylib CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 
 # Add executable target with source files listed in SOURCE_FILES variable

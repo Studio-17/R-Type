@@ -1,0 +1,50 @@
+{
+    "bullet": {
+        "id": 7,
+        "nbFrame": 2,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/sprites/bullet.png"
+    },
+    "enemy": {
+        "id": 6,
+        "nbFrame": 16,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/sprites/BasicEnemySpriteSheet2.png"
+    },
+    "blueSpaceShip": {
+        "id": 1,
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/sprites/BlueSpaceShip.png"
+    },
+    "greenSpaceShip": {
+        "id": 2,
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/sprites/GreenSpaceShip.png"
+    },
+    "redSpaceShip": {
+        "id": 3,
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/sprites/RedSpaceShip.png"
+    },
+    "purpleSpaceShip": {
+        "id": 4,
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/sprites/PurpleSpaceShip.png"
+    },
+    "marineSpaceShip": {
+        "id": 5,
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/sprites/MarineSpaceShip.png"
+    },
+    "backgroud": {
+        "id": 0,
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/parallax/parallax.png"
+    }
+}
