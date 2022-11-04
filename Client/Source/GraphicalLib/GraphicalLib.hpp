@@ -91,20 +91,24 @@ namespace rtype {
              * @param size size of the sprite
              */
             std::shared_ptr<Sprite> createSprite(std::string const &imagePath, float const &size, Rectangle const &rect) override;
+
             /**
-             * @brief Draw the sprite
+             * @brief Draw a sprite
              * 
-             * @param id id of the sprite
+             * @param texture texture to draw
+             * @param position position of the sprite
+             * @param rotation rotation of the sprite
+             * @param scale scale of the sprite
              */
-            void drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect) override;
+            void drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale);
             /**
-             * @brief Draw the sprite
+             * @brief Draw a rectangle of the sprite
              *
              * @param texture texture to draw
              * @param position position of the texture to draw
              * @param rect rect of the texture to draw
              */
-            void drawSprite(MyTexture const &texture, Position const &position, Rectangle const &rect);
+            void drawRectangle(MyTexture const &texture, Position const &position, Rectangle const &rect);
             /**
              * @brief Destroy the Sprite object
              * 
@@ -156,6 +160,12 @@ namespace rtype {
              * @return false if the two sprites are not colliding
              */
             bool checkCollisions(Sprite const &sprite1, Sprite const &sprite2);
+
+            bool checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width);
+
+            bool IsLeftMouseButtonPressed();
+
+            Position getMousePosition();
 
             /**
              * @brief Create a Text object

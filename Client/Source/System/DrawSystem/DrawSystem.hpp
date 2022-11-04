@@ -14,6 +14,8 @@
     #include "CRect.hpp"
     #include "CAsset.hpp"
     #include "CAssetId.hpp"
+    #include "CSceneId.hpp"
+    #include "Constant.hpp"
 
 /**
  * @brief DrawSystem class that handles the drawing of all the entities
@@ -33,13 +35,15 @@ class DrawSystem {
         ~DrawSystem() = default;
 
         /**
-         * @brief Function that will be automaticaly called while the client is working (on loop)
-         *
-         * @param registry The registry that contains all the ECS
-         * @param positions Sparse array of all position component of all entities
-         * @param rectangles Sparse array of all rectangle component of all entities
+         * @brief Update the DrawSystem
+         * 
+         * @param registry the registry of the server
+         * @param positions the sparse array of position entities
+         * @param rectangles the sparse array of rectangle entities
+         * @param assets the sparse array of asset entities
+         * @param assetsId the sparse array of assetId entities
          */
-        void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId);
+        void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId, Sparse_array<component::csceneid_t> &scenesId);
 
 
     protected:

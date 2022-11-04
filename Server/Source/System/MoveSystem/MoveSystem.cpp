@@ -21,7 +21,7 @@ void MoveSystem::operator()(Registry &registry, [[ maybe_unused ]] Sparse_array<
         timer[0].value().deltaTime = std::chrono::steady_clock::now();
     else
         return;
-    for (std::size_t index = 0; index < position.size(); index++) {
+    for (std::size_t index = 0; index < position.size() && index < velocity.size() && index < direction.size(); index++) {
         if (position[index] && velocity[index] && direction[index]) {
             if (position[index]->x > 1920) {
                 registry.kill_entity(registry.entity_from_index(index));
@@ -40,5 +40,5 @@ void MoveSystem::sendKillEntityPacket(Registry &registry, uint16_t id, Sparse_ar
     std::vector<byte> bytes = serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, packet);
     registry.kill_entity(registry.entity_from_index(id));
 
-    netqueue[0].value().toSendNetworkQueue.push(bytes);
+    netqueue[0].value().toSendNetworkQueue.push({0, bytes});
 }

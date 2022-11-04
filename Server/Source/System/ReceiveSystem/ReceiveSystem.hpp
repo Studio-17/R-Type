@@ -56,7 +56,7 @@ namespace System {
              * @param data 
              * @param queues 
              */
-            void addMoveOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
+            void addMoveOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues);
 
             /**
              * @brief Adds a packet to the queue of shoot handling
@@ -64,7 +64,7 @@ namespace System {
              * @param data 
              * @param queues 
              */
-            void addShootOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
+            void addShootOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues);
 
             /**
              * @brief Adds a packet to the queue of new player handling
@@ -72,7 +72,7 @@ namespace System {
              * @param data 
              * @param queues 
              */
-            void addNewPLayerOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
+            void addNewPLayerOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues);
 
             /**
              * @brief Adds a packet to the queue of new player handling
@@ -80,18 +80,43 @@ namespace System {
              * @param data 
              * @param queues 
              */
-            void addDisconnectionOnQueue(std::vector<byte> const &data, Sparse_array<component::cnetwork_queue_t> &queues);
+            void addDisconnectionOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues);
+
+            /**
+             * @brief Add a packet to the queue of join lobby handling
+             * 
+             * @param data 
+             * @param clientId 
+             * @param queues 
+             */
+            void addJoinLobbyOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues);
+
+            /**
+             * @brief Add a packet to the queue of start game handling
+             * 
+             * @param data 
+             * @param clientId 
+             * @param queues 
+             */
+            void addStartGameOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues);
+
 
             /**
              * @brief A map that links every OnQueue method to a type of packet
              * 
              */
-            std::unordered_map<uint8_t, std::function<void(std::vector<byte> const &, Sparse_array<component::cnetwork_queue_t> &)>> callBacks {
+            std::unordered_map<uint8_t, std::function<void(std::vector<byte> const &, int, Sparse_array<component::cnetwork_queue_t> &)>> callBacks {
                 // {0, std::bind(&ReceiveSystem::addHitOnQueue, this, std::placeholders::_1, std::placeholders::_2)},
-                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::NEW_CONNECTION, std::bind(&ReceiveSystem::addNewPLayerOnQueue, this, std::placeholders::_1, std::placeholders::_2)},
-                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION, std::bind(&ReceiveSystem::addMoveOnQueue, this, std::placeholders::_1, std::placeholders::_2)},
-                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT, std::bind(&ReceiveSystem::addShootOnQueue, this, std::placeholders::_1, std::placeholders::_2)},
-                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DISCONNECTION, std::bind(&ReceiveSystem::addDisconnectionOnQueue, this, std::placeholders::_1, std::placeholders::_2)}
+                // Rework
+                // {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::NEW_CONNECTION, std::bind(&ReceiveSystem::addNewPLayerOnQueue, this, std::placeholders::_1, std::placeholders::_2)},
+                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::NEW_CLIENT, std::bind(&ReceiveSystem::addNewPLayerOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)},
+                //*
+                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION, std::bind(&ReceiveSystem::addMoveOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)},
+                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT, std::bind(&ReceiveSystem::addShootOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)},
+                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DISCONNECTION, std::bind(&ReceiveSystem::addDisconnectionOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)},
+                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, std::bind(&ReceiveSystem::addJoinLobbyOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)},
+                {NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::START_GAME, std::bind(&ReceiveSystem::addStartGameOnQueue, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)}
+
             };
     };
 };

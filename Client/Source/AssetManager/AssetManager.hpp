@@ -22,7 +22,7 @@ class AssetManager {
         AssetManager();
         ~AssetManager();
 
-        Asset at(std::size_t const &index) const;
+        Asset at(std::string const &index) const;
         void loadAssets(std::string const &filepath);
         enum ASSET_ID {
             spaceship_blue,
@@ -31,11 +31,10 @@ class AssetManager {
         };
     protected:
     private:
-        nlohmann::json getJsonData(std::string const &filepath);
         void saveAssets(std::string const &filepath);
 
         // std::unordered_map<ASSET_ID, Asset> _assets;
-        std::unordered_map<std::size_t, Asset> _assets;
+        std::unordered_map<std::string, Asset> _assets;
         // std::vector<Asset> _assets;
 };
 

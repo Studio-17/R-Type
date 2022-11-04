@@ -19,8 +19,10 @@
     #include "Constant.hpp"
     #include "CRect.hpp"
     #include "CAsset.hpp"
+
     #include "NewEntity.hpp"
     #include "Serialization.hpp"
+    #include "CClientNetworkId.hpp"
 
 /**
  * @brief NewEntitySystem class that handles the creation of an entity
@@ -47,7 +49,7 @@ class NewEntitySystem {
          * @param network the sparse array of network entities
          * @param serverIds the sparse array of serverId entities
          */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds, Sparse_array<component::casset_t> &assets);
+        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetwrokId);
 
         /**
          * @brief A method to add a new bullet entity
@@ -63,7 +65,7 @@ class NewEntitySystem {
          * @param registry the registry of the client
          * @param packet_new_entity the packet containing the new entity
          */
-        void addShip(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets);
+        void addShip(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId);
 
         /**
          * @brief A method to add a new enemy entity
@@ -83,6 +85,7 @@ class NewEntitySystem {
     protected:
     private:
         std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
+        std::unordered_map<int, std::string> _entityType; ///< Map of the entity type
 };
 
 #endif /* !NEWENTITYSYSTEM_HPP_ */

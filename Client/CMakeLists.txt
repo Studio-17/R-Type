@@ -55,6 +55,11 @@ file(GLOB SOURCE_FILES
     Source/System/PositionSystem/*.cpp
     Source/System/RectSystem/*cpp
     Source/System/KillSystem/*cpp
+    Source/System/GetLobbiesSystem/*.cpp
+    Source/System/SetNbPlayerInLobbySystem/*.cpp
+    Source/System/NewClientResponseSystem/*.cpp
+    Source/System/MouseSystem/*cpp
+    Source/fileConfig/*.cpp
     Source/AssetManager/*.cpp
 )
 
@@ -81,20 +86,26 @@ include_directories(
     Source/System/PositionSystem/
     Source/System/RectSystem/
     Source/System/KillSystem/
+    Source/System/GetLobbiesSystem/
+    Source/System/SetNbPlayerInLobbySystem/
+    Source/System/NewClientResponseSystem/
+    Source/System/MouseSystem/
     Source/AssetManager/
+    Source/fileConfig/
 )
 
 if(MSVC)
-    include_directories("${CMAKE_SOURCE_DIR}/vcpkg/installed/x86-windows/include/")
-    link_directories("${CMAKE_SOURCE_DIR}/vcpkg/installed/x86-windows/lib/")
+    include_directories("${CMAKE_SOURCE_DIR}/vcpkg_installed/x86-windows/include/")
+    link_directories("${CMAKE_SOURCE_DIR}/vcpkg_installed/x86-windows/lib/")
 endif()
 
 if(UNIX)
-    include_directories("${CMAKE_SOURCE_DIR}/vcpkg/installed/x64-linux/include/")
+    include_directories("${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-linux/include/")
 endif()
 
-find_package(asio REQUIRED)
-find_package(nlohmann_json REQUIRED)
+find_package(asio CONFIG REQUIRED)
+#find_package(raylib CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 # Add executable target with source files listed in SOURCE_FILES variable
 add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
@@ -102,6 +113,8 @@ target_link_libraries(${EXECUTABLE_NAME} PRIVATE r-type_library_ecs)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE r-type_library_network)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE r-type_library_errors)
 
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE asio asio::asio)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE -lpthread)
+
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE asio::asio)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE raylib)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE nlohmann_json::nlohmann_json)

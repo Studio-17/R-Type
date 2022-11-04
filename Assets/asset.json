@@ -1,50 +1,80 @@
 {
     "bullet": {
-        "id": 7,
+        "title": "bullet",
         "nbFrame": 2,
         "scale": 1.0,
         "texture": "Assets/sprites/bullet.png"
     },
     "enemy": {
-        "id": 6,
+        "title": "enemy",
         "nbFrame": 16,
         "scale": 1.0,
         "texture": "Assets/sprites/BasicEnemySpriteSheet2.png"
     },
     "blueSpaceShip": {
-        "id": 1,
+        "title": "blueSpaceShip",
         "nbFrame": 5,
         "scale": 1.0,
         "texture": "Assets/sprites/BlueSpaceShip.png"
     },
     "greenSpaceShip": {
-        "id": 2,
+        "title": "greenSpaceShip",
         "nbFrame": 5,
         "scale": 1.0,
         "texture": "Assets/sprites/GreenSpaceShip.png"
     },
     "redSpaceShip": {
-        "id": 3,
+        "title": "redSpaceShip",
         "nbFrame": 5,
         "scale": 1.0,
         "texture": "Assets/sprites/RedSpaceShip.png"
     },
     "purpleSpaceShip": {
-        "id": 4,
+        "title": "purpleSpaceShip",
         "nbFrame": 5,
         "scale": 1.0,
         "texture": "Assets/sprites/PurpleSpaceShip.png"
     },
     "marineSpaceShip": {
-        "id": 5,
+        "title": "marineSpaceShip",
         "nbFrame": 5,
         "scale": 1.0,
         "texture": "Assets/sprites/MarineSpaceShip.png"
     },
-    "backgroud": {
-        "id": 0,
+    "parallax_background" : {
+        "title": "parallax_background",
         "nbFrame": 1,
         "scale": 1.0,
-        "texture": "Assets/parallax/parallax.png"
+        "texture": "Assets/parallax/parallax_background.png"
+    },
+    "parallax_ground" : {
+        "title": "parallax_ground",
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "Assets/parallax/parallax_ground.png"
+    },
+    "parallax_mountain" : {
+        "title": "parallax_mountain",
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "Assets/parallax/parallax_mountain.png"
+    },
+    "button": {
+        "title": "button",
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "Assets/sprites/button.png"
+    },
+    "button2": {
+        "title": "button2",
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "Assets/sprites/button.png"
+    },
+    "planet": {
+        "title": "planet",
+        "nbFrame": 1,
+        "scale": 1.5,
+        "texture": "Assets/sprites/planet.gif"
     }
 }
