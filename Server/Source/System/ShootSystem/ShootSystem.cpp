@@ -34,23 +34,14 @@ void ShootSystem::operator()(Registry &registry, Sparse_array<component::cnetwor
 
 Entity ShootSystem::createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId)
 {
-    Entity bullet = registry.spawn_entity();
-
-    component::cdamage_t damage = { 0 };
-    registry.add_component<component::cdamage_t>(bullet, std::move(damage));
-
-    component::cdirection_t direction = { 1, 0 };
-    registry.add_component<component::cdirection_t>(bullet, std::move(direction));
-
-    component::chitbox_t hitbox = {10, 10};
-    registry.add_component<component::chitbox_t>(bullet, std::move(hitbox));
-
-    component::cposition_t possition = {position[playerId].value().x, position[playerId].value().y};
-    registry.add_component<component::cposition_t>(bullet, std::move(possition));
-
-    component::cvelocity_t velocity = {14};
-    registry.add_component<component::cvelocity_t>(bullet, std::move(velocity));
-    registry.add_component<component::ctype_t>(bullet, {ENTITY_TYPE::BULLET});
-    registry.add_component<component::crect_t>(bullet, {18, 17});
+    Entity bullet = registry.spawn_entity_with(
+        component::cdamage_t{ .damage = 0},
+        component::cdirection_t{ .x = 1, .y = 0},
+        component::chitbox_t{ .height = 10, .width = 10},
+        component::cposition_t{ .x = position[playerId].value().x, .y = position[playerId].value().y},
+        component::cvelocity_t{ .velocity = 14},
+        component::ctype_t{ .type = ENTITY_TYPE::BULLET},
+        component::crect_t{ .height = 18, .width = 17}
+    );
     return bullet;
 }

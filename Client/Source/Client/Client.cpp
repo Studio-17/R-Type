@@ -7,9 +7,10 @@
 
 #include <iostream>
 #include <functional>
+#include <fstream>
 
 #include "Client.hpp"
-#include "CurrScene.hpp"
+#include "CSceneId.hpp"
 #include "Mouse.hpp"
 #include "CKeyboard.hpp"
 #include "CPosition.hpp"
@@ -115,6 +116,7 @@ void Client::setUpEcs()
     _registry.register_component<component::casset_t>();
     _registry.register_component<component::cassetid_t>();
     _registry.register_component<component::cclient_network_id>();
+    _registry.register_component<component::csceneid_t>();
 }
 
 void Client::setUpSystems()
@@ -122,7 +124,7 @@ void Client::setUpSystems()
 	_registry.add_system(_networkSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cid_of_ship_t>());
     // _registry.add_system(_killSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
     // _registry.add_system(_rectSystem, _registry.get_components<component::crect_t>(), _registry.get_components<component::ctimer_t>(), _registry.get_components<component::ctype_t>(), _registry.get_components<component::casset_t>(), _registry.get_components<component::cassetid_t>());
-    _registry.add_system(_controlSystem, _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cid_of_ship_t>());
+    _registry.add_system(_controlSystem, _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cid_of_ship_t>(), _registry.get_components<component::csceneid_t>());
     _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>(), _registry.get_components<component::casset_t>(), _registry.get_components<component::cclient_network_id>());
     // _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
     // _registry.add_system(_moveSystem, _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ctimer_t>());
@@ -131,51 +133,82 @@ void Client::setUpSystems()
     _registry.add_system(_setNbPlayerInLobbySystem, _registry.get_components<component::cnetwork_queue_t>());
     _registry.add_system(_newClientResponseSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cclient_network_id>());
 
+    // _registry.add_system(_killSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>());
+    // _registry.add_system(_rectSystem, _registry.get_components<component::crect_t>(), _registry.get_components<component::ctimer_t>(), _registry.get_components<component::ctype_t>(), _registry.get_components<component::casset_t>(), _registry.get_components<component::cassetid_t>());
+    // _registry.add_system(_controlSystem, _registry.get_components<component::ckeyboard_t>(), _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cid_of_ship_t>(), _registry.get_components<component::csceneid_t>());
+	// _registry.add_system(_mouseSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>(), _registry.get_components<component::csceneid_t>(), _registry.get_components<component::ctype_t>());
+    // _registry.add_system(_newEntitySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cserverid_t>(), _registry.get_components<component::casset_t>());
+    // _registry.add_system(_positionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cserverid_t>());
+    // _registry.add_system(_moveSystem, _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ctimer_t>());
+	// _registry.add_system(_drawSystem, _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>(), _registry.get_components<component::casset_t>(), _registry.get_components<component::cassetid_t>(), _registry.get_components<component::csceneid_t>());
 }
 
 void Client::setUpComponents()
 {
-    Entity network = _registry.spawn_entity();
-    Entity parallax = _registry.spawn_entity();
+    component::casset_t assetMan;
+    assetMan.assets = AssetManager("Assets/asset.json");
 
-    // Network entity
-    component::cnetwork_queue_t nnetwork = {};
-    _registry.add_component<component::cnetwork_queue_t>(network, std::move(nnetwork));
+    Entity network = _registry.spawn_entity_with(
+        component::cnetwork_queue_t{},
+        component::ctype_t{ .type = NET },
+        component::cid_of_ship_t{ .id = 0 },
+        component::ckeyboard_t{ .keyboard = 0 },
+        component::ctimer_t{ .deltaTime = std::chrono::steady_clock::now(), .animTimer = std::chrono::steady_clock::now() },
+        component::casset_t{ .assets = assetMan.assets },
+        component::csceneid_t{ .sceneId = SCENE::MAIN_MENU },
+        component::cclient_network_id {}
+    );
+    // std::cout << "YO" << std::endl;
 
-    component::ctype_t ntype = {.type = NET};
-    _registry.add_component<component::ctype_t>(network, std::move(ntype));
+    Entity parallax = _registry.spawn_entity_with(
+        component::crect_t{ assetMan.assets.at("parallax").getRectangle() },
+        component::cposition_t{ .x = 0, .y = 0 },
+        component::cdirection_t{ .x = -1, .y = 0 },
+        component::ctype_t{ .type = UI },
+        component::cvelocity_t{ .velocity = 1 },
+        component::cassetid_t{ .assets = "parallax" },
+        component::csceneid_t{ .sceneId = SCENE::ALL }
+    );
+    // std::cout << "COOL" << std::endl;
 
-    component::cid_of_ship_t idOfShip = {.id = 0};
-    _registry.add_component<component::cid_of_ship_t>(network, std::move(idOfShip));
+    loadButton("Assets/buttons.json", _registry.get_components<component::casset_t>());
+}
 
-    component::ckeyboard_t keyboard = {.keyboard = 0};
-	_registry.add_component<component::ckeyboard_t>(network, std::move(keyboard));
+static nlohmann::json getJsonData(std::string const &filepath)
+{
+    nlohmann::json jsonData;
+    std::ifstream confStream(filepath);
 
-    component::cclient_network_id clientNetworkId = {};
-	_registry.add_component<component::cclient_network_id>(network, std::move(clientNetworkId));
+    if (!confStream.is_open())
+        throw ("file " + filepath + " failed to open");
+    confStream >> jsonData;
+    confStream.close();
+    return jsonData;
+}
 
-    component::ctimer_t timer = {.deltaTime = std::chrono::steady_clock::now(), .animTimer = std::chrono::steady_clock::now()};
-	_registry.add_component<component::ctimer_t>(network, std::move(timer));
+void Client::loadButton(std::string const &filepath, [[ maybe_unused ]]Sparse_array<component::casset_t> &assets)
+{
+    nlohmann::json jsonData;
 
-    component::casset_t assets;
-    assets.assets = AssetManager("Assets/asset.json");
-	_registry.add_component<component::casset_t>(network, std::move(assets));
+    try {
+        jsonData = getJsonData(filepath);
+    } catch (std::exception const &e) {
+        std::cerr << e.what() << std::endl;
+        return;
+    }
 
-    // Parallax Entity
-    component::crect_t prect = assets.assets.at(ENTITY_TYPE::WALL).getRectangle();
-    _registry.add_component<component::crect_t>(parallax, std::move(prect));
+    for (auto &oneData: jsonData) {
+        std::string assetId = oneData.value("textureId", "button");
+        std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
 
-    component::cposition_t pposition = {0, 0};
-    _registry.add_component<component::cposition_t>(parallax, std::move(pposition));
-
-    component::cdirection_t pdirection = {.x = 0, .y = 0};
-    _registry.add_component<component::cdirection_t>(parallax, std::move(pdirection));
-
-    component::ctype_t ptype = {.type = UI};
-    _registry.add_component<component::ctype_t>(parallax, std::move(ptype));
-    component::cassetid_t assetId = {.assets = ENTITY_TYPE::WALL};
-
-    _registry.add_component<component::cassetid_t>(parallax, std::move(assetId));
+        Entity button = _registry.spawn_entity_with(
+            component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle() },
+            component::cposition_t{ pos[0], pos[1] },
+            component::ctype_t{ .type = BUTTON },
+            component::cassetid_t{ .assets = assetId },
+            component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
+        );
+    }
 }
 
 void Client::threadLoop()

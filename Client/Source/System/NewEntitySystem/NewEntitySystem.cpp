@@ -7,16 +7,20 @@
 
 #include "NewEntitySystem.hpp"
 
-// #include "CRect.hpp"
 #include "CPosition.hpp"
 #include "CDirection.hpp"
 #include "CVelocity.hpp"
 #include "CAssetId.hpp"
+#include "CSceneId.hpp"
 
 NewEntitySystem::NewEntitySystem()
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
-
+    _entityType = {
+        {7, "bullet"},
+        {6, "enemy"},
+        {1, "blueSpaceShip"}
+    };
 }
 
 static bool findEntity(Sparse_array<component::cserverid_t> &serverIds, uint16_t idToFind)
@@ -47,53 +51,31 @@ void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cne
 void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
 {
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
-    Entity bullet = registry.spawn_entity();
-        std::cout << "[CLIENT]: new bullet" << std::endl;
 
-
-    component::cdirection_t direction = {1, 0};
-    registry.add_component<component::cdirection_t>(bullet, std::move(direction));
-
-    component::crect_t rect = asset.at(newEntity.type).getRectangle();
-    registry.add_component<component::crect_t>(registry.entity_from_index(bullet), std::move(rect));
-
-    component::cposition_t position = {.x = (float)newEntity.positionX, .y = (float)newEntity.positionY};
-    registry.add_component<component::cposition_t>(bullet, std::move(position));
-
-    component::cserverid_t serverId = {.id = newEntity.id};
-    registry.add_component<component::cserverid_t>(bullet, std::move(serverId));
-
-    component::cvelocity_t velocity = {.velocity = 14};
-    registry.add_component<component::cvelocity_t>(bullet, std::move(velocity));
-    component::cassetid_t assetId = {.assets = newEntity.type};
-
-    registry.add_component<component::cassetid_t>(bullet, std::move(assetId));
-
+    Entity bullet = registry.spawn_entity_with(
+        component::cdirection_t{ .x = 1, .y = 0 },
+        component::crect_t{ asset.at(_entityType.at(newEntity.type)).getRectangle() },
+        component::cposition_t{ .x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY) },
+        component::cserverid_t{ .id = newEntity.id },
+        component::cvelocity_t{ .velocity = 14 },
+        component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
+        component::csceneid_t{ .sceneId = SCENE::GAME }
+    );
 }
 
 void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
 {
-    std::cout << "[CLIENT]: new enemy" << std::endl;
-
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
-    Entity enemy = registry.spawn_entity();
 
-    component::cdirection_t direction = {-1, 0};
-    registry.add_component<component::cdirection_t>(enemy, std::move(direction));
-    component::crect_t rect = asset.at(newEntity.type).getRectangle();
-
-    registry.add_component<component::crect_t>(enemy, std::move(rect));
-    component::cposition_t position = {.x = newEntity.positionX, .y = newEntity.positionY};
-    registry.add_component<component::cposition_t>(enemy, std::move(position));
-
-    component::cserverid_t serverId = {.id = newEntity.id};
-    registry.add_component<component::cserverid_t>(enemy, std::move(serverId));
-    component::cassetid_t assetId = {.assets = newEntity.type};
-
-    registry.add_component<component::cassetid_t>(enemy, std::move(assetId));
-
-    component::cvelocity_t velocity = {.velocity = 4};
-    registry.add_component<component::cvelocity_t>(enemy, std::move(velocity));
+    Entity enemy = registry.spawn_entity_with(
+        component::cdirection_t{ .x = -1, .y = 0 },
+        component::crect_t{ asset.at(_entityType.at(newEntity.type)).getRectangle() },
+        component::cposition_t{ .x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY) },
+        component::cserverid_t{ .id = newEntity.id },
+        component::cvelocity_t{ .velocity = 4 },
+        component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
+        component::csceneid_t{ .sceneId = SCENE::GAME }
+    );
 }
 
 void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId) {
@@ -106,20 +88,13 @@ void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, 
 
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
 
-    // std::cout << "[CLIENT]: new player ship" << std::endl;
-    Entity ship = registry.spawn_entity();
-
-    component::cdirection_t direction = {0, 0};
-    registry.add_component<component::cdirection_t>(ship, std::move(direction));
-    component::crect_t rect = asset.at(newEntity.type).getRectangle();
-    registry.add_component<component::crect_t>(ship, std::move(rect));
-    component::cposition_t position = {.x = newEntity.positionX, .y = newEntity.positionY};
-    registry.add_component<component::cposition_t>(ship, std::move(position));
-    component::cserverid_t serverId = {.id = newEntity.id};
-    registry.add_component<component::cserverid_t>(ship, std::move(serverId));
-    component::cvelocity_t velocity = {.velocity = 8};
-    registry.add_component<component::cvelocity_t>(ship, std::move(velocity));
-    component::cassetid_t assetId = {.assets = newEntity.type};
-
-    registry.add_component<component::cassetid_t>(ship, std::move(assetId));
+    Entity enemy = registry.spawn_entity_with(
+        component::cdirection_t{ .x = 0, .y = 0},
+        component::crect_t{ asset.at(_entityType.at(newEntity.type)).getRectangle() },
+        component::cposition_t{ .x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY) },
+        component::cserverid_t{ .id = newEntity.id },
+        component::cvelocity_t{ .velocity = 4 },
+        component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
+        component::csceneid_t{ .sceneId = SCENE::GAME }
+    );
 }

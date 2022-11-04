@@ -84,3 +84,12 @@ int Keyboard::getKeyEnterCharCode() const
 {
     return KEY_ENTER;
 }
+
+int Keyboard::getKeySCharCode() const
+{
+    return KEY_S;
+}
+int Keyboard::getKeyDCharCode() const
+{
+    return KEY_D;
+}

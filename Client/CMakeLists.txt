@@ -33,6 +33,8 @@ file(GLOB SOURCE_FILES
     Source/System/GetLobbiesSystem/*.cpp
     Source/System/SetNbPlayerInLobbySystem/*.cpp
     Source/System/NewClientResponseSystem/*.cpp
+    Source/System/MouseSystem/*cpp
+    Source/fileConfig/*.cpp
     Source/AssetManager/*.cpp
 )
 
@@ -62,7 +64,9 @@ include_directories(
     Source/System/GetLobbiesSystem/
     Source/System/SetNbPlayerInLobbySystem/
     Source/System/NewClientResponseSystem/
+    Source/System/MouseSystem/
     Source/AssetManager/
+    Source/fileConfig/
 )
 
 find_package(asio CONFIG REQUIRED)

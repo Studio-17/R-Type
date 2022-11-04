@@ -8,10 +8,10 @@
 #ifndef DIRECTIONSYSTEM_HPP_
     #define DIRECTIONSYSTEM_HPP_
 
-#include "Registry.hpp"
+    #include "Registry.hpp"
 
-#include "Component/CNetworkQueue.hpp"
-#include "Component/CDirection.hpp"
+    #include "Component/CNetworkQueue.hpp"
+    #include "Component/CDirection.hpp"
 
 /**
  * @brief The Direction System class, it handles all packets related to movement by the clients

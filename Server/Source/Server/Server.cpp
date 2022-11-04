@@ -12,6 +12,7 @@
 #include "CType.hpp"
 #include "NewConnection.hpp"
 #include "Serialization.hpp"
+#include "CSceneId.hpp"
 
 Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port)),
     _thread(&Server::threadLoop, this), _isRunning(true)
@@ -99,6 +100,7 @@ void Server::setUpEcs()
     _registry.register_component<component::cnet_id_to_client_id_t>();
     _registry.register_component<component::clobby_id_t>();
     _registry.register_component<component::clobbies_to_entities_t>();
+    _registry.register_component<component::csceneid_t>();
 
     // _registry.add_system(_moveSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ctimer_t>());
     // _registry.add_system(_directionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>());
@@ -110,23 +112,15 @@ void Server::setUpEcs()
     _registry.add_system(_disconnectionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::clobby_id_t>(), _registry.get_components<component::clobbies_to_entities_t>(), _registry.get_components<component::cnet_id_to_client_id_t>());
     _registry.add_system(_newClientSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cnet_id_to_client_id_t>(), _registry.get_components<component::clobbies_to_entities_t>());
     _registry.add_system(_joinLobbySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::clobby_id_t>(), _registry.get_components<component::clobbies_to_entities_t>(), _registry.get_components<component::cnet_id_to_client_id_t>());
-    _registry.add_system(_startGameSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::clobby_id_t>(), _registry.get_components<component::cnet_id_to_client_id_t>(), _registry.get_components<component::clobbies_to_entities_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::ctype_t>());
 
 }
 
 void Server::setUpComponents()
 {
-    Entity networkEntity = _registry.spawn_entity();
-
-    component::cnetwork_queue_t network = {};
-    _registry.add_component<component::cnetwork_queue_t>(networkEntity, std::move(network));
-
-    component::ctimer_t timer = {.deltaTime = std::chrono::steady_clock::now(), .spawnEnemyDeltaTime = std::chrono::steady_clock::now()};
-    _registry.add_component<component::ctimer_t>(networkEntity, std::move(timer));
-
-    component::cnet_id_to_client_id_t netIdToClientId = {};
-    _registry.add_component<component::cnet_id_to_client_id_t>(networkEntity, std::move(netIdToClientId));
-
-    component::clobbies_to_entities_t lobbiesToEntities = {};
-    _registry.add_component<component::clobbies_to_entities_t>(networkEntity, std::move(lobbiesToEntities));
+    Entity networkEntity = _registry.spawn_entity_with(
+        component::cnetwork_queue_t{},
+        component::ctimer_t{ .deltaTime = std::chrono::steady_clock::now(), .spawnEnemyDeltaTime = std::chrono::steady_clock::now()},
+        component::cnet_id_to_client_id_t{},
+        component::clobbies_to_entities_t{}
+    );
 }

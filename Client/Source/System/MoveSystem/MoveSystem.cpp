@@ -17,10 +17,8 @@ MoveSystem::MoveSystem()
 
 void MoveSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ctimer_t> &timer)
 {
-    if ((std::chrono::steady_clock::now() - timer[FORBIDDEN_IDS::NETWORK].value().deltaTime) > (std::chrono::nanoseconds)100000000) {
+    if ((std::chrono::steady_clock::now() - timer[FORBIDDEN_IDS::NETWORK].value().deltaTime) > (std::chrono::nanoseconds)100000000)
         timer[FORBIDDEN_IDS::NETWORK].value().deltaTime = std::chrono::steady_clock::now();
-        // std::cout << "Chorno > 5000"  << std::endl;
-    }
     else
         return;
     for (unsigned short index = 1; index < position.size() && index < velocity.size() && index < velocity.size() && direction.size(); index++) {
@@ -29,8 +27,8 @@ void MoveSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<
             //     continue;
             // if (position[index].value().x > 1920)
             //         killed[index].value().isDead = true;
-            position[index].value().x += (velocity[index].value().velocity * direction[index].value().x);
-            position[index].value().y += (velocity[index].value().velocity * direction[index].value().y);
+            position[index]->x += (velocity[index]->velocity * direction[index]->x);
+            position[index]->y += (velocity[index]->velocity * direction[index]->y);
         }
     }
     // update la position

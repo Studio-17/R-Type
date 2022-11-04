@@ -31,6 +31,7 @@
 	#include "GetLobbiesSystem/GetLobbiesSystem.hpp"
 	#include "SetNbPlayerInLobbySystem.hpp"
 	#include "NewClientResponseSystem.hpp"
+	#include "MouseSystem.hpp"
 
 	#include "AssetManager.hpp"
 
@@ -128,6 +129,13 @@ class Client
 		void sendNewShoot(std::vector<byte> &byte);
 
 		/**
+		 * @brief A method to load the assets of the button
+		 * 
+		 * @param byte bytes to read
+		 */
+		void loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets);
+
+		/**
 		 * @brief A method to configure and load the threadloop
 		 * 
 		 */
@@ -156,6 +164,7 @@ class Client
 		GetLobbiesSystem _getLobbiesSystem;
 		SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem;
 		NewClientResponseSystem _newClientResponseSystem;
+		MouseSystem _mouseSystem; ///< System that handle mouse events
 };
 
 #endif /* !CLIENT_HPP_ */
