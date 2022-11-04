@@ -41,11 +41,23 @@
         "scale": 1.0,
         "texture": "Assets/sprites/MarineSpaceShip.png"
     },
-    "parallax": {
-        "title": "parallax",
+    "parallax_background" : {
+        "title": "parallax_background",
         "nbFrame": 1,
         "scale": 1.0,
-        "texture": "Assets/parallax/parallax.png"
+        "texture": "Assets/parallax/parallax_background.png"
+    },
+    "parallax_ground" : {
+        "title": "parallax_ground",
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "Assets/parallax/parallax_ground.png"
+    },
+    "parallax_mountain" : {
+        "title": "parallax_mountain",
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "Assets/parallax/parallax_mountain.png"
     },
     "button": {
         "title": "button",
@@ -58,5 +70,11 @@
         "nbFrame": 1,
         "scale": 1.0,
         "texture": "Assets/sprites/button.png"
+    },
+    "planet": {
+        "title": "planet",
+        "nbFrame": 1,
+        "scale": 1.5,
+        "texture": "Assets/sprites/planet.gif"
     }
 }

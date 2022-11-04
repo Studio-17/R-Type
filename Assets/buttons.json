@@ -2,7 +2,29 @@
     "start-btn": {
         "textureId": "button",
         "position": [300, 300],
+        "nbFrame": 3,
+        "audio": "Ressources/buttons/click_sound.ogg",
+        "text": {
+            "font": "Assets/fonts/Square.ttf",
+            "text": "right",
+            "color": [150, 150, 150, 255],
+            "fontSize": 40,
+            "position": [5, 5]
+        },
         "scene": 4,
         "callback-type": "start-game"
+    },
+    "menu button2": {
+        "textureId": "button",
+        "position": [600, 300],
+        "nbFrame": 3,
+        "audio": "Ressources/buttons/click_sound.ogg",
+        "text": {
+            "font": "Assets/fonts/Square.ttf",
+            "text": "left",
+            "color": [150, 150, 150, 255],
+            "fontSize": 40,
+            "position": [5, 5]
+        }
     }
 }

@@ -55,6 +55,7 @@ enum ENTITY_TYPE {
     MARINESPACESHIP,
     ENEMY,
     BULLET,
+    PARALLAX,
     BUTTON,
     TEXT,
     UI,

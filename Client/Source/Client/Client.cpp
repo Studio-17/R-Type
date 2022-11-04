@@ -27,6 +27,7 @@
 #include "CTimer.hpp"
 #include "CAsset.hpp"
 #include "CAssetId.hpp"
+#include "CScale.hpp"
 #include "CCallback.hpp"
 #include "Asset.hpp"
 #include "Disconnection.hpp"
@@ -37,7 +38,7 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort) :
     _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
-    _graphicLib->initWindow(800, 600, "R-Type", 60);
+    _graphicLib->initWindow(1920, 1080, "R-Type", 60);
 
     setUpEcs();
     setUpSystems();
@@ -119,6 +120,7 @@ void Client::setUpEcs()
     _registry.register_component<component::cassetid_t>();
     _registry.register_component<component::cclient_network_id>();
     _registry.register_component<component::csceneid_t>();
+    _registry.register_component<component::cscale_t>();
     _registry.register_component<component::ccallback_t>();
 }
 
@@ -164,17 +166,41 @@ void Client::setUpComponents()
         component::cclient_network_id {}
     );
 
-    Entity parallax = _registry.spawn_entity_with(
-        component::crect_t{ assetMan.assets.at("parallax").getRectangle() },
-        component::cposition_t{ .x = 0, .y = 0 },
-        component::cdirection_t{ .x = -1, .y = 0 },
-        component::ctype_t{ .type = UI },
-        component::cvelocity_t{ .velocity = 1 },
-        component::cassetid_t{ .assets = "parallax" },
-        component::csceneid_t{ .sceneId = SCENE::ALL }
-    );
+    loadParallax(_registry.get_components<component::casset_t>());
+    // loadButton("Assets/buttons.json", _registry.get_components<component::casset_t>());
 
-    loadButton("Assets/buttons.json", _registry.get_components<component::casset_t>());
+    // Entity planet = _registry.spawn_entity_with(
+    //     component::crect_t{ assetMan.assets.at("planet").getRectangle() },
+    //     component::cposition_t{ .x = 300, .y = 300 },
+    //     component::ctype_t{ .type = UI },
+    //     component::cassetid_t{ .assets = "planet" },
+    //     component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
+    // );
+}
+
+void Client::loadParallax(Sparse_array<component::casset_t> &assets)
+{
+    std::pair<float, float> pos = {0, 0};
+    std::vector<std::pair<std::string, int>> parallax = {
+        {"parallax_background", 1},
+        {"parallax_mountain", 3},
+        {"parallax_ground", 4 }
+    };
+
+    for (std::size_t i = 0; i <= 1; i++) {
+        for (auto &[texture, velocity]: parallax) {
+            Entity parallax_background = _registry.spawn_entity_with(
+                component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getRectangle() },
+                component::cposition_t{ .x = pos.first, .y = pos.second },
+                component::cdirection_t{ .x = -1, .y = 0 },
+                component::ctype_t{ .type = PARALLAX },
+                component::cvelocity_t{ .velocity = velocity },
+                component::cassetid_t{ .assets = texture },
+                component::csceneid_t{ .sceneId = SCENE::ALL }
+            );
+        }
+        pos.first += 1930;
+    }
 }
 
 static nlohmann::json getJsonData(std::string const &filepath)

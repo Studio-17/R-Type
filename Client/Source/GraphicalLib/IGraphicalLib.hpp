@@ -16,6 +16,7 @@
 #include "Text.hpp"
 #include "MySound.hpp"
 #include "MyMusic.hpp"
+#include "MyTexture.hpp"
 #include "Keyboard.hpp"
 #include "Datas/Position/Position.hpp"
 #include <utility>
@@ -94,7 +95,10 @@ namespace rtype {
              * @param id id of the sprite
              */
 
-            virtual auto drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect) -> void = 0;
+            virtual auto drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale) -> void = 0;
+
+            virtual auto drawRectangle(MyTexture const &texture, Position const &position, Rectangle const &rect) -> void = 0;
+
             virtual auto destroySprite(std::shared_ptr<Sprite> sprite) -> void = 0;
 
             virtual auto checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width) -> bool = 0;

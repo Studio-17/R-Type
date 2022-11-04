@@ -137,6 +137,8 @@ class Client
 		 */
 		void sendNewShoot(std::vector<byte> &byte);
 
+		void loadParallax(Sparse_array<component::casset_t> &assets);
+
 		/**
 		 * @brief A method to configure and load the threadloop
 		 *

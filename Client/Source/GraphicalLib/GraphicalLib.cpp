@@ -56,12 +56,12 @@ std::shared_ptr<Sprite> rtype::GraphicalLib::createSprite(std::string const &ima
     return std::make_shared<Sprite>(imagePath, size, rect);
 }
 
-void rtype::GraphicalLib::drawSprite(std::shared_ptr<Sprite> const &sprite, Position const &position, Rectangle const &rect)
+void rtype::GraphicalLib::drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale)
 {
-    DrawTextureRec(sprite->getTexture(), rect, position.getVector2(), WHITE);
+    DrawTextureEx(texture.getTexture(), position.getVector2(), rotation, scale, WHITE);
 }
 
-void rtype::GraphicalLib::drawSprite(MyTexture const &texture, Position const &position, Rectangle const &rect)
+void rtype::GraphicalLib::drawRectangle(MyTexture const &texture, Position const &position, Rectangle const &rect)
 {
     DrawTextureRec(texture.getTexture(), rect, position.getVector2(), WHITE);
 }
