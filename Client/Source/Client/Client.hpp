@@ -30,6 +30,9 @@
 	#include "MoveSystem.hpp"
 	#include "NetworkSystem.hpp"
 	#include "KillSystem.hpp"
+	#include "GetLobbiesSystem/GetLobbiesSystem.hpp"
+	#include "SetNbPlayerInLobbySystem.hpp"
+	#include "NewClientResponseSystem.hpp"
 	#include "MouseSystem.hpp"
 
 	#include "AssetManager.hpp"
@@ -86,6 +89,11 @@ class Client
 		 */
 		void tryToConnect();
 
+		/**
+		 * @brief A method to call juste before a client is deconected
+		 * 
+		 */
+		void disconnect();
 		/**
 		 * @brief A method to load the assets of the button
 		 *
@@ -162,6 +170,9 @@ class Client
 		PositionSystem _positionSystem; ///< System that updates the position of the entities
 		MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
 		KillSystem _killSystem; ///< System that kill entity
+		GetLobbiesSystem _getLobbiesSystem;
+		SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem;
+		NewClientResponseSystem _newClientResponseSystem;
 		MouseSystem _mouseSystem; ///< System that handle mouse events
 };
 

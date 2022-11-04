@@ -14,6 +14,8 @@
     #include "Shoot.hpp"
     #include "NewConnection.hpp"
     #include "Disconnection.hpp"
+    #include "Lobbies.hpp"
+    #include "StartGame.hpp"
 
 using byte = unsigned char;
 
@@ -25,14 +27,15 @@ namespace component {
      * @brief A structure representing the queue use by the ECS to send the request to the server
      */
     typedef struct cnetwork_queue_s {
-        std::queue<std::vector<byte>> receivedNetworkQueue;
-        std::queue<std::vector<byte>> toSendNetworkQueue;
+        std::queue<std::pair<int, std::vector<byte>>> receivedNetworkQueue;
+        std::queue<std::pair<int, std::vector<byte>>> toSendNetworkQueue;
 
-        std::queue<packet_move> moveQueue;
-        std::queue<packet_shoot> shootQueue;
-        std::queue<packet_new_connection> newPlayerQueue;
-        std::queue<packet_disconnection> disconnectionQueue;
-
+        std::queue<std::pair<int, packet_move>> moveQueue;
+        std::queue<std::pair<int, packet_shoot>> shootQueue;
+        std::queue<std::pair<int, packet_new_connection>> newPlayerQueue;
+        std::queue<std::pair<int, packet_disconnection>> disconnectionQueue;
+        std::queue<std::pair<int, packet_join_lobby>> joinLobbyQueue;
+        std::queue<std::pair<int, packet_start_game>> startGameQueue;
 
     } cnetwork_queue_t;
 }

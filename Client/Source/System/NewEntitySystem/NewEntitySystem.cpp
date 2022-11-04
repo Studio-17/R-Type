@@ -33,8 +33,7 @@ static bool findEntity(Sparse_array<component::cserverid_t> &serverIds, uint16_t
     return false;
 }
 
-void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds, Sparse_array<component::casset_t> &assets)
-{
+void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId) {
     while (!network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.empty()) {
         packet_new_entity newEntity = network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.front();
         network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.pop();
@@ -45,7 +44,7 @@ void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cne
         if (newEntity.type == ENTITY_TYPE::ENEMY)
             addEnemy(registry, newEntity, assets);
         if (newEntity.type == ENTITY_TYPE::PLAYER)
-            addShip(registry, newEntity, assets);
+            addShip(registry, newEntity, assets, clientNetworkId);
     }
 }
 
@@ -79,8 +78,14 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity,
     );
 }
 
-void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
-{
+void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId) {
+
+    // Make the ship controllable if the packet is destinated to you
+    if (newEntity.clientId == clientNetworkId[FORBIDDEN_IDS::NETWORK].value().id) {
+        std::cout << "New Entity System : Add Ship : Add ship as controllable for client number : " << newEntity.clientId << std::endl;
+        clientNetworkId[FORBIDDEN_IDS::NETWORK].value().controllableNetworkEntityId = newEntity.id;
+    }
+
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
 
     Entity enemy = registry.spawn_entity_with(

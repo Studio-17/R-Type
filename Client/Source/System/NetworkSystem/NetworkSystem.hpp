@@ -63,6 +63,14 @@ class NetworkSystem {
         void dispatchToKillEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
         /**
+         * @brief A method to send informations to the get lobbies queue
+         * 
+         * @param bytes the bytes to send
+         * @param network the sparse array of network entities
+         */
+        void dispatchToGetLobbiesQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+
+        /**
          * @brief A method to send informations to the new player queue
          * 
          * @param bytes the bytes to send
@@ -70,6 +78,23 @@ class NetworkSystem {
          * @param idOfShip the sparse array of idOfShip entities
          */
         void handleNewPlayerAndDispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip);
+
+        /**
+         * @brief A method to send informations to the Nb Players in queue
+         * 
+         * @param bytes the bytes to send
+         * @param network the sparse array of network entities
+         */
+        void dispatchNbPlayersInLobbyQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+
+
+        /**
+         * @brief A method to send informations to the network client id queue
+         * 
+         * @param bytes 
+         * @param network 
+         */
+        void dispatchNetworkClientIdQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
     protected:
     private:

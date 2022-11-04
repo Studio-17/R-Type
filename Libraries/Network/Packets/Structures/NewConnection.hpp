@@ -18,5 +18,12 @@ struct packet_new_connection {
     uint16_t id;
 };
 
+/**
+ * @brief A packet to handle new connection response to the game
+ * 
+ */
+struct packet_new_connection_response {
+    int id;
+};
 
 #endif /* !NEWCONNECTION_HPP_ */

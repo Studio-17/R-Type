@@ -40,5 +40,5 @@ void MoveSystem::sendKillEntityPacket(Registry &registry, uint16_t id, Sparse_ar
     std::vector<byte> bytes = serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, packet);
     registry.kill_entity(registry.entity_from_index(id));
 
-    netqueue[0].value().toSendNetworkQueue.push(bytes);
+    netqueue[0].value().toSendNetworkQueue.push({0, bytes});
 }
