@@ -16,7 +16,6 @@ void NewClientResponseSystem::operator()([[ maybe_unused ]]Registry &registry, S
         packet_new_connection_response &new_connection_response = netqueue[FORBIDDEN_IDS::NETWORK].value().newConnectionResponseQueue.front();
         std::cout << "Nes client response system : recive network client id : " << new_connection_response.id << std::endl;
         clientNetworkId[FORBIDDEN_IDS::NETWORK].value().id = new_connection_response.id;
-        (void)clientNetworkId;
         netqueue[FORBIDDEN_IDS::NETWORK].value().newConnectionResponseQueue.pop();
 
     }
