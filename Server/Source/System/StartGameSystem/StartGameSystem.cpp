@@ -44,10 +44,11 @@ void StartGameSystem::operator()(Registry &registry, Sparse_array<component::cne
     while (!netqueue[FORBIDDEN_IDS::NETWORK].value().startGameQueue.empty()) {
         std::pair<int, packet_start_game> startGame = netqueue[FORBIDDEN_IDS::NETWORK].value().startGameQueue.front();
 
-        std::cout << "StartGameSystem: this client wants to start game : " << startGame.first << std::endl;
+        std::cout << "StartGameSystem: this client wants to start game (networkid): " << startGame.first << std::endl;
         int lobbyId = LobbyId[netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(startGame.first)].value().id;
         for (auto &entity: lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(lobbyId)) {
             Entity spaceShip = createSpaceShip(registry);
+            std::cout << "Start Game System : send new entity packet to client (network id) : " << (int)entity << std::endl;
             netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::NEW_ENTITY, {static_cast<uint16_t>(registry.entity_from_index(spaceShip)), position[spaceShip].value().x, position[spaceShip].value().y, 1, type[spaceShip].value().type, (int)entity})});
         }
         netqueue[FORBIDDEN_IDS::NETWORK].value().startGameQueue.pop();
