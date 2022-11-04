@@ -45,8 +45,8 @@ void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_a
                             continue;
                         if (CheckCollision(firstrect, secondrect, firstpos, secondpos)) {
                             if (secondtype.value().type == PLAYER || secondtype.value().type == BULLET) {
-                                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(i)}));
-                                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(x)}));
+                                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({0, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(i)})});
+                                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({0, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(x)})});
                                 registry.kill_entity(registry.entity_from_index(i));
                                 registry.kill_entity(registry.entity_from_index(x));
                             }

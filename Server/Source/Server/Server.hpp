@@ -28,16 +28,20 @@
     #include "Component/CHitBox.hpp"
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CPosition.hpp"
+    #include "Component/CLobbiesToEntities.hpp"
     // #include "Component/CVelocity.hpp"
 
     #include "System/MoveSystem/MoveSystem.hpp"
     #include "System/ReceiveSystem/ReceiveSystem.hpp"
     #include "System/DirectionSystem/DirectionSystem.hpp"
     #include "ShootSystem.hpp"
-    #include "System/NewPlayerSystem/NewPlayerSystem.hpp"
+    // #include "System/NewPlayerSystem/NewPlayerSystem.hpp"
     #include "System/SpawnEnemySystem/SpawnEnemySystem.hpp"
     #include "System/HitboxSystem/HitboxSystem.hpp"
     #include "System/DisconnectionSystem/DisconnectionSystem.hpp"
+    #include "System/NewClientSystem/NewClientSystem.hpp"
+    #include "System/JoinLobbySystem/JoinLobbySystem.hpp"
+    #include "StartGameSystem.hpp"
 
     #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
@@ -119,103 +123,35 @@ class Server {
          */
         void threadLoop();
 
-        /**
-         * @brief An asio context object that handles basic I/O
-         * 
-         */
-        asio::io_context _context;
+        asio::io_context _context; ///< An asio context object that handles basic I/O
 
-        /**
-         * @brief A queue that manages the tasks to be done by the systems using the packets received
-         * 
-         */
-        std::queue<std::function<void(void)>> _responseQueue;
+        std::queue<std::function<void(void)>> _responseQueue; ///< A queue that manages the tasks to be done by the systems using the packets received
 
-        /**
-         * @brief A shared pointer to a module used for communicating through udp sockets
-         * 
-         */
-        std::shared_ptr<IUdpCommunication> _com;
+        std::shared_ptr<IUdpCommunication> _com; ///< A shared pointer to a module used for communicating through udp sockets
 
-        /**
-         * @brief A buffer as a vector of bytes to communicate packets
-         * 
-         */
-        std::vector<byte> _buffer_to_get;
+        std::vector<byte> _buffer_to_get; ///< A buffer as a vector of bytes to communicate packets
 
-        /**
-         * @brief A thread object to concurently run the asio context and the systems
-         * 
-         */
-        std::thread _thread;
+        std::thread _thread; ///< A thread object to concurently run the asio context and the systems
 
-        /**
-         * @brief A boolean to handle the server's main loop
-         * 
-         */
-        bool _isRunning;
+        bool _isRunning; ///< A boolean to handle the server's main loop
 
-        /**
-         * @brief A map containing all the clients addresses and ports
-         * 
-         */
-        std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, bool>> _endpoints;
+        std::unordered_map<asio::ip::address, std::unordered_map<unsigned short, int>> _endpoints; ///< A map containing all the clients addresses and ports
+        int client_id = 0; ///< An index incremented to set the client id
+        Registry _registry; ///< An object Registry for the server to interact with it
 
-        /**
-         * @brief An object Registry for the server to interact with it
-         * 
-         */
-        Registry _registry;
+        MoveSystem _moveSystem; ///< An object MoveSystem to manage it in the server
+        DirectionSystem _directionSystem; ///< An object DirectionSystem to manage it in the server
+        ShootSystem _shootSystem; ///< An object ShootSystem to manage it in the server
+        // NewPlayerSystem _newPlayerSystem; ///< An object NewPlayerSystem to manage it in the server
+        SpawnEnemySystem _spawnEnemySystem; ///< An object SpawnEnemySystem to manage it in the server
+        System::ReceiveSystem _receiveSystem; ///< An object ReceiveSystem to manage it in the server
+        System::HitboxSystem _hitboxSystem; ///< An object HitboxSystem to manage it in the server
+        DisconnectionSystem _disconnectionSystem; ///< An object DisconnectionSystem to manage it in the server
+        NewClientSystem _newClientSystem; ///< An object DisconnectionSystem to manage it in the server
+        JoinLobbySystem _joinLobbySystem; ///< An object DisconnectionSystem to manage it in the 
+        StartGameSystem _startGameSystem;
 
-        /**
-         * @brief An object MoveSystem to manage it in the server
-         * 
-         */
-        MoveSystem _moveSystem;
-
-        /**
-         * @brief An object DirectionSystem to manage it in the server
-         * 
-         */
-        DirectionSystem _directionSystem;
-
-        /**
-         * @brief An object ShootSystem to manage it in the server
-         * 
-         */
-        ShootSystem _shootSystem;
-        /**
-         * @brief An object NewPlayerSystem to manage it in the server
-         *
-         */
-        NewPlayerSystem _newPlayerSystem;
-
-        /**
-         * @brief An object SpawnEnemySystem to manage it in the server
-         * 
-         */
-        SpawnEnemySystem _spawnEnemySystem;
-
-        /**
-         * @brief An object ReceiveSystem to manage it in the server
-         * 
-         */
-        System::ReceiveSystem _receiveSystem;
-
-        /**
-         * @brief An object HitboxSystem to manage it in the server
-         */
-        System::HitboxSystem _hitboxSystem;
-
-        /**
-         * @brief An object DisconnectionSystem to manage it in the server
-         */
-        DisconnectionSystem _disconnectionSystem;
-
-        /**
-         * @brief A boolean to manage the server loop
-         */
-        bool _serverIsRunning = true;
+        bool _serverIsRunning = true; ///< A boolean to manage the server loop
 };
 
 #endif /* !SERVER_HPP_ */

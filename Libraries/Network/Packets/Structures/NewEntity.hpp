@@ -15,11 +15,12 @@
  * 
  */
 struct packet_new_entity {
-    uint16_t id; // id of new entity;
-    float positionX; // x position of new entity;
-    float positionY; // y position of new entity;
-    uint16_t direction; // direction of new entity;
-    std::size_t type; // type of entity;
+    uint16_t id;       ///< id of new entity;
+    float positionX;   ///< x position of new entity;
+    float positionY;   ///< y position of new entity;
+    uint16_t direction;///< direction of new entity;
+    std::size_t type;  ///< type of entity;
+    int clientId;      ///< id of client
 };
 
 #endif /* !NEWENTITY_HPP_ */

@@ -80,6 +80,11 @@ int Keyboard::getKeySpaceCharCode() const
     return KEY_SPACE;
 }
 
+int Keyboard::getKeyEnterCharCode() const
+{
+    return KEY_ENTER;
+}
+
 int Keyboard::getKeySCharCode() const
 {
     return KEY_S;

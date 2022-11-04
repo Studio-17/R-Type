@@ -1,5 +1,5 @@
 {
-    "menu button": {
+    "start-btn": {
         "textureId": "button",
         "position": [300, 300],
         "nbFrame": 3,
@@ -10,7 +10,9 @@
             "color": [150, 150, 150, 255],
             "fontSize": 40,
             "position": [5, 5]
-        }
+        },
+        "scene": 4,
+        "callback-type": "start-game"
     },
     "menu button2": {
         "textureId": "button",

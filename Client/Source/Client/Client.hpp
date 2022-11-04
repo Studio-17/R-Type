@@ -9,6 +9,8 @@
     #define CLIENT_HPP_
 
 	#include <thread>
+	#include <unordered_map>
+	#include <functional>
 
 	#include <asio/buffer.hpp>
     #include <asio/ip/udp.hpp>
@@ -28,6 +30,9 @@
 	#include "MoveSystem.hpp"
 	#include "NetworkSystem.hpp"
 	#include "KillSystem.hpp"
+	#include "GetLobbiesSystem/GetLobbiesSystem.hpp"
+	#include "SetNbPlayerInLobbySystem.hpp"
+	#include "NewClientResponseSystem.hpp"
 	#include "MouseSystem.hpp"
 
 	#include "AssetManager.hpp"
@@ -41,7 +46,7 @@ class Client
 	public:
 		/**
 		 * @brief Construct a new Client object
-		 * 
+		 *
 		 * @param ip ip of the client
 		 * @param port port of the client
 		 * @param hostPort port of the host
@@ -50,56 +55,69 @@ class Client
 
 		/**
 		 * @brief Destroy the Client object
-		 * 
+		 *
 		 */
 		~Client();
 
 		/**
 		 * @brief Set the Up Ecs object
-		 * 
+		 *
 		 */
 		void setUpEcs();
 
 		/**
 		 * @brief Set the Up Systems object
-		 * 
+		 *
 		 */
 		void setUpSystems();
 
 		/**
 		 * @brief Set the Up Components object
-		 * 
+		 *
 		 */
 		void setUpComponents();
 
 		/**
 		 * @brief A method to launch the core features of a client
-		 * 
+		 *
 		 */
 		void machineRun();
 
 		/**
-		 * @brief A method to try to connect to a target server 
-		 * 
+		 * @brief A method to try to connect to a target server
+		 *
 		 */
 		void tryToConnect();
+
+		/**
+		 * @brief A method to call juste before a client is deconected
+		 * 
+		 */
+		void disconnect();
+		/**
+		 * @brief A method to load the assets of the button
+		 *
+		 * @param byte bytes to read
+		 */
+		void loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets);
+
 
 	private:
 		/**
 		 * @brief A method to recieve a packet through udp protocol
-		 * 
+		 *
 		 */
 		void handleReceive();
 
 		/**
 		 * @brief A method to send a packet through udp protocol
-		 * 
+		 *
 		 */
 		void SendPacket();
 
 		/**
 		 * @brief A method to push all the packets to the main queue
-		 * 
+		 *
 		 * @param e error code of asio
 		 * @param nbBytes nb of bytes to read
 		 */
@@ -107,14 +125,14 @@ class Client
 
 		/**
 		 * @brief A method to send a changement of direction
-		 * 
+		 *
 		 * @param byte bytes to read
 		 */
 		void sendNewDirection(std::vector<byte> &byte);
 
 		/**
 		 * @brief A method to send a new shot has been fired by the client
-		 * 
+		 *
 		 * @param byte bytes to read
 		 */
 		void sendNewShoot(std::vector<byte> &byte);
@@ -122,17 +140,16 @@ class Client
 		void loadParallax(Sparse_array<component::casset_t> &assets);
 
 		/**
-		 * @brief A method to load the assets of the button
-		 * 
-		 * @param byte bytes to read
-		 */
-		void loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets);
-
-		/**
 		 * @brief A method to configure and load the threadloop
-		 * 
+		 *
 		 */
 		void threadLoop();
+
+		/**
+		 * @brief Call back function executed when start button is pressed to start the game
+		 *
+		 */
+		void startGameScene();
 
 		asio::io_context _context; ///< An asio context object to handle basic I/O
 
@@ -144,6 +161,7 @@ class Client
 		std::thread _thread; ///< thread to handle ECS
 		bool _connected; ///< A boolean to check if the clientis conncted to the server
 		AssetManager _assetManager;
+		std::map<std::string, std::function<void(void)>> _callbackMap; ///< A map of callbacks
 
 		// Systems
 		NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues
@@ -154,6 +172,9 @@ class Client
 		PositionSystem _positionSystem; ///< System that updates the position of the entities
 		MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
 		KillSystem _killSystem; ///< System that kill entity
+		GetLobbiesSystem _getLobbiesSystem;
+		SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem;
+		NewClientResponseSystem _newClientResponseSystem;
 		MouseSystem _mouseSystem; ///< System that handle mouse events
 };
 
