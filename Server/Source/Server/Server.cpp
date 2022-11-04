@@ -77,14 +77,14 @@ void Server::setUpEcs()
     _registry.register_component<component::ctimer_t>();
     _registry.register_component<component::csceneid_t>();
 
-   _registry.add_system(_moveSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>(), _registry.get_components<component::ctimer_t>());
-   _registry.add_system(_directionSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cdirection_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::cvelocity_t>());
-   _registry.add_system(_receiveSystem, _registry.get_components<component::cnetwork_queue_t>());
-   _registry.add_system(_shootSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>());
-   _registry.add_system(_spawnEnemySystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::ctype_t>(), _registry.get_components<component::ctimer_t>());
-   _registry.add_system(_newPlayerSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::ctype_t>());
-   _registry.add_system(_hitboxSystem, _registry.get_components<component::cnetwork_queue_t>(), _registry.get_components<component::ctype_t>(), _registry.get_components<component::cposition_t>(), _registry.get_components<component::crect_t>());
-   _registry.add_system(_disconnectionSystem, _registry.get_components<component::cnetwork_queue_t>());
+    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t>(_directionSystem);
+    _registry.add_system<component::cnetwork_queue_t>(_receiveSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cposition_t>(_shootSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t, component::ctimer_t>(_spawnEnemySystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t>(_newPlayerSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::ctype_t, component::cposition_t, component::crect_t>(_hitboxSystem);
+    _registry.add_system<component::cnetwork_queue_t>(_disconnectionSystem);
 }
 
 void Server::setUpComponents()
