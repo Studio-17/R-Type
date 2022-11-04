@@ -202,9 +202,9 @@ class Registry
          * @param components
          */
         template <class ...Component, typename Function>
-        void add_system(Function &&f, Component &&...components) {
-            _listOfSystems.push_back([&f, &components...](Registry &registry) -> void {
-                f(registry, components...);
+        void add_system(Function &&f) {
+            _listOfSystems.push_back([&f](Registry &registry) -> void {
+                f(registry, registry.get_components<Component>()...);
             });
         }
 
@@ -217,9 +217,9 @@ class Registry
          * @param components
          */
         template <class ...Component, typename Function>
-        void add_system(Function const &f, Component &...components) {
-            _listOfSystems.push_back([&f, &components...](Registry &registry) -> void {
-                f(registry, components...);
+        void add_system(Function const &f) {
+            _listOfSystems.push_back([&f](Registry &registry) -> void {
+                f(registry, registry.get_components<Component>()...);
             });
         }
 
