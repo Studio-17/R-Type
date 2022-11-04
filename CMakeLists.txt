@@ -13,11 +13,13 @@ set(CMAKE_DEBUG_FIND_MODE TRUE)
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
 if(MSVC)
+    message("++ Microsoft Development environment detected")
     list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x86-windows/share/asio/")
     list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x86-windows/share/nlohmann_json/")
 endif()
 
 if(UNIX)
+    message("++ Linux Development environment detected")
     list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-linux/share/asio/")
     list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-linux/share/nlohmann_json/")
 endif()
@@ -31,7 +33,7 @@ unset(DOXYGEN CACHE) # Unset the cache variable
 
 option(UNIT_TESTS "Build test with Criterion" OFF) #OFF by default
 if(UNIT_TESTS)
-    message("-- Building unit tests with libcriterion")
+    message("++ Building unit tests with libcriterion")
     add_subdirectory(Tests)
 endif()
 unset(UNIT_TESTS CACHE)
@@ -54,9 +56,19 @@ if(CLANG_FORMAT)
         -style=file
         ${ALL_CXX_SOURCE_FILES}
     )
-    message("-- Formatted all .[ch]pp files using .clang-format instructions")
+    message("++ Formatted all .[ch]pp files using .clang-format instructions")
 endif()
 
+option(CLIENT "Generate R-Type Client" OFF)
+option(SERVER "Generate R-Type Server" OFF)
+
 add_subdirectory(Libraries)
-add_subdirectory(Client)
-add_subdirectory(Server)
+
+if(CLIENT)
+    add_subdirectory(Client)
+elseif(SERVER)
+    add_subdirectory(Server)
+else()
+     add_subdirectory(Client)
+     add_subdirectory(Server)
+endif()

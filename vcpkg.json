@@ -1,5 +1,5 @@
 {
-  "name": "R-Type",
+  "name": "r-type",
   "version-string": "0.1.0",
   "dependencies": [
     "asio",
