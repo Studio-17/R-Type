@@ -50,3 +50,4 @@ cmake-build-debug/*
 asio/*
 cmake-build-release
 CMakeUserPresets.json
+vcpkg_installed/
