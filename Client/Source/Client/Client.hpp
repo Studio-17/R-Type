@@ -53,7 +53,7 @@ class Client
 		 * @param port port of the client
 		 * @param hostPort port of the host
 		 */
-		Client(std::string const &ip, std::string const &port, int hostPort);
+        Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles);
 
 		/**
 		 * @brief Destroy the Client object
@@ -142,6 +142,7 @@ class Client
 		std::thread _thread; ///< thread to handle ECS
 		bool _connected; ///< A boolean to check if the clientis conncted to the server
 		AssetManager _assetManager;
+        std::map<std::string, std::string> _configurationFiles;
 
 		// Systems
 		NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues

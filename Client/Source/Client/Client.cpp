@@ -29,12 +29,18 @@
 #include "Asset.hpp"
 #include "Disconnection.hpp"
 
-Client::Client(std::string const &ip, std::string const &port, int hostPort) :
+Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
     _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
     _graphicLib->initWindow(800, 600, "R-Type", 60);
+
+    _configurationFiles = configurationFiles;
+
+//    for (auto [key, value] : _configurationFiles) {
+//        std::cout << key << " -> " << value << std::endl;
+//    }
 
     setUpEcs();
     setUpSystems();
@@ -145,7 +151,7 @@ void Client::setUpComponents()
 	_registry.add_component<component::ctimer_t>(network, std::move(timer));
 
     component::casset_t assets;
-    assets.assets = AssetManager("Assets/asset.json");
+    assets.assets = AssetManager(_configurationFiles.at("ASSET"));
 	_registry.add_component<component::casset_t>(network, std::move(assets));
 
     // Parallax Entity
