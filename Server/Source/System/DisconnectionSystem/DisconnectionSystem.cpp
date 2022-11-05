@@ -31,11 +31,11 @@ void System::DisconnectionSystem::operator()(Registry &registry, Sparse_array<co
 {
     if (network_queues[FORBIDDEN_IDS::NETWORK]) {
         while (!network_queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.empty()) {
-            std::pair<int, packet_disconnection> packet = network_queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.front();
-            network_queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.pop();
+            std::pair<int, packet_disconnection> &packet = network_queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.front();
             network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({0, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(packet.second.disconnection)})});
             registry.kill_entity(registry.entity_from_index(packet.second.disconnection));
             removeClientLobby(packet.first, lobbyId, lobbiesToEntities, netIdToClientId);
+            network_queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.pop();
         }
     }
 }

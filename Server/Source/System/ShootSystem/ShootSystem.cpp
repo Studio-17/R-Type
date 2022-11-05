@@ -25,12 +25,12 @@ void System::ShootSystem::operator()(Registry &registry, Sparse_array<component:
     (void)netqueue;
     (void)position;
     // while (!netqueue[0].value().shootQueue.empty()) {
-    //     std::pair<int, packet_shoot> packet = netqueue[0].value().shootQueue.front();
-    //     netqueue[0].value().shootQueue.pop();
+    //     std::pair<int, packet_shoot> &packet = netqueue[0].value().shootQueue.front();
     //     if (position[packet.second.id]) {
     //         Entity bullet = createBullet(registry, position, packet.second.id);
     //         netqueue[0].value().toSendNetworkQueue.push({0, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {static_cast<uint16_t>(bullet), position[bullet].value().x, position[bullet].value().y, 1, ENTITY_TYPE::BULLET})});
     //     }
+    //     netqueue[0].value().shootQueue.pop();
     // }
 }
 

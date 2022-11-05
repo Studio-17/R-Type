@@ -17,8 +17,7 @@ void System::ReceiveSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
 {
     if (queues[0].value().receivedNetworkQueue.empty())
         return;
-    std::pair<int, std::vector<byte>> buffer = queues[0].value().receivedNetworkQueue.front();
-    queues[0].value().receivedNetworkQueue.pop();
+    std::pair<int, std::vector<byte>> &buffer = queues[0].value().receivedNetworkQueue.front();
     uint8_t id = serialize_header::getId(buffer.second);
 
     std::vector<byte> bufferWithoutId;
@@ -28,6 +27,7 @@ void System::ReceiveSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
     } catch (std::out_of_range const &) {
         std::cout << "Undefined packet id: " << id << std::endl;
     }
+    queues[0].value().receivedNetworkQueue.pop();
 }
 
 void System::ReceiveSystem::addMoveOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues)
