@@ -141,7 +141,7 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t>(_getLobbiesSystem);
     _registry.add_system<component::cnetwork_queue_t>(_setNbPlayerInLobbySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
-    // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
     _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t>(_drawSystem);
 }
@@ -158,7 +158,7 @@ void Client::setUpComponents()
             component::ckeyboard_t{ .keyboard = 0 },
             component::ctimer_t{ .deltaTime = std::chrono::steady_clock::now(), .animTimer = std::chrono::steady_clock::now() },
             component::casset_t{ .assets = assetMan.assets },
-            component::csceneid_t{ .sceneId = SCENE::MAIN_MENU },
+            component::csceneid_t{ .sceneId = SCENE::GAME }, // Set scene when the program start
             component::cclient_network_id {}
     );
 

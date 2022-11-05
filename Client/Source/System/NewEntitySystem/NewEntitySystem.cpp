@@ -88,7 +88,7 @@ void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, 
 
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
 
-    Entity enemy = registry.spawn_entity_with(
+    Entity ship = registry.spawn_entity_with(
         component::cdirection_t{ .x = 0, .y = 0},
         component::crect_t{ asset.at(_entityType.at(newEntity.type)).getRectangle() },
         component::cposition_t{ .x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY) },
