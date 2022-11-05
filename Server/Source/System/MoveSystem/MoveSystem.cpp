@@ -11,11 +11,11 @@
 #include "Position.hpp"
 #include "KillEntity.hpp"
 
-MoveSystem::MoveSystem()
+System::MoveSystem::MoveSystem()
 {
 }
 
-void MoveSystem::operator()(Registry &registry, [[ maybe_unused ]] Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ctimer_t> &timer)
+void System::MoveSystem::operator()(Registry &registry, [[ maybe_unused ]] Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ctimer_t> &timer)
 {
     if (std::chrono::steady_clock::now() - timer[0].value().deltaTime > (std::chrono::nanoseconds)100000000)
         timer[0].value().deltaTime = std::chrono::steady_clock::now();
@@ -33,9 +33,8 @@ void MoveSystem::operator()(Registry &registry, [[ maybe_unused ]] Sparse_array<
     }
 }
 
-void MoveSystem::sendKillEntityPacket(Registry &registry, uint16_t id, Sparse_array<component::cnetwork_queue_t> &netqueue)
+void System::MoveSystem::sendKillEntityPacket(Registry &registry, uint16_t id, Sparse_array<component::cnetwork_queue_t> &netqueue)
 {
-    // std::cout << "Kill entity send" << id << std::endl;
     packet_kill_entity packet = {.id = id};
     std::vector<byte> bytes = serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, packet);
     registry.kill_entity(registry.entity_from_index(id));

@@ -12,11 +12,11 @@
 #include "Constant.hpp"
 #include "KillEntity.hpp"
 
-DisconnectionSystem::DisconnectionSystem()
+System::DisconnectionSystem::DisconnectionSystem()
 {
 }
 
-void DisconnectionSystem::removeClientLobby(int netClientId, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId)
+void System::DisconnectionSystem::removeClientLobby(int netClientId, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId)
 {
     Entity clientEntity = netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netClientId);
 
@@ -27,7 +27,7 @@ void DisconnectionSystem::removeClientLobby(int netClientId, Sparse_array<compon
     entityList.erase(it);
 }
 
-void DisconnectionSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId)
+void System::DisconnectionSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId)
 {
     if (network_queues[FORBIDDEN_IDS::NETWORK]) {
         while (!network_queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.empty()) {

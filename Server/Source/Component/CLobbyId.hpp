@@ -8,7 +8,6 @@
 #ifndef CLOBBYID_HPP_
     #define CLOBBYID_HPP_
 
-
 enum LOBBY {
     DEFAULT = -1
 };

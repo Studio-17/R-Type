@@ -5,26 +5,26 @@
 ** SpawnEnemy
 */
 
-#include "SpawnEnemySystem.hpp"
-
 #include <cstdlib>
 #include <ctime>
 
-#include "CVelocity.hpp"
-#include "CRect.hpp"
-#include "Component/CDirection.hpp"
-#include "Component/CHitBox.hpp"
-#include "CSceneId.hpp"
+#include "SpawnEnemySystem.hpp"
 
 #include "Serialization.hpp"
 #include "NewEntity.hpp"
 
-SpawnEnemySystem::SpawnEnemySystem()
+#include "Component/CVelocity.hpp"
+#include "Component/CRect.hpp"
+#include "Component/CDirection.hpp"
+#include "Component/CHitBox.hpp"
+#include "Component/CSceneId.hpp"
+
+System::SpawnEnemySystem::SpawnEnemySystem()
 {
     std::srand(std::time(nullptr));
 }
 
-void SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer)
+void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer)
 {
     if (std::chrono::steady_clock::now() - timer[0].value().spawnEnemyDeltaTime > (std::chrono::nanoseconds)3000000000)
         timer[0].value().spawnEnemyDeltaTime = std::chrono::steady_clock::now();
@@ -36,7 +36,7 @@ void SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cn
     }
 }
 
-Entity SpawnEnemySystem::createEnemy(Registry &registry)
+Entity System::SpawnEnemySystem::createEnemy(Registry &registry)
 {
     Entity enemy = registry.spawn_entity_with(
         component::cdirection_t{ .x = -1, .y = 0 },

@@ -22,15 +22,8 @@
     #include <asio/placeholders.hpp>
 
     #include "Registry.hpp"
-    #include "Component/CDamage.hpp"
-    #include "Component/CDirection.hpp"
-    #include "Component/CHealth.hpp"
-    #include "Component/CHitBox.hpp"
-    #include "Component/CNetworkQueue.hpp"
-    #include "Component/CPosition.hpp"
-    #include "Component/CLobbiesToEntities.hpp"
-    // #include "Component/CVelocity.hpp"
 
+    /* System */
     #include "System/MoveSystem/MoveSystem.hpp"
     #include "System/ReceiveSystem/ReceiveSystem.hpp"
     #include "System/DirectionSystem/DirectionSystem.hpp"
@@ -41,13 +34,11 @@
     #include "System/DisconnectionSystem/DisconnectionSystem.hpp"
     #include "System/NewClientSystem/NewClientSystem.hpp"
     #include "System/JoinLobbySystem/JoinLobbySystem.hpp"
-    #include "StartGameSystem.hpp"
+    #include "System/StartGameSystem/StartGameSystem.hpp"
 
-    #include "Serialization.hpp"
+    // #include "Serialization.hpp"
     #include "UdpCommunication.hpp"
     #include "IUdpCommunication.hpp"
-
-    #include "Constant.hpp"
 
 /**
  * @brief 
@@ -139,17 +130,17 @@ class Server {
         int client_id = 0; ///< An index incremented to set the client id
         Registry _registry; ///< An object Registry for the server to interact with it
 
-        MoveSystem _moveSystem; ///< An object MoveSystem to manage it in the server
-        DirectionSystem _directionSystem; ///< An object DirectionSystem to manage it in the server
-        ShootSystem _shootSystem; ///< An object ShootSystem to manage it in the server
-        // NewPlayerSystem _newPlayerSystem; ///< An object NewPlayerSystem to manage it in the server
-        SpawnEnemySystem _spawnEnemySystem; ///< An object SpawnEnemySystem to manage it in the server
+        System::MoveSystem _moveSystem; ///< An object MoveSystem to manage it in the server
+        System::DirectionSystem _directionSystem; ///< An object DirectionSystem to manage it in the server
+        System::ShootSystem _shootSystem; ///< An object ShootSystem to manage it in the server
+        // System::NewPlayerSystem _newPlayerSystem; ///< An object NewPlayerSystem to manage it in the server
+        System::SpawnEnemySystem _spawnEnemySystem; ///< An object SpawnEnemySystem to manage it in the server
         System::ReceiveSystem _receiveSystem; ///< An object ReceiveSystem to manage it in the server
         System::HitboxSystem _hitboxSystem; ///< An object HitboxSystem to manage it in the server
-        DisconnectionSystem _disconnectionSystem; ///< An object DisconnectionSystem to manage it in the server
-        NewClientSystem _newClientSystem; ///< An object DisconnectionSystem to manage it in the server
-        JoinLobbySystem _joinLobbySystem; ///< An object DisconnectionSystem to manage it in the 
-        StartGameSystem _startGameSystem;
+        System::DisconnectionSystem _disconnectionSystem; ///< An object DisconnectionSystem to manage it in the server
+        System::NewClientSystem _newClientSystem; ///< An object NewClientSystem to manage it in the server
+        System::JoinLobbySystem _joinLobbySystem; ///< An object JoinLobbySystem to manage it in the 
+        System::StartGameSystem _startGameSystem; ///< An object StartGameSystem to manage it in the 
 
         bool _serverIsRunning = true; ///< A boolean to manage the server loop
 };

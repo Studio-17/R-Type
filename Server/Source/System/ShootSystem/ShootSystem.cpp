@@ -6,18 +6,20 @@
 */
 
 #include "ShootSystem.hpp"
+
 #include "Shoot.hpp"
 #include "Serialization.hpp"
 #include "NewEntity.hpp"
-#include "CVelocity.hpp"
-#include "CType.hpp"
-#include "CRect.hpp"
 
-ShootSystem::ShootSystem()
+#include "Component/CVelocity.hpp"
+#include "Component/CType.hpp"
+#include "Component/CRect.hpp"
+
+System::ShootSystem::ShootSystem()
 {
 }
 
-void ShootSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position)
+void System::ShootSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position)
 {
     (void)registry;
     (void)netqueue;
@@ -32,7 +34,7 @@ void ShootSystem::operator()(Registry &registry, Sparse_array<component::cnetwor
     // }
 }
 
-Entity ShootSystem::createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId)
+Entity System::ShootSystem::createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId)
 {
     Entity bullet = registry.spawn_entity_with(
         component::cdamage_t{ .damage = 0},

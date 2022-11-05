@@ -9,20 +9,18 @@
 
 #include "Serialization.hpp"
 #include "Constant.hpp"
-
-#include "CDirection.hpp"
-#include "CPosition.hpp"
-#include "CVelocity.hpp"
-#include "CRect.hpp"
-#include "CSceneId.hpp"
-
 #include "NewEntity.hpp"
 
-NewPlayerSystem::NewPlayerSystem()
+#include "Component/CDirection.hpp"
+#include "Component/CVelocity.hpp"
+#include "Component/CRect.hpp"
+#include "Component/CSceneId.hpp"
+
+System::NewPlayerSystem::NewPlayerSystem()
 {
 }
 
-void NewPlayerSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type)
+void System::NewPlayerSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type)
 {
     (void)registry;
     (void)netqueue;
@@ -46,7 +44,7 @@ void NewPlayerSystem::operator()(Registry &registry, Sparse_array<component::cne
     // }
 }
 
-Entity NewPlayerSystem::createSpaceShip(Registry &registry)
+Entity System::NewPlayerSystem::createSpaceShip(Registry &registry)
 {
     Entity spaceShip = registry.spawn_entity_with(
         component::cdirection_t{ .x = 0, .y = 0},

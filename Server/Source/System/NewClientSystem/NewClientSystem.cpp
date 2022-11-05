@@ -6,16 +6,19 @@
 */
 
 #include "NewClientSystem.hpp"
-#include "CLobbyId.hpp"
+
 #include "Constant.hpp"
+#include "Serialization.hpp"
 #include "Lobbies.hpp"
 #include "NewConnection.hpp"
-#include "Serialization.hpp"
 
-NewClientSystem::NewClientSystem() {
+#include "Component/CLobbyId.hpp"
+
+
+System::NewClientSystem::NewClientSystem() {
 }
 
-void NewClientSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities) {
+void System::NewClientSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities) {
     while (!netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.empty()) {
         std::pair<int, packet_new_connection> newConnect = netqueue[0].value().newPlayerQueue.front();
 
@@ -48,14 +51,13 @@ void NewClientSystem::operator()(Registry &registry, Sparse_array<component::cne
     }
 }
 
-void NewClientSystem::sendLobbiesStatus(int clientId, Sparse_array<component::cnetwork_queue_t> &networkQueue, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities) {
+void System::NewClientSystem::sendLobbiesStatus(int clientId, Sparse_array<component::cnetwork_queue_t> &networkQueue, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities) {
     packet_send_lobbies sendLobbiesPacket;
 
     sendLobbiesPacket.nbOfLobbies = 3;
     sendLobbiesPacket.nbPlayersLobbyOne = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(1).size();
     sendLobbiesPacket.nbPlayersLobbyTwo = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(2).size();
     sendLobbiesPacket.nbPlayersLobbyThree = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(3).size();
-
 
     packet_new_connection_response newConnectResponse;
     newConnectResponse.id = clientId;

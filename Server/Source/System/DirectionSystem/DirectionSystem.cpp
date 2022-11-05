@@ -7,22 +7,18 @@
 
 #include <unordered_map>
 
-#include "Registry.hpp"
-
-#include "Component/CDirection.hpp"
-#include "Component/CPosition.hpp"
 #include "Component/CVelocity.hpp"
 
 #include "DirectionSystem.hpp"
-#include "Move.hpp"
 #include "Serialization.hpp"
+#include "Move.hpp"
 #include "Position.hpp"
 
-DirectionSystem::DirectionSystem()
+System::DirectionSystem::DirectionSystem()
 {
 }
 
-void DirectionSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, [[ maybe_unused ]] Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity)
+void System::DirectionSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, [[ maybe_unused ]] Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity)
 {
     if (!netqueue[0].value().moveQueue.empty()) {
         std::pair<int, packet_move> packet = netqueue[0].value().moveQueue.front();

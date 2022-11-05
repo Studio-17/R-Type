@@ -9,37 +9,52 @@
     #define DISCONNECTIONSYSTEM_HPP_
 
     #include "Registry.hpp"
-    #include "CNetworkQueue.hpp"
-    #include "CLobbyId.hpp"
-    #include "CLobbiesToEntities.hpp"
-    #include "CNetIdToClientId.hpp"
 
+    /* Component*/
+    #include "Component/CNetworkQueue.hpp"
+    #include "Component/CLobbyId.hpp"
+    #include "Component/CLobbiesToEntities.hpp"
+    #include "Component/CNetIdToClientId.hpp"
 
 /**
- * @brief The Disconnection System class, it handles disconnection of a client
+ * @brief Namespace for systems
  */
-class DisconnectionSystem {
-    public:
-        /**
-         * @brief Construct a new Disconnection System object
-         */
-        DisconnectionSystem();
-        /**
-         * @brief Destroy the Disconnection System object
-         */
-        ~DisconnectionSystem() = default;
+namespace System {
+    /**
+     * @brief The Disconnection System class, it handles disconnection of a client
+     */
+    class DisconnectionSystem {
+        public:
+            /**
+             * @brief Construct a new Disconnection System object
+             */
+            DisconnectionSystem();
+            ~DisconnectionSystem() = default;
 
-        /**
-         * @brief The main handler for the Disconnection System
-         *
-         * @param registry the registry of the server
-         */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId);
+            /**
+             * @brief The main handler for the Disconnection System
+             *
+             * @param registry The registry of the server
+             * @param network_queues The sparse array of network entities
+             * @param lobbyId The sparse array of lobbyId entities
+             * @param lobbiesToEntities The sparse array of lobbiesToEntities entities
+             * @param netIdToClientId The sparse array of netIdToClientId entities
+             */
+            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId);
 
-        void removeClientLobby(int netClientId, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId);
+            /**
+             * @brief Function to remove Client to lobby
+             *
+             * @param netClientId The sparse array of network entities
+             * @param lobbyId The sparse array of lobbyId entities
+             * @param lobbiesToEntities The sparse array of lobbiesToEntities entities
+             * @param netIdToClientId The sparse array of netIdToClientId entities
+             */
+            void removeClientLobby(int netClientId, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId);
 
-    protected:
-    private:
-};
+        protected:
+        private:
+    };
+}
 
 #endif /* !DISCONNECTIONSYSTEM_HPP_ */

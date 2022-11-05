@@ -7,12 +7,23 @@
 
 #include "Server.hpp"
 
-#include "CLobbyId.hpp"
-#include "CTimer.hpp"
-#include "CType.hpp"
-#include "NewConnection.hpp"
 #include "Serialization.hpp"
-#include "CSceneId.hpp"
+#include "NewConnection.hpp"
+#include "Constant.hpp"
+
+/* Component */
+#include "Component/CDamage.hpp"
+#include "Component/CDirection.hpp"
+#include "Component/CHealth.hpp"
+#include "Component/CHitBox.hpp"
+#include "Component/CNetworkQueue.hpp"
+#include "Component/CPosition.hpp"
+#include "Component/CLobbiesToEntities.hpp"
+// #include "Component/CVelocity.hpp"
+#include "Component/CLobbyId.hpp"
+#include "Component/CTimer.hpp"
+#include "Component/CType.hpp"
+#include "Component/CSceneId.hpp"
 
 Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port)),
     _thread(&Server::threadLoop, this), _isRunning(true)
