@@ -38,7 +38,7 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort, std
     _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
-    _graphicLib->initWindow(800, 600, "R-Type", 60);
+    _graphicLib->initWindow(1920, 1080, "R-Type", 60);
 
     _configurationFiles = configurationFiles;
 
@@ -136,13 +136,13 @@ void Client::setUpSystems()
     // _registry.add_system<component::cnetwork_queue_t, component::cserverid_t>(_killSystem);
     _registry.add_system<component::crect_t, component::ctimer_t, component::ctype_t, component::casset_t, component::cassetid_t>(_rectSystem);
     _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t>(_controlSystem);
-	// _registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id>(_newEntitySystem);
     _registry.add_system<component::cnetwork_queue_t>(_getLobbiesSystem);
     _registry.add_system<component::cnetwork_queue_t>(_setNbPlayerInLobbySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
-    // _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
+    _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t>(_drawSystem);
 }
 
@@ -163,15 +163,16 @@ void Client::setUpComponents()
     );
 
     loadParallax(_registry.get_components<component::casset_t>());
-    // loadButton("Assets/buttons.json", _registry.get_components<component::casset_t>());
+    std::cout << "This ->" << _configurationFiles.at("BUTTONS") << std::endl;
+    loadButton(_configurationFiles.at("BUTTONS"), _registry.get_components<component::casset_t>());
 
-    // Entity planet = _registry.spawn_entity_with(
-    //     component::crect_t{ assetMan.assets.at("planet").getRectangle() },
-    //     component::cposition_t{ .x = 300, .y = 300 },
-    //     component::ctype_t{ .type = UI },
-    //     component::cassetid_t{ .assets = "planet" },
-    //     component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
-    // );
+    Entity planet = _registry.spawn_entity_with(
+        component::crect_t{ assetMan.assets.at("planet").getRectangle() },
+        component::cposition_t{ .x = 300, .y = 300 },
+        component::ctype_t{ .type = UI },
+        component::cassetid_t{ .assets = "planet" },
+        component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
+    );
 }
 
 void Client::loadParallax(Sparse_array<component::casset_t> &assets)
@@ -180,7 +181,7 @@ void Client::loadParallax(Sparse_array<component::casset_t> &assets)
     std::vector<std::pair<std::string, int>> parallax = {
         {"parallax_background", 1},
         {"parallax_mountain", 3},
-        {"parallax_ground", 4 }
+        {"parallax_ground", 4}
     };
 
     for (std::size_t i = 0; i <= 1; i++) {
