@@ -6,6 +6,7 @@
 */
 
 #include "MoveSystem.hpp"
+#include "Constant.hpp"
 #include "Move.hpp"
 #include "Serialization.hpp"
 #include "Position.hpp"
@@ -17,8 +18,8 @@ System::MoveSystem::MoveSystem()
 
 void System::MoveSystem::operator()(Registry &registry, [[ maybe_unused ]] Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ctimer_t> &timer)
 {
-    if (std::chrono::steady_clock::now() - timer[0].value().deltaTime > (std::chrono::nanoseconds)100000000)
-        timer[0].value().deltaTime = std::chrono::steady_clock::now();
+    if (std::chrono::steady_clock::now() - timer[FORBIDDEN_IDS::NETWORK].value().deltaTime > (std::chrono::nanoseconds)100000000)
+        timer[FORBIDDEN_IDS::NETWORK].value().deltaTime = std::chrono::steady_clock::now();
     else
         return;
     for (std::size_t index = 0; index < position.size() && index < velocity.size() && index < direction.size(); index++) {

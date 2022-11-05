@@ -20,7 +20,7 @@ System::NewClientSystem::NewClientSystem() {
 
 void System::NewClientSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities) {
     while (!netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.empty()) {
-        std::pair<int, packet_new_connection> &newConnect = netqueue[0].value().newPlayerQueue.front();
+        std::pair<int, packet_new_connection> &newConnect = netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.front();
 
         // CREATE A CLIENT ENTITY
         Entity newClient = registry.spawn_entity();
