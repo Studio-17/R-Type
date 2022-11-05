@@ -41,76 +41,54 @@
     #include "IUdpCommunication.hpp"
 
 /**
- * @brief 
- * 
+ * @brief Server class to handle Server
  */
 class Server {
     public:
         /**
          * @brief Construct a new Server object
-         * 
-         * @param port 
+         *
+         * @param port The port where init the server
          */
         Server(short const port);
 
         /**
          * @brief Destroy the Server object
-         * 
          */
         ~Server();
 
         /**
-         * @brief A method to handle the packets received if an error occurs
-         * 
-         * @param error 
-         * @param bytes_transferred 
-         */
-        void CommunicationHandler(const std::error_code& error, std::size_t bytes_transferred) {
-            if (error) {
-                std::cerr << error.message() << std::endl;
-            } else {
-                std::cerr << "bytes transferred: " << bytes_transferred << std::endl;
-            }
-        };
-
-        /**
          * @brief Set the Up Ecs object
-         * 
          */
         void setUpEcs();
 
         /**
          * @brief Set the Up Components object
-         * 
          */
         void setUpComponents();
 
     protected:
-
     private:
         /**
          * @brief A method to recivie a packet using the communication module
-         * 
          */
         void ReceivePackets();
 
         /**
          * @brief A method to handle the reception of a packet and dispatch it to the appropriate system
-         * 
-         * @param e 
-         * @param nbBytes 
+         *
+         * @param e In case of error, this is the error code
+         * @param nbBytes Number of bytes transferred
          */
         void HandleReceive(asio::error_code const &e, std::size_t nbBytes);
 
         /**
          * @brief A method to send a packet using the communication module and systems
-         * 
          */
         void HandleSendPacket();
 
         /**
          * @brief A method to configure and handle the threadloop
-         * 
          */
         void threadLoop();
 

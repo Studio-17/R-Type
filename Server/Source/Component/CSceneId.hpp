@@ -12,16 +12,14 @@
 
 /**
  * @brief Namespace for all components
- *
  */
 namespace component {
     /**
      * @brief Structure representing the current scene loaded
-     *
      */
-    typedef struct csceneid_s {
+    struct csceneid_t {
         SCENE sceneId; ///< Id of a scene linked to the enum SCENE
-    } csceneid_t;
+    };
 }
 
 #endif /* !CSCENEID_HPP_ */
