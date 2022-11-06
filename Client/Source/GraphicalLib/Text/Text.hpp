@@ -9,7 +9,7 @@
 #define TEXT_HPP_
 
 #include <string>
-#include "Datas/Position/Position.hpp"
+#include "Position.hpp"
 
 /**
  * @brief Text class

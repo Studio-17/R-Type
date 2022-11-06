@@ -15,10 +15,10 @@ namespace component {
     /**
      * @brief A structure representing the direction component that holds the direction of an entity
      */
-    typedef struct cdirection_s {
+    struct cdirection_t {
         int x; ///< direction in x line of the entity
         int y; ///< direction in y line of the entity
-    } cdirection_t;
+    };
 }
 
 #endif /* !CDIRECTION_HPP_ */

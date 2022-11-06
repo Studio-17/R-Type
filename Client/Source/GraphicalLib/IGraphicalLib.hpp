@@ -6,7 +6,7 @@
 */
 
 #ifndef IGRAPHICALLIB_HPP_
-#define IGRAPHICALLIB_HPP_
+    #define IGRAPHICALLIB_HPP_
 
 #include <iostream>
 #include <memory>
@@ -18,93 +18,119 @@
 #include "MyMusic.hpp"
 #include "MyTexture.hpp"
 #include "Keyboard.hpp"
-#include "Datas/Position/Position.hpp"
+#include "Position.hpp"
 #include <utility>
 
 /**
  * @brief rtype namespace
- * 
  */
 namespace rtype {
     /**
      * @brief IGraphicalLib class
-     * 
      */
     class IGraphicalLib {
         public:
-            // /**
-            //  * @brief Construct a new IGraphicalLib object
-            //  * 
-            //  */
-            // IGraphicalLib();
             /**
              * @brief Destroy the IGraphicalLib object
-             * 
              */
             virtual ~IGraphicalLib() = default;
 
             /**
              * @brief Clear the window
-             * 
              */
-
             virtual auto initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate) -> void = 0;
 
             /**
              * @brief A method to close the window
-             * 
              */
             virtual auto closeWindow() -> void = 0;
 
             /**
              * @brief A method to clear the window
-             * 
              */
+
             virtual auto clearScreen() -> void = 0;
+
             /**
              * @brief Start drawing in the window
-             * 
              */
             virtual auto startDrawingWindow() -> void = 0;
+
             /**
              * @brief Stop drawing in the window
-             * 
              */
             virtual auto endDrawingWindow() -> void = 0;
 
             /**
              * @brief Check if window should close
-             * 
-             * @return true
-             * @return false
+             *
+             * @return true If window should close
+             * @return false If window shouldn't close
              */
             virtual auto windowShouldClose() -> bool = 0;
 
             /**
              * @brief Create a Sprite object
-             * 
-             * @param id id of the sprite
-             * @param imagePath path to the image
-             * @param position position of the sprite
-             * @param size size of the sprite
+             *
+             * @param id Id of the sprite
+             * @param imagePath Path to the image
+             * @param position Position of the sprite
+             * @param std::shared_ptr<size> Size of the sprite
              */
             virtual auto createSprite(std::string const &imagePath, float const &size, Rectangle const &rect) -> std::shared_ptr<Sprite> = 0;
+
             /**
              * @brief Draw a sprite
-             * 
-             * @param id id of the sprite
+             *
+             * @param texture Texture to draw
+             * @param position Position where to draw
+             * @param rotation Rotation of the texture
+             * @param scale Scale of the texture
              */
-
             virtual auto drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale) -> void = 0;
 
+            /**
+             * @brief Draw a sprite with a rectangle
+             *
+             * @param texture Texture to draw
+             * @param position Position where to draw
+             * @param rect Rect of the texture to draw
+             */
             virtual auto drawRectangle(MyTexture const &texture, Position const &position, Rectangle const &rect) -> void = 0;
 
+            /**
+             * @brief Destroy a Sprite
+             *
+             * @param sprite sprite to destroy
+             */
             virtual auto destroySprite(std::shared_ptr<Sprite> sprite) -> void = 0;
 
+            /**
+             * @brief Check the mouse collision
+             *
+             * @param position 
+             * @param x 
+             * @param y 
+             * @param height 
+             * @param width 
+             * @return true 
+             * @return false 
+             */
             virtual auto checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width) -> bool = 0;
 
+            /**
+             * @brief 
+             * 
+             * @return true 
+             * @return false 
+             */
             virtual auto IsLeftMouseButtonPressed() -> bool = 0;
 
+            /**
+             * @brief Get the Mouse Position object
+             * 
+             * @return Position 
+             */
             virtual auto getMousePosition() -> Position = 0;
 
             /**

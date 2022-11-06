@@ -10,7 +10,7 @@
 
     #include <iostream>
     #include <string>
-    #include "Datas/Position/Position.hpp"
+    #include "Position.hpp"
 
 /**
  * @brief Sprite class

@@ -8,21 +8,19 @@
 #ifndef CLICK_HPP_
     #define CLICK_HPP_
 
-    #include <Registry.hpp>
+    #include "Registry.hpp"
 
 /**
  * @brief Namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief Structure representing the click component to know if a entity is pressed and a call back to call when the entity is pressed
-     * 
      */
-    typedef struct click_s {
-        bool isPressed;
-        std::function<void(Registry &registry)> callBack;
-    } click_t;
+    struct cclick_t {
+        bool isPressed; ///< Boolean to know if is pressed
+        std::function<void(Registry &registry)> callBack; ///< Callback function
+    };
 }
 
 #endif /* !CLICK_HPP_ */

@@ -11,7 +11,7 @@
 
 #include "Client.hpp"
 #include "CSceneId.hpp"
-#include "Mouse.hpp"
+#include "CMouse.hpp"
 #include "CKeyboard.hpp"
 #include "CPosition.hpp"
 #include "CRect.hpp"
@@ -112,7 +112,7 @@ void Client::pushNewPacketsToQueue([[ maybe_unused ]] asio::error_code const &e,
 void Client::setUpEcs()
 {
     _registry.register_component<component::ckeyboard_t>();
-    _registry.register_component<component::mouseState_t>();
+    _registry.register_component<component::cmouseState_t>();
     _registry.register_component<component::cposition_t>();
     _registry.register_component<component::crect_t>();
     _registry.register_component<component::cvelocity_t>();

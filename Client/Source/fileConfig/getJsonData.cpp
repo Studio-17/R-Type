@@ -7,7 +7,6 @@
 
 #include <nlohmann/json.hpp>
 
-#include <string>
 #include <fstream>
 
 nlohmann::json getJsonData(std::string const &filepath)

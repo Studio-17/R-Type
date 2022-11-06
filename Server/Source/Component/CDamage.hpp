@@ -15,9 +15,9 @@ namespace component {
     /**
      * @brief A structure representing the damage component that holds the damage of an entity
      */
-    typedef struct cdamage_s {
+    struct cdamage_t {
         size_t damage; ///< damage of the entity
-    } cdamage_t;
+    };
 }
 
 #endif /* !CDAMAGE_HPP_ */

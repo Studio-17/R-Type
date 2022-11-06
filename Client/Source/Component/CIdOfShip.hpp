@@ -12,17 +12,14 @@
 
     /**
      * @brief Namespace for all components
-     * 
      */
-
     namespace component {
         /**
          * @brief A structure representing the id of your ship
-         * 
          */
-        typedef struct cid_of_ship_s {
-            uint16_t id;
-        } cid_of_ship_t;
+        struct cid_of_ship_t {
+            uint16_t id; ///< Server id of ship entity
+        };
     }
 
 

@@ -8,19 +8,17 @@
 #ifndef CASSETID_HPP_
     #define CASSETID_HPP_
 
-    #include <cstddef>
+    #include <string>
 
 /**
  * @brief Namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief A structure representing asset id from asset manager
-     *
      */
     struct cassetid_t {
-        std::string assets;
+        std::string assets; ///< asset string to find in asset list
     };
 }
 

@@ -10,7 +10,6 @@
 
 /**
  * @brief An enum for all the IDs that cannot be taken for a new entity
- * 
  */
 enum FORBIDDEN_IDS {
     NETWORK = 0,
@@ -19,7 +18,6 @@ enum FORBIDDEN_IDS {
 
 /**
  * @brief An enum for all scenes
- * 
  */
 enum SCENE {
     ALL = 0,

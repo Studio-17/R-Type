@@ -12,16 +12,14 @@
 
 /**
  * @brief Namespace for all components
- *
  */
 namespace component {
     /**
      * @brief Structure representing a callback function
-     *
      */
-    typedef struct ccallback_s {
-        std::function<void(void)> callback;
-    } ccallback_t;
+    struct ccallback_t {
+        std::function<void(void)> callback; ///< callback function to call
+    };
 }
 
 #endif /* !CCALLBACK_HPP_ */

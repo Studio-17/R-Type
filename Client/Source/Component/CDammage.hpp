@@ -2,26 +2,24 @@
 ** EPITECH PROJECT, 2022
 ** B-CPP-500-PAR-5-1-rtype-martin.vanaud
 ** File description:
-** Dammage
+** CDammage
 */
 
-#ifndef DAMMAGE_HPP_
-    #define DAMMAGE_HPP_
+#ifndef CDAMMAGE_HPP_
+    #define CDAMMAGE_HPP_
 
-    #include <iostream>
+    #include <cstddef>
 
 /**
  * @brief Namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief A structure representing the dammage component that holds the dammage of an entity
-     * 
      */
-    typedef struct dammage_s {
-        size_t dammage;
-    } dammage_t;
+    struct cdammage_t {
+        std::size_t dammage; ///< dammage of the entity
+    };
 }
 
-#endif /* !DAMMAGE_HPP_ */
+#endif /* !CDAMMAGE_HPP_ */
