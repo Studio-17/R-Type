@@ -91,7 +91,7 @@ namespace rtype {
 
             Color createColor(std::array<float, 4> const &array) override;
 
-            void drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color) override;
+            void drawText(std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize,float const &spacing, std::array<float, 4> const &color) override;
 
             /**
              * @brief Create a Music object

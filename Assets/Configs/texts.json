@@ -5,6 +5,7 @@
         "color": [150, 150, 150, 255],
         "fontSize": 60,
         "position": [1000, 700],
+        "spacing": 7,
         "scene": 5
     },
     "text2": {
@@ -13,6 +14,7 @@
         "color": [150, 150, 150, 255],
         "fontSize": 60,
         "position": [1000, 900],
+        "spacing": 7,
         "scene": 5
     }
 }

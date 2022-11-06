@@ -41,13 +41,9 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort, std
     _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
-    _graphicLib->initWindow(1920, 1080, "R-Type", 60);
+    _graphicLib->initWindow(1920, 1080, "R-Type", 120);
 
     _configurationFiles = configurationFiles;
-
-//    for (auto [key, value] : _configurationFiles) {
-//        std::cout << key << " -> " << value << std::endl;
-//    }
 
     setUpEcs();
     setUpSystems();
@@ -211,14 +207,14 @@ void Client::loadParallax(Sparse_array<component::casset_t> &assets)
     for (std::size_t i = 0; i <= 1; i++) {
         for (auto &[texture, velocity]: parallax) {
             Entity parallax_background = _registry.spawn_entity_with(
-                    component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getRectangle() },
-                    component::cposition_t{ .x = pos.first, .y = pos.second },
-                    component::cdirection_t{ .x = -1, .y = 0 },
-                    component::ctype_t{ .type = PARALLAX },
-                    component::cvelocity_t{ .velocity = velocity },
-                    component::cassetid_t{ .assets = texture },
-                    component::csceneid_t{ .sceneId = SCENE::ALL },
-                    component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getScale() }
+                component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getRectangle() },
+                component::cposition_t{ .x = pos.first, .y = pos.second },
+                component::cdirection_t{ .x = -1, .y = 0 },
+                component::ctype_t{ .type = PARALLAX },
+                component::cvelocity_t{ .velocity = velocity },
+                component::cassetid_t{ .assets = texture },
+                component::csceneid_t{ .sceneId = SCENE::ALL },
+                component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getScale() }
             );
         }
         pos.first += 1930;
@@ -247,7 +243,7 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
     std::array<float, 2> textPos = oneData.value("position", std::array<float, 2>({0, 0}));
 
     Entity text = _registry.spawn_entity_with(
-        component::ctext_t{ .text = oneData.value("text", "error") },
+        component::ctext_t{ .text = oneData.value("text", "error"), .font = oneData.value("font", "Assets/Fonts/Square.ttf"), .spacing = static_cast<float>(oneData.value("spacing", 0)) },
         component::cposition_t{ .x = pos[0] + textPos[0], .y = pos[1] + textPos[1] },
         component::ctype_t{ .type = TEXT },
         component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
