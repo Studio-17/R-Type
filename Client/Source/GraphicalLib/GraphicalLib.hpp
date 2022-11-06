@@ -14,7 +14,6 @@
 #include <memory>
 #include <string>
 #include "IGraphicalLib.hpp"
-#include "MyTexture.hpp"
 
 /**
  * @brief rtype namespace
@@ -82,142 +81,17 @@ namespace rtype {
              */
             bool windowShouldClose() override;
 
+            void drawSprite(MyTexture const &texture, std::array<float, 4> const &rectSource, std::array<float, 4> const &rectDest, std::pair<float, float> const &origin, float const &rotation, float const &scale) override;
 
-            /**
-             * @brief Draw a sprite
-             * 
-             * @param texture texture to draw
-             * @param position position of the sprite
-             * @param rotation rotation of the sprite
-             * @param scale scale of the sprite
-             */
-            void drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale) override;
+            bool checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width) override;
 
-            void drawRectangle(MyTexture const &texture, Position const &position, std::array<float, 4> const &rect) override;
+            bool IsLeftMouseButtonPressed() override;
 
-            void drawRectanglePro(MyTexture const &texture, std::array<float, 4> const &rectSource, std::array<float, 4> const &rectDest, std::pair<float, float> const &origin, float const &rotation, float const &scale) override;
+            Position getMousePosition() override;
 
-            /**
-             * @brief Destroy the Sprite object
-             * 
-             * @param id id of the sprite
-             */
-            void destroySprite(std::shared_ptr<Sprite> sprite) override;
-            /**
-             * @brief Set the Sprite Position object
-             * 
-             * @param id id of the sprite
-             * @param position the new position of the sprite
-             */
-            void setSpritePosition(Sprite &sprite, Position const &position) override;
+            Color createColor(std::array<float, 4> const &array) override;
 
-            /**
-             * @brief Get the Sprite Position object
-             * 
-             * @param id id of the sprite
-             * @return Position of the sprite
-             */
-            Position getSpritePosition(Sprite const &sprite) override;
-            /**
-             * @brief Set the Sprite Scale object
-             * 
-             * @param id id of the sprite
-             * @param scale the new scale of the sprite
-             */
-            void setSpriteScale(Sprite &sprite, float scale) override;
-            /**
-             * @brief Set the Sprite Rotation object
-             * 
-             * @param id id of the sprite
-             * @param rotation the new rotation of the sprite
-             */
-            void setSpriteRotation(Sprite &sprite, float rotation) override;
-            /**
-             * @brief Get the Sprite Rotation object
-             * 
-             * @param id id of the sprite
-             * @return a float that corespond to the rotation of the sprite
-             */
-            float getSpriteRotation(Sprite const &sprite) override;
-
-            /**
-             * @brief 
-             * 
-             * @param sprite1 rect of the first sprite
-             * @param sprite2 rect of the second sprite
-             * @return true if the two sprites are colliding
-             * @return false if the two sprites are not colliding
-             */
-            bool checkCollisions(Sprite const &sprite1, Sprite const &sprite2);
-
-            bool checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width);
-
-            bool IsLeftMouseButtonPressed();
-
-            Position getMousePosition();
-
-            /**
-             * @brief Create a Text object
-             * 
-             * @param id id of the text
-             * @param filename path of the font
-             * @param text the text to display
-             * @param fontSize the size of the text
-             * @param color the color of the text
-             * @param position the position of the text
-             */
-            void createText(std::size_t id, std::string const &filename, std::string const &text, int fontSize, Color const &color, Position const &position) override;
-            /**
-             * @brief Draw the text
-             * 
-             * @param id id of the text
-             */
-            void drawText(std::size_t id) override;
-
-            /**
-             * @brief Set the Text Position object
-             * 
-             * @param id id of the text
-             * @param position the new position of the text
-             */
-            void setTextPosition(std::size_t id, Position const &position) override;
-            /**
-             * @brief Get the Text Position object
-             * 
-             * @param id id of the text
-             * @return Position of the text
-             */
-            Position getTextPosition(std::size_t id) override;
-
-            /**
-             * @brief Create a Sound object
-             * 
-             * @param id id of the sound
-             * @param filename path of the sound
-             */
-            std::string getText(std::size_t id) override;
-            /**
-             * @brief Set the Text object
-             * 
-             * @param id id of the text
-             * @param text the new text
-             */
-            void setText(std::size_t id, std::string const &text) override;
-
-            /**
-             * @brief Set the Text Color object
-             * 
-             * @param id id of the text
-             * @param color the new color of the text
-             */
-            void setTextColor(std::size_t id, Color const &color) override;
-            /**
-             * @brief Set the Text Font Size object
-             * 
-             * @param id id of the text
-             * @param fontSize the new size of the text
-             */
-            void setTextFontSize(std::size_t id, int fontSize) override;
+            void drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color) override;
 
             /**
              * @brief Create a Music object
@@ -376,7 +250,6 @@ namespace rtype {
         protected:
         private:
 
-        std::map<std::size_t, std::shared_ptr<Text>> _textMap; ///< Map of all the texts
         std::map<std::size_t, std::shared_ptr<MyMusic>> _musicMap; ///< Map of all the musics
         std::map<std::size_t, std::shared_ptr<MySound>> _soundMap; ///< Map of all the sounds
         std::shared_ptr<Keyboard> _keyboard; ///< Keyboard object

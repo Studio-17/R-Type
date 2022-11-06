@@ -1,0 +1,10 @@
+{
+    "text1": {
+        "font": "Assets/fonts/Square.ttf",
+        "text": "right",
+        "color": [150, 150, 150, 255],
+        "fontSize": 60,
+        "position": [1000, 700],
+        "scene": 5
+    }
+}
