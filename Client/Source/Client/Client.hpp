@@ -108,6 +108,7 @@ class Client
                 void loadButtons(std::string const &filepath, Sparse_array<component::casset_t> &assets);
 
                 void loadTexts(std::string const &filepath);
+                void createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene);
 
                 void mainMenuScene(Sparse_array<component::casset_t> &assets);
 

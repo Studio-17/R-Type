@@ -84,7 +84,6 @@ Color rtype::GraphicalLib::createColor(std::array<float, 4> const &array)
 // Text
 void rtype::GraphicalLib::drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color)
 {
-    std::cout << "color: " << color[0] << " " << color[1] << " " << color[2] << " " << color[3] << std::endl;
     DrawText(text.c_str() , pos.getX() , pos.getY(), fontSize, createColor(color));
 }
 

@@ -237,18 +237,23 @@ void Client::loadTexts(std::string const &filepath)
     }
 
     for (auto &oneData: jsonData) {
-        std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
         int scene = oneData.value("scene", -1);
-
-        Entity text = _registry.spawn_entity_with(
-                component::ctext_t{ .text = oneData.value("text", "error") },
-                component::cposition_t{ .x = pos[0], .y = pos[1] },
-                component::ctype_t{ .type = TEXT },
-                component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-                component::cscale_t{ .scale = static_cast<float>(oneData.value("fontSize", 30)) },
-                component::ccolor_t{ .color = oneData.value("color", std::array<float, 4>({255, 255, 255, 255})) }
-        );
+        createText(oneData, std::array<float, 2>({0, 0}), scene);
     }
+}
+
+void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene)
+{
+    std::array<float, 2> textPos = oneData.value("position", std::array<float, 2>({0, 0}));
+
+    Entity text = _registry.spawn_entity_with(
+        component::ctext_t{ .text = oneData.value("text", "error") },
+        component::cposition_t{ .x = pos[0] + textPos[0], .y = pos[1] + textPos[1] },
+        component::ctype_t{ .type = TEXT },
+        component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
+        component::cscale_t{ .scale = static_cast<float>(oneData.value("fontSize", 30)) },
+        component::ccolor_t{ .color = oneData.value("color", std::array<float, 4>({255, 255, 255, 255})) }
+    );
 }
 
 void Client::loadButtons(std::string const &filepath, Sparse_array<component::casset_t> &assets)
@@ -283,5 +288,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
                 component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
                 component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
         );
+        if (oneData.contains("text"))
+            createText(oneData.at("text"), pos, scene);
     }
 }
