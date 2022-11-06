@@ -62,13 +62,13 @@
     "button": {
         "title": "button",
         "nbFrame": 1,
-        "scale": 1.0,
-        "texture": "Assets/sprites/button.png"
+        "scale": 1,
+        "texture": "Assets/sprites/shortbutton.png"
     },
     "button2": {
         "title": "button2",
         "nbFrame": 1,
-        "scale": 1.0,
+        "scale": 1,
         "texture": "Assets/sprites/button.png"
     },
     "planet": {

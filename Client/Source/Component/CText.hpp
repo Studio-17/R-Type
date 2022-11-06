@@ -20,9 +20,7 @@ namespace component {
      * 
      */
     typedef struct ctext_s {
-        std::string pathToFont;
-        std::string textToPrint;
-        size_t fontSize;
+        std::string text;
     } ctext_t;
 }
 

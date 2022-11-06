@@ -16,6 +16,8 @@
     #include "CAssetId.hpp"
     #include "CSceneId.hpp"
     #include "CScale.hpp"
+    #include "CText.hpp"
+    #include "CColor.hpp"
     #include "Constant.hpp"
 
 /**
@@ -45,6 +47,7 @@ class DrawSystem {
          * @param assetsId the sparse array of assetId entities
          * @param scenesId the sparse array of sceneId entities
          * @param scales the sparse array of scale entities
+         * @param texts the sparse array of text entities
          */
         void operator()(Registry &registry,
                         Sparse_array<component::cposition_t> &positions,
@@ -52,7 +55,9 @@ class DrawSystem {
                         Sparse_array<component::casset_t> &assets,
                         Sparse_array<component::cassetid_t> &assetsId,
                         Sparse_array<component::csceneid_t> &scenesId,
-                        Sparse_array<component::cscale_t> &scales);
+                        Sparse_array<component::cscale_t> &scales,
+                        Sparse_array<component::ctext_t> &texts,
+                        Sparse_array<component::ccolor_t> &colors);
 
 
     protected:
