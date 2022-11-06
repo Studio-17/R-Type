@@ -5,7 +5,6 @@
 ** AssetManager
 */
 
-#include <string>
 #include <fstream>
 #include <exception>
 #include <iostream>
