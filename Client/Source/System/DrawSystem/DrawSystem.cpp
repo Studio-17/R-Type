@@ -34,7 +34,7 @@ void DrawSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<
                 if (texts[i] && colors[i]) {
                     auto &text = texts[i];
                     auto &color = colors[i];
-                    _graphicLib->drawText(text.value().text, (Position){pos.value().x, pos.value().y, 0}, static_cast<std::size_t>(scale.value().scale), color.value().color);
+                    _graphicLib->drawText(text.value().font, text.value().text, (Position){pos.value().x, pos.value().y, 0}, static_cast<std::size_t>(scale.value().scale), text.value().spacing, color.value().color);
                 }
             }
         }

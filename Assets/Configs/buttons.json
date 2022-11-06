@@ -9,7 +9,8 @@
             "text": "right",
             "color": [150, 150, 150, 255],
             "fontSize": 60,
-            "position": [200, 30]
+            "position": [200, 30],
+            "spacing": 7
         },
         "scene": 5,
         "callback-type": "start-game"

@@ -21,6 +21,8 @@ namespace component {
      */
     typedef struct ctext_s {
         std::string text;
+        std::string font;
+        float spacing;
     } ctext_t;
 }
 

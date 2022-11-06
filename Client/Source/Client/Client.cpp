@@ -243,7 +243,7 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
     std::array<float, 2> textPos = oneData.value("position", std::array<float, 2>({0, 0}));
 
     Entity text = _registry.spawn_entity_with(
-        component::ctext_t{ .text = oneData.value("text", "error") },
+        component::ctext_t{ .text = oneData.value("text", "error"), .font = oneData.value("font", "Assets/Fonts/Square.ttf"), .spacing = static_cast<float>(oneData.value("spacing", 0)) },
         component::cposition_t{ .x = pos[0] + textPos[0], .y = pos[1] + textPos[1] },
         component::ctype_t{ .type = TEXT },
         component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
