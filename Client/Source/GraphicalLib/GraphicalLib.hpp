@@ -82,15 +82,6 @@ namespace rtype {
              */
             bool windowShouldClose() override;
 
-            /**
-             * @brief Create a Sprite object
-             * 
-             * @param id id of the sprite
-             * @param imagePath path of the image
-             * @param position position of the sprite
-             * @param size size of the sprite
-             */
-            std::shared_ptr<Sprite> createSprite(std::string const &imagePath, float const &size, Rectangle const &rect) override;
 
             /**
              * @brief Draw a sprite
@@ -100,15 +91,12 @@ namespace rtype {
              * @param rotation rotation of the sprite
              * @param scale scale of the sprite
              */
-            void drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale);
-            /**
-             * @brief Draw a rectangle of the sprite
-             *
-             * @param texture texture to draw
-             * @param position position of the texture to draw
-             * @param rect rect of the texture to draw
-             */
-            void drawRectangle(MyTexture const &texture, Position const &position, Rectangle const &rect);
+            void drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale) override;
+
+            void drawRectangle(MyTexture const &texture, Position const &position, std::array<float, 4> const &rect) override;
+
+            void drawRectanglePro(MyTexture const &texture, std::array<float, 4> const &rectSource, std::array<float, 4> const &rectDest, std::pair<float, float> const &origin, float const &rotation, float const &scale) override;
+
             /**
              * @brief Destroy the Sprite object
              * 
@@ -122,6 +110,7 @@ namespace rtype {
              * @param position the new position of the sprite
              */
             void setSpritePosition(Sprite &sprite, Position const &position) override;
+
             /**
              * @brief Get the Sprite Position object
              * 
@@ -387,7 +376,6 @@ namespace rtype {
         protected:
         private:
 
-        std::map<std::size_t, std::shared_ptr<Sprite>> _spriteMap; ///< Map of all the sprites
         std::map<std::size_t, std::shared_ptr<Text>> _textMap; ///< Map of all the texts
         std::map<std::size_t, std::shared_ptr<MyMusic>> _musicMap; ///< Map of all the musics
         std::map<std::size_t, std::shared_ptr<MySound>> _soundMap; ///< Map of all the sounds

@@ -80,24 +80,12 @@ namespace rtype {
              */
             virtual auto windowShouldClose() -> bool = 0;
 
-            /**
-             * @brief Create a Sprite object
-             * 
-             * @param id id of the sprite
-             * @param imagePath path to the image
-             * @param position position of the sprite
-             * @param size size of the sprite
-             */
-            virtual auto createSprite(std::string const &imagePath, float const &size, Rectangle const &rect) -> std::shared_ptr<Sprite> = 0;
-            /**
-             * @brief Draw a sprite
-             * 
-             * @param id id of the sprite
-             */
 
             virtual auto drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale) -> void = 0;
 
-            virtual auto drawRectangle(MyTexture const &texture, Position const &position, Rectangle const &rect) -> void = 0;
+            virtual auto drawRectangle(MyTexture const &texture, Position const &position, std::array<float, 4> const &rect) -> void = 0;
+
+            virtual auto drawRectanglePro(MyTexture const &texture, std::array<float, 4> const &rectSource, std::array<float, 4> const &rectDest, std::pair<float, float> const &origin, float const &rotation, float const &scale) -> void = 0;
 
             virtual auto destroySprite(std::shared_ptr<Sprite> sprite) -> void = 0;
 

@@ -105,7 +105,7 @@ class Client
                  *
                  * @param byte bytes to read
                  */
-                void loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets);
+                void loadButtons(std::string const &filepath, Sparse_array<component::casset_t> &assets);
 
 
             private:

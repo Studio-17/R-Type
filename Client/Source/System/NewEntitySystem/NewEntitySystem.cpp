@@ -12,6 +12,7 @@
 #include "CVelocity.hpp"
 #include "CAssetId.hpp"
 #include "CSceneId.hpp"
+#include "CScale.hpp"
 
 NewEntitySystem::NewEntitySystem()
 {
@@ -59,7 +60,8 @@ void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity
         component::cserverid_t{ .id = newEntity.id },
         component::cvelocity_t{ .velocity = 14 },
         component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
-        component::csceneid_t{ .sceneId = SCENE::GAME }
+        component::csceneid_t{ .sceneId = SCENE::GAME },
+        component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() }
     );
 }
 
@@ -74,7 +76,8 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity,
         component::cserverid_t{ .id = newEntity.id },
         component::cvelocity_t{ .velocity = 4 },
         component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
-        component::csceneid_t{ .sceneId = SCENE::GAME }
+        component::csceneid_t{ .sceneId = SCENE::GAME },
+        component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() }
     );
 }
 
@@ -95,6 +98,7 @@ void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, 
         component::cserverid_t{ .id = newEntity.id },
         component::cvelocity_t{ .velocity = 4 },
         component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
-        component::csceneid_t{ .sceneId = SCENE::GAME }
+        component::csceneid_t{ .sceneId = SCENE::GAME },
+        component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() }
     );
 }
