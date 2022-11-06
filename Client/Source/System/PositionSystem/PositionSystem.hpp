@@ -9,41 +9,40 @@
     #define POSITIONSYSTEM_HPP_
 
     #include "Registry.hpp"
-    #include "CNetworkQueue.hpp"
-    #include "CServerId.hpp"
-    #include "CPosition.hpp"
+
+    /* Component */
+    #include "Component/CNetworkQueue.hpp"
+    #include "Component/CPosition.hpp"
+    #include "Component/CServerId.hpp"
 
 /**
- * @brief PositionSystem class that handles the position of the entities
- * 
+ * @brief Namespace for systems
  */
-class PositionSystem {
-    public:
-        /**
-         * @brief Construct a new Position System object
-         * 
-         */
-        PositionSystem();
+namespace System {
+    /**
+     * @brief PositionSystem class that handles the position of the entities
+     */
+    class PositionSystem {
+        public:
+            /**
+             * @brief Construct a new Position System object
+             */
+            PositionSystem();
+            ~PositionSystem() = default;
 
-        /**
-         * @brief Destroy the Position System object
-         * 
-         */
-        ~PositionSystem() = default;
+            /**
+             * @brief Function that will be automaticaly called while the client is working (on loop)
+             *
+             * @param registry The registry of the server
+             * @param network The sparse array of network entities
+             * @param position The sparse array of position entities
+             * @param serverIds The sparse array of server id entities
+             */
+            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cposition_t> &position, Sparse_array<component::cserverid_t> &serverIds);
 
-        /**
-         * @brief Function that will be automaticaly called while the client is working (on loop)
-         * 
-         * @param registry the registry of the server
-         * @param network the sparse array of network entities
-         * @param position the sparse array of position entities
-         * @param serverIds the sparse array of server id entities
-         * @param currScene the sparse array of current scene entities
-         */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cposition_t> &position, Sparse_array<component::cserverid_t> &serverIds);
-
-    protected:
-    private:
-};
+        protected:
+        private:
+    };
+}
 
 #endif /* !POSITIONSYSTEM_HPP_ */

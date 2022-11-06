@@ -5,23 +5,24 @@
 ** NetworkSystem
 */
 
-#include <functional>
+#include "NetworkSystem.hpp"
+#include "Serialization.hpp"
+#include "Constant.hpp"
 
-#include "Constant/Constant.hpp"
+/* Packet */
+#include "Position.hpp"
+#include "NewEntity.hpp"
 #include "KillEntity.hpp"
 #include "Lobbies.hpp"
-#include "NetworkSystem.hpp"
-#include "NewEntity.hpp"
-#include "Position.hpp"
-#include "Serialization.hpp"
+#include "NewConnection.hpp"
 
-NetworkSystem::NetworkSystem()
+System::NetworkSystem::NetworkSystem()
 {
 }
 
-void NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
+void System::NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
 {
-    const std::map<std::size_t, std::function<void(std::vector<byte>)>> queuesFunction;
+    // const std::map<std::size_t, std::function<void(std::vector<byte>)>> queuesFunction;
     // {NETWORK_SERVER_TO_CLIENT::POSITION, std::bind(&NetworkSystem::dispatchToPositionQueue, this, std::placeholders::_1, network)},
     // {NETWORK_SERVER_TO_CLIENT::NEW_ENTITY, std::bind(&NetworkSystem::dispatchToNewEntityQueue, this, std::placeholders::_1, network)},
     // {NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, std::bind(&NetworkSystem::dispatchToKillEntityQueue, this, std::placeholders::_1, network)},
@@ -55,25 +56,25 @@ void NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_arr
 
 }
 
-void NetworkSystem::dispatchToPositionQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+void System::NetworkSystem::dispatchToPositionQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
 {
     packet_position packet = serializable_trait<packet_position>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK].value().updatePositionQueue.push(packet);
 }
 
-void NetworkSystem::dispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+void System::NetworkSystem::dispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
 {
     packet_new_entity packet = serializable_trait<packet_new_entity>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.push(packet);
 }
 
-void NetworkSystem::dispatchToKillEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+void System::NetworkSystem::dispatchToKillEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
 {
     packet_kill_entity packet = serializable_trait<packet_kill_entity>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.push(packet);
 }
 
-void NetworkSystem::handleNewPlayerAndDispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
+void System::NetworkSystem::handleNewPlayerAndDispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
 {
     packet_new_entity packet = serializable_trait<packet_new_entity>::unserialize(bytes);
 
@@ -82,19 +83,19 @@ void NetworkSystem::handleNewPlayerAndDispatchToNewEntityQueue(std::vector<byte>
     network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.push(packet);
 }
 
-void NetworkSystem::dispatchToGetLobbiesQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+void System::NetworkSystem::dispatchToGetLobbiesQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
 {
     packet_send_lobbies packet = serializable_trait<packet_send_lobbies>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK].value().getLobbiesQueue.push(packet);
 }
 
-void NetworkSystem::dispatchNbPlayersInLobbyQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+void System::NetworkSystem::dispatchNbPlayersInLobbyQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
 {
     packet_nb_players_in_lobby packet = serializable_trait<packet_nb_players_in_lobby>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK].value().nbPlayerInLobbyQueue.push(packet);
 }
 
-void NetworkSystem::dispatchNetworkClientIdQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+void System::NetworkSystem::dispatchNetworkClientIdQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
 {
     packet_new_connection_response packet = serializable_trait<packet_new_connection_response>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK].value().newConnectionResponseQueue.push(packet);

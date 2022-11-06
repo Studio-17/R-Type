@@ -10,47 +10,45 @@
 
     #include "Registry.hpp"
 
-    #include "CNetworkQueue.hpp"
-    #include "CDirection.hpp"
-    #include "CPosition.hpp"
-    #include "CVelocity.hpp"
-    #include "CTimer.hpp"
+    /* Component */
+    #include "Component/CDirection.hpp"
+    #include "Component/CPosition.hpp"
+    #include "Component/CVelocity.hpp"
+    #include "Component/CTimer.hpp"
 
 /**
- * @brief MoveSystem class that handles the movement of the entities
- * 
+ * @brief Namespace for systems
  */
-class MoveSystem {
-    public:
-        /**
-         * @brief Construct a new Move System object
-         * 
-         */
-        MoveSystem();
+namespace System {
+    /**
+     * @brief MoveSystem class that handles the movement of the entities
+     */
+    class MoveSystem {
+        public:
+            /**
+             * @brief Construct a new Move System object
+             */
+            MoveSystem();
+            ~MoveSystem() = default;
 
-        /**
-         * @brief Destroy the Move System object
-         * 
-         */
-        ~MoveSystem() = default;
+            /**
+             * @brief Function that will be automaticaly called while the client is working (on loop)
+             *
+             * @param registry The registry of the client
+             * @param direction The sparse array of direction entities
+             * @param position The sparse array of position entities
+             * @param velocity The sparse array of velocity entities
+             * @param timer The sparse array of timer entities
+             */
+            void operator()(Registry &registry,
+                            Sparse_array<component::cdirection_t> &direction,
+                            Sparse_array<component::cposition_t> &position,
+                            Sparse_array<component::cvelocity_t> &velocity,
+                            Sparse_array<component::ctimer_t> &timer);
 
-        /**
-         * @brief 
-         * 
-         * @param registry the registry of the server
-         * @param direction the sparse array of direction entities
-         * @param position the sparse array of position entities
-         * @param velocity the sparse array of velocity entities
-         * @param timer the sparse array of timer entities
-         */
-        void operator()(Registry &registry,
-                        Sparse_array<component::cdirection_t> &direction,
-                        Sparse_array<component::cposition_t> &position,
-                        Sparse_array<component::cvelocity_t> &velocity,
-                        Sparse_array<component::ctimer_t> &timer);
-
-    protected:
-    private:
-};
+        protected:
+        private:
+    };
+}
 
 #endif /* !MOVESYSTEM_HPP_ */

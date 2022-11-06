@@ -7,23 +7,24 @@
 
 #include "KillSystem.hpp"
 #include "Constant.hpp"
+
+/* Packet */
 #include "KillEntity.hpp"
 
-KillSystem::KillSystem()
+System::KillSystem::KillSystem()
 {
-    // _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void KillSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverId)
+void System::KillSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverId)
 {
     while (!network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.empty()) {
-        packet_kill_entity packet = network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.front();
-        network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.pop();
+        packet_kill_entity &packet = network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.front();
         killEntity(registry, packet.id, serverId);
+        network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.pop();
     }
 }
 
-void KillSystem::killEntity(Registry &registry, std::size_t id, Sparse_array<component::cserverid_t> &serverId)
+void System::KillSystem::killEntity(Registry &registry, std::size_t id, Sparse_array<component::cserverid_t> &serverId)
 {
     for (std::size_t x = 0; x < serverId.size(); x++) {
         if (serverId[x]) {

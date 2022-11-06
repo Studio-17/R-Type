@@ -171,18 +171,18 @@ class Client
                 std::map<std::string, std::string> _configurationFiles;
 
                 // Systems
-                NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues
-                DrawSystem _drawSystem; ///< System that draws the entities
-                RectSystem _rectSystem; ///< System that a part of a entity
-                ControlSystem _controlSystem; ///< System that controls the entities
-                NewEntitySystem _newEntitySystem; ///< System that creates new entities
-                PositionSystem _positionSystem; ///< System that updates the position of the entities
-                MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
-                KillSystem _killSystem; ///< System that kill entity
-                GetLobbiesSystem _getLobbiesSystem;
-                SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem;
-                NewClientResponseSystem _newClientResponseSystem;
-                MouseSystem _mouseSystem; ///< System that handle mouse events
+                System::NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues
+                System::DrawSystem _drawSystem; ///< System that draws the entities
+                System::RectSystem _rectSystem; ///< System that a part of a entity
+                System::ControlSystem _controlSystem; ///< System that controls the entities
+                System::NewEntitySystem _newEntitySystem; ///< System that creates new entities
+                System::PositionSystem _positionSystem; ///< System that updates the position of the entities
+                System::MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
+                System::KillSystem _killSystem; ///< System that kill entity
+                System::GetLobbiesSystem _getLobbiesSystem;
+                System::SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem;
+                System::NewClientResponseSystem _newClientResponseSystem;
+                System::MouseSystem _mouseSystem; ///< System that handle mouse events
         };
 
 #endif /* !CLIENT_HPP_ */

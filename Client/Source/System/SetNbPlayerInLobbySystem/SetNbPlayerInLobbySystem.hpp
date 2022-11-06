@@ -9,34 +9,36 @@
     #define SETNBPLAYERINLOBBYSYSTEM_HPP_
 
     #include "Registry.hpp"
-    #include "CNetworkQueue.hpp"
 
-class SetNbPlayerInLobbySystem {
-    public:
-        /**
-         * @brief Set the Nb Player In Lobby System object
-         * 
-         */
-        SetNbPlayerInLobbySystem();
-        /**
-         * @brief Destroy the Set Nb Player In Lobby System object
-         * 
-         */
-        ~SetNbPlayerInLobbySystem() = default;
+    /* Component */
+    #include "Component/CNetworkQueue.hpp"
 
-        /**
-         * @brief Function that will be automaticaly called while the client is working (on loop)
-         *
-         * @param registry registry of the client
-         * @param sprites sparse array of sprite entities
-         * @param rectangles sparse array of rectangle entities
-         * @param timer sparse array of timer entities
-         * @param types sparse array of type entities
-         */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue);
+/**
+ * @brief Namespace for systems
+ */
+namespace System {
+    /**
+     * @brief System that set number of player in Lobby
+    */
+    class SetNbPlayerInLobbySystem {
+        public:
+            /**
+             * @brief Set the Nb Player In Lobby System object
+             */
+            SetNbPlayerInLobbySystem();
+            ~SetNbPlayerInLobbySystem() = default;
 
-    protected:
-    private:
-};
+            /**
+             * @brief Function that will be automaticaly called while the client is working (on loop)
+             *
+             * @param registry Registry of the client
+             * @param networkQueue The sparse array of network entities
+             */
+            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue);
+
+        protected:
+        private:
+    };
+}
 
 #endif /* !SETNBPLAYERINLOBBYSYSTEM_HPP_ */

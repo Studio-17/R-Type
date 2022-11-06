@@ -8,12 +8,11 @@
 #include "RectSystem.hpp"
 #include "Constant.hpp"
 
-RectSystem::RectSystem()
+System::RectSystem::RectSystem()
 {
-    _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void RectSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::ctimer_t> &timer, [[ maybe_unused ]] Sparse_array<component::ctype_t> &types, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetId)
+void System::RectSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::ctimer_t> &timer, [[ maybe_unused ]] Sparse_array<component::ctype_t> &types, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetId)
 {
     if ((std::chrono::steady_clock::now() - timer[FORBIDDEN_IDS::NETWORK].value().animTimer) > (std::chrono::nanoseconds)100000000)
         timer[FORBIDDEN_IDS::NETWORK].value().animTimer = std::chrono::steady_clock::now();

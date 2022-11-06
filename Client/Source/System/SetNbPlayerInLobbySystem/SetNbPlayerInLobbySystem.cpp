@@ -8,14 +8,14 @@
 #include "SetNbPlayerInLobbySystem.hpp"
 #include "Constant.hpp"
 
-SetNbPlayerInLobbySystem::SetNbPlayerInLobbySystem()
+System::SetNbPlayerInLobbySystem::SetNbPlayerInLobbySystem()
 {
 }
 
-void SetNbPlayerInLobbySystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue)
+void System::SetNbPlayerInLobbySystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue)
 {
     while (!networkQueue[FORBIDDEN_IDS::NETWORK].value().nbPlayerInLobbyQueue.empty()) {
-        packet_nb_players_in_lobby packet = networkQueue[FORBIDDEN_IDS::NETWORK].value().nbPlayerInLobbyQueue.front();
+        packet_nb_players_in_lobby &packet = networkQueue[FORBIDDEN_IDS::NETWORK].value().nbPlayerInLobbyQueue.front();
         std::cout << "nb Players in Lobby " << packet.nbPlayers << std::endl;
         networkQueue[FORBIDDEN_IDS::NETWORK].value().nbPlayerInLobbyQueue.pop();
     }

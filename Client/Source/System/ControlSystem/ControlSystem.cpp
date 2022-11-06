@@ -6,20 +6,20 @@
 */
 
 #include "ControlSystem.hpp"
-#include "CRect.hpp"
-#include "CPosition.hpp"
 #include "Serialization.hpp"
-#include "Constant/Constant.hpp"
-#include "Lobbies.hpp"
-#include "Move.hpp"
-#include "StartGame.hpp"
+#include "Constant.hpp"
 
-ControlSystem::ControlSystem()
+/* Packet */
+#include "Shoot.hpp"
+#include "Lobbies.hpp"
+#include "StartGame.hpp"
+#include "Move.hpp"
+
+System::ControlSystem::ControlSystem()
 {
-    _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void ControlSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip, Sparse_array<component::csceneid_t> &scenesId)
+void System::ControlSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip, Sparse_array<component::csceneid_t> &scenesId)
 {
     if (keyboards[FORBIDDEN_IDS::NETWORK]) {
         auto &key = keyboards[0];
@@ -52,7 +52,7 @@ void ControlSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_arr
     }
 }
 
-void ControlSystem::addToNetworkQueue(float x, float y, Sparse_array<component::cnetwork_queue_t> &network, uint16_t idOfShip)
+void System::ControlSystem::addToNetworkQueue(float x, float y, Sparse_array<component::cnetwork_queue_t> &network, uint16_t idOfShip)
 {
     std::vector<byte> tmp;
 

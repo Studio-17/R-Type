@@ -9,17 +9,36 @@
     #define GETLOBBIESSYSTEM_HPP_
 
     #include "Registry.hpp"
-    #include "CNetworkQueue.hpp"
 
-class GetLobbiesSystem {
-    public:
-        GetLobbiesSystem();
-        ~GetLobbiesSystem() = default;
+    /* Component */
+    #include "Component/CNetworkQueue.hpp"
 
-        void operator()([[ maybe_unused ]]Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue);
+/**
+ * @brief Namespace for systems
+ */
+namespace System {
+    /**
+     * @brief GetLobbiesSystem class that handles the request to send to Server to get lobbies
+     */
+    class GetLobbiesSystem {
+        public:
+            /**
+             * @brief Get the Lobbies System object
+             */
+            GetLobbiesSystem();
+            ~GetLobbiesSystem() = default;
 
-    protected:
-    private:
-};
+            /**
+             * @brief Function that will be automaticaly called while the client is working (on loop)
+             *
+             * @param registry The registry of the client
+             * @param networkQueue The sparse array of network entities
+             */
+            void operator()([[ maybe_unused ]]Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue);
+
+        protected:
+        private:
+    };
+}
 
 #endif /* !GETLOBBIESSYSTEM_HPP_ */

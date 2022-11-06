@@ -6,16 +6,21 @@
 */
 
 #include "NewEntitySystem.hpp"
+#include "Serialization.hpp"
+#include "Constant.hpp"
 
-#include "CPosition.hpp"
-#include "CDirection.hpp"
-#include "CVelocity.hpp"
-#include "CAssetId.hpp"
-#include "CSceneId.hpp"
+/* Packet */
+#include "NewEntity.hpp"
 
-NewEntitySystem::NewEntitySystem()
+/* Component */
+#include "Component/CPosition.hpp"
+#include "Component/CDirection.hpp"
+#include "Component/CVelocity.hpp"
+#include "Component/CAssetId.hpp"
+#include "Component/CSceneId.hpp"
+
+System::NewEntitySystem::NewEntitySystem()
 {
-    _graphicLib = std::make_unique<rtype::GraphicalLib>();
     _entityType = {
         {7, "bullet"},
         {6, "enemy"},
@@ -33,10 +38,9 @@ static bool findEntity(Sparse_array<component::cserverid_t> &serverIds, uint16_t
     return false;
 }
 
-void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId) {
+void System::NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId) {
     while (!network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.empty()) {
-        packet_new_entity newEntity = network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.front();
-        network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.pop();
+        packet_new_entity &newEntity = network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.front();
         if (findEntity(serverIds, newEntity.id))
             continue;
         if (newEntity.type == ENTITY_TYPE::BULLET)
@@ -45,10 +49,11 @@ void NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cne
             addEnemy(registry, newEntity, assets);
         if (newEntity.type == ENTITY_TYPE::PLAYER)
             addShip(registry, newEntity, assets, clientNetworkId);
+        network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.pop();
     }
 }
 
-void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
+void System::NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
 {
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
 
@@ -63,7 +68,7 @@ void NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity
     );
 }
 
-void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
+void System::NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
 {
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
 
@@ -78,7 +83,7 @@ void NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity,
     );
 }
 
-void NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId) {
+void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId) {
 
     // Make the ship controllable if the packet is destinated to you
     if (newEntity.clientId == clientNetworkId[FORBIDDEN_IDS::NETWORK].value().id) {
