@@ -31,6 +31,7 @@
 #include "CScale.hpp"
 #include "CCallback.hpp"
 #include "Asset.hpp"
+#include "CColor.hpp"
 #include "Disconnection.hpp"
 #include "Constant.hpp"
 #include "fileConfig.hpp"
@@ -144,6 +145,7 @@ void Client::setUpEcs()
     _registry.register_component<component::cscale_t>();
     _registry.register_component<component::ccallback_t>();
     _registry.register_component<component::ctext_t>();
+    _registry.register_component<component::ccolor_t>();
 }
 
 void Client::setUpSystems()
@@ -159,7 +161,7 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
     _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
-	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t, component::ctext_t>(_drawSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t, component::ctext_t, component::ccolor_t>(_drawSystem);
 }
 
 void Client::setUpComponents()
@@ -237,14 +239,14 @@ void Client::loadTexts(std::string const &filepath)
     for (auto &oneData: jsonData) {
         std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
         int scene = oneData.value("scene", -1);
-        // component::ctext_t{ .pathToFont = oneData.value("font", "Assets/fonts/Square.ttf"), .textToPrint = oneData.value("text", "error") },
 
         Entity text = _registry.spawn_entity_with(
                 component::ctext_t{ .text = oneData.value("text", "error") },
                 component::cposition_t{ .x = pos[0], .y = pos[1] },
                 component::ctype_t{ .type = TEXT },
                 component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-                component::cscale_t{ .scale = static_cast<float>(oneData.value("fontSize", 30)) }
+                component::cscale_t{ .scale = static_cast<float>(oneData.value("fontSize", 30)) },
+                component::ccolor_t{ .color = oneData.value("color", std::array<float, 4>({255, 255, 255, 255})) }
         );
     }
 }
