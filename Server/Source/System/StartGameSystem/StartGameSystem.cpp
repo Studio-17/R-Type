@@ -25,7 +25,7 @@ Entity StartGameSystem::createSpaceShip(Registry &registry) {
     component::cdirection_t dir = {0, 0};
     registry.add_component<component::cdirection_t>(spaceShip, std::move(dir));
 
-    component::cposition_t pos = {10, 10};
+    component::cposition_t pos = {200, 200};
     registry.add_component<component::cposition_t>(spaceShip, std::move(pos));
 
     component::cvelocity_t vel = {10};

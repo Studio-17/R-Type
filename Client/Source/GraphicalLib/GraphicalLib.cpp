@@ -9,7 +9,6 @@
 
 rtype::GraphicalLib::GraphicalLib()
 {
-    _spriteMap = {};
     _textMap = {};
     _soundMap = {};
     _musicMap = {};
@@ -51,19 +50,21 @@ bool rtype::GraphicalLib::windowShouldClose()
 }
 
 //Sprite
-std::shared_ptr<Sprite> rtype::GraphicalLib::createSprite(std::string const &imagePath, float const &size, Rectangle const &rect)
-{
-    return std::make_shared<Sprite>(imagePath, size, rect);
-}
 
 void rtype::GraphicalLib::drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale)
 {
     DrawTextureEx(texture.getTexture(), position.getVector2(), rotation, scale, WHITE);
 }
 
-void rtype::GraphicalLib::drawRectangle(MyTexture const &texture, Position const &position, Rectangle const &rect)
+void rtype::GraphicalLib::drawRectanglePro(MyTexture const &texture, std::array<float, 4> const &rectSource, std::array<float, 4> const &rectDest, std::pair<float, float> const &origin, float const &rotation, float const &scale)
 {
-    DrawTextureRec(texture.getTexture(), rect, position.getVector2(), WHITE);
+    // DrawTexturePro(texture.getTexture(), {rectSource[0], rectSource[1], rectSource[2], rectSource[3]}, {rectDest[0], rectDest[1], rectDest[2], rectDest[3]}, {origin.first, origin.second}, rotation, WHITE);
+    DrawTextureTiled(texture.getTexture(), {rectSource[0], rectSource[1], rectSource[2], rectSource[3]}, {rectDest[0], rectDest[1], rectDest[2], rectDest[3]}, {origin.first, origin.second}, rotation, scale, WHITE);
+}
+
+void rtype::GraphicalLib::drawRectangle(MyTexture const &texture, Position const &position, std::array<float, 4> const &rect)
+{
+    DrawTextureRec(texture.getTexture(), (Rectangle){rect[0], rect[1], rect[2], rect[3]}, position.getVector2(), WHITE);
 }
 
 void rtype::GraphicalLib::destroySprite(std::shared_ptr<Sprite> sprite)

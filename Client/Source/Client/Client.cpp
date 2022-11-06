@@ -32,13 +32,14 @@
 #include "Asset.hpp"
 #include "Disconnection.hpp"
 #include "Constant.hpp"
+#include "fileConfig.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
     _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
-    _graphicLib->initWindow(800, 600, "R-Type", 60);
+    _graphicLib->initWindow(1920, 1080, "R-Type", 60);
 
     _configurationFiles = configurationFiles;
 
@@ -136,14 +137,14 @@ void Client::setUpSystems()
     // _registry.add_system<component::cnetwork_queue_t, component::cserverid_t>(_killSystem);
     _registry.add_system<component::crect_t, component::ctimer_t, component::ctype_t, component::casset_t, component::cassetid_t>(_rectSystem);
     _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t>(_controlSystem);
-	// _registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id>(_newEntitySystem);
     _registry.add_system<component::cnetwork_queue_t>(_getLobbiesSystem);
     _registry.add_system<component::cnetwork_queue_t>(_setNbPlayerInLobbySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
-    // _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
-	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t>(_drawSystem);
+    _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t>(_drawSystem);
 }
 
 void Client::setUpComponents()
@@ -163,15 +164,16 @@ void Client::setUpComponents()
     );
 
     loadParallax(_registry.get_components<component::casset_t>());
-    // loadButton("Assets/buttons.json", _registry.get_components<component::casset_t>());
+    loadButtons(_configurationFiles.at("BUTTONS"), _registry.get_components<component::casset_t>());
 
-    // Entity planet = _registry.spawn_entity_with(
-    //     component::crect_t{ assetMan.assets.at("planet").getRectangle() },
-    //     component::cposition_t{ .x = 300, .y = 300 },
-    //     component::ctype_t{ .type = UI },
-    //     component::cassetid_t{ .assets = "planet" },
-    //     component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
-    // );
+    Entity planet = _registry.spawn_entity_with(
+        component::crect_t{ assetMan.assets.at("planet").getRectangle() },
+        component::cposition_t{ .x = 300, .y = 300 },
+        component::ctype_t{ .type = UI },
+        component::cassetid_t{ .assets = "planet" },
+        component::csceneid_t{ .sceneId = SCENE::MAIN_MENU },
+        component::cscale_t{ .scale = assetMan.assets.at("planet").getScale() }
+    );
 }
 
 void Client::loadParallax(Sparse_array<component::casset_t> &assets)
@@ -180,7 +182,7 @@ void Client::loadParallax(Sparse_array<component::casset_t> &assets)
     std::vector<std::pair<std::string, int>> parallax = {
         {"parallax_background", 1},
         {"parallax_mountain", 3},
-        {"parallax_ground", 4 }
+        {"parallax_ground", 4}
     };
 
     for (std::size_t i = 0; i <= 1; i++) {
@@ -192,23 +194,12 @@ void Client::loadParallax(Sparse_array<component::casset_t> &assets)
                     component::ctype_t{ .type = PARALLAX },
                     component::cvelocity_t{ .velocity = velocity },
                     component::cassetid_t{ .assets = texture },
-                    component::csceneid_t{ .sceneId = SCENE::ALL }
+                    component::csceneid_t{ .sceneId = SCENE::ALL },
+                    component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getScale() }
             );
         }
         pos.first += 1930;
     }
-}
-
-static nlohmann::json getJsonData(std::string const &filepath)
-{
-    nlohmann::json jsonData;
-    std::ifstream confStream(filepath);
-
-    if (!confStream.is_open())
-        throw ("file " + filepath + " failed to open");
-    confStream >> jsonData;
-    confStream.close();
-    return jsonData;
 }
 
 void Client::startGameScene()
@@ -218,7 +209,7 @@ void Client::startGameScene()
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
 }
 
-void Client::loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets)
+void Client::loadButtons(std::string const &filepath, Sparse_array<component::casset_t> &assets)
 {
     nlohmann::json jsonData;
 
@@ -245,7 +236,8 @@ void Client::loadButton(std::string const &filepath, Sparse_array<component::cas
                 component::ctype_t{ .type = BUTTON },
                 component::cassetid_t{ .assets = assetId },
                 component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-                component::ccallback_t{ .callback = _callbackMap.at(callbackType) }
+                component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
+                component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
         );
     }
 }
