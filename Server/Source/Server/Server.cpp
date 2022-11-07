@@ -71,10 +71,10 @@ void Server::HandleSendPacket() {
         for (auto const &[address, portList] : _endpoints) {
             for (auto const &[port, netId]: portList) {
                 if (tmp.first == _registry.get_components<component::clobby_id_t>()[_registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netId)].value().id) {
-                    std::cout << "Handle Send Packet : sent to the good lobby" << std::endl;
+                    // std::cout << "Handle Send Packet : sent to the good lobby" << std::endl;
                     _com->send(tmp.second, address, port);
-                } else
-                    std::cout << "Handle Send Packet : adress ignored, not the good lobby" << tmp.first << " , " << _registry.get_components<component::clobby_id_t>()[_registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netId)].value().id << std::endl;
+                }
+                    // std::cout << "Handle Send Packet : adress ignored, not the good lobby" << tmp.first << " , " << _registry.get_components<component::clobby_id_t>()[_registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netId)].value().id << std::endl;
                 // _registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().at(netId)
             }
         }
@@ -113,7 +113,7 @@ void Server::setUpEcs()
 
 
     // _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
-    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t>(_directionSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::clobby_id_t, component::cnet_id_to_client_id_t>(_directionSystem);
     _registry.add_system<component::cnetwork_queue_t>(_receiveSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t>(_shootSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t, component::ctimer_t>(_spawnEnemySystem);

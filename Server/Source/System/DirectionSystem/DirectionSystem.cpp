@@ -19,7 +19,7 @@ System::DirectionSystem::DirectionSystem()
 {
 }
 
-void System::DirectionSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, [[ maybe_unused ]] Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity)
+void System::DirectionSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, [[ maybe_unused ]] Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId)
 {
     if (!netqueue[FORBIDDEN_IDS::NETWORK].value().moveQueue.empty()) {
         std::pair<int, packet_move> &packet = netqueue[FORBIDDEN_IDS::NETWORK].value().moveQueue.front();
@@ -30,7 +30,10 @@ void System::DirectionSystem::operator()([[ maybe_unused ]] Registry &registry, 
 
             position[packet.second.playerId].value().x += resultX;
             position[packet.second.playerId].value().y += resultY;
-            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({1, serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::POSITION, {packet.second.playerId, position[packet.second.playerId].value().x, position[packet.second.playerId].value().y, 1})});
+
+            int lobbyId = LobbyId[netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(packet.first)].value().id;
+
+            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::POSITION, {packet.second.playerId, position[packet.second.playerId].value().x, position[packet.second.playerId].value().y, 1})});
         }
         netqueue[FORBIDDEN_IDS::NETWORK].value().moveQueue.pop();
     }

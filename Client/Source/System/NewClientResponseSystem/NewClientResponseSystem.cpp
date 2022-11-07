@@ -15,7 +15,10 @@ void System::NewClientResponseSystem::operator()([[ maybe_unused ]]Registry &reg
     while (!netqueue[FORBIDDEN_IDS::NETWORK].value().newConnectionResponseQueue.empty()) {
         packet_new_connection_response &new_connection_response = netqueue[FORBIDDEN_IDS::NETWORK].value().newConnectionResponseQueue.front();
         std::cout << "Nes client response system : recive network client id : " << new_connection_response.id << std::endl;
-        clientNetworkId[FORBIDDEN_IDS::NETWORK].value().id = new_connection_response.id;
+        if (!clientNetworkId[FORBIDDEN_IDS::NETWORK].value().id) {
+            clientNetworkId[FORBIDDEN_IDS::NETWORK].value().id = new_connection_response.id;
+            std::cout << "New client response system : added client id : " << new_connection_response.id << std::endl;
+        }
         netqueue[FORBIDDEN_IDS::NETWORK].value().newConnectionResponseQueue.pop();
 
     }
