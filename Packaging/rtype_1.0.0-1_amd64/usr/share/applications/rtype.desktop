@@ -3,7 +3,7 @@
 Version=1.0.0
 Name=RType
 Comment=A replica of the famous R-Type game
-Exec=/usr/bin/r-type_client /usr/bin/Assets/asset.json
+Exec=/usr/bin/r-type_client usr/bin/Assets/Configs/texts.json usr/bin/Assets/Configs/asset.json usr/bin/Assets/Configs/buttons.json
 Icon=/usr/share/icons/r-type_icon.png
 Terminal=true
 Type=Application
