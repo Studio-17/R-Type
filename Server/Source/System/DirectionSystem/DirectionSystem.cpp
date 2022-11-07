@@ -34,7 +34,7 @@ void DirectionSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_a
 
             position[packet.second.playerId].value().x += resultX;
             position[packet.second.playerId].value().y += resultY;
-            netqueue[0].value().toSendNetworkQueue.push({0, serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::POSITION, {packet.second.playerId, position[packet.second.playerId].value().x, position[packet.second.playerId].value().y, 1})});
+            netqueue[0].value().toSendNetworkQueue.push({1, serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::POSITION, {packet.second.playerId, position[packet.second.playerId].value().x, position[packet.second.playerId].value().y, 1})});
         }
     }
 }
