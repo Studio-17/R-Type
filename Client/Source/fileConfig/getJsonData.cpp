@@ -7,7 +7,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include <string>
+#include <iostream>
 #include <fstream>
 
 nlohmann::json getJsonData(std::string const &filepath)
@@ -15,8 +15,9 @@ nlohmann::json getJsonData(std::string const &filepath)
     nlohmann::json jsonData;
     std::ifstream confStream(filepath);
 
-    if (!confStream.is_open())
+    if (!confStream.is_open()) {
         throw ("file " + filepath + " failed to open");
+    }
     confStream >> jsonData;
     confStream.close();
     return jsonData;

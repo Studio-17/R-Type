@@ -12,10 +12,12 @@
     #include <iostream>
     #include <string>
 
+/**
+ * @brief Error namespace that will contain all Error types
+ */
 namespace Error {
     /**
      * @brief Erorr class to handle throw
-     *
      */
     class Errors : public std::exception
     {
@@ -23,20 +25,19 @@ namespace Error {
             /**
              * @brief Construct a new Errors object
              *
-             * @param message
+             * @param message Message to throw
              */
             Errors(std::string const &message) throw();
 
             /**
              * @brief Destroy the Errors object
-             *
              */
             virtual ~Errors() throw();
 
             /**
              * @brief Define the message error object
              *
-             * @return const char*
+             * @return const char* Message that has been throwed
              */
             const char *what() const throw();
 

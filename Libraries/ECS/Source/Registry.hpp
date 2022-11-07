@@ -16,12 +16,14 @@
     #include "SparseArray.hpp"
     #include "Entity.hpp"
 
+/**
+ * @brief Class that handle ECS
+ */
 class Registry
 {
     public:
         /**
          * @brief Construct a new Registry object
-         *
          */
         explicit Registry() = default;
 
@@ -34,15 +36,14 @@ class Registry
 
         /**
          * @brief Destroy the Registry object
-         *
          */
         virtual ~Registry() = default;
 
         /**
          * @brief A method to register a component to the registry, it inserts it inside the various arrays contained in the object
          *
-         * @tparam Component
-         * @return Sparse_array<Component>&
+         * @tparam Component Type of component to add in Sparse Array list
+         * @return Sparse_array<Component>& The new Sparse Array of the component
          */
         template <class Component>
         Sparse_array<Component> &register_component()
@@ -63,8 +64,8 @@ class Registry
         /**
          * @brief Get the components object
          *
-         * @tparam Component
-         * @return Sparse_array<Component>&
+         * @tparam Component Type of component to get in Sparse Array list
+         * @return Sparse_array<Component>& The Sparse Array of the component
          */
         template <class Component>
         Sparse_array<Component> &get_components()
@@ -75,8 +76,8 @@ class Registry
         /**
          * @brief Get the components object
          *
-         * @tparam Component
-         * @return Sparse_array<Component> const&
+         * @tparam Component Type of component to get in Sparse Array list
+         * @return Sparse_array<Component> const& The Sparse Array of the component
          */
         template <class Component>
         Sparse_array<Component> const &get_components() const
@@ -87,7 +88,7 @@ class Registry
         /**
          * @brief A method to spawn an entity, it adds it to the creators array
          *
-         * @return Entity
+         * @return Entity The new entity created
          */
         Entity spawn_entity()
         {
@@ -99,9 +100,9 @@ class Registry
         /**
          * @brief A method that create an entity and add all components you want to it
          *
-         * @tparam Components
-         * @param cmps
-         * @return Entity
+         * @tparam Components Type of component That Entity will have
+         * @param components Component That Entity will have
+         * @return Entity The new entity created
          */
         template <class ...Components>
         Entity spawn_entity_with(Components && ...components) {
@@ -114,8 +115,8 @@ class Registry
         /**
          * @brief A method to get an entity with its index
          *
-         * @param idx
-         * @return Entity
+         * @param idx Index of the entity
+         * @return Entity Entity at index
          */
         Entity entity_from_index(std::size_t idx) const
         {
@@ -128,7 +129,7 @@ class Registry
         /**
          * @brief A method to kill an entity
          *
-         * @param e
+         * @param e Entity to kill
          */
         void kill_entity(Entity const &e)
         {
@@ -139,10 +140,10 @@ class Registry
         /**
          * @brief  A method to add a component to a known sparse array
          *
-         * @tparam Component
-         * @param to
-         * @param c
-         * @return Sparse_array<Component>::reference_type
+         * @tparam Component Type of component That Entity will have
+         * @param e Entity which component will be added
+         * @param c Component to add in Entity
+         * @return Sparse_array<Component>::reference_type The Sparse Array of the component that had be added
          */
         template <typename Component>
         typename Sparse_array<Component>::reference_type add_component(Entity const &e, Component &&c)
@@ -160,28 +161,24 @@ class Registry
         /**
          * @brief A method to add a component at a position int the sparse array, a sparse array means that some cells mey be empty
          *
-         * @tparam Component
-         * @tparam Params
-         * @param to
-         * @param p
-         * @return Sparse_array<Component>::reference_type
+         * @tparam Component Type of component
+         * @tparam Params Params to emplace at the Entity
+         * @param to Entity which component will be added
+         * @param p Params to emplace at the Entity
+         * @return Sparse_array<Component>::reference_type The Sparse Array of the component that had be added
          */
         template <typename Component, typename ...Params>
         typename Sparse_array<Component>::reference_type emplace_component(Entity const &to, Params &&...p)
         {
             Sparse_array<Component> sparseArray = std::any_cast<Sparse_array<Component> &>(_componentsArrays.at(std::type_index(typeid(Component))));
-
-            // if (to > sparseArray.size()) {
-            //     sparseArray.extend(1);
-            // }
             return sparseArray.emplaceAt(to, p...);
         };
 
         /**
          * @brief A method to remove a component from an entity
          *
-         * @tparam Component
-         * @param from
+         * @tparam Component Type of component
+         * @param from Entity where the component will be removed
          */
         template <typename Component>
         void remove_component(Entity const &from)
@@ -196,10 +193,9 @@ class Registry
         /**
          * @brief A method to add a system to the registry, adds the element to the list of systems of the registry
          *
-         * @tparam Component
-         * @tparam Function
-         * @param f
-         * @param components
+         * @tparam Component Type of component
+         * @tparam Function Type of System function to add
+         * @param f System function to add
          */
         template <class ...Component, typename Function>
         void add_system(Function &&f) {
@@ -211,10 +207,9 @@ class Registry
         /**
          * @brief A method to add a system to the registry, adds the element to the list of systems of the registry
          *
-         * @tparam Component
-         * @tparam Function
-         * @param f
-         * @param components
+         * @tparam Component Type of component
+         * @tparam Function Type of System function to add
+         * @param f System function to add
          */
         template <class ...Component, typename Function>
         void add_system(Function const &f) {
@@ -225,7 +220,6 @@ class Registry
 
         /**
          * @brief A method that is used to run all the systems of the registry
-         *
          */
         void run_systems() {
             for (auto &function : _listOfSystems)

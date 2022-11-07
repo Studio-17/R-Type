@@ -14,7 +14,7 @@
  * @brief A packet to handle disconnection
  */
 struct packet_disconnection {
-    uint16_t disconnection;
+    uint16_t disconnection; ///< Disconnection
 };
 
 #endif /* !DISCONNECTION_HPP_ */

@@ -9,27 +9,53 @@
     #define STARTGAMESYSTEM_HPP_
 
     #include "Registry.hpp"
-    #include "CNetworkQueue.hpp"
-    #include "CLobbiesToEntities.hpp"
-    #include "CLobbyId.hpp"
-    #include "CNetIdToClientId.hpp"
-    #include "CPosition.hpp"
-    #include "CType.hpp"
 
+    /* Component */
+    #include "Component/CNetworkQueue.hpp"
+    #include "Component/CLobbiesToEntities.hpp"
+    #include "Component/CLobbyId.hpp"
+    #include "Component/CNetIdToClientId.hpp"
+    #include "Component/CPosition.hpp"
+    #include "Component/CType.hpp"
 
-class StartGameSystem {
-    public:
-        StartGameSystem();
-        ~StartGameSystem() = default;
+/**
+ * @brief Namespace for systems
+ */
+namespace System {
+    /**
+     * @brief System in charge of handle start of game
+     */
+    class StartGameSystem {
+        public:
+            /**
+             * @brief Construct a new Start Game System object
+             */
+            StartGameSystem();
+            ~StartGameSystem() = default;
 
-        Entity createSpaceShip(Registry &registry); ///< Function that creates a spaceship
+            /**
+             * @brief Create a Space Ship object
+             *
+             * @param registry The registry that contains all the ECS
+             * @return Entity The new spaceShip entity
+             */
+            Entity createSpaceShip(Registry &registry);
 
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type);
-        void createSpaceShip(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities);
-
-
-    protected:
-    private:
-};
+            /**
+             * @brief The main handler for the StartGame System
+             *
+             * @param registry The registry that contains all the ECS
+             * @param netqueue The sparse array of network entities
+             * @param LobbyId The sparse array of lobbyId entities
+             * @param netIdToClientId The sparse array of netIdToClientId entities
+             * @param lobbiesToEntities The sparse array of lobbiesToEntities entities
+             * @param position The sparse array of position entities
+             * @param type The sparse array of type entities
+             */
+            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type);
+        protected:
+        private:
+    };
+}
 
 #endif /* !STARTGAMESYSTEM_HPP_ */

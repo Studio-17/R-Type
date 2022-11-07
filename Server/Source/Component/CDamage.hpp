@@ -8,20 +8,16 @@
 #ifndef CDAMAGE_HPP_
     #define CDAMAGE_HPP_
 
-    #include <iostream>
-
 /**
  * @brief Namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief A structure representing the damage component that holds the damage of an entity
-     * 
      */
-    typedef struct cdamage_s {
-        size_t damage;
-    } cdamage_t;
+    struct cdamage_t {
+        size_t damage; ///< damage of the entity
+    };
 }
 
 #endif /* !CDAMAGE_HPP_ */

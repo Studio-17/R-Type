@@ -12,16 +12,14 @@
 
 /**
  * @brief Namespace for all components
- *
  */
 namespace component {
     /**
      * @brief Structure representing the server id component in charge of entity identification
-     *
      */
-    typedef struct cserverid_s {
-        uint16_t id;
-    } cserverid_t;
+    struct cserverid_t {
+        uint16_t id; ///< Id of the entity in server
+    };
 }
 
 #endif /* !CSERVERID_HPP_ */
