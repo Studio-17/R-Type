@@ -6,7 +6,14 @@ LABEL maintainer="martin.vanaud@epitech.eu"
 
 WORKDIR /home/r-type/server/
 
-COPY ["Builds/Server/r-type_server", "./"]
+ADD [ "Server/", "Server/" ]
+ADD [ "Libraries/", "Libraries/" ]
+ADD [ "vcpkg/", "vcpkg/" ]
+
+COPY [ "CMakeLists.txt", "vcpkg.json", "./" ]
+COPY [ ".github/docker/build-server.sh", "./build-server.sh" ]
+
+RUN [ "bash", "build-server.sh" ]
 
 EXPOSE 8080
-CMD ["./r-type_server", "8080"]
+CMD ["./Builds/Server/r-type_server", "8080"]
