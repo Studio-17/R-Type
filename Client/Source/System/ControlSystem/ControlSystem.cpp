@@ -19,7 +19,7 @@ System::ControlSystem::ControlSystem()
 {
 }
 
-void ControlSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cclient_network_id> &clientNetworkId)
+void System::ControlSystem::operator()( [[	maybe_unused ]] Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cclient_network_id> &clientNetworkId)
 {
     if (keyboards[FORBIDDEN_IDS::NETWORK]) {
         auto &key = keyboards[0];
