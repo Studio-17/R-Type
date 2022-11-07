@@ -12,8 +12,7 @@
 #include <memory>
 
 #include "raylib.h"
-#include "Sprite.hpp"
-#include "Text.hpp"
+// #include "MyText.hpp"
 #include "MySound.hpp"
 #include "MyMusic.hpp"
 #include "MyTexture.hpp"
@@ -80,26 +79,7 @@ namespace rtype {
              */
             virtual auto windowShouldClose() -> bool = 0;
 
-            /**
-             * @brief Create a Sprite object
-             * 
-             * @param id id of the sprite
-             * @param imagePath path to the image
-             * @param position position of the sprite
-             * @param size size of the sprite
-             */
-            virtual auto createSprite(std::string const &imagePath, float const &size, Rectangle const &rect) -> std::shared_ptr<Sprite> = 0;
-            /**
-             * @brief Draw a sprite
-             * 
-             * @param id id of the sprite
-             */
-
-            virtual auto drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale) -> void = 0;
-
-            virtual auto drawRectangle(MyTexture const &texture, Position const &position, Rectangle const &rect) -> void = 0;
-
-            virtual auto destroySprite(std::shared_ptr<Sprite> sprite) -> void = 0;
+            virtual auto drawSprite(MyTexture const &texture, std::array<float, 4> const &rectSource, std::array<float, 4> const &rectDest, std::pair<float, float> const &origin, float const &rotation, float const &scale) -> void = 0;
 
             virtual auto checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width) -> bool = 0;
 
@@ -107,114 +87,9 @@ namespace rtype {
 
             virtual auto getMousePosition() -> Position = 0;
 
-            /**
-             * @brief Set the Sprite Position object
-             * 
-             * @param id id of the sprite
-             * @param position position of the sprite
-             */
-            virtual auto setSpritePosition(Sprite &sprite, Position const &position) -> void = 0;
-            /**
-             * @brief Set the Sprite Scale object
-             * 
-             * @param id id of the sprite
-             * @param scale scale of the sprite
-             */
-            virtual auto setSpriteScale(Sprite &sprite, float scale) -> void = 0;
-            /**
-             * @brief Get the Sprite Position object
-             * 
-             * @param id id of the sprite
-             * @return the Position of the sprite
-             */
-            virtual auto getSpritePosition(Sprite const &sprite) -> Position = 0;
-            /**
-             * @brief Set the Sprite Rotation object
-             * 
-             * @param id id of the sprite
-             * @param rotation rotation of the sprite
-             */
-            virtual auto setSpriteRotation(Sprite &sprite, float rotation) -> void = 0;
-            /**
-             * @brief Get the Sprite Rotation object
-             * 
-             * @param id id of the sprite
-             * @return float rotation of the sprite
-             */
-            virtual auto getSpriteRotation(Sprite const &sprite) -> float = 0;
+            virtual auto drawText(std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize,float const &spacing, std::array<float, 4> const &color) -> void = 0;
 
-            /**
-             * @brief 
-             * 
-             * @param sprite1 rect of the first sprite
-             * @param sprite2 rect of the second sprite
-             * @return true if the two sprites are colliding
-             * @return false if the two sprites are not colliding
-             */
-            virtual auto checkCollisions(Sprite const &sprite1, Sprite const &sprite2) -> bool = 0;
-
-            /**
-             * @brief Create a Text object
-             * 
-             * @param id id of the text
-             * @param filename path to the font
-             * @param text text to display
-             * @param fontSize size of the text
-             * @param color color of the text
-             * @param position position of the text
-             */
-            virtual auto createText(std::size_t id, std::string const &filename, std::string const &text, int fontSize, Color const &color, Position const &position) -> void = 0;
-            /**
-             * @brief Draw a text
-             * 
-             * @param id id of the text
-             */
-            virtual auto drawText(std::size_t id) -> void = 0;
-
-            /**
-             * @brief Set the Text Position object
-             * 
-             * @param id id of the text
-             * @param position position of the text
-             */
-            virtual auto setTextPosition(std::size_t id, Position const &position) -> void = 0;
-            /**
-             * @brief Get the Text Position object
-             * 
-             * @param id id of the text
-             * @return Position of the text
-             */
-            virtual auto getTextPosition(std::size_t id) -> Position = 0;
-
-            /**
-             * @brief Get the Text content object
-             * 
-             * @param id id of the text
-             * @return std::string content of the text
-             */
-            virtual auto getText(std::size_t id) -> std::string = 0;
-            /**
-             * @brief Set the Text content object
-             * 
-             * @param id id of the text
-             * @param text new content of the text
-             */
-            virtual auto setText(std::size_t id, std::string const &text) -> void = 0;
-
-            /**
-             * @brief Set the Text Color object
-             * 
-             * @param id id of the text
-             * @param color new color of the text
-             */
-            virtual auto setTextColor(std::size_t id, Color const &color) -> void = 0;
-            /**
-             * @brief Set the Text Font Size object
-             * 
-             * @param id id of the text
-             * @param fontSize new size of the text
-             */
-            virtual auto setTextFontSize(std::size_t id, int fontSize) -> void = 0;
+            virtual auto createColor(std::array<float, 4> const &array) -> Color = 0;
 
             /**
              * @brief Create a Music object

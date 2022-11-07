@@ -45,6 +45,6 @@ void AssetManager::loadAssets(std::string const &filepath)
         return;
     }
     for (auto oneData : jsonData) {
-        _assets.emplace(oneData.value("title", "redSpaceShip"), Asset(oneData));
+        _assets.emplace(oneData.value("title", "error title"), Asset(oneData));
     }
 }

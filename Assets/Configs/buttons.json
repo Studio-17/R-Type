@@ -5,11 +5,12 @@
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
-            "font": "Assets/fonts/Square.ttf",
+            "font": "Assets/Fonts/Square.ttf",
             "text": "right",
             "color": [150, 150, 150, 255],
-            "fontSize": 40,
-            "position": [5, 5]
+            "fontSize": 60,
+            "position": [200, 30],
+            "spacing": 7
         },
         "scene": 5,
         "callback-type": "start-game"

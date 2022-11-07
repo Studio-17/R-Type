@@ -3,78 +3,72 @@
         "title": "bullet",
         "nbFrame": 2,
         "scale": 1.0,
-        "texture": "Assets/sprites/bullet.png"
+        "texture": "Assets/Images/Sprites/bullet.png"
     },
     "enemy": {
         "title": "enemy",
         "nbFrame": 16,
         "scale": 1.0,
-        "texture": "Assets/sprites/BasicEnemySpriteSheet2.png"
+        "texture": "Assets/Images/Sprites/BasicEnemySpriteSheet2.png"
     },
     "blueSpaceShip": {
         "title": "blueSpaceShip",
         "nbFrame": 5,
         "scale": 1.0,
-        "texture": "Assets/sprites/BlueSpaceShip.png"
+        "texture": "Assets/Images/Sprites/BlueSpaceShip.png"
     },
     "greenSpaceShip": {
         "title": "greenSpaceShip",
         "nbFrame": 5,
         "scale": 1.0,
-        "texture": "Assets/sprites/GreenSpaceShip.png"
+        "texture": "Assets/Images/Sprites/GreenSpaceShip.png"
     },
     "redSpaceShip": {
         "title": "redSpaceShip",
         "nbFrame": 5,
         "scale": 1.0,
-        "texture": "Assets/sprites/RedSpaceShip.png"
+        "texture": "Assets/Images/Sprites/RedSpaceShip.png"
     },
     "purpleSpaceShip": {
         "title": "purpleSpaceShip",
         "nbFrame": 5,
         "scale": 1.0,
-        "texture": "Assets/sprites/PurpleSpaceShip.png"
+        "texture": "Assets/Images/Sprites/PurpleSpaceShip.png"
     },
     "marineSpaceShip": {
         "title": "marineSpaceShip",
         "nbFrame": 5,
         "scale": 1.0,
-        "texture": "Assets/sprites/MarineSpaceShip.png"
+        "texture": "Assets/Images/Sprites/MarineSpaceShip.png"
     },
     "parallax_background" : {
         "title": "parallax_background",
         "nbFrame": 1,
         "scale": 1.0,
-        "texture": "Assets/parallax/parallax_background.png"
+        "texture": "Assets/Images/Parallax/parallax_background.png"
     },
     "parallax_ground" : {
         "title": "parallax_ground",
         "nbFrame": 1,
         "scale": 1.0,
-        "texture": "Assets/parallax/parallax_ground.png"
+        "texture": "Assets/Images/Parallax/parallax_ground.png"
     },
     "parallax_mountain" : {
         "title": "parallax_mountain",
         "nbFrame": 1,
         "scale": 1.0,
-        "texture": "Assets/parallax/parallax_mountain.png"
+        "texture": "Assets/Images/Parallax/parallax_mountain.png"
     },
     "button": {
         "title": "button",
         "nbFrame": 1,
-        "scale": 1.0,
-        "texture": "Assets/sprites/button.png"
-    },
-    "button2": {
-        "title": "button2",
-        "nbFrame": 1,
-        "scale": 1.0,
-        "texture": "Assets/sprites/button.png"
+        "scale": 1,
+        "texture": "Assets/Images/Buttons/shortbutton.png"
     },
     "planet": {
         "title": "planet",
         "nbFrame": 1,
         "scale": 1.5,
-        "texture": "Assets/sprites/planet.gif"
+        "texture": "Assets/Images/Sprites/planet.gif"
     }
 }

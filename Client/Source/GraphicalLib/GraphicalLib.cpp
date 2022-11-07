@@ -9,8 +9,6 @@
 
 rtype::GraphicalLib::GraphicalLib()
 {
-    _spriteMap = {};
-    _textMap = {};
     _soundMap = {};
     _musicMap = {};
 }
@@ -51,54 +49,9 @@ bool rtype::GraphicalLib::windowShouldClose()
 }
 
 //Sprite
-std::shared_ptr<Sprite> rtype::GraphicalLib::createSprite(std::string const &imagePath, float const &size, Rectangle const &rect)
+void rtype::GraphicalLib::drawSprite(MyTexture const &texture, std::array<float, 4> const &rectSource, std::array<float, 4> const &rectDest, std::pair<float, float> const &origin, float const &rotation, float const &scale)
 {
-    return std::make_shared<Sprite>(imagePath, size, rect);
-}
-
-void rtype::GraphicalLib::drawSprite(MyTexture const &texture, Position const &position, float rotation, float scale)
-{
-    DrawTextureEx(texture.getTexture(), position.getVector2(), rotation, scale, WHITE);
-}
-
-void rtype::GraphicalLib::drawRectangle(MyTexture const &texture, Position const &position, Rectangle const &rect)
-{
-    DrawTextureRec(texture.getTexture(), rect, position.getVector2(), WHITE);
-}
-
-void rtype::GraphicalLib::destroySprite(std::shared_ptr<Sprite> sprite)
-{
-    UnloadTexture(sprite->getTexture());
-}
-
-void rtype::GraphicalLib::setSpritePosition(Sprite &sprite, Position const &position)
-{
-    sprite.setPosition(position);
-}
-
-void rtype::GraphicalLib::setSpriteScale(Sprite &sprite, float scale)
-{
-    sprite.setScale(scale);
-}
-
-Position rtype::GraphicalLib::getSpritePosition(Sprite const &sprite)
-{
-    return sprite.getPosition();
-}
-
-void rtype::GraphicalLib::setSpriteRotation(Sprite &sprite, float rotation)
-{
-    sprite.setRotation(rotation);
-}
-
-float rtype::GraphicalLib::getSpriteRotation(Sprite const &sprite)
-{
-    return sprite.getRotation();
-}
-
-bool rtype::GraphicalLib::checkCollisions(Sprite const &sprite1, Sprite const &sprite2)
-{
-    return CheckCollisionRecs(sprite1.getRect(), sprite2.getRect());
+    DrawTextureTiled(texture.getTexture(), {rectSource[0], rectSource[1], rectSource[2], rectSource[3]}, {rectDest[0], rectDest[1], rectDest[2], rectDest[3]}, {origin.first, origin.second}, rotation, scale, WHITE);
 }
 
 bool rtype::GraphicalLib::checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width)
@@ -117,45 +70,22 @@ Position rtype::GraphicalLib::getMousePosition()
     return (Position){mousePosition.x, mousePosition.y};
 }
 
+Color rtype::GraphicalLib::createColor(std::array<float, 4> const &array)
+{
+    Color color;
+
+    color.r = array.at(0);
+    color.g = array.at(1);
+    color.b = array.at(2);
+    color.a = array.at(3);
+    return color;
+}
+
 // Text
-void rtype::GraphicalLib::createText(std::size_t id, std::string const &filename, std::string const &text, int fontSize, Color const &color, Position const &position)
+void rtype::GraphicalLib::drawText([[ maybe_unused ]]std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize, [[ maybe_unused ]]float const &spacing, std::array<float, 4> const &color)
 {
-    _textMap[id].reset(new Text(filename, text, fontSize, color, position));
-}
-
-void rtype::GraphicalLib::drawText(std::size_t id)
-{
-    _textMap[id]->draw();
-}
-
-void rtype::GraphicalLib::setTextPosition(std::size_t id, Position const &position)
-{
-    _textMap[id]->setPosition(position);
-}
-
-Position rtype::GraphicalLib::getTextPosition(std::size_t id)
-{
-    return _textMap[id]->getPosition();
-}
-
-std::string rtype::GraphicalLib::getText(std::size_t id)
-{
-    return _textMap[id]->getText();
-}
-
-void rtype::GraphicalLib::setText(std::size_t id, std::string const &text)
-{
-    _textMap[id]->setText(text);
-}
-
-void rtype::GraphicalLib::setTextColor(std::size_t id, Color const &color)
-{
-    _textMap[id]->setColor(color);
-}
-
-void rtype::GraphicalLib::setTextFontSize(std::size_t id, int fontSize)
-{
-    _textMap[id]->setFontSize(fontSize);
+    // DrawTextEx(LoadFont(font.c_str()), text.c_str(), (Vector2){pos.getX(), pos.getY()}, fontSize, spacing, createColor(color));
+    DrawText(text.c_str(), pos.getX(), pos.getY(), fontSize, createColor(color));
 }
 
 //Musics
