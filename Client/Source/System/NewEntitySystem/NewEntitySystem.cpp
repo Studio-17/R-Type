@@ -106,4 +106,7 @@ void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &new
         component::csceneid_t{ .sceneId = SCENE::GAME },
         component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() }
     );
+    std::cout << asset.at(_entityType.at(newEntity.type)).getRectangle().width << std::endl;
+    std::cout << asset.at(_entityType.at(newEntity.type)).getRectangle().height << std::endl;
+
 }

@@ -25,15 +25,18 @@ System::SpawnEnemySystem::SpawnEnemySystem()
     std::srand(std::time(nullptr));
 }
 
-void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer)
+void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer, Sparse_array<component::clobbies_status_t> &lobbiesStatus)
 {
     if (std::chrono::steady_clock::now() - timer[0].value().spawnEnemyDeltaTime > (std::chrono::nanoseconds)3000000000)
         timer[FORBIDDEN_IDS::NETWORK].value().spawnEnemyDeltaTime = std::chrono::steady_clock::now();
     else
         return;
-    Entity enemy = createEnemy(registry);
-    if (position[enemy] && type[enemy]) {
-        netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({1, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0})});
+    std::cout << "Spawn enemy system" << std::endl;
+    for (int i = 1; i < (int)lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus.size(); i++) {
+        Entity enemy = createEnemy(registry);
+        if (position[enemy] && type[enemy] && lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[i] == true) {
+            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({i, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0})});
+        }
     }
 }
 

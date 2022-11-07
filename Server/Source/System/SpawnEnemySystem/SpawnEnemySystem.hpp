@@ -15,6 +15,7 @@
     #include "Component/CPosition.hpp"
     #include "Component/CType.hpp"
     #include "Component/CTimer.hpp"
+    #include "Component/CLobbiesStatus.hpp"
 
 /**
  * @brief Namespace for systems
@@ -40,7 +41,7 @@ namespace System {
              * @param type The sparse array of type entities
              * @param timer The sparse array of timer entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer);
+            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer, Sparse_array<component::clobbies_status_t> &lobbiesStatus);
 
             /**
              * @brief Create a Enemy object
