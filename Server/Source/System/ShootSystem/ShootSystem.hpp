@@ -16,6 +16,8 @@
     #include "Component/CDirection.hpp"
     #include "Component/CHitBox.hpp"
     #include "Component/CPosition.hpp"
+    #include "Component/CLobbyId.hpp"
+    #include "Component/CNetIdToClientId.hpp"
 
 /**
  * @brief Namespace for systems
@@ -39,7 +41,7 @@ namespace System {
              * @param netqueue The sparse array of network entities
              * @param position The sparse array of position entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position);
+            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId);
 
             /**
              * @brief Create a Bullet object
