@@ -12,16 +12,14 @@
 
 /**
  * @brief A namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief A structure representing the type component of an entity
-     * 
      */
-    typedef struct ctype_s {
-        ENTITY_TYPE type;
-    } ctype_t;
+    struct ctype_t {
+        ENTITY_TYPE type; ///< type of the entity
+    };
 }
 
 #endif /* !CTYPE_HPP_ */

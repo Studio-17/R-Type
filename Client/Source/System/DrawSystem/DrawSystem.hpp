@@ -10,46 +10,46 @@
 
     #include "Registry.hpp"
     #include "GraphicalLib.hpp"
-    #include "CPosition.hpp"
-    #include "CRect.hpp"
-    #include "CAsset.hpp"
-    #include "CAssetId.hpp"
-    #include "CSceneId.hpp"
-    #include "CScale.hpp"
-    #include "CText.hpp"
-    #include "CColor.hpp"
-    #include "Constant.hpp"
+
+    /* Component */
+    #include "Component/CPosition.hpp"
+    #include "Component/CRect.hpp"
+    #include "Component/CAsset.hpp"
+    #include "Component/CAssetId.hpp"
+    #include "Component/CSceneId.hpp"
+    #include "Component/CScale.hpp"
+    #include "Component/CText.hpp"
+    #include "Component/CColor.hpp"
+    // #include "Constant.hpp"
 
 /**
- * @brief DrawSystem class that handles the drawing of all the entities
- *
+ * @brief Namespace for systems
  */
-class DrawSystem {
-    public:
-        /**
-        * @brief Construct a new Event System object
-         *
-         */
-        DrawSystem();
-        /**
-         * @brief Destroy the Event System object
-         *
-         */
-        ~DrawSystem() = default;
+namespace System {
+    /**
+     * @brief DrawSystem class that handles the drawing of all the entities
+     */
+    class DrawSystem {
+        public:
+            /**
+             * @brief Construct a new Event System object
+             */
+            DrawSystem();
+            ~DrawSystem() = default;
 
-        /**
-         * @brief Update the DrawSystem
-         * 
-         * @param registry the registry of the server
-         * @param positions the sparse array of position entities
-         * @param rectangles the sparse array of rectangle entities
-         * @param assets the sparse array of asset entities
-         * @param assetsId the sparse array of assetId entities
-         * @param scenesId the sparse array of sceneId entities
-         * @param scales the sparse array of scale entities
-         * @param texts the sparse array of text entities
-         */
-        void operator()(Registry &registry,
+            /**
+             * @brief Update the DrawSystem
+             *
+             * @param registry The registry of the server
+             * @param positions The sparse array of position entities
+             * @param rectangles The sparse array of rectangle entities
+             * @param assets The sparse array of asset entities
+             * @param assetsId The sparse array of assetId entities
+             * @param scenesId The sparse array of sceneId entities
+             * @param scales The sparse array of scale entities
+             * @param texts The sparse array of text entities
+             */
+            void operator()(Registry &registry,
                         Sparse_array<component::cposition_t> &positions,
                         Sparse_array<component::crect_t> &rectangles,
                         Sparse_array<component::casset_t> &assets,
@@ -59,11 +59,11 @@ class DrawSystem {
                         Sparse_array<component::ctext_t> &texts,
                         Sparse_array<component::ccolor_t> &colors);
 
-
-    protected:
-    private:
-        std::shared_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
-};
+        protected:
+        private:
+            std::shared_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
+    };
+}
 
 
 #endif //R_TYPE_DRAWSYSTEM_H

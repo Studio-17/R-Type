@@ -12,11 +12,16 @@
     #include <vector>
     #include "Entity.hpp"
 
-    namespace component {
-        struct clobbies_to_entities_t {
-            std::unordered_map<int, std::vector<Entity>> lobbiesToEntities;
-        };
-    }
-
+/**
+ * @brief A namespace for all components
+ */
+namespace component {
+    /**
+     * @brief A structure representing the Entities contained in lobbies
+     */
+    struct clobbies_to_entities_t {
+        std::unordered_map<int, std::vector<Entity>> lobbiesToEntities; ///< map containing entities of each lobby
+    };
+}
 
 #endif /* !CLOBBYSTOENTITIES__HPP_ */

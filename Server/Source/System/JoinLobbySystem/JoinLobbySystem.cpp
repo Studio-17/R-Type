@@ -11,11 +11,11 @@
 #include "JoinLobbySystem.hpp"
 #include "Constant.hpp"
 
-JoinLobbySystem::JoinLobbySystem()
+System::JoinLobbySystem::JoinLobbySystem()
 {
 }
 
-void JoinLobbySystem::changeClientLobby(int netClientId, int newLobbyId, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId)
+void System::JoinLobbySystem::changeClientLobby(int netClientId, int newLobbyId, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId)
 {
     Entity clientEntity = netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netClientId);
 
@@ -36,7 +36,7 @@ void JoinLobbySystem::changeClientLobby(int netClientId, int newLobbyId, Sparse_
     }
 }
 
-void JoinLobbySystem::operator()([[ maybe_unused ]]Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId)
+void System::JoinLobbySystem::operator()([[ maybe_unused ]]Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId)
 {
     if (networkQueue[FORBIDDEN_IDS::NETWORK]) {
         while (!networkQueue[FORBIDDEN_IDS::NETWORK].value().joinLobbyQueue.empty()) {

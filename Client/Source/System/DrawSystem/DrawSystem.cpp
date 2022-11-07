@@ -8,12 +8,12 @@
 #include "DrawSystem.hpp"
 #include "Constant.hpp"
 
-DrawSystem::DrawSystem()
+System::DrawSystem::DrawSystem()
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void DrawSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cscale_t> &scales, Sparse_array<component::ctext_t> &texts, Sparse_array<component::ccolor_t> &colors)
+void System::DrawSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cscale_t> &scales, Sparse_array<component::ctext_t> &texts, Sparse_array<component::ccolor_t> &colors)
 {
     for (std::size_t i = 1; i < positions.size() && i < scenesId.size() && i < scales.size(); i++) {
         if (positions[i] && scenesId[i] && scales[i]) {

@@ -38,8 +38,8 @@ endif()
 file(GLOB SOURCE_FILES
     Source/*.cpp
     Source/Client/*.cpp
-    Source/Datas/Position/*.cpp
     Source/GraphicalLib/*.cpp
+    Source/GraphicalLib/Position/*.cpp
     Source/GraphicalLib/Music/*.cpp
     Source/GraphicalLib/Sound/*.cpp
     Source/GraphicalLib/MyTexture/*.cpp
@@ -67,8 +67,8 @@ include_directories(
     Source/Client/
     Source/Component/
     Source/Constant/
-    Source/Datas/Position/
     Source/GraphicalLib/
+    Source/GraphicalLib/Position/
     Source/GraphicalLib/Music/
     Source/GraphicalLib/Sound/
     Source/GraphicalLib/MyTexture/

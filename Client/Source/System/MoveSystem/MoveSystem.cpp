@@ -6,16 +6,14 @@
 */
 
 #include "MoveSystem.hpp"
-#include "Move.hpp"
 #include "Serialization.hpp"
-#include "Position.hpp"
 #include "Constant.hpp"
 
-MoveSystem::MoveSystem()
+System::MoveSystem::MoveSystem()
 {
 }
 
-void MoveSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ctimer_t> &timer)
+void System::MoveSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ctimer_t> &timer)
 {
     if ((std::chrono::steady_clock::now() - timer[FORBIDDEN_IDS::NETWORK].value().deltaTime) > (std::chrono::nanoseconds)100000000)
         timer[FORBIDDEN_IDS::NETWORK].value().deltaTime = std::chrono::steady_clock::now();
