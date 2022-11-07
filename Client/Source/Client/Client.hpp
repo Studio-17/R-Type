@@ -160,7 +160,14 @@ class Client
                  * @brief Call back function executed when start button is pressed to start the game
                  *
                  */
-                void startGameScene();
+                void connectToServer();
+                void nameInput();
+                void ipInput();
+                void portInput();
+                void seeRooms();
+                void backToConnection();
+                void startGame();
+                void backToMainMenu();
 
                 asio::io_context _context; ///< An asio context object to handle basic I/O
 
@@ -172,7 +179,8 @@ class Client
                 std::thread _thread; ///< thread to handle ECS
                 bool _connected; ///< A boolean to check if the clientis conncted to the server
                 AssetManager _assetManager;
-                std::map<std::string, std::function<void(void)>> _callbackMap; ///< A map of callbacks
+
+                std::unordered_map<std::string, std::function<void(void)>> _callbackMap; ///< A map of callbacks
                 std::map<std::string, std::string> _configurationFiles;
 
                 // Systems

@@ -41,7 +41,7 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort, std
     _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
-    _graphicLib->initWindow(1920, 1080, "R-Type", 120);
+    _graphicLib->initWindow(1920, 980, "R-Type", 120);
 
     _configurationFiles = configurationFiles;
 
@@ -108,13 +108,6 @@ void Client::pushNewPacketsToQueue([[ maybe_unused ]] asio::error_code const &e,
     handleReceive();
 }
 
-void Client::startGameScene()
-{
-    Sparse_array<component::csceneid_t> &sceneId= _registry.get_components<component::csceneid_t>();
-
-    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
-}
-
 void Client::threadLoop()
 {
     handleReceive();
@@ -152,7 +145,7 @@ void Client::setUpSystems()
     _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t>(_controlSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id>(_newEntitySystem);
-    _registry.add_system<component::cnetwork_queue_t>(_getLobbiesSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::casset_t>(_getLobbiesSystem);
     _registry.add_system<component::cnetwork_queue_t>(_setNbPlayerInLobbySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
@@ -172,7 +165,7 @@ void Client::setUpComponents()
             component::ckeyboard_t{ .keyboard = 0 },
             component::ctimer_t{ .deltaTime = std::chrono::steady_clock::now(), .animTimer = std::chrono::steady_clock::now() },
             component::casset_t{ .assets = assetMan.assets },
-            component::csceneid_t{ .sceneId = SCENE::GAME }, // Set scene when the program start
+            component::csceneid_t{ .sceneId = SCENE::CONNECTION }, // Set scene when the program start
             component::cclient_network_id {}
     );
 
@@ -264,7 +257,14 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
     }
 
     _callbackMap = {
-        {"start-game", std::bind(&Client::startGameScene, this)},
+        {"connect", std::bind(&Client::connectToServer, this)},
+        {"name-input", std::bind(&Client::nameInput, this)},
+        {"ip-input", std::bind(&Client::ipInput, this)},
+        {"port-input", std::bind(&Client::portInput, this)},
+        {"see-rooms", std::bind(&Client::seeRooms, this)},
+        {"back-to-connexion", std::bind(&Client::backToConnection, this)},
+        {"start-game", std::bind(&Client::startGame, this)},
+        {"back-to-main-menu", std::bind(&Client::backToMainMenu, this)}
     };
 
 
@@ -287,4 +287,54 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         if (oneData.contains("text"))
             createText(oneData.at("text"), pos, scene);
     }
+}
+
+void Client::connectToServer()
+{
+    // tryToConnect();
+
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
+    std::cout << sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId << std::endl;
+}
+
+void Client::nameInput()
+{
+}
+
+void Client::ipInput()
+{
+}
+
+void Client::portInput()
+{
+}
+
+void Client::seeRooms()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::ROOMS;
+}
+
+void Client::backToConnection()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::CONNECTION;
+}
+
+void Client::startGame()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
+}
+
+void Client::backToMainMenu()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
 }
