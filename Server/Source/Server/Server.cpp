@@ -113,7 +113,7 @@ void Server::setUpEcs()
 
 
     // _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
-    // _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t>(_directionSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t>(_directionSystem);
     _registry.add_system<component::cnetwork_queue_t>(_receiveSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t>(_shootSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t, component::ctimer_t>(_spawnEnemySystem);

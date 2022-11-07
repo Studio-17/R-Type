@@ -19,12 +19,13 @@ System::ControlSystem::ControlSystem()
 {
 }
 
-void System::ControlSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip, Sparse_array<component::csceneid_t> &scenesId)
+void System::ControlSystem::operator()( [[	maybe_unused ]] Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cclient_network_id> &clientNetworkId)
 {
     if (keyboards[FORBIDDEN_IDS::NETWORK]) {
         auto &key = keyboards[0];
         uint16_t x = 0;
         uint16_t y = 0;
+        (void)idOfShip;
 
         if (scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId == SCENE::GAME) {
             if (key.value().keyboard->isBeingPressed(key.value().keyboard->getKeyUpCharCode()))
@@ -43,7 +44,7 @@ void System::ControlSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
         if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySpaceCharCode()))
             x = 5;
         if (x || y)
-            addToNetworkQueue(x, y, network, idOfShip[0].value().id);
+            addToNetworkQueue(x, y, network, clientNetworkId[FORBIDDEN_IDS::NETWORK].value().controllableNetworkEntityId);
 
         // if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySCharCode()))
         //     scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;

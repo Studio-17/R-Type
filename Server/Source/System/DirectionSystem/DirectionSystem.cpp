@@ -30,7 +30,7 @@ void System::DirectionSystem::operator()([[ maybe_unused ]] Registry &registry, 
 
             position[packet.second.playerId].value().x += resultX;
             position[packet.second.playerId].value().y += resultY;
-            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({0, serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::POSITION, {packet.second.playerId, position[packet.second.playerId].value().x, position[packet.second.playerId].value().y, 1})});
+            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({1, serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::POSITION, {packet.second.playerId, position[packet.second.playerId].value().x, position[packet.second.playerId].value().y, 1})});
         }
         netqueue[FORBIDDEN_IDS::NETWORK].value().moveQueue.pop();
     }
