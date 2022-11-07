@@ -13,6 +13,11 @@
     #include <vector>
     #include <memory>
 
+/**
+ * @brief Class that handle Element of type Component like a vector which can be holed
+ *
+ * @tparam Component Type of element that contain the Sparse Array
+ */
 template <typename Component>
 class Sparse_array {
     public:
@@ -27,14 +32,13 @@ class Sparse_array {
     public:
         /**
          * @brief Construct a new Sparse_array object
-         *
          */
         Sparse_array() = default;
 
         /**
          * @brief Construct a new Sparse_array object
-         * 
-         * @param sp_arr
+         *
+         * @param sp_arr Sparse Array to copy
          */
         explicit Sparse_array(Sparse_array const &sp_arr)
         {
@@ -49,14 +53,14 @@ class Sparse_array {
         /**
          * @brief Construct a new Sparse_array object
          *
-         * @param sp_arr
+         * @param sp_arr Sparse Array to copy
          */
         explicit Sparse_array(Sparse_array &&sp_arr) noexcept : _data(std::move(sp_arr._data)) {};
 
         /**
          * @brief Construct a new Sparse_array object
          *
-         * @param size
+         * @param size Size of the sparse array
          */
         explicit Sparse_array(std::size_t size)
         {
@@ -67,15 +71,14 @@ class Sparse_array {
 
         /**
          * @brief Destroy the Sparse_array object
-         *
          */
         virtual ~Sparse_array() = default;
 
         /**
          * @brief Overload the operator =
          *
-         * @param sp_arr
-         * @return Sparse_array&
+         * @param sp_arr Sparse Array to add
+         * @return Sparse_array& himself
          */
         Sparse_array &operator=(Sparse_array const &sp_arr)
         {
@@ -86,8 +89,8 @@ class Sparse_array {
         /**
          * @brief Overload the operator =
          *
-         * @param sp_arr
-         * @return Sparse_array&
+         * @param sp_arr Sparse Array to add
+         * @return Sparse_array& himself
          */
         Sparse_array &operator=(Sparse_array &&sp_arr) noexcept
         {
@@ -98,8 +101,8 @@ class Sparse_array {
         /**
          * @brief Overloads the operator []
          *
-         * @param idx
-         * @return reference_type
+         * @param idx Index to get in the Sparse Array
+         * @return reference_type Element at index
          */
         reference_type operator[](size_t idx)
         {
@@ -109,8 +112,8 @@ class Sparse_array {
         /**
          * @brief Overloads the operator [] const
          *
-         * @param idx
-         * @return const_reference_type
+         * @param idx Index to get in the Sparse Array
+         * @return const_reference_type Element at index
          */
         const_reference_type operator[](size_t idx) const
         {
@@ -120,7 +123,7 @@ class Sparse_array {
         /**
          * @brief Overloads the operator begin()
          *
-         * @return iterator
+         * @return iterator The first element iterator
          */
         iterator begin()
         {
@@ -130,7 +133,7 @@ class Sparse_array {
         /**
          * @brief Overloads the operator begin() const
          *
-         * @return const_iterator
+         * @return const_iterator The first element iterator
          */
         const_iterator begin() const
         {
@@ -140,7 +143,7 @@ class Sparse_array {
         /**
          * @brief Overloads the operator cbegin() const
          *
-         * @return const_iterator
+         * @return const_iterator The first element iterator
          */
         const_iterator cbegin() const
         {
@@ -150,7 +153,7 @@ class Sparse_array {
         /**
          * @brief Overloads the operator ebd()
          *
-         * @return iterator
+         * @return iterator The last element iterator
          */
         iterator end()
         {
@@ -160,7 +163,7 @@ class Sparse_array {
         /**
          * @brief Overloads the operator end() const
          *
-         * @return const_iterator
+         * @return const_iterator The last element iterator
          */
         const_iterator end() const
         {
@@ -170,7 +173,7 @@ class Sparse_array {
         /**
          * @brief Overloads the operator cend() const
          *
-         * @return const_iterator
+         * @return const_iterator The last element iterator
          */
         const_iterator cend() const
         {
@@ -180,7 +183,7 @@ class Sparse_array {
         /**
          * @brief Overloads the operator size()
          *
-         * @return size_type
+         * @return size_type The size of the Sparse Array
          */
         size_type size() const
         {
@@ -190,7 +193,7 @@ class Sparse_array {
         /**
          * @brief Overload the operator extend()
          *
-         * @param sizeToExtend
+         * @param sizeToExtend Size to extend
          */
         void extend(size_t sizeToExtend)
         {
@@ -201,9 +204,9 @@ class Sparse_array {
         /**
          * @brief Overloads the operator insert_at()
          *
-         * @param pos
-         * @param component
-         * @return reference_type
+         * @param pos Index where add the component
+         * @param component component to add
+         * @return reference_type Element added at index
          */
         reference_type insert_at(size_type pos, Component const &component)
         {
@@ -224,9 +227,9 @@ class Sparse_array {
         /**
          * @brief Overloads the operator insert_at()
          *
-         * @param pos
-         * @param component
-         * @return reference_type
+         * @param pos Index where add the component
+         * @param component component to add
+         * @return reference_type Element added at index
          */
         reference_type insert_at(size_type pos, Component &&component)
         {
@@ -247,10 +250,10 @@ class Sparse_array {
         /**
          * @brief Overloads the operator emplace_at()
          *
-         * @tparam Params
-         * @param pos
-         * @param params
-         * @return reference_type
+         * @tparam Params Type of param to emplace
+         * @param pos Index where add the component
+         * @param params Params to add
+         * @return reference_type Element added at index
          */
         template <class... Params>
         reference_type emplace_at(size_type pos, Params &&...params)
@@ -266,7 +269,7 @@ class Sparse_array {
         /**
          * @brief Overloads the operator erase()
          *
-         * @param pos
+         * @param pos Index where erase elem
          */
         void erase(size_type pos)
         {

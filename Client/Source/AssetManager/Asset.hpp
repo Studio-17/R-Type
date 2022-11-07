@@ -8,6 +8,8 @@
 #ifndef ASSET_HPP_
     #define ASSET_HPP_
 
+    #include <nlohmann/json.hpp>
+
     #include "MyTexture.hpp"
 
     /* Component */

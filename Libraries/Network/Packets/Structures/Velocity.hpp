@@ -6,16 +6,15 @@
 */
 
 #ifndef R_TYPE_VELOCITY_HPP
-#define R_TYPE_VELOCITY_HPP
+    #define R_TYPE_VELOCITY_HPP
 
-#include <cstdint>
+    #include <cstdint>
 
 /**
  * @brief A packet to handle the velocity of an entity
- * 
  */
 struct packet_velocity {
-    uint16_t velocity;
+    uint16_t velocity; ///< Velocity
 };
 
 #endif //R_TYPE_VELOCITY_HPP

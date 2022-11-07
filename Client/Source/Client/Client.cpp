@@ -12,7 +12,6 @@
 #include "Constant.hpp"
 
 /* Packet */
-#include "Structure.hpp"
 #include "Move.hpp"
 #include "NewConnection.hpp"
 #include "Disconnection.hpp"

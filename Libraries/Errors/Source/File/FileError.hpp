@@ -10,23 +10,24 @@
 
     #include "Errors.hpp"
 
+/**
+ * @brief Error namespace that will contain all Error types
+ */
 namespace Error {
     /**
      * @brief FileError class to handle throw, inherited from Errors
-     *
      */
     class FileError : public Errors {
         public:
             /**
              * @brief Construct a new File Error object
              *
-             * @param message
+             * @param message Message to throw
              */
             FileError(std::string const &message) throw();
 
             /**
              * @brief Destroy the File Error object
-             *
              */
             virtual ~FileError() throw();
 

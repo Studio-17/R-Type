@@ -6,16 +6,15 @@
 */
 
 #ifndef R_TYPE_DAMAGE_HPP
-#define R_TYPE_DAMAGE_HPP
+    #define R_TYPE_DAMAGE_HPP
 
-#include <cstdint>
+    #include <cstdint>
 
 /**
  * @brief A packet to handle damage dealt
- * 
  */
 struct packet_damage {
-    uint16_t damage;
+    uint16_t damage; ///< Damage
 };
 
 #endif //R_TYPE_DAMAGE_HPP

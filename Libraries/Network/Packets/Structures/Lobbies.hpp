@@ -6,14 +6,13 @@
 */
 
 #ifndef LOBBIES_HPP_
-#define LOBBIES_HPP_
+    #define LOBBIES_HPP_
 
-#include <cstring>
-#include <vector>
+    #include <cstring>
+    #include <vector>
 
 /**
  * @brief A packet to get the different lobbys from newtork
- * 
  */
 struct packet_get_lobbies {
     int id;
@@ -21,18 +20,16 @@ struct packet_get_lobbies {
 
 /**
  * @brief A packet to send the content of lobbys
- * 
  */
 struct packet_send_lobbies {
-    int nbOfLobbies;
-    int nbPlayersLobbyOne;
-    int nbPlayersLobbyTwo;// number of players per lobbys
-    int nbPlayersLobbyThree;
+    int nbOfLobbies; ///< Number of lobbies in Server
+    int nbPlayersLobbyOne; ///< Number of players in first lobby
+    int nbPlayersLobbyTwo; ///< Number of players in second lobby
+    int nbPlayersLobbyThree; ///< Number of players in third lobby
 };
 
 /**
  * @brief A packet to create a lobby
- * 
  */
 struct packet_create_lobby {
     int id;
@@ -40,25 +37,23 @@ struct packet_create_lobby {
 
 /**
  * @brief A packet to get the id of the created lobby
- * 
  */
 struct packet_create_lobby_response {
-    int id;// id of created lobby
+    int id; ///< Id of created lobby
 };
 
 /**
  * @brief A packet to tell the server you want to join a room
- * 
  */
 struct packet_join_lobby {
-    int id;
+    int id; ///< Id of lobby to join
 };
 
 /**
  * @brief A packet to tell the server you want to join a room
  */
 struct packet_nb_players_in_lobby {
-    int nbPlayers;
+    int nbPlayers; ///< Number of player in lobby
 };
 
 #endif /* !LOBBIES_HPP_ */
