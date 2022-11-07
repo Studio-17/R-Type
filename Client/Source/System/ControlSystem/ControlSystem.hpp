@@ -10,58 +10,54 @@
 
 
 	#include "Registry.hpp"
-    #include "GraphicalLib.hpp"
-	#include "CPosition.hpp"
-	#include "CVelocity.hpp"
-	#include "CKeyboard.hpp"
-	#include "CNetworkQueue.hpp"
-	#include "CServerId.hpp"
-	#include "CIdOfShip.hpp"
-	#include "CSceneId.hpp"
-	#include "CClientNetworkId.hpp"
+
+	/* Component */
+	#include "Component/CKeyboard.hpp"
+	#include "Component/CNetworkQueue.hpp"
+	#include "Component/CIdOfShip.hpp"
+	#include "Component/CSceneId.hpp"
+  #include "Component/CClientNetworkId.hpp"
 
 /**
- * @brief ControlSystem class that handles the control of all the entities
- *
+ * @brief Namespace for systems
  */
-class ControlSystem {
-	public:
-		/**
-		 * @brief Construct a new Control System object
-		 *
-		 */
-		ControlSystem();
-		/**
-		 * @brief Destroy the Control System object
-		 *
-		 */
-		~ControlSystem() = default;
+namespace System {
+	/**
+	 * @brief ControlSystem class that handles the control of all the entities
+	 */
+	class ControlSystem {
+		public:
+			/**
+			 * @brief Construct a new Control System object
+			 */
+			ControlSystem();
+			~ControlSystem() = default;
 
-		/**
-		 * @brief Function that will be automaticaly called while the client is working (on loop)
-		 * 
-		 * @param registry the registry of the server
-		 * @param keyboards the sparse array of keyboard entities
-		 * @param network the sparse array of network entities
-		 * @param idOfShip the sparse array of idOfShip entities
-		 * @param scenesId the sparse array of scenesId entities
-		 */
+			/**
+			 * @brief Function that will be automaticaly called while the client is working (on loop)
+			 *
+			 * @param registry The registry of the server
+			 * @param keyboards The sparse array of keyboard entities
+			 * @param network The sparse array of network entities
+			 * @param idOfShip The sparse array of idOfShip entities
+			 * @param scenesId The sparse array of scenesId entities
+			 * @param clientNetworkId The sparse array of clientNetworkId entities
+			 */
 		void operator()(Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cclient_network_id> &clientNetworkId);
 
-		/**
-		 * @brief A method to add a task for the server through the network queue
-		 * 
-		 * @param x The x position of the task
-		 * @param y The y position of the task
-		 * @param network network queue
-		 * @param idOfShip id of the ship
-		 */
-		void addToNetworkQueue(float x, float y, Sparse_array<component::cnetwork_queue_t> &network, uint16_t idOfShip);
+			/**
+			 * @brief A method to add a task for the server through the network queue
+			 *
+			 * @param x The x position of the task
+			 * @param y The y position of the task
+			 * @param network The sparse array of network entitiies
+			 * @param idOfShip The sparse array of id of the ship entities
+			 */
+			void addToNetworkQueue(float x, float y, Sparse_array<component::cnetwork_queue_t> &network, uint16_t idOfShip);
 
-	protected:
-	private:
-		std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
-};
-
+		protected:
+		private:
+	};
+}
 
 #endif //R_TYPE_CONTROLSYSTEM_H

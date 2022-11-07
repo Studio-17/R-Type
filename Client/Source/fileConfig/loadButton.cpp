@@ -5,8 +5,9 @@
 ** loadButton
 */
 
-#include "fileConfig.hpp"
 #include <iostream>
+
+#include "fileConfig.hpp"
 
 void loadButton(std::string const &filepath)
 {

@@ -10,16 +10,14 @@
 
 /**
  * @brief Namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief A strucure representing the newtork id of the client
-     * 
      */
     struct cclient_network_id {
-        int id;
-        int controllableNetworkEntityId;
+        int id; ///< Id of the client in server network
+        int controllableNetworkEntityId; ///< Id of the entity controlable by the client
     };
 }
 

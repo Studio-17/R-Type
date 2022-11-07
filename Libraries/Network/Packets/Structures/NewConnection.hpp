@@ -12,7 +12,6 @@
 
 /**
  * @brief A packet to handle new connections to the game
- * 
  */
 struct packet_new_connection {
     uint16_t id;
@@ -20,7 +19,6 @@ struct packet_new_connection {
 
 /**
  * @brief A packet to handle new connection response to the game
- * 
  */
 struct packet_new_connection_response {
     int id;

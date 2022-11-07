@@ -10,11 +10,17 @@
 
     #include <chrono>
 
-    namespace component {
-        struct ctimer_t {
-            std::chrono::steady_clock::time_point deltaTime;
-            std::chrono::steady_clock::time_point animTimer;
-        };
-    }
+/**
+ * @brief A namespace for all components
+ */
+namespace component {
+    /**
+     * @brief A structure representing the timer component of an entity
+     */
+    struct ctimer_t {
+        std::chrono::steady_clock::time_point deltaTime; ///< delta time
+        std::chrono::steady_clock::time_point animTimer; ///< delta time to handle animation
+    };
+}
 
 #endif /* !CTIMER_HPP_ */
