@@ -13,12 +13,12 @@
 #include "CAssetId.hpp"
 #include "CRect.hpp"
 
-GetLobbiesSystem::GetLobbiesSystem() {
+System::GetLobbiesSystem::GetLobbiesSystem() {
 }
 
-void GetLobbiesSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::casset_t> &assets) {
+void System::GetLobbiesSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::casset_t> &assets) {
     while (!netqueue[FORBIDDEN_IDS::NETWORK].value().getLobbiesQueue.empty()) {
-        packet_send_lobbies lobbiesInfos = netqueue[0].value().getLobbiesQueue.front();
+        packet_send_lobbies &lobbiesInfos = netqueue[0].value().getLobbiesQueue.front();
         std::cout << "Lobbies Infos number of lobby: " << lobbiesInfos.nbOfLobbies << std::endl;
         std::cout << "Lobbies Infos number players in lobby one: " << lobbiesInfos.nbPlayersLobbyOne << std::endl;
         std::cout << "Lobbies Infos number players in two one: " << lobbiesInfos.nbPlayersLobbyTwo << std::endl;
@@ -30,7 +30,7 @@ void GetLobbiesSystem::operator()(Registry &registry, Sparse_array<component::cn
     }
 }
 
-void GetLobbiesSystem::createLobby( [[ maybe_unused ]] Registry &registry, [[ maybe_unused ]] packet_send_lobbies &lobbiesInfos, [[ maybe_unused ]] Sparse_array<component::casset_t> &assets)
+void System::GetLobbiesSystem::createLobby( [[ maybe_unused ]] Registry &registry, [[ maybe_unused ]] packet_send_lobbies &lobbiesInfos, [[ maybe_unused ]] Sparse_array<component::casset_t> &assets)
 {
     // Entity lobbyOne = registry.spawn_entity_with(
     //     component::csceneid_t { SCENE::ROOMS },

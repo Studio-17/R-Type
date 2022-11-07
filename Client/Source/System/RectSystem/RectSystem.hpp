@@ -9,47 +9,48 @@
     #define RECTSYSTEM_HPP_
 
     #include "Registry.hpp"
-    #include "GraphicalLib.hpp"
-    #include "CRect.hpp"
-    #include "CTimer.hpp"
-    #include "CType.hpp"
-    #include "CAsset.hpp"
-    #include "CAssetId.hpp"
+
+    /* Component */
+    #include "Component/CRect.hpp"
+    #include "Component/CTimer.hpp"
+    #include "Component/CType.hpp"
+    #include "Component/CAsset.hpp"
+    #include "Component/CAssetId.hpp"
 
 /**
- * @brief System that draws a part of all entities
+ * @brief Namespace for systems
  */
-class RectSystem {
-    public:
-        /**
-        * @brief Construct a new Rect System object
-         *
-         */
-        RectSystem();
-        /**
-         * @brief Destroy the Rect System object
-         *
-         */
-        ~RectSystem() = default;
+namespace System {
+    /**
+     * @brief System that draws a part of all entities
+    */
+    class RectSystem {
+        public:
+            /**
+            * @brief Construct a new Rect System object
+            */
+            RectSystem();
+            ~RectSystem() = default;
 
-        /**
-         * @brief Function that will be automaticaly called while the client is working (on loop)
-         * 
-         * @param registry registry of the client
-         * @param sprites sparse array of sprite entities
-         * @param rectangles sparse array of rectangle entities
-         * @param timer sparse array of timer entities
-         * @param types sparse array of type entities
-         */
-        void operator()(Registry &registry, Sparse_array<component::crect_t> &rectangles,
-                                            Sparse_array<component::ctimer_t> &timer,
-                                            Sparse_array<component::ctype_t> &types,
-                                            Sparse_array<component::casset_t> &assets,
-                                            Sparse_array<component::cassetid_t> &assetid);
+            /**
+             * @brief Function that will be automaticaly called while the client is working (on loop)
+            *
+            * @param registry registry of the client
+            * @param rectangles The sparse array of rectangle entities
+            * @param timer The sparse array of timer entities
+            * @param types The sparse array of type entities
+            * @param assets The sparse array of assets entities
+            * @param assetid The sparse array of assetid entities
+            */
+            void operator()(Registry &registry, Sparse_array<component::crect_t> &rectangles,
+                                                Sparse_array<component::ctimer_t> &timer,
+                                                Sparse_array<component::ctype_t> &types,
+                                                Sparse_array<component::casset_t> &assets,
+                                                Sparse_array<component::cassetid_t> &assetid);
 
-    protected:
-    private:
-        std::shared_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
-};
+        protected:
+        private:
+    };
+}
 
 #endif /* !RECTSYSTEM_HPP_ */

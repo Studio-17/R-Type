@@ -10,10 +10,9 @@
 
 /**
  * @brief A packet to tell the server that a client want to start the game in a certain lobby
- * 
  */
 struct packet_start_game {
-    int lobbyId;
+    int lobbyId; ///< Id of the lobby
 };
 
 #endif /* !STARTGAME_HPP_ */

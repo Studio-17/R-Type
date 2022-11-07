@@ -15,27 +15,29 @@
     #include <asio/error_code.hpp>
     #include <asio/io_context.hpp>
 
-    using byte = unsigned char;
+using byte = unsigned char; ///< Using to represent what type of data is contained
 
+/**
+ * @brief Interface representing UdpCommunication
+ */
 class IUdpCommunication {
     public:
 
         /**
          * @brief Destroy the IUdpCommunication object
-         * 
          */
         virtual ~IUdpCommunication() = default;
 
         /**
          * @brief A method to send a message to the already known ip adress and port adress
-         * 
+         *
          * @param data The serialized message
          */
         virtual void send(std::vector<byte> const &data) = 0;
 
         /**
          * @brief A method to send a message to an ip adress and port adress
-         * 
+         *
          * @param data The serialized message
          * @param address The ip adress to send the message
          * @param port The port adress to send the message
@@ -44,7 +46,7 @@ class IUdpCommunication {
 
         /**
          * @brief A method to send a message to an already known ip adress and port adress in an async way
-         * 
+         *
          * @param data The serilized
          * @param callBack The function to call once the message is sent
          */
@@ -52,7 +54,7 @@ class IUdpCommunication {
 
         /**
          * @brief A method to send a message to a ip adress and port adress in an async way
-         * 
+         *
          * @param data The serialized message
          * @param callBack The function called once the message is sent
          * @param address The ip adress to send the message
@@ -62,7 +64,7 @@ class IUdpCommunication {
 
         /**
          * @brief A method to receive a message
-         * 
+         *
          * @param data The buffer to fill when the message is received
          * @return std::pair<asio::ip::address, unsigned short> The ip adress and the port adress where the message came from
          */
@@ -70,7 +72,7 @@ class IUdpCommunication {
 
         /**
          * @brief A method to receive a message in an async way
-         * 
+         *
          * @param data The buffer to fill when the message is received
          * @param callBack The function called once the message is received
          */
@@ -78,23 +80,23 @@ class IUdpCommunication {
 
         /**
          * @brief Get the Enpoint Info object
-         * 
-         * @return std::pair<asio::ip::address, unsigned short> 
+         *
+         * @return std::pair<asio::ip::address, unsigned short> Pair with the ip address and the port of the endpoint
          */
         virtual std::pair<asio::ip::address, unsigned short> getEnpointInfo() const = 0;
 
         /**
          * @brief Set the Enpoint Info object
-         * 
-         * @param endpointInfo 
+         *
+         * @param endpointInfo Pair with the ip address and the port of the endpoint
          */
         virtual void setEnpointInfo(std::pair<asio::ip::address, unsigned short> const &endpointInfo) = 0;
 
         /**
          * @brief Set the Enpoint Info object
-         * 
-         * @param address 
-         * @param port 
+         *
+         * @param address Ip address of the endpoint
+         * @param port Port of the endpoint
          */
         virtual void setEnpointInfo(asio::ip::address const &address, unsigned short const &port) = 0;
 

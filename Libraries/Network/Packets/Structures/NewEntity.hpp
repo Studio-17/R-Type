@@ -6,21 +6,20 @@
 */
 
 #ifndef NEWENTITY_HPP_
-#   define NEWENTITY_HPP_
+    #define NEWENTITY_HPP_
 
     #include <cstdint>
 
 /**
  * @brief A packet to handle a new entity informations
- * 
  */
 struct packet_new_entity {
-    uint16_t id;       ///< id of new entity;
-    float positionX;   ///< x position of new entity;
-    float positionY;   ///< y position of new entity;
-    uint16_t direction;///< direction of new entity;
-    std::size_t type;  ///< type of entity;
-    int clientId;      ///< id of client
+    uint16_t id; ///< id of new entity;
+    float positionX; ///< x position of new entity;
+    float positionY; ///< y position of new entity;
+    uint16_t direction; ///< direction of new entity;
+    std::size_t type; ///< type of entity;
+    int clientId; ///< id of client
 };
 
 #endif /* !NEWENTITY_HPP_ */

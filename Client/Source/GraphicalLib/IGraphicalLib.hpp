@@ -6,88 +6,109 @@
 */
 
 #ifndef IGRAPHICALLIB_HPP_
-#define IGRAPHICALLIB_HPP_
+    #define IGRAPHICALLIB_HPP_
 
-#include <iostream>
-#include <memory>
+    #include <iostream>
+    #include <memory>
+    #include <utility>
+    #include <raylib.h>
 
-#include "raylib.h"
-// #include "MyText.hpp"
-#include "MySound.hpp"
-#include "MyMusic.hpp"
-#include "MyTexture.hpp"
-#include "Keyboard.hpp"
-#include "Datas/Position/Position.hpp"
-#include <utility>
+    // #include "MyText.hpp"
+    #include "MySound.hpp"
+    #include "MyMusic.hpp"
+    #include "MyTexture.hpp"
+    #include "Keyboard.hpp"
+    #include "Position.hpp"
 
 /**
  * @brief rtype namespace
- * 
  */
 namespace rtype {
     /**
      * @brief IGraphicalLib class
-     * 
      */
     class IGraphicalLib {
         public:
-            // /**
-            //  * @brief Construct a new IGraphicalLib object
-            //  * 
-            //  */
-            // IGraphicalLib();
             /**
              * @brief Destroy the IGraphicalLib object
-             * 
              */
             virtual ~IGraphicalLib() = default;
 
             /**
              * @brief Clear the window
-             * 
              */
-
             virtual auto initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate) -> void = 0;
 
             /**
              * @brief A method to close the window
-             * 
              */
             virtual auto closeWindow() -> void = 0;
 
             /**
              * @brief A method to clear the window
-             * 
              */
+
             virtual auto clearScreen() -> void = 0;
+
             /**
              * @brief Start drawing in the window
-             * 
              */
             virtual auto startDrawingWindow() -> void = 0;
+
             /**
              * @brief Stop drawing in the window
-             * 
              */
             virtual auto endDrawingWindow() -> void = 0;
 
             /**
              * @brief Check if window should close
-             * 
-             * @return true
-             * @return false
+             *
+             * @return true If window should close
+             * @return false If window shouldn't close
              */
             virtual auto windowShouldClose() -> bool = 0;
 
+            /**
+             * @brief Draw a sprite
+             *
+             * @param texture Texture to draw
+             * @param rectSource Array containing Rect source data with height, width, x and y
+             * @param rectDest Array containing Rect destination data with height, width, x and y
+             * @param origin Position of origin
+             * @param rotation Rotation of the sprite
+             * @param scale Scale of the sprite
+             */
             virtual auto drawSprite(MyTexture const &texture, std::array<float, 4> const &rectSource, std::array<float, 4> const &rectDest, std::pair<float, float> const &origin, float const &rotation, float const &scale) -> void = 0;
 
+            /**
+             * @brief Check the mouse collision
+             *
+             * @param position 
+             * @param x 
+             * @param y 
+             * @param height 
+             * @param width 
+             * @return true 
+             * @return false 
+             */
             virtual auto checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width) -> bool = 0;
 
+            /**
+             * @brief 
+             * 
+             * @return true 
+             * @return false 
+             */
             virtual auto IsLeftMouseButtonPressed() -> bool = 0;
 
+            /**
+             * @brief Get the Mouse Position object
+             * 
+             * @return Position 
+             */
             virtual auto getMousePosition() -> Position = 0;
 
-            virtual auto drawText(std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize,float const &spacing, std::array<float, 4> const &color) -> void = 0;
+            virtual auto drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color) -> void = 0;
 
             virtual auto createColor(std::array<float, 4> const &array) -> Color = 0;
 

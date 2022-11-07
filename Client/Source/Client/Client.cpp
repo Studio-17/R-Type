@@ -5,35 +5,31 @@
 ** Client
 */
 
-#include <iostream>
 #include <fstream>
-#include <array>
 
 #include "Client.hpp"
-#include "CSceneId.hpp"
-#include "Mouse.hpp"
-#include "CKeyboard.hpp"
-#include "CPosition.hpp"
-#include "CRect.hpp"
-#include "CVelocity.hpp"
-#include "CServerId.hpp"
-#include "CNetworkQueue.hpp"
 #include "Serialization.hpp"
-#include "Structure.hpp"
-#include "CType.hpp"
+#include "Constant.hpp"
+
+/* Packet */
 #include "Move.hpp"
 #include "NewConnection.hpp"
-#include "CIdOfShip.hpp"
-#include "CTimer.hpp"
-#include "CAsset.hpp"
-#include "CAssetId.hpp"
-#include "CText.hpp"
-#include "CScale.hpp"
-#include "CCallback.hpp"
-#include "Asset.hpp"
-#include "CColor.hpp"
 #include "Disconnection.hpp"
-#include "Constant.hpp"
+
+/* Component */
+#include "Component/CMouse.hpp"
+#include "Component/CScale.hpp"
+// #include "CIdOfShip.hpp"
+// #include "CTimer.hpp"
+// #include "CAsset.hpp"
+// #include "CAssetId.hpp"
+// #include "CText.hpp"
+// #include "CScale.hpp"
+// #include "CCallback.hpp"
+// #include "Asset.hpp"
+// #include "CColor.hpp"
+// #include "Disconnection.hpp"
+// #include "Constant.hpp"
 #include "fileConfig.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
@@ -41,7 +37,7 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort, std
     _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
-    _graphicLib->initWindow(1920, 980, "R-Type", 120);
+    _graphicLib->initWindow(1920, 1080, "R-Type", 120);
 
     _configurationFiles = configurationFiles;
 
@@ -117,7 +113,7 @@ void Client::threadLoop()
 void Client::setUpEcs()
 {
     _registry.register_component<component::ckeyboard_t>();
-    _registry.register_component<component::mouseState_t>();
+    _registry.register_component<component::cmouseState_t>();
     _registry.register_component<component::cposition_t>();
     _registry.register_component<component::crect_t>();
     _registry.register_component<component::cvelocity_t>();
@@ -142,7 +138,7 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t, component::cid_of_ship_t>(_networkSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cserverid_t>(_killSystem);
     _registry.add_system<component::crect_t, component::ctimer_t, component::ctype_t, component::casset_t, component::cassetid_t>(_rectSystem);
-    _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t>(_controlSystem);
+    _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t, component::cclient_network_id>(_controlSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id>(_newEntitySystem);
     _registry.add_system<component::cnetwork_queue_t, component::casset_t>(_getLobbiesSystem);
@@ -150,7 +146,8 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
     _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
-	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t, component::ctext_t, component::ccolor_t>(_drawSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t>(_drawSpriteSystem);
+    _registry.add_system<component::cposition_t, component::csceneid_t, component::cscale_t, component::ccolor_t, component::ctext_t>(_drawTextSystem);
 }
 
 void Client::setUpComponents()
@@ -234,14 +231,19 @@ void Client::loadTexts(std::string const &filepath)
 void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene)
 {
     std::array<float, 2> textPos = oneData.value("position", std::array<float, 2>({0, 0}));
+    std::string content = oneData.value("text", "error");
+    std::string font = oneData.value("font", "Assets/Fonts/Square.ttf");
+    float spacing = oneData.value("spacing", 0);
+    float fontSize = oneData.value("fontSize", 30);
+    std::array<float, 4> color = oneData.value("color", std::array<float, 4>({255, 255, 255, 255}));
 
     Entity text = _registry.spawn_entity_with(
-        component::ctext_t{ .text = oneData.value("text", "error"), .font = oneData.value("font", "Assets/Fonts/Square.ttf"), .spacing = static_cast<float>(oneData.value("spacing", 0)) },
+        component::ctext_t{ .text = content, .font = font, .spacing = spacing },
         component::cposition_t{ .x = pos[0] + textPos[0], .y = pos[1] + textPos[1] },
         component::ctype_t{ .type = TEXT },
         component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-        component::cscale_t{ .scale = static_cast<float>(oneData.value("fontSize", 30)) },
-        component::ccolor_t{ .color = oneData.value("color", std::array<float, 4>({255, 255, 255, 255})) }
+        component::cscale_t{ .scale = fontSize },
+        component::ccolor_t{ .color = color }
     );
 }
 
@@ -267,16 +269,16 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"back-to-main-menu", std::bind(&Client::backToMainMenu, this)}
     };
 
-
     for (auto &oneData: jsonData) {
         std::string assetId = oneData.value("textureId", "button");
         std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
         std::string callbackType = oneData.value("callback-type", "undifined");
         int scene = oneData.value("scene", -1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
+        int nb_frames = oneData.value("nbFrame", 1);
 
         Entity button = _registry.spawn_entity_with(
-                component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / oneData.value("nbFrame", 1), .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
+                component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
                 component::cposition_t{ .x = pos[0], .y = pos[1] },
                 component::ctype_t{ .type = BUTTON },
                 component::cassetid_t{ .assets = assetId },
@@ -284,19 +286,19 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
                 component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
                 component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
         );
-        if (oneData.contains("text"))
-            createText(oneData.at("text"), pos, scene);
+        if (oneData.contains("Text"))
+            createText(oneData.at("Text"), pos, scene);
     }
 }
 
 void Client::connectToServer()
 {
+    std::cout << "connect to server" << std::endl;
     // tryToConnect();
 
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
-    std::cout << sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId << std::endl;
 }
 
 void Client::nameInput()
@@ -313,6 +315,8 @@ void Client::portInput()
 
 void Client::seeRooms()
 {
+    std::cout << "see rooms" << std::endl;
+
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::ROOMS;
@@ -320,6 +324,8 @@ void Client::seeRooms()
 
 void Client::backToConnection()
 {
+    std::cout << "back to connection" << std::endl;
+
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::CONNECTION;
@@ -327,6 +333,8 @@ void Client::backToConnection()
 
 void Client::startGame()
 {
+    std::cout << "start game" << std::endl;
+
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
@@ -334,6 +342,8 @@ void Client::startGame()
 
 void Client::backToMainMenu()
 {
+    std::cout << "back to menu" << std::endl;
+
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;

@@ -48,7 +48,6 @@ bool rtype::GraphicalLib::windowShouldClose()
     return WindowShouldClose();
 }
 
-//Sprite
 void rtype::GraphicalLib::drawSprite(MyTexture const &texture, std::array<float, 4> const &rectSource, std::array<float, 4> const &rectDest, std::pair<float, float> const &origin, float const &rotation, float const &scale)
 {
     DrawTextureTiled(texture.getTexture(), {rectSource[0], rectSource[1], rectSource[2], rectSource[3]}, {rectDest[0], rectDest[1], rectDest[2], rectDest[3]}, {origin.first, origin.second}, rotation, scale, WHITE);
@@ -82,7 +81,8 @@ Color rtype::GraphicalLib::createColor(std::array<float, 4> const &array)
 }
 
 // Text
-void rtype::GraphicalLib::drawText([[ maybe_unused ]]std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize, [[ maybe_unused ]]float const &spacing, std::array<float, 4> const &color)
+// void rtype::GraphicalLib::drawText([[ maybe_unused ]]std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize, [[ maybe_unused ]]float const &spacing, std::array<float, 4> const &color)
+void rtype::GraphicalLib::drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color)
 {
     // DrawTextEx(LoadFont(font.c_str()), text.c_str(), (Vector2){pos.getX(), pos.getY()}, fontSize, spacing, createColor(color));
     DrawText(text.c_str(), pos.getX(), pos.getY(), fontSize, createColor(color));

@@ -15,10 +15,9 @@ System::ReceiveSystem::ReceiveSystem()
 
 void System::ReceiveSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &queues)
 {
-    if (queues[0].value().receivedNetworkQueue.empty())
+    if (queues[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.empty())
         return;
-    std::pair<int, std::vector<byte>> buffer = queues[0].value().receivedNetworkQueue.front();
-    queues[0].value().receivedNetworkQueue.pop();
+    std::pair<int, std::vector<byte>> &buffer = queues[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.front();
     uint8_t id = serialize_header::getId(buffer.second);
 
     std::vector<byte> bufferWithoutId;
@@ -26,8 +25,9 @@ void System::ReceiveSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
     try {
         callBacks.at(id)(bufferWithoutId, buffer.first, queues);
     } catch (std::out_of_range const &) {
-        std::cout << "undefined packet id: " << id << std::endl;
+        std::cout << "Undefined packet id: " << id << std::endl;
     }
+    queues[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.pop();
 }
 
 void System::ReceiveSystem::addMoveOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues)
@@ -56,14 +56,12 @@ void System::ReceiveSystem::addDisconnectionOnQueue(std::vector<byte> const &dat
 
 void System::ReceiveSystem::addJoinLobbyOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues)
 {
-    std::cout << "[SERVER] Join Lobby request has been sent by Client " << clientId << std::endl;
     packet_join_lobby join_lobby = serializable_trait<packet_join_lobby>::unserialize(data);
     queues[FORBIDDEN_IDS::NETWORK].value().joinLobbyQueue.push(std::pair<int, packet_join_lobby>(clientId, join_lobby));
 }
 
 void System::ReceiveSystem::addStartGameOnQueue(std::vector<byte> const &data, int clientId, Sparse_array<component::cnetwork_queue_t> &queues)
 {
-    std::cout << "[SERVER] Receice system : Start Game request has been sent by Client " << clientId << std::endl;
     packet_start_game start_game = serializable_trait<packet_start_game>::unserialize(data);
     queues[FORBIDDEN_IDS::NETWORK].value().startGameQueue.push(std::pair<int, packet_start_game>(clientId, start_game));
 }

@@ -6,56 +6,56 @@
 */
 
 #ifndef R_TYPE_SHOOTSYSTEM_HPP
-#define R_TYPE_SHOOTSYSTEM_HPP
+    #define R_TYPE_SHOOTSYSTEM_HPP
 
-#include "Registry.hpp"
+    #include "Registry.hpp"
 
-#include "Component/CNetworkQueue.hpp"
-#include "Component/CDamage.hpp"
-#include "Component/CDirection.hpp"
-#include "Component/CHitBox.hpp"
-#include "Component/CPosition.hpp"
+    /* Component */
+    #include "Component/CNetworkQueue.hpp"
+    #include "Component/CDamage.hpp"
+    #include "Component/CDirection.hpp"
+    #include "Component/CHitBox.hpp"
+    #include "Component/CPosition.hpp"
+    #include "Component/CLobbyId.hpp"
+    #include "Component/CNetIdToClientId.hpp"
 
 /**
- * @brief The Shoot System class, it handles all packets related to a mouse click by the user, generating a bullet
- * 
+ * @brief Namespace for systems
  */
-class ShootSystem {
-    public:
-        /**
-         * @brief Construct a new Shoot System object
-         * 
-         */
-        ShootSystem();
+namespace System {
+    /**
+     * @brief The Shoot System class, it handles all packets related to a mouse click by the user, generating a bullet
+     */
+    class ShootSystem {
+        public:
+            /**
+             * @brief Construct a new Shoot System object
+             */
+            ShootSystem();
+            ~ShootSystem() = default;
 
-        /**
-         * @brief Destroy the Shoot System object
-         * 
-         */
-        ~ShootSystem() = default;
+            /**
+             * @brief The main handler for the Shoot System
+             *
+             * @param registry The registry that contains all the ECS
+             * @param netqueue The sparse array of network entities
+             * @param position The sparse array of position entities
+             */
+            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId);
 
-        /**
-         * @brief The main handler for the Shoot System
-         * 
-         * @param registry the registry of the server
-         * @param netqueue the sparse array of network entities
-         * @param position the sparse array of position entities
-         */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position);
+            /**
+             * @brief Create a Bullet object
+             *
+             * @param registry The registry that contains all the ECS
+             * @param position The sparse array of position entities
+             * @param playerId The id of the player who shot
+             * @return Entity the bullet entity
+             */
+            Entity createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId);
 
-        /**
-         * @brief Create a Bullet object
-         * 
-         * @param registry the registry of the server
-         * @param position the sparse array of position entities
-         * @param playerId the id of the player who shot
-         * @return Entity the bullet entity
-         */
-        Entity createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId);
-
-    protected:
-
-    private:
-};
+        protected:
+        private:
+    };
+}
 
 #endif //R_TYPE_SHOOTSYSTEM_HPP

@@ -12,16 +12,15 @@
 
 /**
  * @brief A packet to handle the entity movements
- * 
  */
 struct packet_move {
     enum DIRECTION {
         PLUS = 1,
         MINUS = 2
-    };
-    uint16_t playerId;
-    float x;
-    float y;
+    }; ///< Direction of the axis
+    uint16_t playerId; ///< Id of the Entity wich move
+    float x; ///< X axis
+    float y; ///< Y axis
 };
 
 #endif /* !MOVE_HPP_ */

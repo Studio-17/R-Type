@@ -6,13 +6,14 @@
 */
 
 #include "MouseSystem.hpp"
+#include "Constant.hpp"
 
-MouseSystem::MouseSystem()
+System::MouseSystem::MouseSystem()
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void MouseSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::ctype_t> &types, Sparse_array<component::ccallback_t> &callbacks)
+void System::MouseSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::ctype_t> &types, Sparse_array<component::ccallback_t> &callbacks)
 {
     for (std::size_t i = 1; i < positions.size() && i < rects.size() && i < scenesId.size() && i < types.size(); i++) {
         if (positions[i] && rects[i] && scenesId[i] && types[i]) {

@@ -10,26 +10,28 @@
 
     #include <iostream>
 
+/**
+ * @brief Class that handle entity in a sparse array like an index
+ */
 class Entity {
     public:
         /**
          * @brief Construct a new Entity object
          *
-         * @param id
+         * @param id Index of the entity
          */
         explicit Entity(std::size_t id) : _id(id) {
         };
 
         /**
          * @brief Destroy the Entity object
-         *
          */
         ~Entity() = default;
 
         /**
          * @brief  Operator () to return _id of the entity
          *
-         * @return std::size_t
+         * @return std::size_t Index of the entity
          */
         operator std::size_t() const {
             return _id;

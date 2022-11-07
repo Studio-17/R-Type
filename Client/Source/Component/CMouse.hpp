@@ -10,18 +10,16 @@
 
 /**
  * @brief Namespace for all component
- *
  */
 namespace component {
     /**
      * @brief Strucrue reprensenting the mouse component in charge of mouse state
-     *
      */
-    typedef struct mouseState_s {
-        int xPos;
-        int yPos;
-        bool isButtonPressed;
-    } mouseState_t;
+    struct cmouseState_t {
+        int xPos; ///< Position x of the mouse
+        int yPos; ///< Position y of the mouse
+        bool isButtonPressed; ///< If the mouse button is pressed, it's true
+    };
 }
 
 #endif /* !MOUSE_HPP_ */
