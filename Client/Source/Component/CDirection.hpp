@@ -8,21 +8,17 @@
 #ifndef CDIRECTION_HPP_
     #define CDIRECTION_HPP_
 
-    #include <iostream>
-
 /**
  * @brief Namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief A structure representing the direction component that holds the direction of an entity
-     * 
      */
-    typedef struct cdirection_s {
-        int x;
-        int y;
-    } cdirection_t;
+    struct cdirection_t {
+        int x; ///< Direction x
+        int y; ///< Direction y
+    };
 }
 
 #endif /* !CDIRECTION_HPP_ */

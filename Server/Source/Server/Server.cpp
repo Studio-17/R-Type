@@ -7,12 +7,23 @@
 
 #include "Server.hpp"
 
-#include "CLobbyId.hpp"
-#include "CTimer.hpp"
-#include "CType.hpp"
-#include "NewConnection.hpp"
 #include "Serialization.hpp"
-#include "CSceneId.hpp"
+#include "NewConnection.hpp"
+#include "Constant.hpp"
+
+/* Component */
+#include "Component/CDamage.hpp"
+#include "Component/CDirection.hpp"
+#include "Component/CHealth.hpp"
+#include "Component/CHitBox.hpp"
+#include "Component/CNetworkQueue.hpp"
+#include "Component/CPosition.hpp"
+#include "Component/CLobbiesToEntities.hpp"
+// #include "Component/CVelocity.hpp"
+#include "Component/CLobbyId.hpp"
+#include "Component/CTimer.hpp"
+#include "Component/CType.hpp"
+#include "Component/CSceneId.hpp"
 
 Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port)),
     _thread(&Server::threadLoop, this), _isRunning(true)
@@ -38,8 +49,7 @@ void Server::HandleReceive([[ maybe_unused ]] asio::error_code const &e, [[ mayb
 {
     std::pair<asio::ip::address, unsigned short> endpointData = _com->getEnpointInfo();
     _endpoints.try_emplace(endpointData.first, std::unordered_map<unsigned short, int>());
-    // Rework
-    // _endpoints.at(endpointData.first).try_emplace(endpointData.second, true);
+
     auto const &[it, is_new] = _endpoints.at(endpointData.first).try_emplace(endpointData.second, -1);
     if (is_new) {
         std::cout << "Handle receive: new client try to connect" << std::endl;
@@ -50,7 +60,6 @@ void Server::HandleReceive([[ maybe_unused ]] asio::error_code const &e, [[ mayb
         std::vector<byte> new_buffer = serialize_header::serializeHeader<packet_new_connection>(NETWORK_CLIENT_TO_SERVER::NEW_CLIENT, new_connect);
         _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(std::pair<int, std::vector<byte>>(client_id, new_buffer));
     } else
-        //*
         _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.push(std::pair<int, std::vector<byte>> (_endpoints.at(endpointData.first).at(endpointData.second), _buffer_to_get));
 
     ReceivePackets();
@@ -104,7 +113,7 @@ void Server::setUpEcs()
 
 
     // _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
-    // _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t>(_directionSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t>(_directionSystem);
     _registry.add_system<component::cnetwork_queue_t>(_receiveSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t>(_shootSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t, component::ctimer_t>(_spawnEnemySystem);

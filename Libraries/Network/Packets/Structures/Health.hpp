@@ -6,16 +6,15 @@
 */
 
 #ifndef R_TYPE_HEALTH_HPP
-#define R_TYPE_HEALTH_HPP
+    #define R_TYPE_HEALTH_HPP
 
-#include <cstdint>
+    #include <cstdint>
 
 /**
  * @brief A packet to handle the health of an entity
- * 
  */
 struct packet_health {
-    uint16_t health_points;
+    uint16_t health_points; ///< Health Points 
 };
 
 #endif //R_TYPE_HEALTH_HPP

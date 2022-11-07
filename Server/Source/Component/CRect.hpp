@@ -6,20 +6,19 @@
 */
 
 #ifndef CRECT_HPP_
-#define CRECT_HPP_
+    #define CRECT_HPP_
 
 /**
  * @brief Namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief A structure representing the rectangle component that holds the rectangle of an entity
-     * 
      */
-    typedef struct crect_s {
-        float height;
-        float width;
-    } crect_t;
+    struct crect_t {
+        float height; ///< height of the rect of the entity
+        float width; ///< width of the rect of the entity
+    };
 }
+
 #endif /* !CRECT_HPP_ */

@@ -5,35 +5,31 @@
 ** Client
 */
 
-#include <iostream>
 #include <fstream>
-#include <array>
 
 #include "Client.hpp"
-#include "CSceneId.hpp"
-#include "Mouse.hpp"
-#include "CKeyboard.hpp"
-#include "CPosition.hpp"
-#include "CRect.hpp"
-#include "CVelocity.hpp"
-#include "CServerId.hpp"
-#include "CNetworkQueue.hpp"
 #include "Serialization.hpp"
-#include "Structure.hpp"
-#include "CType.hpp"
+#include "Constant.hpp"
+
+/* Packet */
 #include "Move.hpp"
 #include "NewConnection.hpp"
-#include "CIdOfShip.hpp"
-#include "CTimer.hpp"
-#include "CAsset.hpp"
-#include "CAssetId.hpp"
-#include "CText.hpp"
-#include "CScale.hpp"
-#include "CCallback.hpp"
-#include "Asset.hpp"
-#include "CColor.hpp"
 #include "Disconnection.hpp"
-#include "Constant.hpp"
+
+/* Component */
+#include "Component/CMouse.hpp"
+#include "Component/CScale.hpp"
+// #include "CIdOfShip.hpp"
+// #include "CTimer.hpp"
+// #include "CAsset.hpp"
+// #include "CAssetId.hpp"
+// #include "CText.hpp"
+// #include "CScale.hpp"
+// #include "CCallback.hpp"
+// #include "Asset.hpp"
+// #include "CColor.hpp"
+// #include "Disconnection.hpp"
+// #include "Constant.hpp"
 #include "fileConfig.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
@@ -124,7 +120,7 @@ void Client::threadLoop()
 void Client::setUpEcs()
 {
     _registry.register_component<component::ckeyboard_t>();
-    _registry.register_component<component::mouseState_t>();
+    _registry.register_component<component::cmouseState_t>();
     _registry.register_component<component::cposition_t>();
     _registry.register_component<component::crect_t>();
     _registry.register_component<component::cvelocity_t>();
@@ -149,13 +145,13 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t, component::cid_of_ship_t>(_networkSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cserverid_t>(_killSystem);
     _registry.add_system<component::crect_t, component::ctimer_t, component::ctype_t, component::casset_t, component::cassetid_t>(_rectSystem);
-    _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t>(_controlSystem);
+    _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t, component::cclient_network_id>(_controlSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id>(_newEntitySystem);
     _registry.add_system<component::cnetwork_queue_t>(_getLobbiesSystem);
     _registry.add_system<component::cnetwork_queue_t>(_setNbPlayerInLobbySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
-    // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
     _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t>(_drawSpriteSystem);
     _registry.add_system<component::cposition_t, component::csceneid_t, component::cscale_t, component::ccolor_t, component::ctext_t>(_drawTextSystem);

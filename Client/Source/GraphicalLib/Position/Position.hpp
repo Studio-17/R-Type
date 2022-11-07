@@ -74,49 +74,49 @@ class Position {
 
         /**
          * @brief Overload the + operator
-         * 
-         * @param value 
-         * @return Position 
+         *
+         * @param value Float to add to position
+         * @return Position& Himself
          */
         Position operator +(float value);
-        
+
         /**
          * @brief Overload the + operator for Position objects
-         * 
-         * @param position 
-         * @return Position 
+         *
+         * @param position Position to add
+         * @return Position New Position
          */
         Position operator +(Position const &position);
 
         /**
          * @brief Overload the - operator
-         * 
-         * @param value 
-         * @return Position 
+         *
+         * @param value Float to reduce
+         * @return Position New Position
          */
         Position operator -(float value);
 
         /**
          * @brief Overload the - operator for Position objects
-         * 
-         * @param position 
-         * @return Position 
+         *
+         * @param position Position to reduce
+         * @return Position New Position
          */
         Position operator -(Position const &position);
 
         /**
          * @brief Overload the * operator
-         * 
-         * @param value 
-         * @return Position 
+         *
+         * @param value Float to multiply
+         * @return Position New Position
          */
         Position operator *(float value);
 
         /**
          * @brief Overload the * operator for Position objects
-         * 
-         * @param position 
-         * @return Position 
+         *
+         * @param position Position to multiply
+         * @return Position New position
          */
         Position operator *(Position const &position);
 

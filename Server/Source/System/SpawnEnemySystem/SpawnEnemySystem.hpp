@@ -10,48 +10,48 @@
 
     #include "Registry.hpp"
 
+    /* Component */
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CPosition.hpp"
     #include "Component/CType.hpp"
-    #include "CTimer.hpp"
+    #include "Component/CTimer.hpp"
 
 /**
- * @brief The SpawnEnemy System class, it handles all packets related to the spawn of an enemy in the game
- * 
+ * @brief Namespace for systems
  */
-class SpawnEnemySystem {
-    public:
-        /**
-         * @brief Construct a new Spawn Enemy System object
-         * 
-         */
-        SpawnEnemySystem();
+namespace System {
+    /**
+     * @brief The SpawnEnemy System class, it handles all packets related to the spawn of an enemy in the game
+     */
+    class SpawnEnemySystem {
+        public:
+            /**
+             * @brief Construct a new Spawn Enemy System object
+             */
+            SpawnEnemySystem();
+            ~SpawnEnemySystem() = default;
 
-        /**
-         * @brief Destroy the Spawn Enemy System object
-         * 
-         */
-        ~SpawnEnemySystem() = default;
+            /**
+             * @brief The main handler for the SpawnEnemy System
+             *
+             * @param registry The registry that contains all the ECS
+             * @param netqueue The sparse array of network entities
+             * @param position The sparse array of position entities
+             * @param type The sparse array of type entities
+             * @param timer The sparse array of timer entities
+             */
+            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer);
 
-        /**
-         * @brief The main handler for the SpawnEnemy System
-         * 
-         * @param registry the registry of the server
-         * @param netqueue the sparse array of network entities
-         * @param position the sparse array of position entities
-         */
-        void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer);
-
-        /**
-         * @brief Create a Enemy object
-         * 
-         * @param registry the registry of the server
-         * @return Entity the entity of the enemy
-         */
-        Entity createEnemy(Registry &registry);
-
-    protected:
-    private:
-};
+            /**
+             * @brief Create a Enemy object
+             *
+             * @param registry The registry that contains all the ECS
+             * @return Entity The entity of the enemy
+             */
+            Entity createEnemy(Registry &registry);
+        protected:
+        private:
+    };
+}
 
 #endif /* !SPAWNENEMYSYSTEM_HPP_ */

@@ -8,12 +8,12 @@
 #include "DrawSpriteSystem.hpp"
 #include "Constant.hpp"
 
-DrawSpriteSystem::DrawSpriteSystem()
+System::DrawSpriteSystem::DrawSpriteSystem()
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void DrawSpriteSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cscale_t> &scales)
+void System::DrawSpriteSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cscale_t> &scales)
 {
     for (std::size_t i = 1; i < positions.size() && i < rectangles.size() && i < scenesId.size() && i < assetsId.size() && i < scales.size(); i++) {
         if (positions[i] && scenesId[i] && scales[i] && rectangles[i]) {

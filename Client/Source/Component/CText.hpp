@@ -12,17 +12,15 @@
 
 /**
  * @brief A namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief A structure representing the text component to add text and font to an entity
-     * 
      */
     typedef struct ctext_s {
-        std::string text;
-        std::string font;
-        float spacing;
+        std::string text; ///< Text to print
+        std::string font; ///< Font of the text
+        float spacing; ///< size of the text to print (of the font)
     } ctext_t;
 }
 

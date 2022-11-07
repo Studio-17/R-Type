@@ -2,26 +2,24 @@
 ** EPITECH PROJECT, 2022
 ** B-CPP-500-PAR-5-1-rtype-martin.vanaud
 ** File description:
-** Health
+** CHealth
 */
 
-#ifndef HEALTH_HPP_
-    #define HEALTH_HPP_
+#ifndef CHEALTH_HPP_
+    #define CHEALTH_HPP_
 
-    #include <iostream>
+    #include <cstddef>
 
 /**
  * @brief Namespace for all components
- * 
  */
 namespace component {
     /**
      * @brief A structure representing the health component that holds the healt of the entity
-     * 
      */
-    typedef struct health_s {
-        size_t health;
-    } health_t;
+    struct chealth_t {
+        std::size_t health; ///< health of the entity
+    };
 }
 
-#endif /* !HEALTH_HPP_ */
+#endif /* !CHEALTH_HPP_ */

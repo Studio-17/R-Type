@@ -6,13 +6,14 @@
 */
 
 #include "DrawTextSystem.hpp"
+#include "Constant.hpp"
 
-DrawTextSystem::DrawTextSystem()
+System::DrawTextSystem::DrawTextSystem()
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void DrawTextSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cscale_t> &scales, Sparse_array<component::ccolor_t> &colors, Sparse_array<component::ctext_t> &texts)
+void System::DrawTextSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cscale_t> &scales, Sparse_array<component::ccolor_t> &colors, Sparse_array<component::ctext_t> &texts)
 {
     for (std::size_t i = 1; i < positions.size() && i < scenesId.size() && i < scales.size() && i < texts.size() && i < colors.size(); i++) {
         if (positions[i] && scenesId[i] && scales[i] && texts[i] && colors[i]) {
