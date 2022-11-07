@@ -42,9 +42,7 @@ file(GLOB SOURCE_FILES
     Source/GraphicalLib/Position/*.cpp
     Source/GraphicalLib/Music/*.cpp
     Source/GraphicalLib/Sound/*.cpp
-    Source/GraphicalLib/Sprite/*.cpp
     Source/GraphicalLib/MyTexture/*.cpp
-    Source/GraphicalLib/Text/*.cpp
     Source/GraphicalLib/Keyboard/*.cpp
     Source/System/*.cpp
     Source/System/ControlSystem/*.cpp
@@ -73,9 +71,7 @@ include_directories(
     Source/GraphicalLib/Position/
     Source/GraphicalLib/Music/
     Source/GraphicalLib/Sound/
-    Source/GraphicalLib/Sprite/
     Source/GraphicalLib/MyTexture/
-    Source/GraphicalLib/Text/
     Source/GraphicalLib/Keyboard/
     Source/System/
     Source/System/ControlSystem/

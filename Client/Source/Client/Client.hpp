@@ -88,8 +88,30 @@ class Client {
          * @param filepath Path of the file containing all button
          * @param assets The sparse array of assets
          */
-        void loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets);
+        void loadButtons(std::string const &filepath, Sparse_array<component::casset_t> &assets);
 
+        /**
+         * @brief A method to load the assets of the text
+         *
+         * @param filepath Path of the file containing all button
+         */
+        void loadTexts(std::string const &filepath);
+
+        /**
+         * @brief Create a Text object
+         *
+         * @param oneData Json Data where is stored the data
+         * @param pos Position of the text
+         * @param scene Scene id where add the text
+         */
+        void createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene);
+
+        /**
+         * @brief Function that handle set up of main menu scene
+         *
+         * @param assets Sparse array of Assets
+         */
+        void mainMenuScene(Sparse_array<component::casset_t> &assets);
 
     private:
         /**

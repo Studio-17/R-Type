@@ -35,15 +35,13 @@ Asset AssetManager::at(std::string const &index) const
 void AssetManager::loadAssets(std::string const &filepath)
 {
     nlohmann::json jsonData;
-
     try {
-
         jsonData = getJsonData(filepath);
     } catch (std::exception const &e) {
         std::cerr << e.what() << std::endl;
         return;
     }
     for (auto oneData : jsonData) {
-        _assets.emplace(oneData.value("title", "redSpaceShip"), Asset(oneData));
+        _assets.emplace(oneData.value("title", "error title"), Asset(oneData));
     }
 }

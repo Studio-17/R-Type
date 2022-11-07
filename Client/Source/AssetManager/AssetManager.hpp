@@ -51,14 +51,6 @@ class AssetManager {
          */
         void loadAssets(std::string const &filepath);
 
-        /**
-         * @brief Enum of assets in map
-         */
-        enum ASSET_ID {
-            spaceship_blue,
-            spaceship_red,
-            spaceship
-        };
     protected:
     private:
         /**

@@ -22,7 +22,7 @@ System::StartGameSystem::StartGameSystem()
 Entity System::StartGameSystem::createSpaceShip(Registry &registry) {
     Entity spaceShip = registry.spawn_entity_with(
         component::cdirection_t {0, 0},
-        component::cposition_t {10, 10},
+        component::cposition_t {200, 200},
         component::cvelocity_t {10},
         component::ctype_t {ENTITY_TYPE::PLAYER},
         component::crect_t {17.2, 33}

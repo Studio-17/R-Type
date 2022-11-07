@@ -22,6 +22,7 @@ enum FORBIDDEN_IDS {
 enum SCENE {
     ALL = 0,
     LOAD_ASSETS,
+    GAME,
     INTRODUCTION,
     CONNEXION,
     MAIN_MENU,
@@ -30,7 +31,6 @@ enum SCENE {
     OPTIONS,
     CREATE_LOBBY,
     LOBBY,
-    GAME,
 };
 
 #endif /* !CONSTANT_HPP_ */

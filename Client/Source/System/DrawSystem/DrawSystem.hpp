@@ -17,6 +17,10 @@
     #include "Component/CAsset.hpp"
     #include "Component/CAssetId.hpp"
     #include "Component/CSceneId.hpp"
+    #include "Component/CScale.hpp"
+    #include "Component/CText.hpp"
+    #include "Component/CColor.hpp"
+    // #include "Constant.hpp"
 
 /**
  * @brief Namespace for systems
@@ -42,9 +46,18 @@ namespace System {
              * @param assets The sparse array of asset entities
              * @param assetsId The sparse array of assetId entities
              * @param scenesId The sparse array of sceneId entities
+             * @param scales The sparse array of scale entities
+             * @param texts The sparse array of text entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rectangles, Sparse_array<component::casset_t> &assets, Sparse_array<component::cassetid_t> &assetsId, Sparse_array<component::csceneid_t> &scenesId);
-
+            void operator()(Registry &registry,
+                        Sparse_array<component::cposition_t> &positions,
+                        Sparse_array<component::crect_t> &rectangles,
+                        Sparse_array<component::casset_t> &assets,
+                        Sparse_array<component::cassetid_t> &assetsId,
+                        Sparse_array<component::csceneid_t> &scenesId,
+                        Sparse_array<component::cscale_t> &scales,
+                        Sparse_array<component::ctext_t> &texts,
+                        Sparse_array<component::ccolor_t> &colors);
 
         protected:
         private:

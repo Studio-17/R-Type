@@ -1,0 +1,18 @@
+{
+    "text1": {
+        "font": "Assets/Fonts/Square.ttf",
+        "text": "right",
+        "color": [150, 150, 150, 255],
+        "fontSize": 60,
+        "position": [1000, 700],
+        "scene": 5
+    },
+    "text2": {
+        "font": "Assets/Fonts/Square.ttf",
+        "text": "left",
+        "color": [150, 150, 150, 255],
+        "fontSize": 60,
+        "position": [1000, 900],
+        "scene": 5
+    }
+}

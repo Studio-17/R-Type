@@ -19,13 +19,25 @@
 /* Component */
 #include "Component/CMouse.hpp"
 #include "Component/CScale.hpp"
+// #include "CIdOfShip.hpp"
+// #include "CTimer.hpp"
+// #include "CAsset.hpp"
+// #include "CAssetId.hpp"
+// #include "CText.hpp"
+// #include "CScale.hpp"
+// #include "CCallback.hpp"
+// #include "Asset.hpp"
+// #include "CColor.hpp"
+// #include "Disconnection.hpp"
+// #include "Constant.hpp"
+#include "fileConfig.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
     _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
-    _graphicLib->initWindow(800, 600, "R-Type", 60);
+    _graphicLib->initWindow(1920, 1080, "R-Type", 120);
 
     _configurationFiles = configurationFiles;
 
@@ -92,6 +104,19 @@ void Client::pushNewPacketsToQueue([[ maybe_unused ]] asio::error_code const &e,
     handleReceive();
 }
 
+void Client::startGameScene()
+{
+    Sparse_array<component::csceneid_t> &sceneId= _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
+}
+
+void Client::threadLoop()
+{
+    handleReceive();
+    _context.run();
+}
+
 void Client::setUpEcs()
 {
     _registry.register_component<component::ckeyboard_t>();
@@ -111,6 +136,8 @@ void Client::setUpEcs()
     _registry.register_component<component::csceneid_t>();
     _registry.register_component<component::cscale_t>();
     _registry.register_component<component::ccallback_t>();
+    _registry.register_component<component::ctext_t>();
+    _registry.register_component<component::ccolor_t>();
 }
 
 void Client::setUpSystems()
@@ -119,14 +146,14 @@ void Client::setUpSystems()
     // _registry.add_system<component::cnetwork_queue_t, component::cserverid_t>(_killSystem);
     _registry.add_system<component::crect_t, component::ctimer_t, component::ctype_t, component::casset_t, component::cassetid_t>(_rectSystem);
     _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t>(_controlSystem);
-	// _registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id>(_newEntitySystem);
     _registry.add_system<component::cnetwork_queue_t>(_getLobbiesSystem);
     _registry.add_system<component::cnetwork_queue_t>(_setNbPlayerInLobbySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
-    // _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
-	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t>(_drawSystem);
+    _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t, component::ctext_t, component::ccolor_t>(_drawSystem);
 }
 
 void Client::setUpComponents()
@@ -146,15 +173,22 @@ void Client::setUpComponents()
     );
 
     loadParallax(_registry.get_components<component::casset_t>());
-    // loadButton("Assets/buttons.json", _registry.get_components<component::casset_t>());
+    loadButtons(_configurationFiles.at("BUTTONS"), _registry.get_components<component::casset_t>());
+    loadTexts(_configurationFiles.at("TEXTS"));
 
-    // Entity planet = _registry.spawn_entity_with(
-    //     component::crect_t{ assetMan.assets.at("planet").getRectangle() },
-    //     component::cposition_t{ .x = 300, .y = 300 },
-    //     component::ctype_t{ .type = UI },
-    //     component::cassetid_t{ .assets = "planet" },
-    //     component::csceneid_t{ .sceneId = SCENE::MAIN_MENU }
-    // );
+    mainMenuScene(_registry.get_components<component::casset_t>());
+}
+
+void Client::mainMenuScene(Sparse_array<component::casset_t> &assets)
+{
+    Entity planet = _registry.spawn_entity_with(
+        component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at("planet").getRectangle() },
+        component::cposition_t{ .x = 300, .y = 300 },
+        component::ctype_t{ .type = UI },
+        component::cassetid_t{ .assets = "planet" },
+        component::csceneid_t{ .sceneId = SCENE::MAIN_MENU },
+        component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at("planet").getScale() }
+    );
 }
 
 void Client::loadParallax(Sparse_array<component::casset_t> &assets)
@@ -163,45 +197,58 @@ void Client::loadParallax(Sparse_array<component::casset_t> &assets)
     std::vector<std::pair<std::string, int>> parallax = {
         {"parallax_background", 1},
         {"parallax_mountain", 3},
-        {"parallax_ground", 4 }
+        {"parallax_ground", 4}
     };
 
     for (std::size_t i = 0; i <= 1; i++) {
         for (auto &[texture, velocity]: parallax) {
             Entity parallax_background = _registry.spawn_entity_with(
-                    component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getRectangle() },
-                    component::cposition_t{ .x = pos.first, .y = pos.second },
-                    component::cdirection_t{ .x = -1, .y = 0 },
-                    component::ctype_t{ .type = PARALLAX },
-                    component::cvelocity_t{ .velocity = velocity },
-                    component::cassetid_t{ .assets = texture },
-                    component::csceneid_t{ .sceneId = SCENE::ALL }
+                component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getRectangle() },
+                component::cposition_t{ .x = pos.first, .y = pos.second },
+                component::cdirection_t{ .x = -1, .y = 0 },
+                component::ctype_t{ .type = PARALLAX },
+                component::cvelocity_t{ .velocity = velocity },
+                component::cassetid_t{ .assets = texture },
+                component::csceneid_t{ .sceneId = SCENE::ALL },
+                component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getScale() }
             );
         }
         pos.first += 1930;
     }
 }
 
-static nlohmann::json getJsonData(std::string const &filepath)
+void Client::loadTexts(std::string const &filepath)
 {
     nlohmann::json jsonData;
-    std::ifstream confStream(filepath);
 
-    if (!confStream.is_open())
-        throw ("file " + filepath + " failed to open");
-    confStream >> jsonData;
-    confStream.close();
-    return jsonData;
+    try {
+        jsonData = getJsonData(filepath);
+    } catch (std::exception const &e) {
+        std::cerr << e.what() << std::endl;
+        return;
+    }
+
+    for (auto &oneData: jsonData) {
+        int scene = oneData.value("scene", -1);
+        createText(oneData, std::array<float, 2>({0, 0}), scene);
+    }
 }
 
-void Client::startGameScene()
+void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene)
 {
-    Sparse_array<component::csceneid_t> &sceneId= _registry.get_components<component::csceneid_t>();
+    std::array<float, 2> textPos = oneData.value("position", std::array<float, 2>({0, 0}));
 
-    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
+    Entity text = _registry.spawn_entity_with(
+        component::ctext_t{ .text = oneData.value("text", "error"), .font = oneData.value("font", "Assets/Fonts/Square.ttf"), .spacing = static_cast<float>(oneData.value("spacing", 0)) },
+        component::cposition_t{ .x = pos[0] + textPos[0], .y = pos[1] + textPos[1] },
+        component::ctype_t{ .type = TEXT },
+        component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
+        component::cscale_t{ .scale = static_cast<float>(oneData.value("fontSize", 30)) },
+        component::ccolor_t{ .color = oneData.value("color", std::array<float, 4>({255, 255, 255, 255})) }
+    );
 }
 
-void Client::loadButton(std::string const &filepath, Sparse_array<component::casset_t> &assets)
+void Client::loadButtons(std::string const &filepath, Sparse_array<component::casset_t> &assets)
 {
     nlohmann::json jsonData;
 
@@ -216,25 +263,24 @@ void Client::loadButton(std::string const &filepath, Sparse_array<component::cas
         {"start-game", std::bind(&Client::startGameScene, this)},
     };
 
+
     for (auto &oneData: jsonData) {
         std::string assetId = oneData.value("textureId", "button");
         std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
         std::string callbackType = oneData.value("callback-type", "undifined");
         int scene = oneData.value("scene", -1);
+        component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
 
         Entity button = _registry.spawn_entity_with(
-                component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle() },
-                component::cposition_t{ pos[0], pos[1] },
+                component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / oneData.value("nbFrame", 1), .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
+                component::cposition_t{ .x = pos[0], .y = pos[1] },
                 component::ctype_t{ .type = BUTTON },
                 component::cassetid_t{ .assets = assetId },
                 component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-                component::ccallback_t{ .callback = _callbackMap.at(callbackType) }
+                component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
+                component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
         );
+        if (oneData.contains("text"))
+            createText(oneData.at("text"), pos, scene);
     }
-}
-
-void Client::threadLoop()
-{
-    handleReceive();
-    _context.run();
 }
