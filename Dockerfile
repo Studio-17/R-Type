@@ -11,7 +11,7 @@ ADD [ "Libraries/", "Libraries/" ]
 ADD [ "vcpkg/", "vcpkg/" ]
 
 COPY [ "CMakeLists.txt", "vcpkg.json", "./" ]
-COPY [ ".github/docker/build-server.sh", "./build-server.sh" ]
+COPY [ ".github/scripts/build-server.sh", "./build-server.sh" ]
 
 RUN [ "bash", "build-server.sh" ]
 
