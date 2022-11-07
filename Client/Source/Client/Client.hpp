@@ -20,7 +20,8 @@
 
     /* System */
     #include "System/NetworkSystem/NetworkSystem.hpp"
-    #include "System/DrawSystem/DrawSystem.hpp"
+    #include "System/DrawTextSystem/DrawTextSystem.hpp"
+    #include "System/DrawSpriteSystem/DrawSpriteSystem.hpp"
     #include "System/RectSystem/RectSystem.hpp"
     #include "System/ControlSystem/ControlSystem.hpp"
     #include "System/NewEntitySystem/NewEntitySystem.hpp"
@@ -177,7 +178,8 @@ class Client {
 
         // Systems
         System::NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues
-        System::DrawSystem _drawSystem; ///< System that draws the entities
+        System::DrawSpriteSystem _drawSpriteSystem; ///< System that draws the entities
+        System::DrawTextSystem _drawTextSystem; ///< System that draws the entities
         System::RectSystem _rectSystem; ///< System that a part of a entity
         System::ControlSystem _controlSystem; ///< System that controls the entities
         System::NewEntitySystem _newEntitySystem; ///< System that creates new entities

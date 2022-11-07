@@ -46,7 +46,8 @@ file(GLOB SOURCE_FILES
     Source/GraphicalLib/Keyboard/*.cpp
     Source/System/*.cpp
     Source/System/ControlSystem/*.cpp
-    Source/System/DrawSystem/*.cpp
+    Source/System/DrawSpriteSystem/*.cpp
+    Source/System/DrawTextSystem/*.cpp
     Source/System/MoveSystem/*.cpp
     Source/System/NetworkSystem/*.cpp
     Source/System/NewEntitySystem/*.cpp
@@ -75,7 +76,8 @@ include_directories(
     Source/GraphicalLib/Keyboard/
     Source/System/
     Source/System/ControlSystem/
-    Source/System/DrawSystem/
+    Source/System/DrawSpriteSystem/
+    Source/System/DrawTextSystem/
     Source/System/MoveSystem/
     Source/System/NetworkSystem/
     Source/System/NewEntitySystem/
