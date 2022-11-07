@@ -20,19 +20,22 @@ System::ShootSystem::ShootSystem()
 {
 }
 
-void System::ShootSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position)
+void System::ShootSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId)
 {
     (void)registry;
     (void)netqueue;
     (void)position;
-    // while (!netqueue[FORBIDDEN_IDS::NETWORK].value().shootQueue.empty()) {
-    //     std::pair<int, packet_shoot> &packet = netqueue[0].value().shootQueue.front();
-    //     if (position[packet.second.id]) {
-    //         Entity bullet = createBullet(registry, position, packet.second.id);
-    //         netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({0, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {static_cast<uint16_t>(bullet), position[bullet].value().x, position[bullet].value().y, 1, ENTITY_TYPE::BULLET})});
-    //     }
-    //     netqueue[FORBIDDEN_IDS::NETWORK].value().shootQueue.pop();
-    // }
+    while (!netqueue[FORBIDDEN_IDS::NETWORK].value().shootQueue.empty()) {
+        std::pair<int, packet_shoot> &packet = netqueue[0].value().shootQueue.front();
+        if (position[packet.second.id]) {
+            Entity bullet = createBullet(registry, position, packet.second.id);
+
+            int lobbyId = LobbyId[netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(packet.first)].value().id;
+
+            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {static_cast<uint16_t>(bullet), position[bullet].value().x, position[bullet].value().y, 1, ENTITY_TYPE::BULLET, 0})});
+        }
+        netqueue[FORBIDDEN_IDS::NETWORK].value().shootQueue.pop();
+    }
 }
 
 Entity System::ShootSystem::createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId)
