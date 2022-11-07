@@ -28,7 +28,8 @@
 #include "UdpCommunication.hpp"
 #include "Registry.hpp"
 #include "GraphicalLib.hpp"
-#include "DrawSystem.hpp"
+#include "DrawSpriteSystem.hpp"
+#include "DrawTextSystem.hpp"
 #include "RectSystem.hpp"
 #include "ControlSystem.hpp"
 #include "NewEntitySystem.hpp"
@@ -177,7 +178,8 @@ class Client
 
                 // Systems
                 NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues
-                DrawSystem _drawSystem; ///< System that draws the entities
+                DrawSpriteSystem _drawSpriteSystem; ///< System that draws the sprite entities
+                DrawTextSystem _drawTextSystem; ///< System that draws the text entities
                 RectSystem _rectSystem; ///< System that a part of a entity
                 ControlSystem _controlSystem; ///< System that controls the entities
                 NewEntitySystem _newEntitySystem; ///< System that creates new entities

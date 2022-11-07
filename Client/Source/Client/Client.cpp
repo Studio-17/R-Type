@@ -157,7 +157,8 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
     _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
-	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t, component::ctext_t, component::ccolor_t>(_drawSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t>(_drawSpriteSystem);
+    _registry.add_system<component::cposition_t, component::csceneid_t, component::cscale_t, component::ccolor_t, component::ctext_t>(_drawTextSystem);
 }
 
 void Client::setUpComponents()
@@ -241,14 +242,19 @@ void Client::loadTexts(std::string const &filepath)
 void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene)
 {
     std::array<float, 2> textPos = oneData.value("position", std::array<float, 2>({0, 0}));
+    std::string content = oneData.value("text", "error");
+    std::string font = oneData.value("font", "Assets/Fonts/Square.ttf");
+    float spacing = oneData.value("spacing", 0);
+    float fontSize = oneData.value("fontSize", 30);
+    std::array<float, 4> color = oneData.value("color", std::array<float, 4>({255, 255, 255, 255}));
 
     Entity text = _registry.spawn_entity_with(
-        component::ctext_t{ .text = oneData.value("text", "error"), .font = oneData.value("font", "Assets/Fonts/Square.ttf"), .spacing = static_cast<float>(oneData.value("spacing", 0)) },
+        component::ctext_t{ .text = content, .font = font, .spacing = spacing },
         component::cposition_t{ .x = pos[0] + textPos[0], .y = pos[1] + textPos[1] },
         component::ctype_t{ .type = TEXT },
         component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-        component::cscale_t{ .scale = static_cast<float>(oneData.value("fontSize", 30)) },
-        component::ccolor_t{ .color = oneData.value("color", std::array<float, 4>({255, 255, 255, 255})) }
+        component::cscale_t{ .scale = fontSize },
+        component::ccolor_t{ .color = color }
     );
 }
 
@@ -267,16 +273,16 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"start-game", std::bind(&Client::startGameScene, this)},
     };
 
-
     for (auto &oneData: jsonData) {
         std::string assetId = oneData.value("textureId", "button");
         std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
         std::string callbackType = oneData.value("callback-type", "undifined");
         int scene = oneData.value("scene", -1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
+        int nb_frames = oneData.value("nbFrame", 1);
 
         Entity button = _registry.spawn_entity_with(
-                component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / oneData.value("nbFrame", 1), .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
+                component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
                 component::cposition_t{ .x = pos[0], .y = pos[1] },
                 component::ctype_t{ .type = BUTTON },
                 component::cassetid_t{ .assets = assetId },
@@ -284,7 +290,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
                 component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
                 component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
         );
-        if (oneData.contains("text"))
-            createText(oneData.at("text"), pos, scene);
+        if (oneData.contains("Text"))
+            createText(oneData.at("Text"), pos, scene);
     }
 }

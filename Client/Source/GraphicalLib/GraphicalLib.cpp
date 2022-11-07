@@ -82,7 +82,8 @@ Color rtype::GraphicalLib::createColor(std::array<float, 4> const &array)
 }
 
 // Text
-void rtype::GraphicalLib::drawText([[ maybe_unused ]]std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize, [[ maybe_unused ]]float const &spacing, std::array<float, 4> const &color)
+// void rtype::GraphicalLib::drawText([[ maybe_unused ]]std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize, [[ maybe_unused ]]float const &spacing, std::array<float, 4> const &color)
+void rtype::GraphicalLib::drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color)
 {
     // DrawTextEx(LoadFont(font.c_str()), text.c_str(), (Vector2){pos.getX(), pos.getY()}, fontSize, spacing, createColor(color));
     DrawText(text.c_str(), pos.getX(), pos.getY(), fontSize, createColor(color));

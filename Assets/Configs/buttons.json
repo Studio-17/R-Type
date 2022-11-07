@@ -4,7 +4,7 @@
         "position": [1000, 300],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "text": {
+        "Text": {
             "font": "Assets/Fonts/Square.ttf",
             "text": "right",
             "color": [150, 150, 150, 255],
