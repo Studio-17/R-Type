@@ -1,18 +1,18 @@
 {
-    "text1": {
-        "font": "Assets/Fonts/Square.ttf",
+    "text1-txt": {
+        "ref": "text1-txt",
         "text": "right",
         "color": [150, 150, 150, 255],
-        "fontSize": 60,
+        "size": 60,
         "position": [1000, 700],
         "spacing": 7,
         "scene": 5
     },
-    "text2": {
-        "font": "Assets/Fonts/Square.ttf",
+    "text2-txt": {
+        "ref": "text2-txt",
         "text": "left",
         "color": [150, 150, 150, 255],
-        "fontSize": 60,
+        "size": 60,
         "position": [1000, 900],
         "spacing": 7,
         "scene": 5

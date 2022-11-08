@@ -1,0 +1,9 @@
+{
+    "planet-img": {
+        "ref": "planet-img",
+        "textureId": "planet",
+        "position": [100, 100],
+        "sound": "Ressources/buttons/click_sound.ogg",
+        "scene": 5
+    }
+}

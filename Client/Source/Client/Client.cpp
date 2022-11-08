@@ -18,19 +18,7 @@
 #include "StartGame.hpp"
 
 /* Component */
-#include "Component/CMouse.hpp"
-#include "Component/CScale.hpp"
-// #include "CIdOfShip.hpp"
-// #include "CTimer.hpp"
-// #include "CAsset.hpp"
-// #include "CAssetId.hpp"
-// #include "CText.hpp"
-// #include "CScale.hpp"
-// #include "CCallback.hpp"
-// #include "Asset.hpp"
-// #include "CColor.hpp"
-// #include "Disconnection.hpp"
-// #include "Constant.hpp"
+#include "CRef.hpp"
 #include "fileConfig.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
@@ -114,7 +102,6 @@ void Client::threadLoop()
 void Client::setUpEcs()
 {
     _registry.register_component<component::ckeyboard_t>();
-    _registry.register_component<component::cmouseState_t>();
     _registry.register_component<component::cposition_t>();
     _registry.register_component<component::crect_t>();
     _registry.register_component<component::cvelocity_t>();
@@ -132,6 +119,7 @@ void Client::setUpEcs()
     _registry.register_component<component::ccallback_t>();
     _registry.register_component<component::ctext_t>();
     _registry.register_component<component::ccolor_t>();
+    _registry.register_component<component::cref_t>();
 }
 
 void Client::setUpSystems()
@@ -168,22 +156,9 @@ void Client::setUpComponents()
     );
 
     loadParallax(_registry.get_components<component::casset_t>());
+    loadImages(_configurationFiles.at("IMAGES"), _registry.get_components<component::casset_t>());
     loadButtons(_configurationFiles.at("BUTTONS"), _registry.get_components<component::casset_t>());
     loadTexts(_configurationFiles.at("TEXTS"));
-
-    mainMenuScene(_registry.get_components<component::casset_t>());
-}
-
-void Client::mainMenuScene(Sparse_array<component::casset_t> &assets)
-{
-    Entity planet = _registry.spawn_entity_with(
-        component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at("planet").getRectangle() },
-        component::cposition_t{ .x = 300, .y = 300 },
-        component::ctype_t{ .type = UI },
-        component::cassetid_t{ .assets = "planet" },
-        component::csceneid_t{ .sceneId = SCENE::MAIN_MENU },
-        component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at("planet").getScale() }
-    );
 }
 
 void Client::loadParallax(Sparse_array<component::casset_t> &assets)
@@ -225,6 +200,7 @@ void Client::loadTexts(std::string const &filepath)
 
     for (auto &oneData: jsonData) {
         int scene = oneData.value("scene", -1);
+        // std::string ref = oneData.value("ref", "text-error");
         createText(oneData, std::array<float, 2>({0, 0}), scene);
     }
 }
@@ -235,7 +211,7 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
     std::string content = oneData.value("text", "error");
     std::string font = oneData.value("font", "Assets/Fonts/Square.ttf");
     float spacing = oneData.value("spacing", 0);
-    float fontSize = oneData.value("fontSize", 30);
+    float fontSize = oneData.value("size", 30);
     std::array<float, 4> color = oneData.value("color", std::array<float, 4>({255, 255, 255, 255}));
 
     Entity text = _registry.spawn_entity_with(
@@ -245,7 +221,39 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
         component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
         component::cscale_t{ .scale = fontSize },
         component::ccolor_t{ .color = color }
+        // component::cref_t{ .ref = ref }
     );
+}
+
+void Client::loadImages(std::string const &filepath, Sparse_array<component::casset_t> &assets)
+{
+    nlohmann::json jsonData;
+
+    try {
+        jsonData = getJsonData(filepath);
+    } catch (std::exception const &e) {
+        std::cerr << e.what() << std::endl;
+        return;
+    }
+
+    for (auto &oneData: jsonData) {
+        std::string assetId = oneData.value("textureId", "button");
+        std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
+        int scene = oneData.value("scene", -1);
+        component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
+        int nb_frames = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames();
+        // std::string ref = oneData.value("ref", "error-btn");
+
+        Entity image = _registry.spawn_entity_with(
+            component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
+            component::cposition_t{ .x = pos[0], .y = pos[1] },
+            component::ctype_t{ .type = IMAGE },
+            component::cassetid_t{ .assets = assetId },
+            component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
+            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
+            // component::cref_t{ .ref = ref }
+        );
+    }
 }
 
 void Client::loadButtons(std::string const &filepath, Sparse_array<component::casset_t> &assets)
@@ -276,22 +284,24 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
     for (auto &oneData: jsonData) {
         std::string assetId = oneData.value("textureId", "button");
         std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
-        std::string callbackType = oneData.value("callback-type", "undifined");
+        std::string callbackType = oneData.value("callback-type", "start-game");
         int scene = oneData.value("scene", -1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
         int nb_frames = oneData.value("nbFrame", 1);
+        // std::string ref = oneData.value("ref", "error-btn");
 
         Entity button = _registry.spawn_entity_with(
-                component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
-                component::cposition_t{ .x = pos[0], .y = pos[1] },
-                component::ctype_t{ .type = BUTTON },
-                component::cassetid_t{ .assets = assetId },
-                component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-                component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
-                component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
+            component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
+            component::cposition_t{ .x = pos[0], .y = pos[1] },
+            component::ctype_t{ .type = BUTTON },
+            component::cassetid_t{ .assets = assetId },
+            component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
+            component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
+            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
+            // component::cref_t{ .ref = ref }
         );
-        if (oneData.contains("Text"))
-            createText(oneData.at("Text"), pos, scene);
+        if (oneData.contains("text"))
+            createText(oneData.at("text"), pos, scene);
     }
 }
 

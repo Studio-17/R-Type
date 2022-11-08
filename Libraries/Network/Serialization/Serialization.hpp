@@ -62,6 +62,7 @@ enum ENTITY_TYPE {
     PARALLAX,
     BUTTON,
     TEXT,
+    IMAGE,
     UI,
     NET,
 };

@@ -4,7 +4,7 @@
         "position": [1300, 900],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "Text": {
+        "text": {
             "font": "Assets/Fonts/Square.ttf",
             "text": "Connect",
             "color": [150, 150, 150, 255],
@@ -20,7 +20,7 @@
         "position": [800, 300],
         "nbFrame": 1,
         "audio": "",
-        "Text": {
+        "text": {
             "font": "Assets/Fonts/Square.ttf",
             "text": "",
             "color": [150, 150, 150, 255],
@@ -52,7 +52,7 @@
         "position": [1300, 200],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "Text": {
+        "text": {
             "font": "Assets/Fonts/Square.ttf",
             "text": "Rooms",
             "color": [150, 150, 150, 255],
@@ -68,7 +68,7 @@
         "position": [100, 900],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "Text": {
+        "text": {
             "font": "Assets/Fonts/Square.ttf",
             "text": "Exit",
             "color": [150, 150, 150, 255],
@@ -84,7 +84,7 @@
         "position": [1300, 900],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "Text": {
+        "text": {
             "font": "Assets/Fonts/Square.ttf",
             "text": "Play",
             "color": [150, 150, 150, 255],
@@ -100,7 +100,7 @@
         "position": [100, 900],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "Text": {
+        "text": {
             "font": "Assets/Fonts/Square.ttf",
             "text": "Back",
             "color": [150, 150, 150, 255],
@@ -116,7 +116,7 @@
         "position": [100, 200],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "Text": {
+        "text": {
             "font": "Assets/Fonts/Square.ttf",
             "text": "Room One",
             "color": [150, 150, 150, 255],
@@ -132,7 +132,7 @@
         "position": [100, 400],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "Text": {
+        "text": {
             "font": "Assets/Fonts/Square.ttf",
             "text": "Room Two",
             "color": [150, 150, 150, 255],
@@ -148,7 +148,7 @@
         "position": [100, 600],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "Text": {
+        "text": {
             "font": "Assets/Fonts/Square.ttf",
             "text": "Room Three",
             "color": [150, 150, 150, 255],
