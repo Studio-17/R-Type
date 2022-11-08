@@ -27,6 +27,7 @@
 #include "Component/CType.hpp"
 #include "Component/CSceneId.hpp"
 #include "Component/CLobbiesStatus.hpp"
+#include "Component/CScore.hpp"
 
 Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port)),
     _thread(&Server::threadLoop, this), _isRunning(true)
@@ -114,16 +115,15 @@ void Server::setUpEcs()
     _registry.register_component<component::clobbies_to_entities_t>();
     _registry.register_component<component::csceneid_t>();
     _registry.register_component<component::clobbies_status_t>();
+    _registry.register_component<component::cscore_t>();
 
-
-
-    // _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t, component::clobby_id_t, component::clobbies_status_t>(_moveSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::clobby_id_t, component::cnet_id_to_client_id_t>(_directionSystem);
     _registry.add_system<component::cnetwork_queue_t>(_receiveSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::clobby_id_t, component::cnet_id_to_client_id_t>(_shootSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t, component::ctimer_t, component::clobbies_status_t>(_spawnEnemySystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t>(_newPlayerSystem);
-    _registry.add_system<component::cnetwork_queue_t, component::ctype_t, component::cposition_t, component::crect_t>(_hitboxSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::ctype_t, component::cposition_t, component::crect_t, component::chealth_t>(_hitboxSystem);
     _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::clobbies_to_entities_t, component::cnet_id_to_client_id_t>(_disconnectionSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cnet_id_to_client_id_t, component::clobbies_to_entities_t>(_newClientSystem);
     _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::clobbies_to_entities_t, component::cnet_id_to_client_id_t>(_joinLobbySystem);

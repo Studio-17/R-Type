@@ -1,7 +1,7 @@
 {
     "text1-txt": {
         "ref": "text1-txt",
-        "content": "right",
+        "text": "right",
         "color": [150, 150, 150, 255],
         "size": 60,
         "position": [1000, 700],
@@ -10,7 +10,7 @@
     },
     "text2-txt": {
         "ref": "text2-txt",
-        "content": "left",
+        "text": "left",
         "color": [150, 150, 150, 255],
         "size": 60,
         "position": [1000, 900],

@@ -53,6 +53,13 @@ class Asset {
          */
         component::crect_t getRectangle() const;
 
+        /**
+         * @brief Get the Nb Frames object
+         * 
+         * @return std::size_t nb frames of the asset
+         */
+        std::size_t getNbFrames() const;
+
     protected:
     private:
         MyTexture _texture; ///< Texture of the asset
