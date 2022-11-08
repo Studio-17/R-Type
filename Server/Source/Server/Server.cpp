@@ -117,7 +117,7 @@ void Server::setUpEcs()
     _registry.register_component<component::clobbies_status_t>();
     _registry.register_component<component::cscore_t>();
 
-    // _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t, component::clobby_id_t, component::clobbies_status_t>(_moveSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::clobby_id_t, component::cnet_id_to_client_id_t>(_directionSystem);
     _registry.add_system<component::cnetwork_queue_t>(_receiveSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::clobby_id_t, component::cnet_id_to_client_id_t>(_shootSystem);

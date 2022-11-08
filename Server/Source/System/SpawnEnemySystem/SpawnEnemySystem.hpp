@@ -49,7 +49,7 @@ namespace System {
              * @param registry The registry that contains all the ECS
              * @return Entity The entity of the enemy
              */
-            Entity createEnemy(Registry &registry);
+            Entity createEnemy(Registry &registry, int lobby_id);
         protected:
         private:
     };
