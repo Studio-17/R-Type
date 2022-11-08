@@ -24,6 +24,7 @@ void System::DirectionSystem::operator()([[ maybe_unused ]] Registry &registry, 
     if (!netqueue[FORBIDDEN_IDS::NETWORK].value().moveQueue.empty()) {
         std::pair<int, packet_move> &packet = netqueue[FORBIDDEN_IDS::NETWORK].value().moveQueue.front();
         if (velocity[packet.second.playerId] && position[packet.second.playerId]) {
+            // std::cout << "[SERVER] do movement for id : " << packet.second.playerId << std::endl;
             std::unordered_map<uint16_t, int> movement {{0, 0}, {1, 1}, {2, -1}};
             int resultY = velocity[packet.second.playerId].value().velocity * movement[packet.second.y];
             int resultX = velocity[packet.second.playerId].value().velocity * movement[packet.second.x];

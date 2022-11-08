@@ -16,7 +16,7 @@ System::HitboxSystem::HitboxSystem()
 
 bool System::HitboxSystem::CheckCollision(std::optional<component::crect_t> &rec1, std::optional<component::crect_t> &rec2, std::optional<component::cposition_t> &pos1, std::optional<component::cposition_t> &pos2)
 {
-    std::cout << rec2->height << std::endl;
+    // std::cout << rec2->height << std::endl;
     if (pos1->y < (pos2->y + rec2->height) && (pos1->y + rec1->height) > pos2->y)
         if ((pos1->x < (pos2->x + rec2->width) && (pos1->x + rec1->width) > pos2->x))
             return true;

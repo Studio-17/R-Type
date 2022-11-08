@@ -15,8 +15,6 @@ System::MouseSystem::MouseSystem()
 
 void System::MouseSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::ctype_t> &types, Sparse_array<component::ccallback_t> &callbacks)
 {
-    Position mouse = _graphicLib->getMousePosition();
-
     for (std::size_t i = 1; i < positions.size() && i < rects.size() && i < scenesId.size() && i < types.size(); i++) {
         if (positions[i] && rects[i] && scenesId[i] && types[i]) {
             auto &rect = rects[i];
@@ -25,9 +23,8 @@ void System::MouseSystem::operator()([[ maybe_unused ]] Registry &registry, Spar
             auto &pos = positions[i];
             auto &callback = callbacks[i];
 
-            if (type->type == ENTITY_TYPE::BUTTON && scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId == scene->sceneId && _graphicLib->checkMouseCollision(_graphicLib->getMousePosition(), pos->x, pos->y, rect->width, rect->height) && _graphicLib->IsLeftMouseButtonPressed()) {
+            if (type->type == ENTITY_TYPE::BUTTON && scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId == scene->sceneId && _graphicLib->checkMouseCollision(_graphicLib->getMousePosition(), pos->x, pos->y, rect->width, rect->height) && _graphicLib->IsLeftMouseButtonPressed())
                 callback.value().callback();
-            }
         }
     }
 }

@@ -23,26 +23,20 @@ void System::NewClientSystem::operator()(Registry &registry, Sparse_array<compon
         std::pair<int, packet_new_connection> &newConnect = netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.front();
 
         // CREATE A CLIENT ENTITY
-        Entity newClient = registry.spawn_entity();
+        Entity newClient = registry.spawn_entity_with(
+            component::cnetwork_id_t { .id = newConnect.second.id }, // ADD A NETWORK ID TO CLIENT ENTITY
+            component::clobby_id_t { .id = 0 } // GIVE A LOBBY ID WHERE THE CLIENT IS
+        );
 
-        // ADD A NETWORK ID TO CLIENT ENTITY
-        component::cnetwork_id_t netId;
         std::cout << "New client System : network client id:  " << newConnect.second.id << std::endl;
-        netId.id = newConnect.second.id;
-        registry.add_component<component::cnetwork_id_t>(newClient, std::move(netId));
-
-        // GIVE A LOBBY ID WHERE THE CLIENT IS
-        component::clobby_id_t lobbyId;
-        lobbyId.id = 0;
-        registry.add_component<component::clobby_id_t>(newClient, std::move(lobbyId));
 
         netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.try_emplace(newConnect.second.id, newClient);
         lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(1, std::vector<Entity>());
         lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(2, std::vector<Entity>());
         lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(3, std::vector<Entity>());
 
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(lobbyId.id, std::vector<Entity>());
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(lobbyId.id).push_back(newClient);
+        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(0, std::vector<Entity>());
+        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(0).push_back(newClient);
 
         netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.pop();
         sendLobbiesStatus(newClient, netqueue, lobbiesToEntities);
