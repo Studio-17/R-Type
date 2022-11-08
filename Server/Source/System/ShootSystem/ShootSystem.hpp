@@ -51,7 +51,7 @@ namespace System {
              * @param playerId The id of the player who shot
              * @return Entity the bullet entity
              */
-            Entity createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId);
+            Entity createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId, int lobbyId);
 
         protected:
         private:
