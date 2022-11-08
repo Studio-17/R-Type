@@ -18,19 +18,7 @@
 #include "StartGame.hpp"
 
 /* Component */
-#include "Component/CMouse.hpp"
-#include "Component/CScale.hpp"
-// #include "CIdOfShip.hpp"
-// #include "CTimer.hpp"
-// #include "CAsset.hpp"
-// #include "CAssetId.hpp"
-// #include "CText.hpp"
-// #include "CScale.hpp"
-// #include "CCallback.hpp"
-// #include "Asset.hpp"
-// #include "CColor.hpp"
-// #include "Disconnection.hpp"
-// #include "Constant.hpp"
+#include "CRef.hpp"
 #include "fileConfig.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
@@ -94,7 +82,6 @@ void Client::SendPacket() {
     }
 }
 
-
 void Client::handleReceive() {
     _com->async_receive(_bufferToGet, std::bind(&Client::pushNewPacketsToQueue, this, std::placeholders::_1, std::placeholders::_2));
 }
@@ -114,7 +101,6 @@ void Client::threadLoop()
 void Client::setUpEcs()
 {
     _registry.register_component<component::ckeyboard_t>();
-    _registry.register_component<component::cmouseState_t>();
     _registry.register_component<component::cposition_t>();
     _registry.register_component<component::crect_t>();
     _registry.register_component<component::cvelocity_t>();
@@ -132,6 +118,7 @@ void Client::setUpEcs()
     _registry.register_component<component::ccallback_t>();
     _registry.register_component<component::ctext_t>();
     _registry.register_component<component::ccolor_t>();
+    _registry.register_component<component::cref_t>();
 }
 
 void Client::setUpSystems()
@@ -224,18 +211,19 @@ void Client::loadTexts(std::string const &filepath)
     }
 
     for (auto &oneData: jsonData) {
-        int scene = oneData.value("scene", -1);
-        createText(oneData, std::array<float, 2>({0, 0}), scene);
+        int scene = oneData.value("Scene Id", -1);
+        std::string ref = oneData.value("Ref", "text-error");
+        createText(oneData, std::array<float, 2>({0, 0}), scene, ref);
     }
 }
 
-void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene)
+void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene, [[ maybe_unused ]] std::string const &ref)
 {
     std::array<float, 2> textPos = oneData.value("position", std::array<float, 2>({0, 0}));
     std::string content = oneData.value("text", "error");
     std::string font = oneData.value("font", "Assets/Fonts/Square.ttf");
     float spacing = oneData.value("spacing", 0);
-    float fontSize = oneData.value("fontSize", 30);
+    float fontSize = oneData.value("size", 30);
     std::array<float, 4> color = oneData.value("color", std::array<float, 4>({255, 255, 255, 255}));
 
     Entity text = _registry.spawn_entity_with(
@@ -245,6 +233,7 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
         component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
         component::cscale_t{ .scale = fontSize },
         component::ccolor_t{ .color = color }
+        // component::cref_t{ .ref = ref }
     );
 }
 
@@ -270,7 +259,8 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"back-to-main-menu", std::bind(&Client::backToMainMenu, this)},
         {"join-room-one", std::bind(&Client::joinRoomOne, this)},
         {"join-room-two", std::bind(&Client::joinRoomtwo, this)},
-        {"join-room-three", std::bind(&Client::joinRoomThree, this)}
+        {"join-room-three", std::bind(&Client::joinRoomThree, this)},
+        {"see-lobby", std::bind(&Client::joinLobby, this)}
     };
 
     for (auto &oneData: jsonData) {
@@ -280,18 +270,20 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         int scene = oneData.value("scene", -1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
         int nb_frames = oneData.value("nbFrame", 1);
+        std::string ref = oneData.value("ref", "error-btn");
 
         Entity button = _registry.spawn_entity_with(
-                component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
-                component::cposition_t{ .x = pos[0], .y = pos[1] },
-                component::ctype_t{ .type = BUTTON },
-                component::cassetid_t{ .assets = assetId },
-                component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-                component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
-                component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
+            component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
+            component::cposition_t{ .x = pos[0], .y = pos[1] },
+            component::ctype_t{ .type = BUTTON },
+            component::cassetid_t{ .assets = assetId },
+            component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
+            component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
+            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
+            // component::cref_t{ .ref = ref }
         );
         if (oneData.contains("Text"))
-            createText(oneData.at("Text"), pos, scene);
+            createText(oneData.at("Text"), pos, scene, ref);
     }
 }
 
@@ -370,4 +362,10 @@ void Client::joinRoomThree()
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {3});
 
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+}
+
+void Client::joinLobby()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
 }

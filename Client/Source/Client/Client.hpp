@@ -105,7 +105,7 @@ class Client {
          * @param pos Position of the text
          * @param scene Scene id where add the text
          */
-        void createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene);
+        void createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene, std::string const &ref);
 
         /**
          * @brief Function that handle set up of main menu scene
@@ -169,6 +169,7 @@ class Client {
         void joinRoomOne();
         void joinRoomtwo();
         void joinRoomThree();
+        void joinLobby();
 
         /**
          * @brief A method to configure and load the threadloop
