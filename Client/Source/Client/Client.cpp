@@ -15,6 +15,7 @@
 #include "Move.hpp"
 #include "NewConnection.hpp"
 #include "Disconnection.hpp"
+#include "StartGame.hpp"
 
 /* Component */
 #include "Component/CMouse.hpp"
@@ -37,7 +38,7 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort, std
     _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
-    _graphicLib->initWindow(800, 600, "R-Type", 120);
+    _graphicLib->initWindow(1920, 1080, "R-Type", 60);
 
     _configurationFiles = configurationFiles;
 
@@ -104,13 +105,6 @@ void Client::pushNewPacketsToQueue([[ maybe_unused ]] asio::error_code const &e,
     handleReceive();
 }
 
-void Client::startGameScene()
-{
-    Sparse_array<component::csceneid_t> &sceneId= _registry.get_components<component::csceneid_t>();
-
-    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
-}
-
 void Client::threadLoop()
 {
     handleReceive();
@@ -148,7 +142,7 @@ void Client::setUpSystems()
     _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t, component::cclient_network_id>(_controlSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id>(_newEntitySystem);
-    _registry.add_system<component::cnetwork_queue_t>(_getLobbiesSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::casset_t>(_getLobbiesSystem);
     _registry.add_system<component::cnetwork_queue_t>(_setNbPlayerInLobbySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
@@ -169,7 +163,7 @@ void Client::setUpComponents()
             component::ckeyboard_t{ .keyboard = 0 },
             component::ctimer_t{ .deltaTime = std::chrono::steady_clock::now(), .animTimer = std::chrono::steady_clock::now() },
             component::casset_t{ .assets = assetMan.assets },
-            component::csceneid_t{ .sceneId = SCENE::GAME },
+            component::csceneid_t{ .sceneId = SCENE::CONNECTION }, // Set scene when the program start
             component::cclient_network_id {}
     );
 
@@ -266,7 +260,17 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
     }
 
     _callbackMap = {
-        {"start-game", std::bind(&Client::startGameScene, this)},
+        {"connect", std::bind(&Client::connectToServer, this)},
+        {"name-input", std::bind(&Client::nameInput, this)},
+        {"ip-input", std::bind(&Client::ipInput, this)},
+        {"port-input", std::bind(&Client::portInput, this)},
+        {"see-rooms", std::bind(&Client::seeRooms, this)},
+        {"back-to-connexion", std::bind(&Client::backToConnection, this)},
+        {"start-game", std::bind(&Client::startGame, this)},
+        {"back-to-main-menu", std::bind(&Client::backToMainMenu, this)},
+        {"join-room-one", std::bind(&Client::joinRoomOne, this)},
+        {"join-room-two", std::bind(&Client::joinRoomtwo, this)},
+        {"join-room-three", std::bind(&Client::joinRoomThree, this)}
     };
 
     for (auto &oneData: jsonData) {
@@ -289,4 +293,81 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         if (oneData.contains("Text"))
             createText(oneData.at("Text"), pos, scene);
     }
+}
+
+void Client::connectToServer()
+{
+    // tryToConnect();
+
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
+}
+
+void Client::nameInput()
+{
+}
+
+void Client::ipInput()
+{
+}
+
+void Client::portInput()
+{
+}
+
+void Client::seeRooms()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::ROOMS;
+}
+
+void Client::backToConnection()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::CONNECTION;
+}
+
+void Client::startGame()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
+
+    Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
+    std::vector<byte> tmp = serialize_header::serializeHeader<packet_start_game>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::START_GAME, {1});
+
+    network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+}
+
+void Client::backToMainMenu()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
+}
+
+void Client::joinRoomOne()
+{
+    Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
+    std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {1});
+
+    network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+}
+
+void Client::joinRoomtwo()
+{
+    Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
+    std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {2});
+
+    network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+}
+
+void Client::joinRoomThree()
+{
+    Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
+    std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {3});
+
+    network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
 }

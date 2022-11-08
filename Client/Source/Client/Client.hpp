@@ -155,6 +155,22 @@ class Client {
         void loadParallax(Sparse_array<component::casset_t> &assets);
 
         /**
+         * @brief Call back function executed when start button is pressed to start the game
+         *
+         */
+        void connectToServer();
+        void nameInput();
+        void ipInput();
+        void portInput();
+        void seeRooms();
+        void backToConnection();
+        void startGame();
+        void backToMainMenu();
+        void joinRoomOne();
+        void joinRoomtwo();
+        void joinRoomThree();
+
+        /**
          * @brief A method to configure and load the threadloop
          */
         void threadLoop();
@@ -166,13 +182,15 @@ class Client {
 
         asio::io_context _context; ///< An asio context object to handle basic I/O
 
-        std::vector<byte> _bufferToGet; ///< A buffer to receive as a vector of bytes
-
         std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
         std::unique_ptr<UdpCommunication> _com; ///< A shared pointer to a module used for communicating through udp sockets
         Registry _registry; ///< Registry that contains all the ECS
         std::thread _thread; ///< thread to handle ECS
         bool _connected; ///< A boolean to check if the clientis conncted to the server
+        AssetManager _assetManager;
+
+        std::vector<byte> _bufferToGet; ///< A buffer to receive as a vector of bytes
+
         std::map<std::string, std::function<void(void)>> _callbackMap; ///< A map of callbacks
         std::map<std::string, std::string> _configurationFiles;
 

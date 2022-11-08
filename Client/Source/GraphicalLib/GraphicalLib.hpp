@@ -87,6 +87,8 @@ namespace rtype {
 
             bool IsLeftMouseButtonPressed() override;
 
+            bool IsLeftMouseButtonReleased() override;
+
             Position getMousePosition() override;
 
             Color createColor(std::array<float, 4> const &array) override;

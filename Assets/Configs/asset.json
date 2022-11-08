@@ -59,16 +59,34 @@
         "scale": 1.0,
         "texture": "Assets/Images/Parallax/parallax_mountain.png"
     },
+    "planet": {
+        "title": "planet",
+        "nbFrame": 1,
+        "scale": 1.5,
+        "texture": "Assets/Images/Sprites/planet.gif"
+    },
     "button": {
         "title": "button",
         "nbFrame": 1,
         "scale": 1,
         "texture": "Assets/Images/Buttons/shortbutton.png"
     },
-    "planet": {
-        "title": "planet",
+    "name-input": {
+        "title": "name-input",
         "nbFrame": 1,
-        "scale": 1.5,
-        "texture": "Assets/Images/Sprites/planet.gif"
+        "scale": 1,
+        "texture": "Assets/Images/Buttons/name-input.png"
+    },
+    "ip-input": {
+        "title": "ip-input",
+        "nbFrame": 1,
+        "scale": 1,
+        "texture": "Assets/Images/Buttons/ip-input.png"
+    },
+    "port-input": {
+        "title": "port-input",
+        "nbFrame": 1,
+        "scale": 1,
+        "texture": "Assets/Images/Buttons/port-input.png"
     }
 }

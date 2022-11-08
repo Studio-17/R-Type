@@ -28,6 +28,8 @@ void System::JoinLobbySystem::changeClientLobby(int netClientId, int newLobbyId,
     // set the new lobby id in Client Entity
     lobbyId[clientEntity].value().id = newLobbyId;
 
+    std::cout << "Join Lobby System: Client " << netClientId << " changed lobby from " << currentLobbyId << " to " << newLobbyId << std::endl;
+
     // add in the new lobby Entities vector the entity of the client
     try {
         lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(newLobbyId).push_back(clientEntity);
