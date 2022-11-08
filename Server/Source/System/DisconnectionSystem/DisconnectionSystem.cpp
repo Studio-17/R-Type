@@ -22,7 +22,7 @@ void System::DisconnectionSystem::removeClientLobby(int netClientId, Sparse_arra
 
     // remove client Entity from lobby vector
     int currentLobbyId = lobbyId[clientEntity].value().id;
-    auto &entityList = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(currentLobbyId);
+    auto &entityList = lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(currentLobbyId);
     std::vector<Entity>::iterator it = std::find(entityList.begin(), entityList.end(), clientEntity);
     entityList.erase(it);
 }

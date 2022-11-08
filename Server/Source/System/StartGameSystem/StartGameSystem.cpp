@@ -41,9 +41,9 @@ void System::StartGameSystem::operator()(Registry &registry, Sparse_array<compon
 
         std::cout << "StartGameSystem: this client wants to start game (networkid): " << startGame.first << std::endl;
         int lobbyId = LobbyId[netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(startGame.first)].value().id;
-        lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[lobbyId].first = true;
+        lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus[lobbyId].first = true;
 
-        for (auto &entity: lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(lobbyId)) {
+        for (auto &entity: lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(lobbyId)) {
             Entity spaceShip = createSpaceShip(registry, lobbyId);
             std::cout << spaceShip << std::endl;
             std::cout << "Start Game System : send new entity packet to client (network id) : " << (int)entity << std::endl;

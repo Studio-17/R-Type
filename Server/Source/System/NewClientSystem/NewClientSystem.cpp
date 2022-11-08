@@ -31,12 +31,11 @@ void System::NewClientSystem::operator()(Registry &registry, Sparse_array<compon
         std::cout << "New client System : network client id:  " << newConnect.second.id << std::endl;
 
         netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.try_emplace(newConnect.second.id, newClient);
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(1, std::vector<Entity>());
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(2, std::vector<Entity>());
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(3, std::vector<Entity>());
-
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(0, std::vector<Entity>());
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(0).push_back(newClient);
+        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(1, std::vector<Entity>());
+        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(2, std::vector<Entity>());
+        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(3, std::vector<Entity>());
+        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(0, std::vector<Entity>());
+        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(0).push_back(newClient);
 
         netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.pop();
         sendLobbiesStatus(newClient, netqueue, lobbiesToEntities);
@@ -49,9 +48,9 @@ void System::NewClientSystem::sendLobbiesStatus(int clientId, Sparse_array<compo
     packet_send_lobbies sendLobbiesPacket;
 
     sendLobbiesPacket.nbOfLobbies = 3;
-    sendLobbiesPacket.nbPlayersLobbyOne = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(1).size();
-    sendLobbiesPacket.nbPlayersLobbyTwo = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(2).size();
-    sendLobbiesPacket.nbPlayersLobbyThree = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(3).size();
+    sendLobbiesPacket.nbPlayersLobbyOne = lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(1).size();
+    sendLobbiesPacket.nbPlayersLobbyTwo = lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(2).size();
+    sendLobbiesPacket.nbPlayersLobbyThree = lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(3).size();
 
     packet_new_connection_response newConnectResponse;
     newConnectResponse.id = clientId;
