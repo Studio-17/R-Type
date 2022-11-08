@@ -30,12 +30,14 @@ Entity System::StartGameSystem::createSpaceShip(Registry &registry) {
     return spaceShip;
 }
 
-void System::StartGameSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type) {
+void System::StartGameSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::clobbies_status_t> &lobbiesStatus) {
     while (!netqueue[FORBIDDEN_IDS::NETWORK].value().startGameQueue.empty()) {
         std::pair<int, packet_start_game> &startGame = netqueue[FORBIDDEN_IDS::NETWORK].value().startGameQueue.front();
 
         std::cout << "StartGameSystem: this client wants to start game (networkid): " << startGame.first << std::endl;
         int lobbyId = LobbyId[netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(startGame.first)].value().id;
+        lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[lobbyId] = true;
+
         for (auto &entity: lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(lobbyId)) {
             Entity spaceShip = createSpaceShip(registry);
             std::cout << spaceShip << std::endl;
