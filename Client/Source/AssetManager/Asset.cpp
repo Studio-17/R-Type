@@ -40,3 +40,7 @@ component::crect_t Asset::getRectangle() const
     return _rectangle;
 }
 
+std::size_t Asset::getNbFrames() const
+{
+    return _rectangle.nb_frames;
+}

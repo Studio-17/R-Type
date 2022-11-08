@@ -162,22 +162,9 @@ void Client::setUpComponents()
     );
 
     loadParallax(_registry.get_components<component::casset_t>());
+    loadImages(_configurationFiles.at("IMAGES"), _registry.get_components<component::casset_t>());
     loadButtons(_configurationFiles.at("BUTTONS"), _registry.get_components<component::casset_t>());
     loadTexts(_configurationFiles.at("TEXTS"));
-
-    mainMenuScene(_registry.get_components<component::casset_t>());
-}
-
-void Client::mainMenuScene(Sparse_array<component::casset_t> &assets)
-{
-    Entity planet = _registry.spawn_entity_with(
-        component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at("planet").getRectangle() },
-        component::cposition_t{ .x = 300, .y = 300 },
-        component::ctype_t{ .type = UI },
-        component::cassetid_t{ .assets = "planet" },
-        component::csceneid_t{ .sceneId = SCENE::MAIN_MENU },
-        component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at("planet").getScale() }
-    );
 }
 
 void Client::loadParallax(Sparse_array<component::casset_t> &assets)
@@ -232,6 +219,7 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
     float spacing = oneData.value("Spacing", 0);
     float fontSize = oneData.value("Size", 30);
     std::array<float, 4> color = oneData.value("Color", std::array<float, 4>({255, 255, 255, 255}));
+    std::cout << ref << std::endl;
 
     Entity text = _registry.spawn_entity_with(
         component::ctext_t{ .text = content, .font = font, .spacing = spacing },
@@ -242,6 +230,37 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
         component::ccolor_t{ .color = color }
         // component::cref_t{ .ref = ref }
     );
+}
+
+void Client::loadImages(std::string const &filepath, Sparse_array<component::casset_t> &assets)
+{
+    nlohmann::json jsonData;
+
+    try {
+        jsonData = getJsonData(filepath);
+    } catch (std::exception const &e) {
+        std::cerr << e.what() << std::endl;
+        return;
+    }
+
+    for (auto &oneData: jsonData) {
+        std::string assetId = oneData.value("Texture Id", "button");
+        std::array<float, 2> pos = oneData.value("Position", std::array<float, 2>({0, 0}));
+        int scene = oneData.value("Scene Id", -1);
+        component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
+        int nb_frames = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames();
+        std::string ref = oneData.value("Ref", "error-btn");
+
+        Entity image = _registry.spawn_entity_with(
+            component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
+            component::cposition_t{ .x = pos[0], .y = pos[1] },
+            component::ctype_t{ .type = IMAGE },
+            component::cassetid_t{ .assets = assetId },
+            component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
+            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
+            // component::cref_t{ .ref = ref }
+        );
+    }
 }
 
 void Client::loadButtons(std::string const &filepath, Sparse_array<component::casset_t> &assets)
