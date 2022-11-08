@@ -14,11 +14,13 @@
 #include "Serialization.hpp"
 #include "NewEntity.hpp"
 
+/* Component */
 #include "Component/CVelocity.hpp"
 #include "Component/CRect.hpp"
 #include "Component/CDirection.hpp"
 #include "Component/CHitBox.hpp"
 #include "Component/CSceneId.hpp"
+#include "Component/CLobbyId.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem()
 {
@@ -31,16 +33,17 @@ void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<compo
         timer[FORBIDDEN_IDS::NETWORK].value().spawnEnemyDeltaTime = std::chrono::steady_clock::now();
     else
         return;
-    std::cout << "Spawn enemy system" << std::endl;
     for (int i = 1; i < (int)lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus.size(); i++) {
-        Entity enemy = createEnemy(registry);
-        if (position[enemy] && type[enemy] && lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[i] == true) {
+        if (lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[i] == true) {
+        // if (position[enemy] && type[enemy] && lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[i] == true) {
+            Entity enemy = createEnemy(registry, i);
+            std::cout << "Spawn enemy system " << enemy << std::endl;
             netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({i, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0})});
         }
     }
 }
 
-Entity System::SpawnEnemySystem::createEnemy(Registry &registry)
+Entity System::SpawnEnemySystem::createEnemy(Registry &registry, int lobby_id)
 {
     Entity enemy = registry.spawn_entity_with(
         component::cdirection_t{ .x = -1, .y = 0 },
@@ -48,8 +51,9 @@ Entity System::SpawnEnemySystem::createEnemy(Registry &registry)
         component::cposition_t{ .x = 700, .y = static_cast<float>(std::rand() % 600) },
         component::cvelocity_t{ .velocity = 4 },
         component::ctype_t{ .type = ENTITY_TYPE::ENEMY },
-        component::crect_t{ .height = 34, .width = 33.5 },
-        component::csceneid_t{ .sceneId = SCENE::GAME }
+        component::crect_t{ .height = 34, .width = 33 },
+        component::csceneid_t{ .sceneId = SCENE::GAME },
+        component::clobby_id_t{ .id = lobby_id }
     );
     return enemy;
 }

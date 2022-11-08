@@ -41,7 +41,7 @@ namespace System {
              * @return true If a collision happened
              * @return false If no collision happened
              */
-            bool CheckCollision(std::optional<component::crect_t> &rec1, std::optional<component::crect_t> &rec2, std::optional<component::cposition_t> &pos1, std::optional<component::cposition_t> &pos2);
+            bool CheckCollision(component::crect_t const &rec1, component::crect_t const &rec2, component::cposition_t const &pos1, component::cposition_t const &pos2);
 
             /**
              * @brief The main handler for the Hitbox System

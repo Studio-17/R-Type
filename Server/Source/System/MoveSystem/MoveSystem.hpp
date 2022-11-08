@@ -16,6 +16,8 @@
     #include "Component/CPosition.hpp"
     #include "Component/CVelocity.hpp"
     #include "Component/CTimer.hpp"
+    #include "Component/CLobbyId.hpp"
+    #include "Component/CLobbiesStatus.hpp"
 
 /**
  * @brief Namespace for systems
@@ -47,7 +49,9 @@ namespace System {
                             Sparse_array<component::cdirection_t> &direction,
                             Sparse_array<component::cposition_t> &position,
                             Sparse_array<component::cvelocity_t> &velocity,
-                            Sparse_array<component::ctimer_t> &timer);
+                            Sparse_array<component::ctimer_t> &timer,
+                            Sparse_array<component::clobby_id_t> &LobbyId,
+                            Sparse_array<component::clobbies_status_t> &lobbiesStatus);
 
             /**
              * @brief Function to add send packet to send network queue
