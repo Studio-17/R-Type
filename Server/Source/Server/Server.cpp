@@ -139,6 +139,6 @@ void Server::setUpComponents()
         component::ctimer_t{ .deltaTime = std::chrono::steady_clock::now(), .spawnEnemyDeltaTime = std::chrono::steady_clock::now()},
         component::cnet_id_to_client_id_t{},
         component::clobbies_to_entities_t{},
-        component::clobbies_status_t { .lobbiesStatus = {{1, false}, {2, false}, {3, false}} }
+        component::clobbies_status_t { .lobbiesStatus = {{1, {false, 1}}, {2, {false, 1}}, {3, {false, 1}}} }
     );
 }

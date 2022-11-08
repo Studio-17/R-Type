@@ -15,10 +15,10 @@
  */
 namespace component {
     /**
-     * @brief A structure representing the hitbox component that holds the hitbox of the entity
+     * @brief A structure representing the status of every lobby component that holds the status of every lobby
      */
     struct clobbies_status_t {
-        std::unordered_map<int, bool> lobbiesStatus; ///< A map that makes correspond an id of lobby to a boolean status : 0 : not in a game, 1 : in a game
+        std::unordered_map<int, std::pair<bool, int>> lobbiesStatus; ///< A map that makes correspond an id of lobby to a boolean status : 0 : not in a game, 1 : in a game
     };
 }
 
