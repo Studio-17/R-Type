@@ -25,7 +25,8 @@ Entity System::StartGameSystem::createSpaceShip(Registry &registry) {
         component::cposition_t {200, 200},
         component::cvelocity_t {10},
         component::ctype_t {ENTITY_TYPE::PLAYER},
-        component::crect_t {17.2, 33}
+        component::crect_t {17.2, 33},
+        component::chealth_t {3}
     );
     return spaceShip;
 }
