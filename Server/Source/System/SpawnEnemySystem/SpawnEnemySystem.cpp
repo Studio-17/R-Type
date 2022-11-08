@@ -33,7 +33,7 @@ void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<compo
         timer[FORBIDDEN_IDS::NETWORK].value().spawnEnemyDeltaTime = std::chrono::steady_clock::now();
     else
         return;
-    for (int i = 1; i < (int)lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus.size(); i++) {
+    for (int i = 1; i <= (int)lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus.size(); i++) {
         if (lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[i] == true) {
         // if (position[enemy] && type[enemy] && lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[i] == true) {
             Entity enemy = createEnemy(registry, i);

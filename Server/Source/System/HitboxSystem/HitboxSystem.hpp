@@ -16,6 +16,7 @@
     #include "Component/CRect.hpp"
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CHealth.hpp"
+    #include "Component/CLobbyId.hpp"
 
 /**
  * @brief Namespace for systems
@@ -57,7 +58,8 @@ namespace System {
                                                 Sparse_array<component::ctype_t> &types,
                                                 Sparse_array<component::cposition_t> &positions,
                                                 Sparse_array<component::crect_t> &rects,
-                                                Sparse_array<component::chealth_t> &health);
+                                                Sparse_array<component::chealth_t> &health,
+                                                Sparse_array<component::clobby_id_t> &lobbyId);
 
 
         protected:

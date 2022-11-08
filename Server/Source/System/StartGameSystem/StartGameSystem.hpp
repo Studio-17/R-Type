@@ -41,7 +41,7 @@ namespace System {
              * @param registry The registry that contains all the ECS
              * @return Entity The new spaceShip entity
              */
-            Entity createSpaceShip(Registry &registry);
+            Entity createSpaceShip(Registry &registry, int lobbyId);
 
             /**
              * @brief The main handler for the StartGame System

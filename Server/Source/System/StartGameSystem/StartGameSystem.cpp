@@ -19,14 +19,15 @@ System::StartGameSystem::StartGameSystem()
 {
 }
 
-Entity System::StartGameSystem::createSpaceShip(Registry &registry) {
+Entity System::StartGameSystem::createSpaceShip(Registry &registry, int lobbyId) {
     Entity spaceShip = registry.spawn_entity_with(
         component::cdirection_t {0, 0},
         component::cposition_t {200, 200},
         component::cvelocity_t {10},
         component::ctype_t {ENTITY_TYPE::PLAYER},
         component::chealth_t {3},
-        component::crect_t {18, 33}
+        component::crect_t {18, 33},
+        component::clobby_id_t {lobbyId}
     );
     return spaceShip;
 }
@@ -41,7 +42,7 @@ void System::StartGameSystem::operator()(Registry &registry, Sparse_array<compon
         lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[lobbyId] = true;
 
         for (auto &entity: lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(lobbyId)) {
-            Entity spaceShip = createSpaceShip(registry);
+            Entity spaceShip = createSpaceShip(registry, lobbyId);
             std::cout << spaceShip << std::endl;
             std::cout << "Start Game System : send new entity packet to client (network id) : " << (int)entity << std::endl;
             netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::NEW_ENTITY, {static_cast<uint16_t>(spaceShip), position[spaceShip].value().x, position[spaceShip].value().y, 1, type[spaceShip].value().type, (int)entity})});
