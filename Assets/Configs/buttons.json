@@ -81,7 +81,7 @@
     },
     "play-btn": {
         "textureId": "button",
-        "position": [1300, 900],
+        "position": [1300, 700],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
@@ -92,7 +92,7 @@
             "position": [200, 30],
             "spacing": 7
         },
-        "scene": 6,
+        "scene": 10,
         "callback-type": "start-game"
     },
     "back-to-main-menu-btn": {
@@ -158,5 +158,21 @@
         },
         "scene": 6,
         "callback-type": "join-room-three"
+    },
+    "join-lobby-btn": {
+        "textureId": "button",
+        "position": [1300, 900],
+        "nbFrame": 3,
+        "audio": "Ressources/buttons/click_sound.ogg",
+        "text": {
+            "font": "Assets/Fonts/Square.ttf",
+            "text": "Join",
+            "color": [150, 150, 150, 255],
+            "fontSize": 40,
+            "position": [200, 30],
+            "spacing": 7
+        },
+        "scene": 6,
+        "callback-type": "see-lobby"
     }
 }

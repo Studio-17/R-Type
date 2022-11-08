@@ -82,7 +82,6 @@ void Client::SendPacket() {
     }
 }
 
-
 void Client::handleReceive() {
     _com->async_receive(_bufferToGet, std::bind(&Client::pushNewPacketsToQueue, this, std::placeholders::_1, std::placeholders::_2));
 }
@@ -239,7 +238,7 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
     for (auto &oneData: jsonData) {
         std::string assetId = oneData.value("textureId", "button");
         std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
-        int scene = oneData.value("scene", -1);
+        int scene = oneData.value("scene", 1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
         int nb_frames = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames();
         // std::string ref = oneData.value("ref", "error-btn");
@@ -278,13 +277,14 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"back-to-main-menu", std::bind(&Client::backToMainMenu, this)},
         {"join-room-one", std::bind(&Client::joinRoomOne, this)},
         {"join-room-two", std::bind(&Client::joinRoomtwo, this)},
-        {"join-room-three", std::bind(&Client::joinRoomThree, this)}
+        {"join-room-three", std::bind(&Client::joinRoomThree, this)},
+        {"see-lobby", std::bind(&Client::joinLobby, this)}
     };
 
     for (auto &oneData: jsonData) {
         std::string assetId = oneData.value("textureId", "button");
         std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
-        std::string callbackType = oneData.value("callback-type", "start-game");
+        std::string callbackType = oneData.value("callback-type", "back-to-main-menu");
         int scene = oneData.value("scene", -1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
         int nb_frames = oneData.value("nbFrame", 1);
@@ -380,4 +380,10 @@ void Client::joinRoomThree()
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {3});
 
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+}
+
+void Client::joinLobby()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
 }

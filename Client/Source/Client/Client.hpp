@@ -170,6 +170,7 @@ class Client {
         void joinRoomOne();
         void joinRoomtwo();
         void joinRoomThree();
+        void joinLobby();
 
         /**
          * @brief A method to configure and load the threadloop
