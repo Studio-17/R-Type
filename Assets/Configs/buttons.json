@@ -1,18 +1,18 @@
 {
     "start-btn": {
-        "textureId": "button",
-        "position": [1000, 300],
-        "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "Ref": "start-btn",
+        "Texture Id": "button",
+        "Position": [1000, 300],
+        "Frames": 3,
+        "Sound": "Ressources/buttons/click_sound.ogg",
         "Text": {
-            "font": "Assets/Fonts/Square.ttf",
-            "text": "right",
-            "color": [150, 150, 150, 255],
-            "fontSize": 60,
-            "position": [200, 30],
-            "spacing": 7
+            "Content": "right",
+            "Color": [150, 150, 150, 255],
+            "Size": 60,
+            "Position": [200, 30],
+            "Spacing": 7
         },
-        "scene": 5,
-        "callback-type": "start-game"
+        "Scene Id": 5,
+        "Callback Type": "start-game"
     }
 }
