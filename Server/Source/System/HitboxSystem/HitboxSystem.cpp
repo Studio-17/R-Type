@@ -72,7 +72,6 @@ void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_a
                         if (secondtype.value().type == ENEMY)
                             continue;
                         if (CheckCollision(firstrect.value(), secondrect.value(), firstpos.value(), secondpos.value())) {
-                            std::cout << "hit box between " << firsttype.value().type << " and " << secondtype.value().type << std::endl;
                             if (secondtype.value().type == PLAYER || secondtype.value().type == BULLET) {
                                 // std::cout << "hit box system lobby id entity to kill " << lobbyId[i].value().id << std::endl;
                                 // network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId[i].value().id, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(i)})});
