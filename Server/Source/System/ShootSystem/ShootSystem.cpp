@@ -15,6 +15,7 @@
 #include "Component/CVelocity.hpp"
 #include "Component/CType.hpp"
 #include "Component/CRect.hpp"
+#include "Component/CHealth.hpp"
 
 System::ShootSystem::ShootSystem()
 {
@@ -44,7 +45,8 @@ Entity System::ShootSystem::createBullet(Registry &registry, Sparse_array<compon
         component::cvelocity_t{ .velocity = 14},
         component::ctype_t{ .type = ENTITY_TYPE::BULLET},
         component::crect_t{ .height = 18, .width = 17},
-        component::clobby_id_t{ .id = lobbyId}
+        component::clobby_id_t{ .id = lobbyId},
+        component::chealth_t {1}
     );
     return bullet;
 }
