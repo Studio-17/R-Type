@@ -154,36 +154,9 @@ void Client::setUpComponents()
             component::cclient_network_id {}
     );
 
-    loadParallax(_registry.get_components<component::casset_t>());
     loadImages(_configurationFiles.at("IMAGES"), _registry.get_components<component::casset_t>());
     loadButtons(_configurationFiles.at("BUTTONS"), _registry.get_components<component::casset_t>());
     loadTexts(_configurationFiles.at("TEXTS"));
-}
-
-void Client::loadParallax(Sparse_array<component::casset_t> &assets)
-{
-    std::pair<float, float> pos = {0, 0};
-    std::vector<std::pair<std::string, int>> parallax = {
-        {"parallax_background", 1},
-        {"parallax_mountain", 3},
-        {"parallax_ground", 4}
-    };
-
-    for (std::size_t i = 0; i <= 1; i++) {
-        for (auto &[texture, velocity]: parallax) {
-            Entity parallax_background = _registry.spawn_entity_with(
-                component::crect_t{ assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getRectangle() },
-                component::cposition_t{ .x = pos.first, .y = pos.second },
-                component::cdirection_t{ .x = -1, .y = 0 },
-                component::ctype_t{ .type = PARALLAX },
-                component::cvelocity_t{ .velocity = velocity },
-                component::cassetid_t{ .assets = texture },
-                component::csceneid_t{ .sceneId = SCENE::ALL },
-                component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(texture).getScale() }
-            );
-        }
-        pos.first += 1930;
-    }
 }
 
 void Client::loadTexts(std::string const &filepath)
@@ -241,6 +214,8 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
         int scene = oneData.value("scene", 1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
         int nb_frames = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames();
+        int velocity = oneData.value("velocity", 0);
+        std::array<int, 2> direction = oneData.value("direction", std::array<int, 2>({0, 0}));
         // std::string ref = oneData.value("ref", "error-btn");
 
         Entity image = _registry.spawn_entity_with(
@@ -249,7 +224,9 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
             component::ctype_t{ .type = IMAGE },
             component::cassetid_t{ .assets = assetId },
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
+            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
+            component::cvelocity_t{ .velocity = velocity },
+            component::cdirection_t{ .x = direction[0], .y = direction[1] }
             // component::cref_t{ .ref = ref }
         );
     }

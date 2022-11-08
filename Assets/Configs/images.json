@@ -1,4 +1,30 @@
 {
+    "parallax-background-img": {
+        "ref": "parallax-background-img",
+        "textureId": "parallax_background",
+        "position": [0, 0],
+        "sound": "Ressources/buttons/click_sound.ogg",
+        "velocity": 1,
+        "scene": 0
+    },
+    "parallax-mountain-img": {
+        "ref": "parallax-mountain-img",
+        "textureId": "parallax_mountain",
+        "position": [0, 0],
+        "sound": "Ressources/buttons/click_sound.ogg",
+        "velocity": 3,
+        "scene": 0,
+        "direction": [-1, 0]
+    },
+    "parallax-ground-img": {
+        "ref": "parallax-ground-img",
+        "textureId": "parallax_ground",
+        "position": [0, 0],
+        "sound": "Ressources/buttons/click_sound.ogg",
+        "velocity": 4,
+        "scene": 0,
+        "direction": [-1, 0]
+    },
     "planet-img": {
         "ref": "planet-img",
         "textureId": "planet",
