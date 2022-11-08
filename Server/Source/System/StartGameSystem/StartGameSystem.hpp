@@ -18,6 +18,7 @@
     #include "Component/CPosition.hpp"
     #include "Component/CType.hpp"
     #include "Component/CLobbiesStatus.hpp"
+    #include "Component/CHealth.hpp"
 
 /**
  * @brief Namespace for systems

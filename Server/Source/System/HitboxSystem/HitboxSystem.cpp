@@ -22,8 +22,9 @@ bool System::HitboxSystem::CheckCollision(component::crect_t const &rec1, compon
     return false;
 }
 
-void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::ctype_t> &types, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects)
+void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::ctype_t> &types, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects, Sparse_array<component::chealth_t> &health)
 {
+    (void)health;
     if (network_queues[FORBIDDEN_IDS::NETWORK]) {
         for (std::size_t i = 0; i < types.size() && i < positions.size() && i < rects.size(); i++) {
             if (types[i] && positions[i] && rects[i]) {
