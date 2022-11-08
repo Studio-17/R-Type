@@ -14,6 +14,7 @@
 #include "Component/CDirection.hpp"
 #include "Component/CRect.hpp"
 #include "Component/CVelocity.hpp"
+#include "Component/CScore.hpp"
 
 System::StartGameSystem::StartGameSystem()
 {
@@ -27,7 +28,8 @@ Entity System::StartGameSystem::createSpaceShip(Registry &registry, int lobbyId)
         component::ctype_t {ENTITY_TYPE::PLAYER},
         component::chealth_t {3},
         component::crect_t {18, 33},
-        component::clobby_id_t {lobbyId}
+        component::clobby_id_t {lobbyId},
+        component::cscore_t {0}
     );
     return spaceShip;
 }

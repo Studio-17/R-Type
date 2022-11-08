@@ -17,6 +17,8 @@
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CHealth.hpp"
     #include "Component/CLobbyId.hpp"
+    #include "Component/CScore.hpp"
+    #include "Component/COwnerId.hpp"
 
 /**
  * @brief Namespace for systems
@@ -59,9 +61,14 @@ namespace System {
                                                 Sparse_array<component::cposition_t> &positions,
                                                 Sparse_array<component::crect_t> &rects,
                                                 Sparse_array<component::chealth_t> &health,
-                                                Sparse_array<component::clobby_id_t> &lobbyId);
+                                                Sparse_array<component::clobby_id_t> &lobbyId,
+                                                Sparse_array<component::cscore_t> &score,
+                                                Sparse_array<component::ctype_t> &type,
+                                                Sparse_array<component::cowner_id_t> &ownerId);
 
-            void doCollisionConsequences(Registry &registry, component::cnetwork_queue_t &netQueue, component::chealth_t &health1, component::chealth_t &health2, component::clobby_id_t &lobbyId, int i, int x);
+            void doHealthCheck(Registry &registry, component::cnetwork_queue_t &netQueue, component::chealth_t &health1, component::chealth_t &health2, component::clobby_id_t &lobbyId, int i, int x);
+            void doScoreUpdate(component::cnetwork_queue_t &netQueue, component::clobby_id_t &lobbyId, Sparse_array<component::cscore_t> &score, Sparse_array<component::ctype_t> &type, Sparse_array<component::cowner_id_t> &ownerId, int x);
+
 
 
         protected:
