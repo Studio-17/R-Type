@@ -61,6 +61,8 @@ namespace System {
                                                 Sparse_array<component::chealth_t> &health,
                                                 Sparse_array<component::clobby_id_t> &lobbyId);
 
+            void doCollisionConsequences(Registry &registry, component::cnetwork_queue_t &netQueue, component::chealth_t &health1, component::chealth_t &health2, component::clobby_id_t &lobbyId, int i, int x);
+
 
         protected:
         private:

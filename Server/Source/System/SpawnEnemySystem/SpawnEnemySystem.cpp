@@ -21,6 +21,7 @@
 #include "Component/CHitBox.hpp"
 #include "Component/CSceneId.hpp"
 #include "Component/CLobbyId.hpp"
+#include "Component/CHealth.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem()
 {
@@ -53,7 +54,8 @@ Entity System::SpawnEnemySystem::createEnemy(Registry &registry, int lobby_id)
         component::ctype_t{ .type = ENTITY_TYPE::ENEMY },
         component::crect_t{ .height = 34, .width = 33 },
         component::csceneid_t{ .sceneId = SCENE::GAME },
-        component::clobby_id_t{ .id = lobby_id }
+        component::clobby_id_t{ .id = lobby_id },
+        component::chealth_t {1}
     );
     return enemy;
 }
