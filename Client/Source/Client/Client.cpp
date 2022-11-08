@@ -15,6 +15,7 @@
 #include "Move.hpp"
 #include "NewConnection.hpp"
 #include "Disconnection.hpp"
+#include "StartGame.hpp"
 
 /* Component */
 #include "Component/CMouse.hpp"
@@ -332,8 +333,12 @@ void Client::backToConnection()
 void Client::startGame()
 {
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
-
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
+
+    Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
+    std::vector<byte> tmp = serialize_header::serializeHeader<packet_start_game>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::START_GAME, {1});
+
+    network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
 }
 
 void Client::backToMainMenu()
@@ -345,10 +350,6 @@ void Client::backToMainMenu()
 
 void Client::joinRoomOne()
 {
-    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
-
-    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
-
     Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {1});
 
@@ -357,10 +358,6 @@ void Client::joinRoomOne()
 
 void Client::joinRoomtwo()
 {
-    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
-
-    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
-
     Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {2});
 
@@ -369,10 +366,6 @@ void Client::joinRoomtwo()
 
 void Client::joinRoomThree()
 {
-    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
-
-    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
-
     Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {3});
 
