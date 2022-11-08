@@ -149,27 +149,61 @@ class Client {
         void sendNewShoot(std::vector<byte> &byte);
 
         /**
-         * @brief Load Parallax entities
+         * @brief Call back function executed when connect button is pressed to connect client to a server
          *
-         * @param assets The sparse array of assets
          */
-        void loadParallax(Sparse_array<component::casset_t> &assets);
+        void connectToServer();
+
+        void nameInput();
+        void ipInput();
+        void portInput();
+
+        /**
+         * @brief Call back function executed when rooms button is pressed to see all the rooms
+         *
+         */
+
+        void seeRooms();
+        /**
+         * @brief Call back function executed when exit button is pressed to exit client on a server
+         *
+         */
+        void backToConnection();
 
         /**
          * @brief Call back function executed when start button is pressed to start the game
          *
          */
-        void connectToServer();
-        void nameInput();
-        void ipInput();
-        void portInput();
-        void seeRooms();
-        void backToConnection();
         void startGame();
+
+        /**
+         * @brief Call back function executed when back button is pressed to go back to the main menu
+         *
+         */
         void backToMainMenu();
+
+        /**
+         * @brief Call back function executed when join room one button is pressed to join the room one
+         *
+         */
         void joinRoomOne();
+
+        /**
+         * @brief Call back function executed when join room two button is pressed to join the room two
+         *
+         */
         void joinRoomtwo();
+
+        /**
+         * @brief Call back function executed when join room three button is pressed to join the room three
+         *
+         */
         void joinRoomThree();
+
+        /**
+         * @brief Call back function executed when join lobby button is pressed to join the selected lobby
+         *
+         */
         void joinLobby();
 
         /**
@@ -177,10 +211,6 @@ class Client {
          */
         void threadLoop();
 
-        /**
-         * @brief Call back function executed when start button is pressed to start the game
-         */
-        void startGameScene();
 
         asio::io_context _context; ///< An asio context object to handle basic I/O
 
