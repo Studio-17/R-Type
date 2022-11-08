@@ -23,9 +23,8 @@ void System::MouseSystem::operator()([[ maybe_unused ]] Registry &registry, Spar
             auto &pos = positions[i];
             auto &callback = callbacks[i];
 
-            if (type->type == ENTITY_TYPE::BUTTON && scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId == scene->sceneId && _graphicLib->checkMouseCollision(_graphicLib->getMousePosition(), pos->x, pos->y, rect->width, rect->height) && _graphicLib->IsLeftMouseButtonPressed()) {
+            if (type->type == ENTITY_TYPE::BUTTON && scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId == scene->sceneId && _graphicLib->checkMouseCollision(_graphicLib->getMousePosition(), pos->x, pos->y, rect->width, rect->height) && _graphicLib->IsLeftMouseButtonPressed())
                 callback.value().callback();
-            }
         }
     }
 }

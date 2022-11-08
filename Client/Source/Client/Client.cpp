@@ -266,7 +266,10 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"see-rooms", std::bind(&Client::seeRooms, this)},
         {"back-to-connexion", std::bind(&Client::backToConnection, this)},
         {"start-game", std::bind(&Client::startGame, this)},
-        {"back-to-main-menu", std::bind(&Client::backToMainMenu, this)}
+        {"back-to-main-menu", std::bind(&Client::backToMainMenu, this)},
+        {"join-room-one", std::bind(&Client::joinRoomOne, this)},
+        {"join-room-two", std::bind(&Client::joinRoomtwo, this)},
+        {"join-room-three", std::bind(&Client::joinRoomThree, this)}
     };
 
     for (auto &oneData: jsonData) {
@@ -293,7 +296,6 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
 
 void Client::connectToServer()
 {
-    std::cout << "connect to server" << std::endl;
     // tryToConnect();
 
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
@@ -315,8 +317,6 @@ void Client::portInput()
 
 void Client::seeRooms()
 {
-    std::cout << "see rooms" << std::endl;
-
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::ROOMS;
@@ -324,8 +324,6 @@ void Client::seeRooms()
 
 void Client::backToConnection()
 {
-    std::cout << "back to connection" << std::endl;
-
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::CONNECTION;
@@ -333,8 +331,6 @@ void Client::backToConnection()
 
 void Client::startGame()
 {
-    std::cout << "start game" << std::endl;
-
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
@@ -342,9 +338,43 @@ void Client::startGame()
 
 void Client::backToMainMenu()
 {
-    std::cout << "back to menu" << std::endl;
-
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
+}
+
+void Client::joinRoomOne()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
+
+    Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
+    std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {1});
+
+    network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+}
+
+void Client::joinRoomtwo()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
+
+    Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
+    std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {2});
+
+    network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+}
+
+void Client::joinRoomThree()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
+
+    Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
+    std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {3});
+
+    network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
 }

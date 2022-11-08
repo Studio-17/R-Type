@@ -65,7 +65,7 @@
     },
     "back-to-connexion-btn": {
         "textureId": "button",
-        "position": [1300, 900],
+        "position": [100, 900],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "Text": {
@@ -110,5 +110,53 @@
         },
         "scene": 6,
         "callback-type": "back-to-main-menu"
+    },
+    "room-one-btn": {
+        "textureId": "button",
+        "position": [100, 200],
+        "nbFrame": 3,
+        "audio": "Ressources/buttons/click_sound.ogg",
+        "Text": {
+            "font": "Assets/Fonts/Square.ttf",
+            "text": "Room One",
+            "color": [150, 150, 150, 255],
+            "fontSize": 40,
+            "position": [200, 30],
+            "spacing": 7
+        },
+        "scene": 6,
+        "callback-type": "join-room-one"
+    },
+    "room-two-btn": {
+        "textureId": "button",
+        "position": [100, 400],
+        "nbFrame": 3,
+        "audio": "Ressources/buttons/click_sound.ogg",
+        "Text": {
+            "font": "Assets/Fonts/Square.ttf",
+            "text": "Room Two",
+            "color": [150, 150, 150, 255],
+            "fontSize": 40,
+            "position": [200, 30],
+            "spacing": 7
+        },
+        "scene": 6,
+        "callback-type": "join-room-two"
+    },
+    "room-three-btn": {
+        "textureId": "button",
+        "position": [100, 600],
+        "nbFrame": 3,
+        "audio": "Ressources/buttons/click_sound.ogg",
+        "Text": {
+            "font": "Assets/Fonts/Square.ttf",
+            "text": "Room Three",
+            "color": [150, 150, 150, 255],
+            "fontSize": 40,
+            "position": [200, 30],
+            "spacing": 7
+        },
+        "scene": 6,
+        "callback-type": "join-room-three"
     }
 }

@@ -166,6 +166,9 @@ class Client {
         void backToConnection();
         void startGame();
         void backToMainMenu();
+        void joinRoomOne();
+        void joinRoomtwo();
+        void joinRoomThree();
 
         /**
          * @brief A method to configure and load the threadloop
