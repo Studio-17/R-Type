@@ -41,7 +41,7 @@ void System::ControlSystem::operator()( [[	maybe_unused ]] Registry &registry, S
         }
         if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeyEnterCharCode()))
             x = 4;
-        if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySpaceCharCode()))
+        if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySCharCode()))
             x = 5;
         if (x || y)
             addToNetworkQueue(x, y, network, clientNetworkId[FORBIDDEN_IDS::NETWORK].value().controllableNetworkEntityId);

@@ -63,6 +63,11 @@ bool rtype::GraphicalLib::IsLeftMouseButtonPressed()
     return IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
 }
 
+bool rtype::GraphicalLib::IsLeftMouseButtonReleased()
+{
+    return IsMouseButtonReleased(MOUSE_LEFT_BUTTON);
+}
+
 Position rtype::GraphicalLib::getMousePosition()
 {
     Vector2 mousePosition = GetMousePosition();

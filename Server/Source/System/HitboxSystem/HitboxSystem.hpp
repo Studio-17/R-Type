@@ -15,6 +15,7 @@
     #include "Component/CPosition.hpp"
     #include "Component/CRect.hpp"
     #include "Component/CNetworkQueue.hpp"
+    #include "Component/CHealth.hpp"
 
 /**
  * @brief Namespace for systems
@@ -41,7 +42,7 @@ namespace System {
              * @return true If a collision happened
              * @return false If no collision happened
              */
-            bool CheckCollision(std::optional<component::crect_t> &rec1, std::optional<component::crect_t> &rec2, std::optional<component::cposition_t> &pos1, std::optional<component::cposition_t> &pos2);
+            bool CheckCollision(component::crect_t const &rec1, component::crect_t const &rec2, component::cposition_t const &pos1, component::cposition_t const &pos2);
 
             /**
              * @brief The main handler for the Hitbox System
@@ -55,7 +56,8 @@ namespace System {
             void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues,
                                                 Sparse_array<component::ctype_t> &types,
                                                 Sparse_array<component::cposition_t> &positions,
-                                                Sparse_array<component::crect_t> &rects);
+                                                Sparse_array<component::crect_t> &rects,
+                                                Sparse_array<component::chealth_t> &health);
 
 
         protected:

@@ -11,9 +11,9 @@
 #include "Asset.hpp"
 
 Asset::Asset(nlohmann::json const &jsonData) :
-    _texture(jsonData.value("Texture", "Assets/sprites/bullet.png")), _scale(jsonData.value("Scale", 1.0))
+    _texture(jsonData.value("texture", "Assets/Images/Sprites/bullet.png")), _scale(jsonData.value("scale", 1.0))
 {
-    _rectangle.nb_frames = jsonData.value("Frames", 1);
+    _rectangle.nb_frames = jsonData.value("nbFrame", 1);
     _rectangle.current_frame = 1;
     _rectangle.x = 0;
     _rectangle.y = 0;

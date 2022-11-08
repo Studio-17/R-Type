@@ -1,20 +1,20 @@
 {
     "text1-txt": {
-        "Ref": "text1-txt",
-        "Content": "right",
-        "Color": [150, 150, 150, 255],
-        "Size": 60,
-        "Position": [1000, 700],
-        "Spacing": 7,
-        "Scene Id": 5
+        "ref": "text1-txt",
+        "text": "right",
+        "color": [150, 150, 150, 255],
+        "size": 60,
+        "position": [1000, 700],
+        "spacing": 7,
+        "scene": 5
     },
     "text2-txt": {
-        "Ref": "text2-txt",
-        "Content": "left",
-        "Color": [150, 150, 150, 255],
-        "Size": 60,
-        "Position": [1000, 900],
-        "Spacing": 7,
-        "Scene Id": 5
+        "ref": "text2-txt",
+        "text": "left",
+        "color": [150, 150, 150, 255],
+        "size": 60,
+        "position": [1000, 900],
+        "spacing": 7,
+        "scene": 5
     }
 }

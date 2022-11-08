@@ -5,6 +5,8 @@
 ** Server
 */
 
+#include <unordered_map>
+
 #include "Server.hpp"
 
 #include "Serialization.hpp"
@@ -24,6 +26,8 @@
 #include "Component/CTimer.hpp"
 #include "Component/CType.hpp"
 #include "Component/CSceneId.hpp"
+#include "Component/CLobbiesStatus.hpp"
+#include "Component/CScore.hpp"
 
 Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port)),
     _thread(&Server::threadLoop, this), _isRunning(true)
@@ -71,10 +75,10 @@ void Server::HandleSendPacket() {
         for (auto const &[address, portList] : _endpoints) {
             for (auto const &[port, netId]: portList) {
                 if (tmp.first == _registry.get_components<component::clobby_id_t>()[_registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netId)].value().id) {
-                    std::cout << "Handle Send Packet : sent to the good lobby" << std::endl;
+                    // std::cout << "Handle Send Packet : sent to the good lobby" << std::endl;
                     _com->send(tmp.second, address, port);
-                } else
-                    std::cout << "Handle Send Packet : adress ignored, not the good lobby" << tmp.first << " , " << _registry.get_components<component::clobby_id_t>()[_registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netId)].value().id << std::endl;
+                }
+                    // std::cout << "Handle Send Packet : adress ignored, not the good lobby" << tmp.first << " , " << _registry.get_components<component::clobby_id_t>()[_registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netId)].value().id << std::endl;
                 // _registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().at(netId)
             }
         }
@@ -110,19 +114,20 @@ void Server::setUpEcs()
     _registry.register_component<component::clobby_id_t>();
     _registry.register_component<component::clobbies_to_entities_t>();
     _registry.register_component<component::csceneid_t>();
+    _registry.register_component<component::clobbies_status_t>();
+    _registry.register_component<component::cscore_t>();
 
-
-    // _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
-    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t>(_directionSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t, component::clobby_id_t, component::clobbies_status_t>(_moveSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::clobby_id_t, component::cnet_id_to_client_id_t>(_directionSystem);
     _registry.add_system<component::cnetwork_queue_t>(_receiveSystem);
-    // _registry.add_system<component::cnetwork_queue_t, component::cposition_t>(_shootSystem);
-    // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t, component::ctimer_t>(_spawnEnemySystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::clobby_id_t, component::cnet_id_to_client_id_t>(_shootSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t, component::ctimer_t, component::clobbies_status_t>(_spawnEnemySystem);
     // _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t>(_newPlayerSystem);
-    // _registry.add_system<component::cnetwork_queue_t, component::ctype_t, component::cposition_t, component::crect_t>(_hitboxSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::ctype_t, component::cposition_t, component::crect_t, component::chealth_t>(_hitboxSystem);
     _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::clobbies_to_entities_t, component::cnet_id_to_client_id_t>(_disconnectionSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cnet_id_to_client_id_t, component::clobbies_to_entities_t>(_newClientSystem);
     _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::clobbies_to_entities_t, component::cnet_id_to_client_id_t>(_joinLobbySystem);
-    _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::cnet_id_to_client_id_t, component::clobbies_to_entities_t, component::cposition_t, component::ctype_t>(_startGameSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::cnet_id_to_client_id_t, component::clobbies_to_entities_t, component::cposition_t, component::ctype_t, component::clobbies_status_t>(_startGameSystem);
 
 }
 
@@ -132,6 +137,7 @@ void Server::setUpComponents()
         component::cnetwork_queue_t{},
         component::ctimer_t{ .deltaTime = std::chrono::steady_clock::now(), .spawnEnemyDeltaTime = std::chrono::steady_clock::now()},
         component::cnet_id_to_client_id_t{},
-        component::clobbies_to_entities_t{}
+        component::clobbies_to_entities_t{},
+        component::clobbies_status_t { .lobbiesStatus = {{1, false}, {2, false}, {3, false}} }
     );
 }

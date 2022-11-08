@@ -25,12 +25,11 @@ void System::MoveSystem::operator()([[ maybe_unused ]] Registry &registry, Spars
             //     continue;
             // if (position[index].value().x > 1920)
             //         killed[index].value().isDead = true;
+
+            // std::cout << "x = " << position[9].value().x << ", y = " << position[9].value().y << std::endl;
             position[index]->x += (velocity[index]->velocity * direction[index]->x);
             position[index]->y += (velocity[index]->velocity * direction[index]->y);
+            // std::cout << "x = " << position[9].value().x << ", y = " << position[9].value().y << std::endl;
         }
     }
-    // update la position
-    // position = velocity * direction
-
-    // toSendNetworkQueue to all clients
 }

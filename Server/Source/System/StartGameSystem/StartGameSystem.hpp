@@ -17,6 +17,8 @@
     #include "Component/CNetIdToClientId.hpp"
     #include "Component/CPosition.hpp"
     #include "Component/CType.hpp"
+    #include "Component/CLobbiesStatus.hpp"
+    #include "Component/CHealth.hpp"
 
 /**
  * @brief Namespace for systems
@@ -52,7 +54,7 @@ namespace System {
              * @param position The sparse array of position entities
              * @param type The sparse array of type entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type);
+            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::clobbies_status_t> &lobbiesStatus);
         protected:
         private:
     };

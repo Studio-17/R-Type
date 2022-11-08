@@ -101,6 +101,8 @@ namespace rtype {
              */
             virtual auto IsLeftMouseButtonPressed() -> bool = 0;
 
+            virtual auto IsLeftMouseButtonReleased() -> bool = 0;
+
             /**
              * @brief Get the Mouse Position object
              * 
