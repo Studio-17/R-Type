@@ -39,6 +39,7 @@ namespace NETWORK_SERVER_TO_CLIENT {
         POSITION,
         NEW_ENTITY,
         KILL_ENTITY,
+        KILL_ENTITY_TYPE,
         NEW_PLAYER,
         NEW_CLIENT_RESPONSE,
         SEND_LOBBYS,
