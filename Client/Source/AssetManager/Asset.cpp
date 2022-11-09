@@ -11,7 +11,7 @@
 #include "Asset.hpp"
 
 Asset::Asset(nlohmann::json const &jsonData) :
-    _texture(jsonData.value("texture", "Assets/sprites/bullet.png")), _scale(jsonData.value("scale", 1.0))
+    _texture(jsonData.value("texture", "Assets/Images/Sprites/bullet.png")), _scale(jsonData.value("scale", 1.0))
 {
     _rectangle.nb_frames = jsonData.value("nbFrame", 1);
     _rectangle.current_frame = 1;
@@ -40,3 +40,7 @@ component::crect_t Asset::getRectangle() const
     return _rectangle;
 }
 
+std::size_t Asset::getNbFrames() const
+{
+    return _rectangle.nb_frames;
+}

@@ -7,11 +7,17 @@
 
 #include "NewClientSystem.hpp"
 
+/* Constant */
 #include "Constant.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Packets */
 #include "Lobbies.hpp"
 #include "NewConnection.hpp"
 
+/* Components */
 #include "Component/CLobbyId.hpp"
 
 
@@ -19,30 +25,24 @@ System::NewClientSystem::NewClientSystem() {
 }
 
 void System::NewClientSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities) {
+        // std::cout << "NewClientSystem" << std::endl;
     while (!netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.empty()) {
         std::pair<int, packet_new_connection> &newConnect = netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.front();
 
         // CREATE A CLIENT ENTITY
-        Entity newClient = registry.spawn_entity();
+        Entity newClient = registry.spawn_entity_with(
+            component::cnetwork_id_t { .id = newConnect.second.id }, // ADD A NETWORK ID TO CLIENT ENTITY
+            component::clobby_id_t { .id = 0 } // GIVE A LOBBY ID WHERE THE CLIENT IS
+        );
 
-        // ADD A NETWORK ID TO CLIENT ENTITY
-        component::cnetwork_id_t netId;
         std::cout << "New client System : network client id:  " << newConnect.second.id << std::endl;
-        netId.id = newConnect.second.id;
-        registry.add_component<component::cnetwork_id_t>(newClient, std::move(netId));
-
-        // GIVE A LOBBY ID WHERE THE CLIENT IS
-        component::clobby_id_t lobbyId;
-        lobbyId.id = 0;
-        registry.add_component<component::clobby_id_t>(newClient, std::move(lobbyId));
 
         netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.try_emplace(newConnect.second.id, newClient);
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(1, std::vector<Entity>());
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(2, std::vector<Entity>());
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(3, std::vector<Entity>());
-
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.try_emplace(lobbyId.id, std::vector<Entity>());
-        lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(lobbyId.id).push_back(newClient);
+        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(1, std::vector<Entity>());
+        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(2, std::vector<Entity>());
+        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(3, std::vector<Entity>());
+        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(0, std::vector<Entity>());
+        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(0).push_back(newClient);
 
         netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.pop();
         sendLobbiesStatus(newClient, netqueue, lobbiesToEntities);
@@ -55,9 +55,9 @@ void System::NewClientSystem::sendLobbiesStatus(int clientId, Sparse_array<compo
     packet_send_lobbies sendLobbiesPacket;
 
     sendLobbiesPacket.nbOfLobbies = 3;
-    sendLobbiesPacket.nbPlayersLobbyOne = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(1).size();
-    sendLobbiesPacket.nbPlayersLobbyTwo = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(2).size();
-    sendLobbiesPacket.nbPlayersLobbyThree = lobbiesToEntities[FORBIDDEN_IDS::NETWORK].value().lobbiesToEntities.at(3).size();
+    sendLobbiesPacket.nbPlayersLobbyOne = lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(1).size();
+    sendLobbiesPacket.nbPlayersLobbyTwo = lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(2).size();
+    sendLobbiesPacket.nbPlayersLobbyThree = lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(3).size();
 
     packet_new_connection_response newConnectResponse;
     newConnectResponse.id = clientId;

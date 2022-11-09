@@ -8,10 +8,13 @@
 #ifndef GETLOBBIESSYSTEM_HPP_
     #define GETLOBBIESSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
     #include "Component/CNetworkQueue.hpp"
+    #include "Component/CRef.hpp"
+    #include "Component/CText.hpp"
 
 /**
  * @brief Namespace for systems
@@ -23,7 +26,7 @@ namespace System {
     class GetLobbiesSystem {
         public:
             /**
-             * @brief Get the Lobbies System object
+             * @brief Construct the Lobbies System object
              */
             GetLobbiesSystem();
             ~GetLobbiesSystem() = default;
@@ -33,8 +36,15 @@ namespace System {
              *
              * @param registry The registry of the client
              * @param networkQueue The sparse array of network entities
+             * @param refs The sparse array of ref entities
+             * @param texts The sparse array of text entities
              */
-            void operator()([[ maybe_unused ]]Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &networkQueue,
+                Sparse_array<component::cref_t> &refs,
+                Sparse_array<component::ctext_t> &texts
+            );
 
         protected:
         private:

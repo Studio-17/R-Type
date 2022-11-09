@@ -8,6 +8,7 @@
 #ifndef MOVESYSTEM_HPP_
     #define MOVESYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -16,6 +17,8 @@
     #include "Component/CPosition.hpp"
     #include "Component/CVelocity.hpp"
     #include "Component/CTimer.hpp"
+    #include "Component/CLobbyId.hpp"
+    #include "Component/CLobbiesStatus.hpp"
 
 /**
  * @brief Namespace for systems
@@ -41,13 +44,19 @@ namespace System {
              * @param position The sparse array of position entities
              * @param velocity The sparse array of velocity entities
              * @param timer The sparse array of timer entities
+             * @param lobbyId The sparse array of lobby id entities
+             * @param lobbiesStatus The sparse array of lobbies status entities
              */
-            void operator()(Registry &registry,
-                            Sparse_array<component::cnetwork_queue_t> &netqueue,
-                            Sparse_array<component::cdirection_t> &direction,
-                            Sparse_array<component::cposition_t> &position,
-                            Sparse_array<component::cvelocity_t> &velocity,
-                            Sparse_array<component::ctimer_t> &timer);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &netqueue,
+                Sparse_array<component::cdirection_t> &direction,
+                Sparse_array<component::cposition_t> &position,
+                Sparse_array<component::cvelocity_t> &velocity,
+                Sparse_array<component::ctimer_t> &timer,
+                Sparse_array<component::clobby_id_t> &LobbyId,
+                Sparse_array<component::clobbies_status_t> &lobbiesStatus
+            );
 
             /**
              * @brief Function to add send packet to send network queue

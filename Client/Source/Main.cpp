@@ -38,11 +38,12 @@ static std::map<std::string, std::string> getConfigurationFiles(char const * con
     return configurations;
 }
 
-int main(int ac [[maybe_unused]], char const * const* av)
+int main([[maybe_unused]] int ac, char const * const* av)
 {
     std::map<std::string, std::string> configurationFiles = getConfigurationFiles(av);
 
 	Client client(std::string("localhost"), std::string("8080"), 8081, configurationFiles);
+	// Client client(std::string("10.68.248.125"), std::string("8080"), 8081, configurationFiles);
 
     client.machineRun();
 

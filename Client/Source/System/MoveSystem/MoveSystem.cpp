@@ -6,7 +6,11 @@
 */
 
 #include "MoveSystem.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 System::MoveSystem::MoveSystem()
@@ -25,12 +29,9 @@ void System::MoveSystem::operator()([[ maybe_unused ]] Registry &registry, Spars
             //     continue;
             // if (position[index].value().x > 1920)
             //         killed[index].value().isDead = true;
+
             position[index]->x += (velocity[index]->velocity * direction[index]->x);
             position[index]->y += (velocity[index]->velocity * direction[index]->y);
         }
     }
-    // update la position
-    // position = velocity * direction
-
-    // toSendNetworkQueue to all clients
 }

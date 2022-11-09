@@ -101,6 +101,8 @@ namespace rtype {
              */
             virtual auto IsLeftMouseButtonPressed() -> bool = 0;
 
+            virtual auto IsLeftMouseButtonReleased() -> bool = 0;
+
             /**
              * @brief Get the Mouse Position object
              * 
@@ -108,7 +110,7 @@ namespace rtype {
              */
             virtual auto getMousePosition() -> Position = 0;
 
-            virtual auto drawText(std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize,float const &spacing, std::array<float, 4> const &color) -> void = 0;
+            virtual auto drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color) -> void = 0;
 
             virtual auto createColor(std::array<float, 4> const &array) -> Color = 0;
 

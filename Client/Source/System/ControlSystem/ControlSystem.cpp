@@ -6,7 +6,11 @@
 */
 
 #include "ControlSystem.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 /* Packet */
@@ -39,17 +43,12 @@ void System::ControlSystem::operator()( [[	maybe_unused ]] Registry &registry, S
             if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySpaceCharCode()))
                 x = 3;
         }
-        if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeyEnterCharCode()))
-            x = 4;
-        if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySpaceCharCode()))
-            x = 5;
+        // if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeyEnterCharCode()))
+        //     x = 4;
+        // if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySCharCode()))
+        //     x = 5;
         if (x || y)
             addToNetworkQueue(x, y, network, clientNetworkId[FORBIDDEN_IDS::NETWORK].value().controllableNetworkEntityId);
-
-        // if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeySCharCode()))
-        //     scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
-        // if (key.value().keyboard->hasBeenPressed(key.value().keyboard->getKeyDCharCode()))
-        //     scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
     }
 }
 
@@ -59,14 +58,14 @@ void System::ControlSystem::addToNetworkQueue(float x, float y, Sparse_array<com
 
     if (x == 3)
         tmp = serialize_header::serializeHeader<packet_shoot>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::SHOOT, {idOfShip});
-    else if (x == 4) {
-        std::cout << "[CLIENT] key Enter has been pressed" << std::endl;
-        tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {1});
-    } else if (x == 5) {
-        std::cout << "[CLIENT] key Space has been pressed" << std::endl;
-        tmp = serialize_header::serializeHeader<packet_start_game>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::START_GAME, {1});
-    }
     else
         tmp = serialize_header::serializeHeader<packet_move>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DIRECTION, {idOfShip, x, y});
+    // else if (x == 4) {
+    //     std::cout << "[CLIENT] key Enter has been pressed" << std::endl;
+    //     tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {1});
+    // } else if (x == 5) {
+    //     std::cout << "[CLIENT] key Space has been pressed" << std::endl;
+    //     tmp = serialize_header::serializeHeader<packet_start_game>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::START_GAME, {1});
+    // }
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
 }

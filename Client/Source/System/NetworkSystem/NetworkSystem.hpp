@@ -8,6 +8,7 @@
 #ifndef NETWORKSYSTEM_HPP_
     #define NETWORKSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -36,7 +37,11 @@ namespace System {
              * @param network The sparse array of network entities
              * @param idOfShip The sparse array of idOfShip entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &network,
+                Sparse_array<component::cid_of_ship_t> &idOfShip
+            );
 
             /**
              * @brief A method to send informations to the position queue
@@ -61,6 +66,14 @@ namespace System {
              * @param network The sparse array of network entities
              */
             void dispatchToKillEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+
+            /**
+             * @brief A method to send informations to the kill entity type queue
+             *
+             * @param bytes The bytes to send
+             * @param network The sparse array of network entities
+             */
+            void dispatchToKillEntityTypeQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
              * @brief A method to send informations to the get lobbies queue
@@ -94,6 +107,14 @@ namespace System {
              * @param network The sparse array of network entities
              */
             void dispatchNetworkClientIdQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+
+            /**
+             * @brief A method to send informations to the end Game queue
+             *
+             * @param bytes The bytes to send
+             * @param network The sparse array of network entities
+             */
+            void dispatchEndGameQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
         protected:
         private:

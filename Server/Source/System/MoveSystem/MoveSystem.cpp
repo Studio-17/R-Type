@@ -6,9 +6,15 @@
 */
 
 #include "MoveSystem.hpp"
+
+/* Constant */
 #include "Constant.hpp"
-#include "Move.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Packets */
+#include "Move.hpp"
 #include "Position.hpp"
 #include "KillEntity.hpp"
 
@@ -16,15 +22,17 @@ System::MoveSystem::MoveSystem()
 {
 }
 
-void System::MoveSystem::operator()(Registry &registry, [[ maybe_unused ]] Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ctimer_t> &timer)
+void System::MoveSystem::operator()(Registry &registry, [[ maybe_unused ]] Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::ctimer_t> &timer, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::clobbies_status_t> &lobbiesStatus)
 {
     if (std::chrono::steady_clock::now() - timer[FORBIDDEN_IDS::NETWORK].value().deltaTime > (std::chrono::nanoseconds)100000000)
         timer[FORBIDDEN_IDS::NETWORK].value().deltaTime = std::chrono::steady_clock::now();
     else
         return;
-    for (std::size_t index = 0; index < position.size() && index < velocity.size() && index < direction.size(); index++) {
-        if (position[index] && velocity[index] && direction[index]) {
-            if (position[index]->x > 1920) {
+    for (std::size_t index = 0; index < position.size() && index < velocity.size() && index < direction.size() && index < LobbyId.size(); index++) {
+        if (position[index] && velocity[index] && direction[index] && LobbyId[index]) {
+            if (!lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.at(LobbyId[index].value().id).first)
+                continue;
+            if (position[index]->x > 1920 || position[index]->x < 0) {
                 registry.kill_entity(registry.entity_from_index(index));
                 // sendKillEntityPacket(registry, index, netqueue);
             }
@@ -40,5 +48,5 @@ void System::MoveSystem::sendKillEntityPacket(Registry &registry, uint16_t id, S
     std::vector<byte> bytes = serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, packet);
     registry.kill_entity(registry.entity_from_index(id));
 
-    netqueue[0].value().toSendNetworkQueue.push({0, bytes});
+    netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({1, bytes});
 }

@@ -13,7 +13,7 @@
  */
 enum FORBIDDEN_IDS {
     NETWORK = 0,
-    GRAPHIC = 1
+    LOBBY = 1
 };
 
 /**

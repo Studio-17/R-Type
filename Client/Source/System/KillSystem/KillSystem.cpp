@@ -6,6 +6,8 @@
 */
 
 #include "KillSystem.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 /* Packet */
@@ -19,6 +21,7 @@ void System::KillSystem::operator()(Registry &registry, Sparse_array<component::
 {
     while (!network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.empty()) {
         packet_kill_entity &packet = network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.front();
+        std::cout << "kill system" << std::endl;
         killEntity(registry, packet.id, serverId);
         network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.pop();
     }

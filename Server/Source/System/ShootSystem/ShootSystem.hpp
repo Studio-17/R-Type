@@ -8,14 +8,17 @@
 #ifndef R_TYPE_SHOOTSYSTEM_HPP
     #define R_TYPE_SHOOTSYSTEM_HPP
 
+    /* Ecs */
     #include "Registry.hpp"
 
-    /* Component */
+    /* Components */
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CDamage.hpp"
     #include "Component/CDirection.hpp"
     #include "Component/CHitBox.hpp"
     #include "Component/CPosition.hpp"
+    #include "Component/CLobbyId.hpp"
+    #include "Component/CNetIdToClientId.hpp"
 
 /**
  * @brief Namespace for systems
@@ -38,8 +41,16 @@ namespace System {
              * @param registry The registry that contains all the ECS
              * @param netqueue The sparse array of network entities
              * @param position The sparse array of position entities
+             * @param lobbyId The sparse array of lobby id entities
+             * @param netIdToClientId The sparse array of net id to client id entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &netqueue,
+                Sparse_array<component::cposition_t> &position,
+                Sparse_array<component::clobby_id_t> &lobbyId,
+                Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId
+            );
 
             /**
              * @brief Create a Bullet object
@@ -47,9 +58,10 @@ namespace System {
              * @param registry The registry that contains all the ECS
              * @param position The sparse array of position entities
              * @param playerId The id of the player who shot
+             * @param lobbyId The id of the lobby
              * @return Entity the bullet entity
              */
-            Entity createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId);
+            Entity createBullet(Registry &registry, Sparse_array<component::cposition_t> &position, uint16_t playerId, int lobbyId);
 
         protected:
         private:

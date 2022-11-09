@@ -8,12 +8,12 @@
 #ifndef RECTSYSTEM_HPP_
     #define RECTSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
     #include "Component/CRect.hpp"
     #include "Component/CTimer.hpp"
-    #include "Component/CType.hpp"
     #include "Component/CAsset.hpp"
     #include "Component/CAssetId.hpp"
 
@@ -38,15 +38,16 @@ namespace System {
             * @param registry registry of the client
             * @param rectangles The sparse array of rectangle entities
             * @param timer The sparse array of timer entities
-            * @param types The sparse array of type entities
             * @param assets The sparse array of assets entities
             * @param assetid The sparse array of assetid entities
             */
-            void operator()(Registry &registry, Sparse_array<component::crect_t> &rectangles,
-                                                Sparse_array<component::ctimer_t> &timer,
-                                                Sparse_array<component::ctype_t> &types,
-                                                Sparse_array<component::casset_t> &assets,
-                                                Sparse_array<component::cassetid_t> &assetid);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::crect_t> &rectangles,
+                Sparse_array<component::ctimer_t> &timer,
+                Sparse_array<component::casset_t> &assets,
+                Sparse_array<component::cassetid_t> &assetid
+            );
 
         protected:
         private:

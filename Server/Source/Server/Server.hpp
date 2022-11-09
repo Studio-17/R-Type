@@ -27,7 +27,8 @@
     #include "System/MoveSystem/MoveSystem.hpp"
     #include "System/ReceiveSystem/ReceiveSystem.hpp"
     #include "System/DirectionSystem/DirectionSystem.hpp"
-    #include "ShootSystem.hpp"
+    #include "System/EndGameSystem/EndGameSystem.hpp"
+    #include "System/ShootSystem/ShootSystem.hpp"
     // #include "System/NewPlayerSystem/NewPlayerSystem.hpp"
     #include "System/SpawnEnemySystem/SpawnEnemySystem.hpp"
     #include "System/HitboxSystem/HitboxSystem.hpp"
@@ -109,9 +110,9 @@ class Server {
         Registry _registry; ///< An object Registry for the server to interact with it
 
         System::MoveSystem _moveSystem; ///< An object MoveSystem to manage it in the server
+        System::EndGameSystem _endGameSystem; ///< An object EndGameSystem to manage it in the server
         System::DirectionSystem _directionSystem; ///< An object DirectionSystem to manage it in the server
         System::ShootSystem _shootSystem; ///< An object ShootSystem to manage it in the server
-        // System::NewPlayerSystem _newPlayerSystem; ///< An object NewPlayerSystem to manage it in the server
         System::SpawnEnemySystem _spawnEnemySystem; ///< An object SpawnEnemySystem to manage it in the server
         System::ReceiveSystem _receiveSystem; ///< An object ReceiveSystem to manage it in the server
         System::HitboxSystem _hitboxSystem; ///< An object HitboxSystem to manage it in the server

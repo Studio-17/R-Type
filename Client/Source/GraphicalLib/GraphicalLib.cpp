@@ -55,7 +55,7 @@ void rtype::GraphicalLib::drawSprite(MyTexture const &texture, std::array<float,
 
 bool rtype::GraphicalLib::checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width)
 {
-    return CheckCollisionPointRec((Vector2){position.getX(), position.getY()}, (Rectangle){x, y, height, width});
+    return CheckCollisionPointRec(Vector2(position.getX(), position.getY()), Rectangle(x, y, height, width));
 }
 
 bool rtype::GraphicalLib::IsLeftMouseButtonPressed()
@@ -63,10 +63,15 @@ bool rtype::GraphicalLib::IsLeftMouseButtonPressed()
     return IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
 }
 
+bool rtype::GraphicalLib::IsLeftMouseButtonReleased()
+{
+    return IsMouseButtonReleased(MOUSE_LEFT_BUTTON);
+}
+
 Position rtype::GraphicalLib::getMousePosition()
 {
     Vector2 mousePosition = GetMousePosition();
-    return (Position){mousePosition.x, mousePosition.y};
+    return Position(mousePosition.x, mousePosition.y);
 }
 
 Color rtype::GraphicalLib::createColor(std::array<float, 4> const &array)
@@ -81,7 +86,8 @@ Color rtype::GraphicalLib::createColor(std::array<float, 4> const &array)
 }
 
 // Text
-void rtype::GraphicalLib::drawText([[ maybe_unused ]]std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize, [[ maybe_unused ]]float const &spacing, std::array<float, 4> const &color)
+// void rtype::GraphicalLib::drawText([[ maybe_unused ]]std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize, [[ maybe_unused ]]float const &spacing, std::array<float, 4> const &color)
+void rtype::GraphicalLib::drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color)
 {
     // DrawTextEx(LoadFont(font.c_str()), text.c_str(), (Vector2){pos.getX(), pos.getY()}, fontSize, spacing, createColor(color));
     DrawText(text.c_str(), pos.getX(), pos.getY(), fontSize, createColor(color));

@@ -16,7 +16,7 @@ namespace component {
      * @brief A structure representing the health component that holds the healt of the entity
      */
     struct chealth_t {
-        size_t health; ///< health of the entity
+        int health; ///< health of the entity
     };
 }
 
