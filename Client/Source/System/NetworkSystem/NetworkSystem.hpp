@@ -63,6 +63,14 @@ namespace System {
             void dispatchToKillEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
+             * @brief A method to send informations to the kill entity type queue
+             *
+             * @param bytes The bytes to send
+             * @param network The sparse array of network entities
+             */
+            void dispatchToKillEntityTypeQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+
+            /**
              * @brief A method to send informations to the get lobbies queue
              *
              * @param bytes The bytes to send

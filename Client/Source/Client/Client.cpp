@@ -124,6 +124,7 @@ void Client::setUpEcs()
 void Client::setUpSystems()
 {
     _registry.add_system<component::cnetwork_queue_t, component::cid_of_ship_t>(_networkSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::ctype_t>(_killEntityTypeSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t>(_killSystem);
     _registry.add_system<component::crect_t, component::ctimer_t, component::ctype_t, component::casset_t, component::cassetid_t>(_rectSystem);
     _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t, component::cclient_network_id>(_controlSystem);
