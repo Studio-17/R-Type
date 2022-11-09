@@ -21,6 +21,7 @@
 #include "Component/CHitBox.hpp"
 #include "Component/CSceneId.hpp"
 #include "Component/CLobbyId.hpp"
+#include "Component/CHealth.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem()
 {
@@ -33,11 +34,9 @@ void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<compo
         timer[FORBIDDEN_IDS::NETWORK].value().spawnEnemyDeltaTime = std::chrono::steady_clock::now();
     else
         return;
-    for (int i = 1; i <= (int)lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus.size(); i++) {
-        if (lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[i] == true) {
-        // if (position[enemy] && type[enemy] && lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus[i] == true) {
+    for (int i = 1; i <= (int)lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.size(); i++) {
+        if (lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus[i].first == true) {
             Entity enemy = createEnemy(registry, i);
-            std::cout << "Spawn enemy system " << enemy << std::endl;
             netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({i, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0})});
         }
     }
@@ -53,7 +52,8 @@ Entity System::SpawnEnemySystem::createEnemy(Registry &registry, int lobby_id)
         component::ctype_t{ .type = ENTITY_TYPE::ENEMY },
         component::crect_t{ .height = 34, .width = 33 },
         component::csceneid_t{ .sceneId = SCENE::GAME },
-        component::clobby_id_t{ .id = lobby_id }
+        component::clobby_id_t{ .id = lobby_id },
+        component::chealth_t {1}
     );
     return enemy;
 }

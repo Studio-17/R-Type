@@ -1,5 +1,6 @@
 {
     "connect-btn": {
+        "ref": "connect-btn",
         "textureId": "button",
         "position": [1300, 900],
         "nbFrame": 3,
@@ -16,6 +17,7 @@
         "callback-type": "connect"
     },
     "name-input": {
+        "ref": "name-input",
         "textureId": "name-input",
         "position": [800, 300],
         "nbFrame": 1,
@@ -32,6 +34,7 @@
         "callback-type": "name-input"
     },
     "ip-input": {
+        "ref": "ip-input",
         "textureId": "ip-input",
         "position": [800, 500],
         "nbFrame": 1,
@@ -40,6 +43,7 @@
         "callback-type": "ip-input"
     },
     "port-input": {
+        "ref": "port-input",
         "textureId": "port-input",
         "position": [800, 700],
         "nbFrame": 1,
@@ -48,6 +52,7 @@
         "callback-type": "port-input"
     },
     "rooms-btn": {
+        "ref": "rooms-btn",
         "textureId": "button",
         "position": [1300, 200],
         "nbFrame": 3,
@@ -64,6 +69,7 @@
         "callback-type": "see-rooms"
     },
     "back-to-connexion-btn": {
+        "ref": "back-to-connexion-btn",
         "textureId": "button",
         "position": [100, 900],
         "nbFrame": 3,
@@ -80,6 +86,7 @@
         "callback-type": "back-to-connexion"
     },
     "play-btn": {
+        "ref": "play-btn",
         "textureId": "button",
         "position": [1300, 700],
         "nbFrame": 3,
@@ -96,6 +103,7 @@
         "callback-type": "start-game"
     },
     "back-to-main-menu-btn": {
+        "ref": "back-to-main-menu-btn",
         "textureId": "button",
         "position": [100, 900],
         "nbFrame": 3,
@@ -112,6 +120,7 @@
         "callback-type": "back-to-main-menu"
     },
     "room-one-btn": {
+        "ref": "room-one-btn",
         "textureId": "button",
         "position": [100, 200],
         "nbFrame": 3,
@@ -128,6 +137,7 @@
         "callback-type": "join-room-one"
     },
     "room-two-btn": {
+        "ref": "room-two-btn",
         "textureId": "button",
         "position": [100, 400],
         "nbFrame": 3,
@@ -144,6 +154,7 @@
         "callback-type": "join-room-two"
     },
     "room-three-btn": {
+        "ref": "room-three-btn",
         "textureId": "button",
         "position": [100, 600],
         "nbFrame": 3,
@@ -160,6 +171,7 @@
         "callback-type": "join-room-three"
     },
     "join-lobby-btn": {
+        "ref": "join-lobby-btn",
         "textureId": "button",
         "position": [1300, 900],
         "nbFrame": 3,
