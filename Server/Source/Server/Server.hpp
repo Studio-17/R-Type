@@ -111,7 +111,6 @@ class Server {
         System::MoveSystem _moveSystem; ///< An object MoveSystem to manage it in the server
         System::DirectionSystem _directionSystem; ///< An object DirectionSystem to manage it in the server
         System::ShootSystem _shootSystem; ///< An object ShootSystem to manage it in the server
-        // System::NewPlayerSystem _newPlayerSystem; ///< An object NewPlayerSystem to manage it in the server
         System::SpawnEnemySystem _spawnEnemySystem; ///< An object SpawnEnemySystem to manage it in the server
         System::ReceiveSystem _receiveSystem; ///< An object ReceiveSystem to manage it in the server
         System::HitboxSystem _hitboxSystem; ///< An object HitboxSystem to manage it in the server

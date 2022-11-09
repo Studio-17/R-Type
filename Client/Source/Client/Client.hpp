@@ -28,6 +28,7 @@
     #include "System/PositionSystem/PositionSystem.hpp"
     #include "System/MoveSystem/MoveSystem.hpp"
     #include "System/KillSystem/KillSystem.hpp"
+    #include "System/GetInfoInLobbySystem/GetInfoInLobbySystem.hpp"
     #include "System/GetLobbiesSystem/GetLobbiesSystem.hpp"
     #include "System/SetNbPlayerInLobbySystem/SetNbPlayerInLobbySystem.hpp"
     #include "System/NewClientResponseSystem/NewClientResponseSystem.hpp"
@@ -224,7 +225,7 @@ class Client {
         std::vector<byte> _bufferToGet; ///< A buffer to receive as a vector of bytes
 
         std::map<std::string, std::function<void(void)>> _callbackMap; ///< A map of callbacks
-        std::map<std::string, std::string> _configurationFiles;
+        std::map<std::string, std::string> _configurationFiles; ///< A map of configuration files
 
         // Systems
         System::NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues
@@ -236,9 +237,10 @@ class Client {
         System::PositionSystem _positionSystem; ///< System that updates the position of the entities
         System::MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
         System::KillSystem _killSystem; ///< System that kill entity
-        System::GetLobbiesSystem _getLobbiesSystem;
-        System::SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem;
-        System::NewClientResponseSystem _newClientResponseSystem;
+        System::GetInfoInLobbySystem _getInfoInLobbySystem; ///< System that get info in lobby
+        System::GetLobbiesSystem _getLobbiesSystem; ///< System that get info lobbies
+        System::SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem; ///< System that set nb player in lobby
+        System::NewClientResponseSystem _newClientResponseSystem; ///< System that handle new client response
         System::MouseSystem _mouseSystem; ///< System that handle mouse events
 };
 
