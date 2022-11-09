@@ -5,6 +5,13 @@ This is a quick README.md files for the `r-type_server` image.
 This image is for deploying our R-Type server on your machine
 It runs inside the container on the port 8080, but you can redirect it while running
 
+## Developer side
+<hr />
+
+`[sudo] docker build -t r-type_server .`
+
+`[sudo] docker run -dp 8080:8080 r-type_server`
+
 ## Pulling the image
 <hr />
 First, pull the image from the docker hub
