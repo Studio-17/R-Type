@@ -56,6 +56,8 @@ void System::NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
             dispatchNbPlayersInLobbyQueue(bufferWithoutId, network);
         if (id == NETWORK_SERVER_TO_CLIENT::NEW_CLIENT_RESPONSE)
             dispatchNetworkClientIdQueue(bufferWithoutId, network);
+        if (id == NETWORK_SERVER_TO_CLIENT::END_GAME)
+            dispatchEndGameQueue(bufferWithoutId, network);
 
         network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.pop();
     }
@@ -113,3 +115,8 @@ void System::NetworkSystem::dispatchNetworkClientIdQueue(std::vector<byte> &byte
     network[FORBIDDEN_IDS::NETWORK].value().newConnectionResponseQueue.push(packet);
 }
 
+void System::NetworkSystem::dispatchEndGameQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+{
+    packet_end_game packet = serializable_trait<packet_end_game>::unserialize(bytes);
+    network[FORBIDDEN_IDS::NETWORK].value().endGameQueue.push(packet);
+}

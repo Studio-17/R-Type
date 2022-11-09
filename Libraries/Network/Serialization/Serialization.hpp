@@ -45,6 +45,7 @@ namespace NETWORK_SERVER_TO_CLIENT {
         SEND_LOBBYS,
         CREATE_LOBBY_RESPONSE,
         NUMBER_PLAYERS_IN_LOBBY,
+        END_GAME
     };
 };
 
