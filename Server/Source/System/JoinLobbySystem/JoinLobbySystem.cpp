@@ -7,8 +7,12 @@
 
 #include <algorithm>
 
-#include "Serialization.hpp"
 #include "JoinLobbySystem.hpp"
+
+/* Serialization */
+#include "Serialization.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 System::JoinLobbySystem::JoinLobbySystem()
@@ -54,7 +58,15 @@ void System::JoinLobbySystem::operator()([[ maybe_unused ]]Registry &registry, S
                 return;
             }
 
+            packet_send_lobbies sendLobbiesPacket;
+
+            sendLobbiesPacket.nbOfLobbies = 3;
+            sendLobbiesPacket.nbPlayersLobbyOne = lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(1).size();
+            sendLobbiesPacket.nbPlayersLobbyTwo = lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(2).size();
+            sendLobbiesPacket.nbPlayersLobbyThree = lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(3).size();
+
             networkQueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({packet.second.id, serialize_header::serializeHeader<packet_nb_players_in_lobby>(NETWORK_SERVER_TO_CLIENT::NUMBER_PLAYERS_IN_LOBBY, nbPlayersInLobby)});
+            networkQueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(std::pair<int, std::vector<byte>>(0, serialize_header::serializeHeader<packet_send_lobbies>(NETWORK_SERVER_TO_CLIENT::SEND_LOBBYS, sendLobbiesPacket)));
             networkQueue[FORBIDDEN_IDS::NETWORK].value().joinLobbyQueue.pop();
         }
     }

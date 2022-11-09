@@ -8,6 +8,7 @@
 #ifndef KILLSYSTEM_HPP_
     #define KILLSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -36,7 +37,11 @@ namespace System {
              * @param network The sparse array of network entities
              * @param serverId The sparse array of serverId entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverId);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &network,
+                Sparse_array<component::cserverid_t> &serverId
+            );
 
             /**
              * @brief A method to kill an entity

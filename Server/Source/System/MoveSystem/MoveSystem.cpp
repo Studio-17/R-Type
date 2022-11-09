@@ -6,9 +6,15 @@
 */
 
 #include "MoveSystem.hpp"
+
+/* Constant */
 #include "Constant.hpp"
-#include "Move.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Packets */
+#include "Move.hpp"
 #include "Position.hpp"
 #include "KillEntity.hpp"
 

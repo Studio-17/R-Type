@@ -8,6 +8,7 @@
 #ifndef MOVESYSTEM_HPP_
     #define MOVESYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -40,11 +41,13 @@ namespace System {
              * @param velocity The sparse array of velocity entities
              * @param timer The sparse array of timer entities
              */
-            void operator()(Registry &registry,
-                            Sparse_array<component::cdirection_t> &direction,
-                            Sparse_array<component::cposition_t> &position,
-                            Sparse_array<component::cvelocity_t> &velocity,
-                            Sparse_array<component::ctimer_t> &timer);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cdirection_t> &direction,
+                Sparse_array<component::cposition_t> &position,
+                Sparse_array<component::cvelocity_t> &velocity,
+                Sparse_array<component::ctimer_t> &timer
+            );
 
         protected:
         private:

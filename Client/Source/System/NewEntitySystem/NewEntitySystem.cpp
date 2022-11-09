@@ -6,7 +6,11 @@
 */
 
 #include "NewEntitySystem.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 /* Packet */

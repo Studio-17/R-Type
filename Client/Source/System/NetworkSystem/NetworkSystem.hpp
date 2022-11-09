@@ -8,6 +8,7 @@
 #ifndef NETWORKSYSTEM_HPP_
     #define NETWORKSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -36,7 +37,11 @@ namespace System {
              * @param network The sparse array of network entities
              * @param idOfShip The sparse array of idOfShip entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &network,
+                Sparse_array<component::cid_of_ship_t> &idOfShip
+            );
 
             /**
              * @brief A method to send informations to the position queue

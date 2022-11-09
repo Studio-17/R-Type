@@ -126,11 +126,12 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t, component::cid_of_ship_t>(_networkSystem);
     _registry.add_system<component::cnetwork_queue_t, component::ctype_t>(_killEntityTypeSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t>(_killSystem);
-    _registry.add_system<component::crect_t, component::ctimer_t, component::ctype_t, component::casset_t, component::cassetid_t>(_rectSystem);
+    _registry.add_system<component::crect_t, component::ctimer_t, component::casset_t, component::cassetid_t>(_rectSystem);
     _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t, component::cclient_network_id>(_controlSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id, component::csceneid_t>(_newEntitySystem);
-    _registry.add_system<component::cnetwork_queue_t, component::casset_t>(_getLobbiesSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cref_t, component::ctext_t>(_getLobbiesSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cref_t, component::ctext_t>(_getInfoInLobbySystem);
     _registry.add_system<component::cnetwork_queue_t>(_setNbPlayerInLobbySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
@@ -305,12 +306,12 @@ void Client::connectToServer()
 
 void Client::nameInput()
 {
-    Sparse_array<component::cref_t> &ref = _registry.get_components<component::cref_t>();
-    Sparse_array<component::ctext_t> &content = _registry.get_components<component::ctext_t>();
+    // Sparse_array<component::cref_t> &ref = _registry.get_components<component::cref_t>();
+    // Sparse_array<component::ctext_t> &content = _registry.get_components<component::ctext_t>();
 
-    Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-name-input")));
+    // Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-name-input")));
 
-    content[test].value().text = "Prout";
+    // content[test].value().text = "Prout";
 }
 
 void Client::ipInput()

@@ -6,6 +6,8 @@
 */
 
 #include "DrawSpriteSystem.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 System::DrawSpriteSystem::DrawSpriteSystem()

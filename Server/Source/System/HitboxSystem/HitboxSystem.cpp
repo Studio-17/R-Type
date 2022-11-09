@@ -5,10 +5,17 @@
 ** HitboxSystem
 */
 
+/* Systems */
 #include "HitboxSystem.hpp"
-#include "KillEntity.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Constant */
 #include "Constant.hpp"
+
+/* Packets */
+#include "KillEntity.hpp"
 
 System::HitboxSystem::HitboxSystem()
 {

@@ -8,7 +8,10 @@
 #ifndef R_TYPE_DRAWSPRITESYSTEM_H
     #define R_TYPE_DRAWSPRITESYSTEM_H
 
+    /* Ecs */
     #include "Registry.hpp"
+
+    /* Graphical Lib */
     #include "GraphicalLib.hpp"
 
     /* Component */
@@ -30,19 +33,15 @@ namespace System {
     class DrawSpriteSystem {
         public:
             /**
-             * @brief Construct a new Event System object
+             * @brief Construct a new Draw System object
              *
              */
             DrawSpriteSystem();
-            /**
-             * @brief Destroy the Event System object
-             *
-             */
             ~DrawSpriteSystem() = default;
 
             /**
              * @brief Update the DrawSpriteSystem
-             * 
+             *
              * @param registry the registry of the server
              * @param positions the sparse array of position entities
              * @param rectangles the sparse array of rectangle entities

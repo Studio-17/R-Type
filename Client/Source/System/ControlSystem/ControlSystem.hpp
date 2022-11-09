@@ -8,7 +8,7 @@
 #ifndef R_TYPE_CONTROLSYSTEM_H
 	#define R_TYPE_CONTROLSYSTEM_H
 
-
+	/* Ecs */
 	#include "Registry.hpp"
 
 	/* Component */
@@ -43,7 +43,14 @@ namespace System {
 			 * @param scenesId The sparse array of scenesId entities
 			 * @param clientNetworkId The sparse array of clientNetworkId entities
 			 */
-			void operator()( [[	maybe_unused ]] Registry &registry, Sparse_array<component::ckeyboard_t> &keyboards, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::cclient_network_id> &clientNetworkId);
+			void operator()(
+				Registry &registry,
+				Sparse_array<component::ckeyboard_t> &keyboards,
+				Sparse_array<component::cnetwork_queue_t> &network,
+				Sparse_array<component::cid_of_ship_t> &idOfShip,
+				Sparse_array<component::csceneid_t> &scenesId,
+				Sparse_array<component::cclient_network_id> &clientNetworkId
+			);
 
 			/**
 			 * @brief A method to add a task for the server through the network queue

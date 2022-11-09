@@ -8,9 +8,10 @@
 #ifndef SPAWNENEMYSYSTEM_HPP_
     #define SPAWNENEMYSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
-    /* Component */
+    /* Components */
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CPosition.hpp"
     #include "Component/CType.hpp"
@@ -40,8 +41,16 @@ namespace System {
              * @param position The sparse array of position entities
              * @param type The sparse array of type entities
              * @param timer The sparse array of timer entities
+             * @param lobbiesStatus The sparse array of lobbies status entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer, Sparse_array<component::clobbies_status_t> &lobbiesStatus);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &netqueue,
+                Sparse_array<component::cposition_t> &position,
+                Sparse_array<component::ctype_t> &type,
+                Sparse_array<component::ctimer_t> &timer,
+                Sparse_array<component::clobbies_status_t> &lobbiesStatus
+            );
 
             /**
              * @brief Create a Enemy object
@@ -50,6 +59,7 @@ namespace System {
              * @return Entity The entity of the enemy
              */
             Entity createEnemy(Registry &registry, int lobby_id);
+
         protected:
         private:
     };
