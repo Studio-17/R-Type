@@ -20,6 +20,7 @@
 #include "Lobbies.hpp"
 #include "NewConnection.hpp"
 #include "UpdateEntityInfos.hpp"
+#include "EndGame.hpp"
 
 System::NetworkSystem::NetworkSystem()
 {
