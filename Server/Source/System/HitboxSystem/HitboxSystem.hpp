@@ -8,6 +8,7 @@
 #ifndef HITBOXSYSTEM_HPP_
     #define HITBOXSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -55,21 +56,47 @@ namespace System {
              * @param types The Sparse array of all type component of all entities
              * @param positions The Sparse array of all position component of all entities
              * @param rects The Sparse array of all rect component of all entities
+             * @param healths The Sparse array of all health component of all entities
+             * @param lobbyIds The Sparse array of all lobby id component of all entities
+             * @param scores The Sparse array of all score component of all entities
+             * @param ownerIds The Sparse array of all owner id component of all entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues,
-                                                Sparse_array<component::ctype_t> &types,
-                                                Sparse_array<component::cposition_t> &positions,
-                                                Sparse_array<component::crect_t> &rects,
-                                                Sparse_array<component::chealth_t> &health,
-                                                Sparse_array<component::clobby_id_t> &lobbyId,
-                                                Sparse_array<component::cscore_t> &score,
-                                                Sparse_array<component::ctype_t> &type,
-                                                Sparse_array<component::cowner_id_t> &ownerId);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &network_queues,
+                Sparse_array<component::ctype_t> &types,
+                Sparse_array<component::cposition_t> &positions,
+                Sparse_array<component::crect_t> &rects,
+                Sparse_array<component::chealth_t> &health,
+                Sparse_array<component::clobby_id_t> &lobbyId,
+                Sparse_array<component::cscore_t> &score,
+                Sparse_array<component::ctype_t> &type,
+                Sparse_array<component::cowner_id_t> &ownerId
+            );
 
+            /**
+             * @brief A method to check if a collision happened between a player and a bullet
+             *
+             * @param registry The registry that contains all the ECS
+             * @param netQueue The network queue of the player
+             * @param health1 The health of entity one
+             * @param health2 The health of entity two
+             * @param lobbyId The lobby id
+             * @param i The index of the entity one
+             * @param x The index of the entity two
+             */
             void doHealthCheck(Registry &registry, component::cnetwork_queue_t &netQueue, component::chealth_t &health1, component::chealth_t &health2, component::clobby_id_t &lobbyId, int i, int x);
+            /**
+             * @brief A method to check if a collision happened between a player and a bonus
+             *
+             * @param netQueue The network queue of the player
+             * @param lobbyId The lobby id
+             * @param scores The Sparse array of all score component of all entities
+             * @param types The Sparse array of all type component of all entities
+             * @param ownerIds The Sparse array of all owner id component of all entities
+             * @param x The index of the entity one
+             */
             void doScoreUpdate(component::cnetwork_queue_t &netQueue, component::clobby_id_t &lobbyId, Sparse_array<component::cscore_t> &score, Sparse_array<component::ctype_t> &type, Sparse_array<component::cowner_id_t> &ownerId, int x);
-
-
 
         protected:
         private:

@@ -6,7 +6,8 @@
 */
 
 #include "ReceiveSystem.hpp"
-#include "Serialization.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 System::ReceiveSystem::ReceiveSystem()

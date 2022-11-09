@@ -8,7 +8,10 @@
 #ifndef MOUSESYSTEM_HPP_
     #define MOUSESYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
+
+    /* Graphical Lib */
     #include "GraphicalLib.hpp"
 
     /* Component */
@@ -43,12 +46,14 @@ namespace System {
              * @param types The sparse array of type entities
              * @param callbacks The sparse array of callback entities
              */
-    		void operator()(Registry &registry,
-                            Sparse_array<component::cposition_t> &positions,
-                            Sparse_array<component::crect_t> &rects,
-                            Sparse_array<component::csceneid_t> &scenesId,
-                            Sparse_array<component::ctype_t> &types,
-                            Sparse_array<component::ccallback_t> &callbacks);
+    		void operator()(
+                Registry &registry,
+                Sparse_array<component::cposition_t> &positions,
+                Sparse_array<component::crect_t> &rects,
+                Sparse_array<component::csceneid_t> &scenesId,
+                Sparse_array<component::ctype_t> &types,
+                Sparse_array<component::ccallback_t> &callbacks
+            );
 
         protected:
         private:

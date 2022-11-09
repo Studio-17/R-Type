@@ -6,6 +6,8 @@
 */
 
 #include "MouseSystem.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 System::MouseSystem::MouseSystem()

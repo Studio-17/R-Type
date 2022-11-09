@@ -7,10 +7,16 @@
 
 #include "StartGameSystem.hpp"
 
+/* Constant */
 #include "Constant.hpp"
-#include "NewEntity.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
 
+/* Packets */
+#include "NewEntity.hpp"
+
+/* Components */
 #include "Component/CDirection.hpp"
 #include "Component/CRect.hpp"
 #include "Component/CVelocity.hpp"

@@ -8,6 +8,7 @@
 #ifndef POSITIONSYSTEM_HPP_
     #define POSITIONSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -38,7 +39,12 @@ namespace System {
              * @param position The sparse array of position entities
              * @param serverIds The sparse array of server id entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cposition_t> &position, Sparse_array<component::cserverid_t> &serverIds);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &network,
+                Sparse_array<component::cposition_t> &position,
+                Sparse_array<component::cserverid_t> &serverIds
+            );
 
         protected:
         private:

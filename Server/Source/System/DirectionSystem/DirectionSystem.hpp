@@ -8,6 +8,7 @@
 #ifndef DIRECTIONSYSTEM_HPP_
     #define DIRECTIONSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -41,7 +42,15 @@ namespace System {
              * @param position The sparse array of position entities
              * @param velocity The sparse array of velocity entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cdirection_t> &direction, Sparse_array<component::cposition_t> &position, Sparse_array<component::cvelocity_t> &velocity, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::cnet_id_to_client_id_t> &networkToClientId);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &netqueue,
+                Sparse_array<component::cdirection_t> &direction,
+                Sparse_array<component::cposition_t> &position,
+                Sparse_array<component::cvelocity_t> &velocity,
+                Sparse_array<component::clobby_id_t> &lobbyId,
+                Sparse_array<component::cnet_id_to_client_id_t> &networkToClientId
+            );
 
         protected:
         private:

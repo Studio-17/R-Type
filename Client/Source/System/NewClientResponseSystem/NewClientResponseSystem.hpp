@@ -8,6 +8,7 @@
 #ifndef NEWCLIENTRESPONSESYSTEM_HPP_
     #define NEWCLIENTRESPONSESYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -36,7 +37,11 @@ namespace System {
              * @param network The sparse array of network entities
              * @param clientNetworkId The sparse array of client network id entities
              */
-            void operator()([[ maybe_unused ]]Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cclient_network_id> &clientNetworkId);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &network,
+                Sparse_array<component::cclient_network_id> &clientNetworkId
+            );
 
         protected:
         private:

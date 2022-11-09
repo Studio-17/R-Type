@@ -8,6 +8,7 @@
 #ifndef STARTGAMESYSTEM_HPP_
     #define STARTGAMESYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -53,8 +54,19 @@ namespace System {
              * @param lobbiesToEntities The sparse array of lobbiesToEntities entities
              * @param position The sparse array of position entities
              * @param type The sparse array of type entities
+             * @param lobbiesStatus The sparse array of lobbiesStatus entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::clobbies_status_t> &lobbiesStatus);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &netqueue,
+                Sparse_array<component::clobby_id_t> &LobbyId,
+                Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId,
+                Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities,
+                Sparse_array<component::cposition_t> &position,
+                Sparse_array<component::ctype_t> &type,
+                Sparse_array<component::clobbies_status_t> &lobbiesStatus
+            );
+
         protected:
         private:
     };

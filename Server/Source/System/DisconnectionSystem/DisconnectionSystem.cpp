@@ -7,9 +7,16 @@
 
 #include <algorithm>
 
+/* Systems */
 #include "DisconnectionSystem.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Constant */
 #include "Constant.hpp"
+
+/* Packets */
 #include "KillEntity.hpp"
 
 System::DisconnectionSystem::DisconnectionSystem()

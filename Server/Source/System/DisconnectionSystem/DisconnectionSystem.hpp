@@ -8,6 +8,7 @@
 #ifndef DISCONNECTIONSYSTEM_HPP_
     #define DISCONNECTIONSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component*/
@@ -40,7 +41,13 @@ namespace System {
              * @param lobbiesToEntities The sparse array of lobbiesToEntities entities
              * @param netIdToClientId The sparse array of netIdToClientId entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &network_queues,
+                Sparse_array<component::clobby_id_t> &lobbyId,
+                Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities,
+                Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId
+            );
 
             /**
              * @brief Function to remove Client to lobby

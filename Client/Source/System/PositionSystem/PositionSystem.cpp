@@ -6,6 +6,8 @@
 */
 
 #include "PositionSystem.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 /* Packet */

@@ -7,11 +7,15 @@
 
 #include "ShootSystem.hpp"
 
+/* Constant */
 #include "Constant.hpp"
+
+/* Packets */
 #include "Shoot.hpp"
 #include "Serialization.hpp"
 #include "NewEntity.hpp"
 
+/* Components */
 #include "Component/CVelocity.hpp"
 #include "Component/CType.hpp"
 #include "Component/CRect.hpp"

@@ -6,6 +6,8 @@
 */
 
 #include "SetNbPlayerInLobbySystem.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 System::SetNbPlayerInLobbySystem::SetNbPlayerInLobbySystem()
