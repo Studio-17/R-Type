@@ -143,6 +143,7 @@ void Client::setUpSystems()
 	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t>(_drawSpriteSystem);
     _registry.add_system<component::cposition_t, component::csceneid_t, component::cscale_t, component::ccolor_t, component::ctext_t>(_drawTextSystem);
     _registry.add_system<component::chealth_t, component::cscore_t, component::cnetwork_queue_t, component::cserverid_t>(_updateEntityInfosSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::csceneid_t>(_endGameSystem);
 }
 
 void Client::setUpComponents()

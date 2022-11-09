@@ -22,6 +22,7 @@
     #include "System/NetworkSystem/NetworkSystem.hpp"
     #include "System/DrawTextSystem/DrawTextSystem.hpp"
     #include "System/DrawSpriteSystem/DrawSpriteSystem.hpp"
+    #include "System/EndGameSystem/EndGameSystem.hpp"
     #include "System/RectSystem/RectSystem.hpp"
     #include "System/ControlSystem/ControlSystem.hpp"
     #include "System/NewEntitySystem/NewEntitySystem.hpp"
@@ -246,6 +247,7 @@ class Client {
         System::NewClientResponseSystem _newClientResponseSystem; ///< System that handle new client response
         System::MouseSystem _mouseSystem; ///< System that handle mouse events
         System::UpdateEntityInfosSystem _updateEntityInfosSystem; ///< System that handle update entity info
+        System::EndGameSystem _endGameSystem; ///< System that end Game
 };
 
 #endif /* !CLIENT_HPP_ */
