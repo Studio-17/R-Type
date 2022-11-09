@@ -17,6 +17,7 @@
     #include "Component/CType.hpp"
     #include "Component/CTimer.hpp"
     #include "Component/CLobbiesStatus.hpp"
+    #include "Component/CMap.hpp"
 
 /**
  * @brief Namespace for systems
@@ -42,6 +43,7 @@ namespace System {
              * @param type The sparse array of type entities
              * @param timer The sparse array of timer entities
              * @param lobbiesStatus The sparse array of lobbies status entities
+             * @param map The sparse array of map entities
              */
             void operator()(
                 Registry &registry,
@@ -49,13 +51,15 @@ namespace System {
                 Sparse_array<component::cposition_t> &position,
                 Sparse_array<component::ctype_t> &type,
                 Sparse_array<component::ctimer_t> &timer,
-                Sparse_array<component::clobbies_status_t> &lobbiesStatus
+                Sparse_array<component::clobbies_status_t> &lobbiesStatus,
+                Sparse_array<component::cmap_t> &map
             );
 
             /**
              * @brief Create a Enemy object
              *
              * @param registry The registry that contains all the ECS
+             * @param map The sparse array of map entities
              * @return Entity The entity of the enemy
              */
             Entity createEnemy(Registry &registry, int lobby_id);
