@@ -24,7 +24,7 @@ void System::MoveSystem::operator()(Registry &registry, [[ maybe_unused ]] Spars
         return;
     for (std::size_t index = 0; index < position.size() && index < velocity.size() && index < direction.size() && index < LobbyId.size(); index++) {
         if (position[index] && velocity[index] && direction[index] && LobbyId[index]) {
-            if (!lobbiesStatus[FORBIDDEN_IDS::NETWORK].value().lobbiesStatus.at(LobbyId[index].value().id))
+            if (!lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.at(LobbyId[index].value().id).first)
                 continue;
             if (position[index]->x > 1920 || position[index]->x < 0) {
                 registry.kill_entity(registry.entity_from_index(index));

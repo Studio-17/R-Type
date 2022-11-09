@@ -9,6 +9,7 @@
     #define CREF_HPP_
 
     #include <string>
+    #include <map>
 
 /**
  * @brief Namespace for all components
@@ -18,7 +19,7 @@ namespace component {
      * @brief A structure representing the ref component that holds the ref of an entity text or button
      */
     struct cref_t {
-        std::unordered_map<std::string, Entity> ref; ///< ref of the entity
+        std::map<std::string, Entity> ref; ///< ref of the entity
     };
 }
 

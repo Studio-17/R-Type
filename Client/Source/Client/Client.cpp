@@ -152,7 +152,8 @@ void Client::setUpComponents()
             component::ctimer_t{ .deltaTime = std::chrono::steady_clock::now(), .animTimer = std::chrono::steady_clock::now() },
             component::casset_t{ .assets = assetMan.assets },
             component::csceneid_t{ .sceneId = SCENE::CONNECTION }, // Set scene when the program start
-            component::cclient_network_id {}
+            component::cclient_network_id {},
+            component::cref_t{}
     );
 
     loadImages(_configurationFiles.at("IMAGES"), _registry.get_components<component::casset_t>());
@@ -173,12 +174,12 @@ void Client::loadTexts(std::string const &filepath)
 
     for (auto &oneData: jsonData) {
         int scene = oneData.value("scene", -1);
-        // std::string ref = oneData.value("ref", "text-error");
-        createText(oneData, std::array<float, 2>({0, 0}), scene);
+        std::string ref = oneData.value("ref", "error-txt");
+        createText(oneData, std::array<float, 2>({0, 0}), scene, ref);
     }
 }
 
-void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene)
+void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene, const std::string &ref)
 {
     std::array<float, 2> textPos = oneData.value("position", std::array<float, 2>({0, 0}));
     std::string content = oneData.value("text", "error");
@@ -194,8 +195,11 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
         component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
         component::cscale_t{ .scale = fontSize },
         component::ccolor_t{ .color = color }
-        // component::cref_t{ .ref = ref }
     );
+
+    Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
+
+    reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(text))});
 }
 
 void Client::loadImages(std::string const &filepath, Sparse_array<component::casset_t> &assets)
@@ -217,7 +221,7 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
         int nb_frames = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames();
         int velocity = oneData.value("velocity", 0);
         std::array<int, 2> direction = oneData.value("direction", std::array<int, 2>({0, 0}));
-        // std::string ref = oneData.value("ref", "error-btn");
+        std::string ref = oneData.value("ref", "error-img");
 
         Entity image = _registry.spawn_entity_with(
             component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
@@ -228,8 +232,11 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
             component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
             component::cvelocity_t{ .velocity = velocity },
             component::cdirection_t{ .x = direction[0], .y = direction[1] }
-            // component::cref_t{ .ref = ref }
         );
+
+        Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
+
+        reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(image))});
     }
 }
 
@@ -266,7 +273,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         int scene = oneData.value("scene", -1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
         int nb_frames = oneData.value("nbFrame", 1);
-        // std::string ref = oneData.value("ref", "error-btn");
+        std::string ref = oneData.value("ref", "error-btn");
 
         Entity button = _registry.spawn_entity_with(
             component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
@@ -276,10 +283,13 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
             component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
             component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
-            // component::cref_t{ .ref = ref }
         );
         if (oneData.contains("text"))
-            createText(oneData.at("text"), pos, scene);
+            createText(oneData.at("text"), pos, scene, ("text-" + ref));
+
+        Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
+
+        reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(button))});
     }
 }
 
@@ -294,6 +304,12 @@ void Client::connectToServer()
 
 void Client::nameInput()
 {
+    Sparse_array<component::cref_t> &ref = _registry.get_components<component::cref_t>();
+    Sparse_array<component::ctext_t> &content = _registry.get_components<component::ctext_t>();
+
+    Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-name-input")));
+
+    content[test].value().text = "Prout";
 }
 
 void Client::ipInput()

@@ -114,7 +114,7 @@ class Client {
          * @param pos Position of the text
          * @param scene Scene id where add the text
          */
-        void createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene);
+        void createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene, std::string const &ref);
 
     private:
         /**
@@ -220,7 +220,7 @@ class Client {
         Registry _registry; ///< Registry that contains all the ECS
         std::thread _thread; ///< thread to handle ECS
         bool _connected; ///< A boolean to check if the clientis conncted to the server
-        AssetManager _assetManager;
+        AssetManager _assetManager; ///< Asset manager to load all the assets
 
         std::vector<byte> _bufferToGet; ///< A buffer to receive as a vector of bytes
 
