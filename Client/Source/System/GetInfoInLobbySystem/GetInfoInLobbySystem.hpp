@@ -2,11 +2,11 @@
 ** EPITECH PROJECT, 2022
 ** B-CPP-500-PAR-5-1-rtype-martin.vanaud
 ** File description:
-** GetLobbiesSystem
+** GetInfoInLobbySystem
 */
 
-#ifndef GETLOBBIESSYSTEM_HPP_
-    #define GETLOBBIESSYSTEM_HPP_
+#ifndef GETINFOINLOBBBYSYSTEM_HPP_
+    #define GETINFOINLOBBBYSYSTEM_HPP_
 
     /* Ecs */
     #include "Registry.hpp"
@@ -18,18 +18,21 @@
 
 /**
  * @brief Namespace for systems
+ *
  */
 namespace System {
     /**
-     * @brief GetLobbiesSystem class that handles the request to send to Server to get lobbies
+     * @brief GetInfoInLobbySystem class that handles the dynamic info of the entities
+     *
      */
-    class GetLobbiesSystem {
+    class GetInfoInLobbySystem {
         public:
             /**
-             * @brief Construct the Lobbies System object
+             * @brief Construct the Info In Lobby System object
+             *
              */
-            GetLobbiesSystem();
-            ~GetLobbiesSystem() = default;
+            GetInfoInLobbySystem();
+            ~GetInfoInLobbySystem() = default;
 
             /**
              * @brief Function that will be automaticaly called while the client is working (on loop)
@@ -41,7 +44,7 @@ namespace System {
              */
             void operator()(
                 Registry &registry,
-                Sparse_array<component::cnetwork_queue_t> &networkQueue,
+                Sparse_array<component::cnetwork_queue_t> &netqueue,
                 Sparse_array<component::cref_t> &refs,
                 Sparse_array<component::ctext_t> &texts
             );
@@ -51,4 +54,4 @@ namespace System {
     };
 }
 
-#endif /* !GETLOBBIESSYSTEM_HPP_ */
+#endif /* !GETINFOINLOBBBYSYSTEM_HPP_ */
