@@ -1,20 +1,11 @@
 {
-    "text1-txt": {
-        "ref": "text1-txt",
-        "text": "right",
+    "nb-players-in-lobby-txt": {
+        "ref": "nb-players-in-lobby-txt",
+        "text": "Nomber of players in lobby",
         "color": [150, 150, 150, 255],
-        "size": 60,
-        "position": [1000, 700],
+        "size": 50,
+        "position": [100, 400],
         "spacing": 7,
-        "scene": 5
-    },
-    "text2-txt": {
-        "ref": "text2-txt",
-        "text": "left",
-        "color": [150, 150, 150, 255],
-        "size": 60,
-        "position": [1000, 900],
-        "spacing": 7,
-        "scene": 5
+        "scene": 10
     }
 }
