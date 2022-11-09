@@ -23,6 +23,8 @@
 #include "Component/CScale.hpp"
 #include "Component/CVelocity.hpp"
 #include "Component/CType.hpp"
+#include "Component/CHealth.hpp"
+#include "Component/CScore.hpp"
 
 System::NewEntitySystem::NewEntitySystem()
 {
@@ -71,7 +73,9 @@ void System::NewEntitySystem::addBullet(Registry &registry, packet_new_entity &n
         component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
         component::csceneid_t{ .sceneId = SCENE::GAME },
         component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() },
-        component::ctype_t{.type = ENTITY_TYPE::BULLET}
+        component::ctype_t{.type = ENTITY_TYPE::BULLET},
+        component::chealth_t{newEntity.health},
+        component::cscore_t{newEntity.score}
     );
 }
 
@@ -88,7 +92,9 @@ void System::NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &ne
         component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
         component::csceneid_t{ .sceneId = SCENE::GAME },
         component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() },
-        component::ctype_t{.type = ENTITY_TYPE::ENEMY}
+        component::ctype_t{.type = ENTITY_TYPE::ENEMY},
+        component::chealth_t{newEntity.health},
+        component::cscore_t{newEntity.score}
     );
 }
 
@@ -113,7 +119,8 @@ void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &new
             component::cassetid_t{.assets = _entityType.at(newEntity.type)},
             component::csceneid_t{.sceneId = SCENE::GAME},
             component::ctype_t{.type = ENTITY_TYPE::PLAYER},
-            component::cscale_t{.scale = asset.at(_entityType.at(newEntity.type)).getScale()});
-    std::cout << asset.at(_entityType.at(newEntity.type)).getRectangle().width << std::endl;
-    std::cout << asset.at(_entityType.at(newEntity.type)).getRectangle().height << std::endl;
+            component::cscale_t{.scale = asset.at(_entityType.at(newEntity.type)).getScale()},
+            component::chealth_t{newEntity.health},
+            component::cscore_t{newEntity.score}
+    );
 }

@@ -31,10 +31,12 @@
     #include "System/KillSystem/KillSystem.hpp"
     #include "System/GetInfoInLobbySystem/GetInfoInLobbySystem.hpp"
     #include "System/KillEntityTypeSystem/KillEntityTypeSystem.hpp"
+    #include "System/GetInfoInLobbySystem/GetInfoInLobbySystem.hpp"
     #include "System/GetLobbiesSystem/GetLobbiesSystem.hpp"
     #include "System/SetNbPlayerInLobbySystem/SetNbPlayerInLobbySystem.hpp"
     #include "System/NewClientResponseSystem/NewClientResponseSystem.hpp"
     #include "System/MouseSystem/MouseSystem.hpp"
+    #include "System/UpdateEntityInfosSystem/UpdateEntityInfosSystem.hpp"
 
 /**
  * @brief The Client class, it defines a client and its interactions with the server
@@ -245,7 +247,9 @@ class Client {
         System::SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem; ///< System that set nb player in lobby
         System::NewClientResponseSystem _newClientResponseSystem; ///< System that handle new client response
         System::MouseSystem _mouseSystem; ///< System that handle mouse events
+        System::UpdateEntityInfosSystem _updateEntityInfosSystem; ///< System that handle update entity info
         System::EndGameSystem _endGameSystem; ///< System that end Game
+        System::UpdateEntityInfosSystem _updateEntityInfosSystem; ///< System that handle update entity info
 };
 
 #endif /* !CLIENT_HPP_ */

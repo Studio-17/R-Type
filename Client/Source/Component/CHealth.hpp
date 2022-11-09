@@ -8,8 +8,6 @@
 #ifndef CHEALTH_HPP_
     #define CHEALTH_HPP_
 
-    #include <cstddef>
-
 /**
  * @brief Namespace for all components
  */
@@ -18,7 +16,7 @@ namespace component {
      * @brief A structure representing the health component that holds the healt of the entity
      */
     struct chealth_t {
-        std::size_t health; ///< health of the entity
+        int health; ///< health of the entity
     };
 }
 

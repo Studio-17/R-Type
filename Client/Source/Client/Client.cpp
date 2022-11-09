@@ -20,6 +20,8 @@
 /* Component */
 #include "CRef.hpp"
 #include "fileConfig.hpp"
+#include "CHealth.hpp"
+#include "CScore.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
@@ -119,6 +121,8 @@ void Client::setUpEcs()
     _registry.register_component<component::ctext_t>();
     _registry.register_component<component::ccolor_t>();
     _registry.register_component<component::cref_t>();
+    _registry.register_component<component::chealth_t>();
+    _registry.register_component<component::cscore_t>();
 }
 
 void Client::setUpSystems()
@@ -139,6 +143,7 @@ void Client::setUpSystems()
 	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t>(_drawSpriteSystem);
     _registry.add_system<component::cposition_t, component::csceneid_t, component::cscale_t, component::ccolor_t, component::ctext_t>(_drawTextSystem);
     _registry.add_system<component::cnetwork_queue_t, component::csceneid_t>(_endGameSystem);
+    _registry.add_system<component::chealth_t, component::cscore_t, component::cnetwork_queue_t, component::cserverid_t>(_updateEntityInfosSystem);
 }
 
 void Client::setUpComponents()
