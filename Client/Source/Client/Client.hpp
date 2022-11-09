@@ -28,6 +28,7 @@
     #include "System/PositionSystem/PositionSystem.hpp"
     #include "System/MoveSystem/MoveSystem.hpp"
     #include "System/KillSystem/KillSystem.hpp"
+    #include "System/KillEntityTypeSystem/KillEntityTypeSystem.hpp"
     #include "System/GetLobbiesSystem/GetLobbiesSystem.hpp"
     #include "System/SetNbPlayerInLobbySystem/SetNbPlayerInLobbySystem.hpp"
     #include "System/NewClientResponseSystem/NewClientResponseSystem.hpp"
@@ -235,6 +236,7 @@ class Client {
         System::NewEntitySystem _newEntitySystem; ///< System that creates new entities
         System::PositionSystem _positionSystem; ///< System that updates the position of the entities
         System::MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
+        System::KillEntityTypeSystem _killEntityTypeSystem; ///< System that kill entity type
         System::KillSystem _killSystem; ///< System that kill entity
         System::GetLobbiesSystem _getLobbiesSystem;
         System::SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem;

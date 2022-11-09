@@ -53,6 +53,7 @@ file(GLOB SOURCE_FILES
     Source/System/NewEntitySystem/*.cpp
     Source/System/PositionSystem/*.cpp
     Source/System/RectSystem/*cpp
+    Source/System/KillEntityTypeSystem/*cpp
     Source/System/KillSystem/*cpp
     Source/System/GetLobbiesSystem/*.cpp
     Source/System/SetNbPlayerInLobbySystem/*.cpp
@@ -83,6 +84,7 @@ include_directories(
     Source/System/NewEntitySystem/
     Source/System/PositionSystem/
     Source/System/RectSystem/
+    Source/System/KillEntityTypeSystem/
     Source/System/KillSystem/
     Source/System/GetLobbiesSystem/
     Source/System/SetNbPlayerInLobbySystem/
