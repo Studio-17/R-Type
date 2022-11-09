@@ -39,11 +39,13 @@ namespace NETWORK_SERVER_TO_CLIENT {
         POSITION,
         NEW_ENTITY,
         KILL_ENTITY,
+        KILL_ENTITY_TYPE,
         NEW_PLAYER,
         NEW_CLIENT_RESPONSE,
         SEND_LOBBYS,
         CREATE_LOBBY_RESPONSE,
         NUMBER_PLAYERS_IN_LOBBY,
+        END_GAME
     };
 };
 

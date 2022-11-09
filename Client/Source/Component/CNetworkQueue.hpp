@@ -16,6 +16,7 @@
     #include "Lobbies.hpp"
     #include "KillEntity.hpp"
     #include "NewConnection.hpp"
+    #include "EndGame.hpp"
 
 using byte = unsigned char;
 
@@ -34,8 +35,10 @@ namespace component {
         std::queue<packet_position> updatePositionQueue; ///< Queue containing position requests from server
         std::queue<packet_nb_players_in_lobby> nbPlayerInLobbyQueue; ///< Queue containing number of players in lobby requests from server
         std::queue<packet_kill_entity> killEntityQueue; ///< Queue containing kill entity requests from server
+        std::queue<packet_kill_entity_type> killEntityTypeQueue; ///< Queue containing kill entity type requests from server
         std::queue<packet_send_lobbies> getLobbiesQueue; ///< Queue containing send lobbies requests from server
         std::queue<packet_new_connection_response> newConnectionResponseQueue; ///< Queue containing new connection response requests from server
+        std::queue<packet_end_game> endGameQueue; ///< Queue containing end game requests from server
     };
 }
 
