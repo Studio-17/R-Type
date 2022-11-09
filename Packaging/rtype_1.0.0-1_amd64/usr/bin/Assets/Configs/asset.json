@@ -1,0 +1,74 @@
+{
+    "bullet": {
+        "title": "bullet",
+        "nbFrame": 2,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/Images/Sprites/bullet.png"
+    },
+    "enemy": {
+        "title": "enemy",
+        "nbFrame": 16,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/Images/Sprites/BasicEnemySpriteSheet2.png"
+    },
+    "blueSpaceShip": {
+        "title": "blueSpaceShip",
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/Images/Sprites/BlueSpaceShip.png"
+    },
+    "greenSpaceShip": {
+        "title": "greenSpaceShip",
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/Images/Sprites/GreenSpaceShip.png"
+    },
+    "redSpaceShip": {
+        "title": "redSpaceShip",
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/Images/Sprites/RedSpaceShip.png"
+    },
+    "purpleSpaceShip": {
+        "title": "purpleSpaceShip",
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/Images/Sprites/PurpleSpaceShip.png"
+    },
+    "marineSpaceShip": {
+        "title": "marineSpaceShip",
+        "nbFrame": 5,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/Images/Sprites/MarineSpaceShip.png"
+    },
+    "parallax_background" : {
+        "title": "parallax_background",
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/Images/Parallax/parallax_background.png"
+    },
+    "parallax_ground" : {
+        "title": "parallax_ground",
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/Images/Parallax/parallax_ground.png"
+    },
+    "parallax_mountain" : {
+        "title": "parallax_mountain",
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "/usr/bin/Assets/Images/Parallax/parallax_mountain.png"
+    },
+    "button": {
+        "title": "button",
+        "nbFrame": 1,
+        "scale": 1,
+        "texture": "/usr/bin/Assets/Images/Buttons/shortbutton.png"
+    },
+    "planet": {
+        "title": "planet",
+        "nbFrame": 1,
+        "scale": 1.5,
+        "texture": "/usr/bin/Assets/Images/Sprites/planet.gif"
+    }
+}

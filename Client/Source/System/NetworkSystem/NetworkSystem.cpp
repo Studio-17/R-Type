@@ -60,10 +60,6 @@ void System::NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
             dispatchUpdateEntityScoreQueue(bufferWithoutId, network);
         if (id == NETWORK_SERVER_TO_CLIENT::END_GAME)
             dispatchEndGameQueue(bufferWithoutId, network);
-        if (id == NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_HEALTH)
-            dispatchUpdateEntityHealthQueue(bufferWithoutId, network);
-        if (id == NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_SCORE)
-            dispatchUpdateEntityScoreQueue(bufferWithoutId, network);
 
         network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.pop();
     }
@@ -138,15 +134,3 @@ void System::NetworkSystem::dispatchEndGameQueue(std::vector<byte> &bytes, Spars
     packet_end_game packet = serializable_trait<packet_end_game>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK].value().endGameQueue.push(packet);
 }
-void System::NetworkSystem::dispatchUpdateEntityHealthQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
-{
-    packet_update_entity_health packet = serializable_trait<packet_update_entity_health>::unserialize(bytes);
-    network[FORBIDDEN_IDS::NETWORK].value().updateEntityHealthQueue.push(packet);
-}
-
-void System::NetworkSystem::dispatchUpdateEntityScoreQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
-{
-    packet_update_entity_score packet = serializable_trait<packet_update_entity_score>::unserialize(bytes);
-    network[FORBIDDEN_IDS::NETWORK].value().updateEntityScoreQueue.push(packet);
-}
-

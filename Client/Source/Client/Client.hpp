@@ -29,6 +29,7 @@
     #include "System/PositionSystem/PositionSystem.hpp"
     #include "System/MoveSystem/MoveSystem.hpp"
     #include "System/KillSystem/KillSystem.hpp"
+    #include "System/GetInfoInLobbySystem/GetInfoInLobbySystem.hpp"
     #include "System/KillEntityTypeSystem/KillEntityTypeSystem.hpp"
     #include "System/GetInfoInLobbySystem/GetInfoInLobbySystem.hpp"
     #include "System/GetLobbiesSystem/GetLobbiesSystem.hpp"

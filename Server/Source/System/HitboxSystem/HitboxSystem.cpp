@@ -18,6 +18,9 @@
 /* Packets */
 #include "KillEntity.hpp"
 
+/* Packets */
+#include "KillEntity.hpp"
+
 System::HitboxSystem::HitboxSystem()
 {
 }
