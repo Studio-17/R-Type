@@ -6,6 +6,8 @@
 */
 
 #include "KillSystem.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 /* Packet */

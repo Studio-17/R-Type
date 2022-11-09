@@ -7,11 +7,17 @@
 
 #include "NewClientSystem.hpp"
 
+/* Constant */
 #include "Constant.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Packets */
 #include "Lobbies.hpp"
 #include "NewConnection.hpp"
 
+/* Components */
 #include "Component/CLobbyId.hpp"
 
 

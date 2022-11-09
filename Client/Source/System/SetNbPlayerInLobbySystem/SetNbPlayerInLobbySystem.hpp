@@ -8,6 +8,7 @@
 #ifndef SETNBPLAYERINLOBBYSYSTEM_HPP_
     #define SETNBPLAYERINLOBBYSYSTEM_HPP_
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
@@ -34,7 +35,10 @@ namespace System {
              * @param registry Registry of the client
              * @param networkQueue The sparse array of network entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &networkQueue);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &networkQueue
+            );
 
         protected:
         private:

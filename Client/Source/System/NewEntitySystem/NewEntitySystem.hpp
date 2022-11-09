@@ -11,14 +11,15 @@
     #include <unordered_map>
     #include <string>
 
+    /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
-#include "Component/CAsset.hpp"
-#include "Component/CClientNetworkId.hpp"
-#include "Component/CNetworkQueue.hpp"
-#include "Component/CSceneId.hpp"
-#include "Component/CServerId.hpp"
+    #include "Component/CAsset.hpp"
+    #include "Component/CClientNetworkId.hpp"
+    #include "Component/CNetworkQueue.hpp"
+    #include "Component/CSceneId.hpp"
+    #include "Component/CServerId.hpp"
 
 /**
  * @brief Namespace for systems
@@ -45,7 +46,14 @@ namespace System {
              * @param clientNetwrokId The sparse array of client network id entities
              * @param sceneId The sparse array of scene id entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetwrokId, Sparse_array<component::csceneid_t> &sceneId);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &network,
+                Sparse_array<component::cserverid_t> &serverIds,
+                Sparse_array<component::casset_t> &assets,
+                Sparse_array<component::cclient_network_id> &clientNetwrokId,
+                Sparse_array<component::csceneid_t> &sceneId
+            );
 
             /**
              * @brief A method to add a new bullet entity

@@ -7,8 +7,10 @@
 
 #include <unordered_map>
 
+/* Components */
 #include "Component/CVelocity.hpp"
 
+/* Packets */
 #include "DirectionSystem.hpp"
 #include "Serialization.hpp"
 #include "Constant.hpp"

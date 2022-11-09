@@ -10,8 +10,13 @@
 
 #include "SpawnEnemySystem.hpp"
 
+/* Constant */
 #include "Constant.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Packets */
 #include "NewEntity.hpp"
 
 /* Component */

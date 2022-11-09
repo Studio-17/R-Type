@@ -33,10 +33,6 @@ namespace System {
             *
             */
             DrawTextSystem();
-            /**
-             * @brief Destroy the Event System object
-             *
-             */
             ~DrawTextSystem() = default;
 
             /**

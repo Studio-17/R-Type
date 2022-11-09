@@ -11,7 +11,10 @@
     #include <functional>
     #include <unordered_map>
 
+    /* Ecs */
     #include "Registry.hpp"
+
+    /* Serialization */
     #include "Serialization.hpp"
 
     /* Component */
@@ -38,7 +41,10 @@ namespace System {
              * @param registry The registry that contains all the ECS
              * @param queues The sparse array of network queue entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &queues);
+            void operator()(
+                Registry &registry,
+                Sparse_array<component::cnetwork_queue_t> &queues
+            );
 
         protected:
         private:

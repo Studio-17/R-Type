@@ -6,7 +6,11 @@
 */
 
 #include "NetworkSystem.hpp"
+
+/* Serialization */
 #include "Serialization.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 /* Packet */
