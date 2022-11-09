@@ -14,6 +14,33 @@ System::HitboxSystem::HitboxSystem()
 {
 }
 
+void System::HitboxSystem::doHealthCheck(Registry &registry, component::cnetwork_queue_t &netQueue, component::chealth_t &health1, component::chealth_t &health2, component::clobby_id_t &lobbyId, int i, int x)
+{
+    health1.health--;
+    health2.health--;
+
+    if (health1.health == 0) {
+        netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(i)})});
+        registry.kill_entity(registry.entity_from_index(i));
+    }
+    if (health2.health == 0) {
+        netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(x)})});
+        registry.kill_entity(registry.entity_from_index(x));
+    }
+}
+
+void System::HitboxSystem::doScoreUpdate(component::cnetwork_queue_t &netQueue, component::clobby_id_t &lobbyId, Sparse_array<component::cscore_t> &score, Sparse_array<component::ctype_t> &type, Sparse_array<component::cowner_id_t> &ownerId, int x)
+{
+    (void)netQueue;
+    (void)lobbyId;
+    if (type[x].value().type == ENTITY_TYPE::BULLET) {
+        score[ownerId[x].value().id].value().score += 10;
+        std::cout << "Spaceship number : (ecs id)" << ownerId[x].value().id << "has a score of : " << score[ownerId[x].value().id].value().score << std::endl;
+    }
+    // Push into newtork queue the update
+}
+
+
 bool System::HitboxSystem::CheckCollision(component::crect_t const &rec1, component::crect_t const &rec2, component::cposition_t const &pos1, component::cposition_t const &pos2)
 {
     if (pos1.y < (pos2.y + rec2.height) && (pos1.y + rec1.height) > pos2.y)
@@ -22,8 +49,7 @@ bool System::HitboxSystem::CheckCollision(component::crect_t const &rec1, compon
     return false;
 }
 
-void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::ctype_t> &types, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects, Sparse_array<component::chealth_t> &health, Sparse_array<component::clobby_id_t> &lobbyId) {
-    (void)health;
+void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::ctype_t> &types, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects, Sparse_array<component::chealth_t> &health, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::cscore_t> &score, Sparse_array<component::ctype_t> &type, Sparse_array<component::cowner_id_t> &ownerId) {
     if (network_queues[FORBIDDEN_IDS::NETWORK]) {
         for (std::size_t i = 0; i < types.size() && i < positions.size() && i < rects.size() && i < lobbyId.size(); i++) {
             if (types[i] && positions[i] && rects[i] && lobbyId[i]) {
@@ -46,13 +72,14 @@ void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_a
                         if (secondtype.value().type == ENEMY)
                             continue;
                         if (CheckCollision(firstrect.value(), secondrect.value(), firstpos.value(), secondpos.value())) {
-                            std::cout << "hit box between " << firsttype.value().type << " and " << secondtype.value().type << std::endl;
                             if (secondtype.value().type == PLAYER || secondtype.value().type == BULLET) {
-                                std::cout << "hit box system lobby id entity to kill " << lobbyId[i].value().id << std::endl;
-                                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId[i].value().id, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(i)})});
-                                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId[i].value().id, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(x)})});
-                                registry.kill_entity(registry.entity_from_index(i));
-                                registry.kill_entity(registry.entity_from_index(x));
+                                // std::cout << "hit box system lobby id entity to kill " << lobbyId[i].value().id << std::endl;
+                                // network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId[i].value().id, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(i)})});
+                                // network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId[i].value().id, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(x)})});
+                                // registry.kill_entity(registry.entity_from_index(i));
+                                // registry.kill_entity(registry.entity_from_index(x));
+                                doScoreUpdate(network_queues[FORBIDDEN_IDS::NETWORK].value(), lobbyId[i].value(), score, type, ownerId, x);
+                                doHealthCheck(registry, network_queues[FORBIDDEN_IDS::NETWORK].value(), health[i].value(), health[x].value(), lobbyId[i].value(), i, x);
                                 break;
                             }
                         }
