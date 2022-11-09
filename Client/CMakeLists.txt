@@ -48,6 +48,7 @@ file(GLOB SOURCE_FILES
     Source/System/ControlSystem/*.cpp
     Source/System/DrawSpriteSystem/*.cpp
     Source/System/DrawTextSystem/*.cpp
+    Source/System/EndGameSystem/*.cpp
     Source/System/MoveSystem/*.cpp
     Source/System/NetworkSystem/*.cpp
     Source/System/NewEntitySystem/*.cpp
@@ -79,6 +80,7 @@ include_directories(
     Source/System/ControlSystem/
     Source/System/DrawSpriteSystem/
     Source/System/DrawTextSystem/
+    Source/System/EndGameSystem/
     Source/System/MoveSystem/
     Source/System/NetworkSystem/
     Source/System/NewEntitySystem/
