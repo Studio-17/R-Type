@@ -248,6 +248,7 @@ class Client {
         System::MouseSystem _mouseSystem; ///< System that handle mouse events
         System::UpdateEntityInfosSystem _updateEntityInfosSystem; ///< System that handle update entity info
         System::EndGameSystem _endGameSystem; ///< System that end Game
+        System::UpdateEntityInfosSystem _updateEntityInfosSystem; ///< System that handle update entity info
 };
 
 #endif /* !CLIENT_HPP_ */

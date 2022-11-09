@@ -18,6 +18,7 @@
     #include "NewConnection.hpp"
     #include "UpdateEntityInfos.hpp"
     #include "EndGame.hpp"
+    #include "UpdateEntityInfos.hpp"
 
 using byte = unsigned char;
 
@@ -42,6 +43,8 @@ namespace component {
         std::queue<packet_update_entity_health> updateEntityHealthQueue; ///< Queue containing update entity healt requests from server
         std::queue<packet_update_entity_score> updateEntityScoreQueue; ///< Queue containing update entity score requests from server
         std::queue<packet_end_game> endGameQueue; ///< Queue containing end game requests from server
+        std::queue<packet_update_entity_health> updateEntityHealthQueue; ///< Queue containing update entity healt requests from server
+        std::queue<packet_update_entity_score> updateEntityScoreQueue; ///< Queue containing update entity score requests from server
     };
 }
 
