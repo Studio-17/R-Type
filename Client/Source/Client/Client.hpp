@@ -33,6 +33,7 @@
     #include "System/SetNbPlayerInLobbySystem/SetNbPlayerInLobbySystem.hpp"
     #include "System/NewClientResponseSystem/NewClientResponseSystem.hpp"
     #include "System/MouseSystem/MouseSystem.hpp"
+    #include "System/UpdateEntityInfosSystem/UpdateEntityInfosSystem.hpp"
 
 /**
  * @brief The Client class, it defines a client and its interactions with the server
@@ -242,6 +243,7 @@ class Client {
         System::SetNbPlayerInLobbySystem _setNbPlayerInLobbySystem;
         System::NewClientResponseSystem _newClientResponseSystem;
         System::MouseSystem _mouseSystem; ///< System that handle mouse events
+        System::UpdateEntityInfosSystem _updateEntityInfosSystem; ///< System that handle update entity info
 };
 
 #endif /* !CLIENT_HPP_ */

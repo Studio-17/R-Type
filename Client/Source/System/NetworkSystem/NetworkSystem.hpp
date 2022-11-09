@@ -103,6 +103,22 @@ namespace System {
              */
             void dispatchNetworkClientIdQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
+            /**
+             * @brief A method to send informations to the update entity health queue
+             * 
+             * @param bytes The bytes to send
+             * @param network The sparse array of network entities
+             */
+            void dispatchUpdateEntityHealthQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+
+            /**
+             * @brief A method to send informations to the update entity score queue
+             * 
+             * @param bytes The bytes to send
+             * @param network The sparse array of network entities
+             */
+            void dispatchUpdateEntityScoreQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+
         protected:
         private:
     };

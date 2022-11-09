@@ -30,7 +30,7 @@ void System::ShootSystem::operator()(Registry &registry, Sparse_array<component:
             int lobbyId = LobbyId[netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(packet.first)].value().id;
             Entity bullet = createBullet(registry, position, packet.second.id, lobbyId);
 
-            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {static_cast<uint16_t>(bullet), position[bullet].value().x, position[bullet].value().y, 1, ENTITY_TYPE::BULLET, 0})});
+            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY, {static_cast<uint16_t>(bullet), position[bullet].value().x, position[bullet].value().y, 1, ENTITY_TYPE::BULLET, 0, 1, 0})});
         }
         netqueue[FORBIDDEN_IDS::NETWORK].value().shootQueue.pop();
     }

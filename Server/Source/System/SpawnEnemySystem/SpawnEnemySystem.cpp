@@ -37,7 +37,7 @@ void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<compo
     for (int i = 1; i <= (int)lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.size(); i++) {
         if (lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus[i].first == true) {
             Entity enemy = createEnemy(registry, i);
-            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({i, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0})});
+            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({i, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0, 1, 0})});
         }
     }
 }

@@ -59,6 +59,7 @@ file(GLOB SOURCE_FILES
     Source/System/SetNbPlayerInLobbySystem/*.cpp
     Source/System/NewClientResponseSystem/*.cpp
     Source/System/MouseSystem/*cpp
+    Source/System/UpdateEntityInfosSystem/*.cpp
     Source/fileConfig/*.cpp
     Source/AssetManager/*.cpp
 )
@@ -90,6 +91,7 @@ include_directories(
     Source/System/SetNbPlayerInLobbySystem/
     Source/System/NewClientResponseSystem/
     Source/System/MouseSystem/
+    Source/System/UpdateEntityInfosSystem/
     Source/AssetManager/
     Source/fileConfig/
 )

@@ -9,6 +9,7 @@
 #include "KillEntity.hpp"
 #include "Serialization.hpp"
 #include "Constant.hpp"
+#include "UpdateEntityInfos.hpp"
 
 System::HitboxSystem::HitboxSystem()
 {
@@ -18,6 +19,9 @@ void System::HitboxSystem::doHealthCheck(Registry &registry, component::cnetwork
 {
     health1.health--;
     health2.health--;
+
+    netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_update_entity_health>(NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_HEALTH, {static_cast<int>(i), health1.health})});
+    netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_update_entity_health>(NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_HEALTH, {static_cast<int>(x), health2.health})});
 
     if (health1.health == 0) {
         netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(i)})});
@@ -31,10 +35,9 @@ void System::HitboxSystem::doHealthCheck(Registry &registry, component::cnetwork
 
 void System::HitboxSystem::doScoreUpdate(component::cnetwork_queue_t &netQueue, component::clobby_id_t &lobbyId, Sparse_array<component::cscore_t> &score, Sparse_array<component::ctype_t> &type, Sparse_array<component::cowner_id_t> &ownerId, int x)
 {
-    (void)netQueue;
-    (void)lobbyId;
     if (type[x].value().type == ENTITY_TYPE::BULLET) {
         score[ownerId[x].value().id].value().score += 10;
+        netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_update_entity_score>(NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_SCORE, {static_cast<int>(x), score[ownerId[x].value().id].value().score})});
         std::cout << "Spaceship number : (ecs id)" << ownerId[x].value().id << "has a score of : " << score[ownerId[x].value().id].value().score << std::endl;
     }
     // Push into newtork queue the update
