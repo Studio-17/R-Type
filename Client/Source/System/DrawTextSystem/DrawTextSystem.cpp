@@ -24,7 +24,7 @@ void System::DrawTextSystem::operator()([[ maybe_unused ]] Registry &registry, S
             auto &color = colors[i];
 
             if (scene.value().sceneId == scenesId[FORBIDDEN_IDS::NETWORK].value().sceneId || scene.value().sceneId == SCENE::ALL)
-                _graphicLib->drawText(text.value().text, (Position){pos.value().x, pos.value().y, 0}, static_cast<std::size_t>(scale.value().scale), color.value().color);
+                _graphicLib->drawText(text.value().text, Position(pos.value().x, pos.value().y, 0), static_cast<std::size_t>(scale.value().scale), color.value().color);
         }
     }
 }

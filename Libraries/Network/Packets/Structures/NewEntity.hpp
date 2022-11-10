@@ -20,6 +20,8 @@ struct packet_new_entity {
     uint16_t direction; ///< direction of new entity;
     std::size_t type; ///< type of entity;
     int clientId; ///< id of client
+    int health; ///< health of new entity;
+    int score; ///< score of new entity;
 };
 
 #endif /* !NEWENTITY_HPP_ */

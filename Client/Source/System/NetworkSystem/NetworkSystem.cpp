@@ -19,6 +19,8 @@
 #include "KillEntity.hpp"
 #include "Lobbies.hpp"
 #include "NewConnection.hpp"
+#include "UpdateEntityInfos.hpp"
+#include "EndGame.hpp"
 
 System::NetworkSystem::NetworkSystem()
 {
@@ -26,13 +28,6 @@ System::NetworkSystem::NetworkSystem()
 
 void System::NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip)
 {
-    // const std::map<std::size_t, std::function<void(std::vector<byte>)>> queuesFunction;
-    // {NETWORK_SERVER_TO_CLIENT::POSITION, std::bind(&NetworkSystem::dispatchToPositionQueue, this, std::placeholders::_1, network)},
-    // {NETWORK_SERVER_TO_CLIENT::NEW_ENTITY, std::bind(&NetworkSystem::dispatchToNewEntityQueue, this, std::placeholders::_1, network)},
-    // {NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, std::bind(&NetworkSystem::dispatchToKillEntityQueue, this, std::placeholders::_1, network)},
-    // {NETWORK_SERVER_TO_CLIENT::NEW_PLAYER, std::bind(&NetworkSystem::handleNewPlayerAndDispatchToNewEntityQueue, this, std::placeholders::_1, network, idOfShip)},
-    // {NETWORK_SERVER_TO_CLIENT::SEND_LOBBYS, std::bind(&NetworkSystem::dispatchToGetLobbiesQueue, this, std::placeholders::_1, network)}
-
     while (!network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.empty()) {
         std::vector<byte> &tmp = network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.front();
         uint8_t id = serialize_header::getId(tmp);
@@ -60,6 +55,10 @@ void System::NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
             dispatchNbPlayersInLobbyQueue(bufferWithoutId, network);
         if (id == NETWORK_SERVER_TO_CLIENT::NEW_CLIENT_RESPONSE)
             dispatchNetworkClientIdQueue(bufferWithoutId, network);
+        if (id == NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_HEALTH)
+            dispatchUpdateEntityHealthQueue(bufferWithoutId, network);
+        if (id == NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_SCORE)
+            dispatchUpdateEntityScoreQueue(bufferWithoutId, network);
         if (id == NETWORK_SERVER_TO_CLIENT::END_GAME)
             dispatchEndGameQueue(bufferWithoutId, network);
 
@@ -117,6 +116,18 @@ void System::NetworkSystem::dispatchNetworkClientIdQueue(std::vector<byte> &byte
 {
     packet_new_connection_response packet = serializable_trait<packet_new_connection_response>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK].value().newConnectionResponseQueue.push(packet);
+}
+
+void System::NetworkSystem::dispatchUpdateEntityHealthQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+{
+    packet_update_entity_health packet = serializable_trait<packet_update_entity_health>::unserialize(bytes);
+    network[FORBIDDEN_IDS::NETWORK].value().updateEntityHealthQueue.push(packet);
+}
+
+void System::NetworkSystem::dispatchUpdateEntityScoreQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+{
+    packet_update_entity_score packet = serializable_trait<packet_update_entity_score>::unserialize(bytes);
+    network[FORBIDDEN_IDS::NETWORK].value().updateEntityScoreQueue.push(packet);
 }
 
 void System::NetworkSystem::dispatchEndGameQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network)

@@ -93,6 +93,15 @@ class Server {
          */
         void threadLoop();
 
+        /**
+         * @brief A method to load map of enemy
+         *
+         * @param mapPath path to the map file
+         * @return std::string content of the map
+         */
+
+        std::string loadMap(std::string const &mapPath);
+
         asio::io_context _context; ///< An asio context object that handles basic I/O
 
         std::queue<std::function<void(void)>> _responseQueue; ///< A queue that manages the tasks to be done by the systems using the packets received
