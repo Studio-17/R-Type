@@ -47,17 +47,17 @@
         "scale": 1.0,
         "texture": "Assets/Images/Parallax/parallax_background.png"
     },
-    "parallax_ground" : {
-        "title": "parallax_ground",
-        "nbFrame": 1,
-        "scale": 1.0,
-        "texture": "Assets/Images/Parallax/parallax_ground.png"
-    },
     "parallax_mountain" : {
         "title": "parallax_mountain",
         "nbFrame": 1,
         "scale": 1.0,
         "texture": "Assets/Images/Parallax/parallax_mountain.png"
+    },
+    "parallax_ground" : {
+        "title": "parallax_ground",
+        "nbFrame": 1,
+        "scale": 1.0,
+        "texture": "Assets/Images/Parallax/parallax_ground.png"
     },
     "planet": {
         "title": "planet",
