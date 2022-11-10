@@ -66,6 +66,10 @@ namespace System {
 
         protected:
         private:
+            enum MAPCONTENT {
+                empty = '0',
+                enemy = '1'
+            };
     };
 }
 
