@@ -1,7 +1,7 @@
 {
     "nb-players-in-lobby-txt": {
         "ref": "nb-players-in-lobby-txt",
-        "text": "Nomber of players in lobby",
+        "text": "Number of players in lobby",
         "color": [150, 150, 150, 255],
         "size": 50,
         "position": [100, 400],

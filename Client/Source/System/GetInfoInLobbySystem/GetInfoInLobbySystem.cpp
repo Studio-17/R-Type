@@ -25,7 +25,7 @@ void System::GetInfoInLobbySystem::operator()([[ maybe_unused ]] Registry &regis
         std::cout << "Lobbies Infos number players in lobby: " << lobby.nbPlayers << std::endl;
 
         Entity nbPlayers = registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("nb-players-in-lobby-txt")));
-        texts[nbPlayers].value().text = "Nomber of players in lobby : " + std::to_string(lobby.nbPlayers) + "/4";
+        texts[nbPlayers].value().text = "Number of players in lobby : " + std::to_string(lobby.nbPlayers) + "/4";
 
         netqueue[FORBIDDEN_IDS::NETWORK].value().nbPlayerInLobbyQueue.pop();
     }
