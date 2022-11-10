@@ -39,6 +39,14 @@
         "position": [800, 500],
         "nbFrame": 1,
         "audio": "",
+        "text": {
+            "font": "Assets/Fonts/Square.ttf",
+            "text": "",
+            "color": [150, 150, 150, 255],
+            "fontSize": 20,
+            "position": [15, 40],
+            "spacing": 7
+        },
         "scene": 4,
         "callback-type": "ip-input"
     },
@@ -48,6 +56,14 @@
         "position": [800, 700],
         "nbFrame": 1,
         "audio": "",
+        "text": {
+            "font": "Assets/Fonts/Square.ttf",
+            "text": "",
+            "color": [150, 150, 150, 255],
+            "fontSize": 20,
+            "position": [15, 40],
+            "spacing": 7
+        },
         "scene": 4,
         "callback-type": "port-input"
     },

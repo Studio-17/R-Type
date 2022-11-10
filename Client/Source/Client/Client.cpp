@@ -8,8 +8,12 @@
 #include <fstream>
 
 #include "Client.hpp"
-#include "Serialization.hpp"
+
+/* Constant */
 #include "Constant.hpp"
+
+/* Serialization */
+#include "Serialization.hpp"
 
 /* Packet */
 #include "Move.hpp"
@@ -19,6 +23,7 @@
 
 /* Component */
 #include "CRef.hpp"
+#include "CRefId.hpp"
 #include "fileConfig.hpp"
 #include "CHealth.hpp"
 #include "CScore.hpp"
@@ -54,7 +59,7 @@ void Client::tryToConnect()
 
 void Client::machineRun()
 {
-    tryToConnect();
+    // tryToConnect();
     while (!_graphicLib->windowShouldClose()) {
         _graphicLib->startDrawingWindow();
         _graphicLib->clearScreen();
@@ -121,6 +126,7 @@ void Client::setUpEcs()
     _registry.register_component<component::ctext_t>();
     _registry.register_component<component::ccolor_t>();
     _registry.register_component<component::cref_t>();
+    _registry.register_component<component::crefid_t>();
     _registry.register_component<component::chealth_t>();
     _registry.register_component<component::cscore_t>();
 }
@@ -132,7 +138,7 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t>(_killSystem);
     _registry.add_system<component::crect_t, component::ctimer_t, component::casset_t, component::cassetid_t>(_rectSystem);
     _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t, component::cclient_network_id>(_controlSystem);
-	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t>(_mouseSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t, component::cref_t, component::crefid_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id, component::csceneid_t>(_newEntitySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cref_t, component::ctext_t>(_getLobbiesSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cref_t, component::ctext_t>(_getInfoInLobbySystem);
@@ -143,6 +149,7 @@ void Client::setUpSystems()
 	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t>(_drawSpriteSystem);
     _registry.add_system<component::cposition_t, component::csceneid_t, component::cscale_t, component::ccolor_t, component::ctext_t>(_drawTextSystem);
     _registry.add_system<component::cnetwork_queue_t, component::csceneid_t>(_endGameSystem);
+    _registry.add_system<component::crefid_t, component::cposition_t>(_parallaxSystem);
     _registry.add_system<component::chealth_t, component::cscore_t, component::cnetwork_queue_t, component::cserverid_t>(_updateEntityInfosSystem);
 }
 
@@ -160,7 +167,8 @@ void Client::setUpComponents()
             component::casset_t{ .assets = assetMan.assets },
             component::csceneid_t{ .sceneId = SCENE::CONNECTION }, // Set scene when the program start
             component::cclient_network_id {},
-            component::cref_t{}
+            component::cref_t{},
+            component::crefid_t{}
     );
 
     loadImages(_configurationFiles.at("IMAGES"), _registry.get_components<component::casset_t>());
@@ -201,8 +209,10 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
         component::ctype_t{ .type = TEXT },
         component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
         component::cscale_t{ .scale = fontSize },
-        component::ccolor_t{ .color = color }
+        component::ccolor_t{ .color = color },
+        component::crefid_t{ .refId = ref }
     );
+    // std::cout << ref << std::endl;
 
     Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
 
@@ -238,7 +248,8 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
             component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
             component::cvelocity_t{ .velocity = velocity },
-            component::cdirection_t{ .x = direction[0], .y = direction[1] }
+            component::cdirection_t{ .x = direction[0], .y = direction[1] },
+            component::crefid_t{ .refId = ref }
         );
 
         Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
@@ -289,20 +300,29 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
             component::cassetid_t{ .assets = assetId },
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
             component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
-            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() }
+            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
+            component::crefid_t{ .refId = ref }
         );
         if (oneData.contains("text"))
             createText(oneData.at("text"), pos, scene, ("text-" + ref));
 
         Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
-
         reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(button))});
+
+        if (ref == "name-input" || ref == "ip-input" || ref == "port-input") {
+            Sparse_array<component::cref_t> &inputRef = _registry.get_components<component::cref_t>();
+            Sparse_array<component::ctype_t> &inputType = _registry.get_components<component::ctype_t>();
+
+            Entity inputBox = _registry.entity_from_index(static_cast<std::size_t>(inputRef[FORBIDDEN_IDS::NETWORK].value().ref.at(ref)));
+
+            inputType[inputBox].value().type = ENTITY_TYPE::INPUT_BOX;
+        }
     }
 }
 
 void Client::connectToServer()
 {
-    // tryToConnect();
+    tryToConnect();
 
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
@@ -316,7 +336,30 @@ void Client::nameInput()
 
     // Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-name-input")));
 
-    // content[test].value().text = "Prout";
+    // content[test].value().text = "test";
+    // char name[19 + 1] = "\0";
+    // content[test].value().text = name;
+    // int letterCount = 0;
+    // int key = _graphicLib->getPressedCharcode();
+
+    // while (key > 0) {
+    //     if ((key >= 32) && (key <= 125) && letterCount < 20) {
+    //         // name[letterCount] = static_cast<char>(key);
+    //         // name[letterCount + 1] = '\0';
+    //         // content[test].value().text = name;
+    //         // letterCount++;
+    //         std::cout << "In" << std::endl;
+    //     }
+    //     key = _graphicLib->getPressedCharcode();
+    // }
+    // if (_graphicLib->hasBeenPressed(KEY_BACKSPACE) && letterCount > 0) {
+    //     name[letterCount - 1] = '\0';
+    //     content[test].value().text = name;
+    //     letterCount--;
+    // }
+    // if (_graphicLib->hasBeenPressed(KEY_ENTER)) {
+
+    // }
 }
 
 void Client::ipInput()
