@@ -8,8 +8,12 @@
 #include <fstream>
 
 #include "Client.hpp"
-#include "Serialization.hpp"
+
+/* Constant */
 #include "Constant.hpp"
+
+/* Serialization */
+#include "Serialization.hpp"
 
 /* Packet */
 #include "Move.hpp"
@@ -52,7 +56,7 @@ void Client::tryToConnect()
 
 void Client::machineRun()
 {
-    tryToConnect();
+    // tryToConnect();
     while (!_graphicLib->windowShouldClose()) {
         _graphicLib->startDrawingWindow();
         _graphicLib->clearScreen();
@@ -139,6 +143,7 @@ void Client::setUpSystems()
 	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t>(_drawSpriteSystem);
     _registry.add_system<component::cposition_t, component::csceneid_t, component::cscale_t, component::ccolor_t, component::ctext_t>(_drawTextSystem);
     _registry.add_system<component::cnetwork_queue_t, component::csceneid_t>(_endGameSystem);
+    _registry.add_system<component::cref_t, component::cposition_t>(_parallaxSystem);
 }
 
 void Client::setUpComponents()
@@ -297,7 +302,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
 
 void Client::connectToServer()
 {
-    // tryToConnect();
+    tryToConnect();
 
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 

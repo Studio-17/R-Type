@@ -53,6 +53,7 @@ file(GLOB SOURCE_FILES
     Source/System/MoveSystem/*.cpp
     Source/System/NetworkSystem/*.cpp
     Source/System/NewEntitySystem/*.cpp
+    Source/System/ParallaxSystem/*.cpp
     Source/System/PositionSystem/*.cpp
     Source/System/RectSystem/*cpp
     Source/System/KillEntityTypeSystem/*cpp
@@ -86,6 +87,7 @@ include_directories(
     Source/System/MoveSystem/
     Source/System/NetworkSystem/
     Source/System/NewEntitySystem/
+    Source/System/ParallaxSystem/
     Source/System/PositionSystem/
     Source/System/RectSystem/
     Source/System/KillEntityTypeSystem/

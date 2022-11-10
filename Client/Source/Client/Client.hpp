@@ -26,6 +26,7 @@
     #include "System/RectSystem/RectSystem.hpp"
     #include "System/ControlSystem/ControlSystem.hpp"
     #include "System/NewEntitySystem/NewEntitySystem.hpp"
+    #include "System/ParallaxSystem/ParallaxSystem.hpp"
     #include "System/PositionSystem/PositionSystem.hpp"
     #include "System/MoveSystem/MoveSystem.hpp"
     #include "System/KillSystem/KillSystem.hpp"
@@ -236,6 +237,7 @@ class Client {
         System::RectSystem _rectSystem; ///< System that a part of a entity
         System::ControlSystem _controlSystem; ///< System that controls the entities
         System::NewEntitySystem _newEntitySystem; ///< System that creates new entities
+        System::ParallaxSystem _parallaxSystem; ///< System that moves the background
         System::PositionSystem _positionSystem; ///< System that updates the position of the entities
         System::MoveSystem _moveSystem; ///< System that updates the position of the entities using direction and velocity
         System::KillEntityTypeSystem _killEntityTypeSystem; ///< System that kill entity type
