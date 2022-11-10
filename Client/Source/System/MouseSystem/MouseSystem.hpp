@@ -8,6 +8,9 @@
 #ifndef MOUSESYSTEM_HPP_
     #define MOUSESYSTEM_HPP_
 
+    #include <map>
+    #include <functional>
+
     /* Ecs */
     #include "Registry.hpp"
 
@@ -20,6 +23,9 @@
 	#include "Component/CSceneId.hpp"
     #include "Component/CType.hpp"
     #include "Component/CCallback.hpp"
+    #include "Component/CRef.hpp"
+    #include "Component/CRefId.hpp"
+    #include "Component/CText.hpp"
 
 /**
  * @brief Namespace for systems
@@ -36,6 +42,10 @@ namespace System {
             MouseSystem();
             ~MouseSystem() = default;
 
+            void updateNameInput(Registry &registry);
+            void updateIpInput(Registry &registry);
+            void updatePortInput(Registry &registry);
+
             /**
              * @brief Function that will be automaticaly called while the client is working (on loop)
              *
@@ -46,18 +56,23 @@ namespace System {
              * @param types The sparse array of type entities
              * @param callbacks The sparse array of callback entities
              */
-    		void operator()(
-                Registry &registry,
-                Sparse_array<component::cposition_t> &positions,
-                Sparse_array<component::crect_t> &rects,
-                Sparse_array<component::csceneid_t> &scenesId,
-                Sparse_array<component::ctype_t> &types,
-                Sparse_array<component::ccallback_t> &callbacks
-            );
+    		void operator()(Registry &registry,
+                            Sparse_array<component::cposition_t> &positions,
+                            Sparse_array<component::crect_t> &rects,
+                            Sparse_array<component::csceneid_t> &scenesId,
+                            Sparse_array<component::ctype_t> &types,
+                            Sparse_array<component::ccallback_t> &callbacks,
+                            Sparse_array<component::cref_t> &refs,
+                            Sparse_array<component::crefid_t> &refIds);
 
         protected:
         private:
             std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
+            std::string _nameInput; ///< Name of the client
+            std::string _ipInput; ///< Ip of the client
+            std::string _portInput; ///< Port of the client
+
+            std::map<std::string, std::function<void(Registry &)>> _input;
     };
 }
 
