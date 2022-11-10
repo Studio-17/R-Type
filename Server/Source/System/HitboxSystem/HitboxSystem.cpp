@@ -48,7 +48,7 @@ void System::HitboxSystem::doScoreUpdate(component::cnetwork_queue_t &netQueue, 
     if (type[x].value().type == ENTITY_TYPE::BULLET) {
         score[ownerId[x].value().id].value().score += 10;
         netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_update_entity_score>(NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_SCORE, {static_cast<int>(x), score[ownerId[x].value().id].value().score})});
-        std::cout << "Spaceship number : (ecs id)" << ownerId[x].value().id << "has a score of : " << score[ownerId[x].value().id].value().score << std::endl;
+        // std::cout << "Spaceship number : (ecs id)" << ownerId[x].value().id << "has a score of : " << score[ownerId[x].value().id].value().score << std::endl;
     }
     // Push into newtork queue the update
 }
