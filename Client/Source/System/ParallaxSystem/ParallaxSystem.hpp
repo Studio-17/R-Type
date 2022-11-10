@@ -15,7 +15,7 @@
 
     /* Component */
     #include "Component/CPosition.hpp"
-    #include "Component/CRef.hpp"
+    #include "Component/CRefId.hpp"
 
 /**
  * @brief Namespace for systems
@@ -31,7 +31,7 @@ namespace System {
 
             void operator()(
                 Registry &registry,
-                Sparse_array<component::cref_t> &refs,
+                Sparse_array<component::crefid_t> &refIds,
                 Sparse_array<component::cposition_t> &positions
             );
 
