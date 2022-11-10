@@ -64,8 +64,23 @@ namespace System {
              */
             Entity createEnemy(Registry &registry, int lobby_id);
 
+            /**
+             * @brief Create a Enemy2 object
+             *
+             * @param registry The registry that contains all the ECS
+             * @param map The sparse array of map entities
+             * @return Entity The entity of the enemy
+             */
+            Entity createEnemy2(Registry &registry, int lobby_id);
+
+
+
         protected:
         private:
+            enum MAPCONTENT {
+                empty = '0',
+                enemy = '1'
+            };
     };
 }
 

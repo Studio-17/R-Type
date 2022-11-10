@@ -69,6 +69,7 @@ enum ENTITY_TYPE {
     IMAGE,
     UI,
     NET,
+    ENEMY2,
     INPUT_BOX
 };
 

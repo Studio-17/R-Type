@@ -85,6 +85,15 @@ namespace System {
             void addEnemy(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets);
 
             /**
+             * @brief A method to add a new enemy entity
+             *
+             * @param registry The registry of the client
+             * @param packet_new_entity The packet containing the new entity
+             * @param assets The sparse array of asset id entities
+             */
+            void addEnemy2(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets);
+
+            /**
              * @brief A method to check if an entity already exists
              *
              * @param newEntityId The id of the new entity
