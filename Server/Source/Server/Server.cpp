@@ -143,16 +143,22 @@ void Server::setUpComponents()
     Entity lobbiesEntity = _registry.spawn_entity_with(
         component::clobbies_to_entities_t{},
         component::clobbies_status_t { .lobbiesStatus = {{1, {false, 1}}, {2, {false, 1}}, {3, {false, 1}}} },
-        component::cmap_t { .map = loadMap("Assets/Maps/mapTest.txt"), .index = 0, .end = false}
+        component::cmap_t { .map = loadMap("Assets/Maps/mapTest.txt"), .index = {{1, 0}, {2, 0}, {3, 0}}, .end = false}
     );
 }
 
-std::string Server::loadMap(std::string const &mapPath)
+std::vector<std::string> Server::loadMap(std::string const &mapPath)
 {
     std::ifstream myfile(mapPath);
     std::string mapContent;
+    std::vector<std::string> map;
 
-    if (myfile.is_open())
-        myfile >> mapContent;
-    return mapContent;
+    if (!myfile.is_open())
+        return {};
+    while (std::getline(myfile, mapContent)) {
+        if (mapContent[0] == '#')
+            continue;
+        map.emplace_back(mapContent);
+    }
+    return map;
 }

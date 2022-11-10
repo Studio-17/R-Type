@@ -8,6 +8,8 @@
 #ifndef SPAWNENEMYSYSTEM_HPP_
     #define SPAWNENEMYSYSTEM_HPP_
 
+    #include <utility>
+
     /* Ecs */
     #include "Registry.hpp"
 
@@ -62,7 +64,7 @@ namespace System {
              * @param map The sparse array of map entities
              * @return Entity The entity of the enemy
              */
-            Entity createEnemy(Registry &registry, int lobby_id);
+            Entity createEnemy(Registry &registry, int lobby_id, std::size_t line, std::size_t map_size);
 
             /**
              * @brief Create a Enemy2 object
@@ -81,6 +83,7 @@ namespace System {
                 empty = '0',
                 enemy = '1'
             };
+            std::pair<int, int> _mapDimension;
     };
 }
 

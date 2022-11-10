@@ -12,7 +12,6 @@
     #include <thread>
     #include <queue>
     #include <map>
-    #include <unordered_map>
     #include <functional>
 
     #include <asio/ip/udp.hpp>
@@ -97,10 +96,10 @@ class Server {
          * @brief A method to load map of enemy
          *
          * @param mapPath path to the map file
-         * @return std::string content of the map
+         * @return std::vector<std::string> content of the map
          */
 
-        std::string loadMap(std::string const &mapPath);
+        std::vector<std::string> loadMap(std::string const &mapPath);
 
         asio::io_context _context; ///< An asio context object that handles basic I/O
 
