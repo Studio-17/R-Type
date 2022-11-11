@@ -43,5 +43,14 @@
         "position": [100, 100],
         "spacing": 7,
         "scene": 5
+    },
+    "rooms-title-txt": {
+        "ref": "rooms-title-txt",
+        "text": "ROOMS",
+        "color": [150, 150, 150, 255],
+        "size": 40,
+        "position": [100, 100],
+        "spacing": 7,
+        "scene": 6
     }
 }

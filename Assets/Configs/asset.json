@@ -106,5 +106,23 @@
         "nbFrame": 1,
         "scale": 1,
         "texture": "Assets/Images/Buttons/back_button.png"
+    },
+    "next-button": {
+        "title": "next-button",
+        "nbFrame": 1,
+        "scale": 1,
+        "texture": "Assets/Images/Buttons/next_button.png"
+    },
+    "lobbies": {
+        "title": "lobbies",
+        "nbFrame": 1,
+        "scale": 1,
+        "texture": "Assets/Images/Sprites/lobbies.png"
+    },
+    "lobby-button": {
+        "title": "lobby-button",
+        "nbFrame": 1,
+        "scale": 1,
+        "texture": "Assets/Images/Buttons/lobby_button.png"
     }
 }

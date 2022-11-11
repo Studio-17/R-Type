@@ -163,33 +163,25 @@
     },
     "back-to-main-menu-btn": {
         "ref": "back-to-main-menu-btn",
-        "textureId": "button",
-        "position": [100, 900],
+        "textureId": "back-button",
+        "position": [100, 950],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "text": {
-            "font": "Assets/Fonts/Square.ttf",
-            "text": "Back",
-            "color": [150, 150, 150, 255],
-            "size": 40,
-            "position": [200, 30],
-            "spacing": 7
-        },
         "scene": 6,
         "callback-type": "back-to-main-menu"
     },
     "room-one-btn": {
         "ref": "room-one-btn",
-        "textureId": "button",
-        "position": [100, 200],
+        "textureId": "lobby-button",
+        "position": [115, 390],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
             "font": "Assets/Fonts/Square.ttf",
-            "text": "Room One",
+            "text": "Room 1",
             "color": [150, 150, 150, 255],
             "size": 40,
-            "position": [200, 30],
+            "position": [20, 30],
             "spacing": 7
         },
         "scene": 6,
@@ -197,16 +189,16 @@
     },
     "room-two-btn": {
         "ref": "room-two-btn",
-        "textureId": "button",
-        "position": [100, 400],
+        "textureId": "lobby-button",
+        "position": [115, 500],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
             "font": "Assets/Fonts/Square.ttf",
-            "text": "Room Two",
+            "text": "Room 2",
             "color": [150, 150, 150, 255],
             "size": 40,
-            "position": [200, 30],
+            "position": [20, 30],
             "spacing": 7
         },
         "scene": 6,
@@ -214,16 +206,16 @@
     },
     "room-three-btn": {
         "ref": "room-three-btn",
-        "textureId": "button",
-        "position": [100, 600],
+        "textureId": "lobby-button",
+        "position": [115, 610],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
             "font": "Assets/Fonts/Square.ttf",
-            "text": "Room Three",
+            "text": "Room 3",
             "color": [150, 150, 150, 255],
             "size": 40,
-            "position": [200, 30],
+            "position": [20, 30],
             "spacing": 7
         },
         "scene": 6,
@@ -231,18 +223,10 @@
     },
     "join-lobby-btn": {
         "ref": "join-lobby-btn",
-        "textureId": "button",
-        "position": [1300, 900],
+        "textureId": "next-button",
+        "position": [1750, 950],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "text": {
-            "font": "Assets/Fonts/Square.ttf",
-            "text": "Join",
-            "color": [150, 150, 150, 255],
-            "size": 40,
-            "position": [200, 30],
-            "spacing": 7
-        },
         "scene": 6,
         "callback-type": "see-lobby"
     }

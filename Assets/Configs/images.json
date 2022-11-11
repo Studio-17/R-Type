@@ -53,14 +53,14 @@
         "scene": 0,
         "direction": [-1, 0]
     },
-    "7-planet-img": {
+    "planet-img": {
         "ref": "planet-img",
         "textureId": "planet",
         "position": [100, 250],
         "sound": "Ressources/buttons/click_sound.ogg",
         "scene": 5
     },
-    "8-r-type-logo-img": {
+    "r-type-logo-img": {
         "ref": "r-type-logo-img",
         "textureId": "r-type-logo",
         "position": [575, 30],
@@ -68,12 +68,26 @@
         "scale": 1.1,
         "scene": 4
     },
-    "9-title-background-main-menu-img": {
-        "ref": "title-background-main-menu-img",
+    "title-scene-main-menu-img": {
+        "ref": "title-scene-main-menu-img",
         "textureId": "title-background",
         "position": [0, 60],
         "sound": "Ressources/buttons/click_sound.ogg",
-        "scale": 1.1,
         "scene": 5
+    },
+    "title-scene-lobbies-img": {
+        "ref": "title-scene-lobbies-img",
+        "textureId": "title-background",
+        "position": [0, 60],
+        "sound": "Ressources/buttons/click_sound.ogg",
+        "scene": 6
+    },
+    "lobbies-img": {
+        "ref": "lobbies-img",
+        "textureId": "lobbies",
+        "position": [100, 375],
+        "sound": "Ressources/buttons/click_sound.ogg",
+        "scale": 1,
+        "scene": 6
     }
 }
