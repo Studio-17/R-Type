@@ -9,6 +9,8 @@
     #define SPAWNENEMYSYSTEM_HPP_
 
     #include <utility>
+    #include <unordered_map>
+    #include <functional>
 
     /* Ecs */
     #include "Registry.hpp"
@@ -58,32 +60,38 @@ namespace System {
             );
 
             /**
-             * @brief Create a Enemy object
+             * @brief Create an Enemy object
              *
              * @param registry The registry that contains all the ECS
-             * @param map The sparse array of map entities
+             * @param lobby_id The id of the lobby where spawn the entity
+             * @param line The line number of the entity position in the spawn enemy map
+             * @param map_size The number of line of the spawn enemy map
              * @return Entity The entity of the enemy
              */
             Entity createEnemy(Registry &registry, int lobby_id, std::size_t line, std::size_t map_size);
 
             /**
-             * @brief Create a Enemy2 object
+             * @brief Create an Enemy2 object
              *
              * @param registry The registry that contains all the ECS
-             * @param map The sparse array of map entities
+             * @param lobby_id The id of the lobby where spawn the entity
+             * @param line The line number of the entity position in the spawn enemy map
+             * @param map_size The number of line of the spawn enemy map
              * @return Entity The entity of the enemy
              */
-            Entity createEnemy2(Registry &registry, int lobby_id);
+            Entity createEnemy2(Registry &registry, int lobby_id, std::size_t line, std::size_t map_size);
 
 
 
         protected:
         private:
             enum MAPCONTENT {
-                empty = '0',
-                enemy = '1'
+                EMPTY = '0',
+                ENEMY1 = '1',
+                ENEMY2 = '2'
             };
             std::pair<int, int> _mapDimension;
+            std::unordered_map<MAPCONTENT, std::function<Entity(Registry &, int, std::size_t, std::size_t)>> _entityCreator;
     };
 }
 
