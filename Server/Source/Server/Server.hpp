@@ -100,6 +100,23 @@ class Server {
          */
         std::vector<std::string> loadMap(std::string const &mapPath);
 
+        /**
+         * @brief Get the Files List From Directory object
+         *
+         * @param directory The path to the directory
+         * @param suffix The suffix needed by the files to be selected
+         * @return std::vector<std::string> List of the files contained in the directory with the suffix
+         */
+        std::vector<std::string> getFilesListFromDirectory(std::string const &directory, std::string const &suffix);
+
+        /**
+         * @brief A method to load all the maps of enemy from a directory
+         *
+         * @param directoryPath The path to the directory
+         * @return std::vector<std::vector<std::string>> List of maps content
+         */
+        std::vector<std::vector<std::string>> loadAllMaps(std::string const &directoryPath);
+
         asio::io_context _context; ///< An asio context object that handles basic I/O
 
         std::queue<std::function<void(void)>> _responseQueue; ///< A queue that manages the tasks to be done by the systems using the packets received
