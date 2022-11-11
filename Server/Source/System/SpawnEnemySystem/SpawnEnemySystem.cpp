@@ -45,23 +45,23 @@ void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<compo
         return;
     for (int index = 1; index <= (int)lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.size(); index++) {
         if (lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus[index].first == true) {
-            if  (map[FORBIDDEN_IDS::LOBBY].value().end)
+            if  (map[FORBIDDEN_IDS::LOBBY].value().end.at(index))
                 continue;
-            for (std::size_t line = 0; line != map[FORBIDDEN_IDS::LOBBY].value().map.at(0).size(); line++) {
-                if (map[FORBIDDEN_IDS::LOBBY].value().map.at(0).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)) == MAPCONTENT::EMPTY)
+            for (std::size_t line = 0; line != map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).size(); line++) {
+                if (map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)) == MAPCONTENT::EMPTY)
                     continue;
                 try {
-                    Entity enemy = _entityCreator.at(static_cast<MAPCONTENT>(map[FORBIDDEN_IDS::LOBBY].value().map.at(0).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index))))(registry, index, line, map[FORBIDDEN_IDS::LOBBY].value().map.at(0).size());
+                    Entity enemy = _entityCreator.at(static_cast<MAPCONTENT>(map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index))))(registry, index, line, map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).size());
                     netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({index, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0, 1, 0})});
                 } catch (std::out_of_range const &e) {
-                    std::cerr << "Spawn Enemy System: key value " << map[FORBIDDEN_IDS::LOBBY].value().map.at(0).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)) << " is undefined" << std::endl;
+                    std::cerr << "Spawn Enemy System: key value " << map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)) << " is undefined" << std::endl;
                 }
             }
             map[FORBIDDEN_IDS::LOBBY].value().index.at(index) += 1;
-        }
-        if (map[FORBIDDEN_IDS::LOBBY].value().index.at(index) >= map[FORBIDDEN_IDS::LOBBY].value().map.at(0).at(0).size()) {
-            std::cout << "Spawn enemy end at size "<<  map[FORBIDDEN_IDS::LOBBY].value().map.at(0).at(0).size() <<std::endl;
-            map[FORBIDDEN_IDS::LOBBY].value().end = true;
+            if (map[FORBIDDEN_IDS::LOBBY].value().index.at(index) >= map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).at(0).size()) {
+                std::cout << "Spawn enemy end at size "<<  map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).at(0).size() <<std::endl;
+                map[FORBIDDEN_IDS::LOBBY].value().end.at(index) = true;
+            }
         }
     }
 }

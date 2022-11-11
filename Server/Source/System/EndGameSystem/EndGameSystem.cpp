@@ -33,11 +33,11 @@ std::size_t countNbEntityInLobby(int lobbyId, ENTITY_TYPE entityType, Sparse_arr
     return count;
 }
 
-void System::EndGameSystem::operator()([[ maybe_unused ]] Registry &registry, [[ maybe_unused ]]Sparse_array<component::cnetwork_queue_t> &network_queues, [[ maybe_unused ]]Sparse_array<component::ctype_t> &type,[[ maybe_unused ]] Sparse_array<component::clobby_id_t> &lobbyIds, [[ maybe_unused ]]Sparse_array<component::clobbies_status_t> &lobbiesStatus, Sparse_array<component::cmap_t> &map)
+void System::EndGameSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::ctype_t> &type, Sparse_array<component::clobby_id_t> &lobbyIds, Sparse_array<component::clobbies_status_t> &lobbiesStatus, Sparse_array<component::cmap_t> &map)
 {
     for (int lobbyId = 1; lobbyId <= 3; lobbyId++) {
-        if ((!countNbEntityInLobby(lobbyId, ENTITY_TYPE::PLAYER, type, lobbyIds) || (map[FORBIDDEN_IDS::LOBBY].value().end && !countNbEntityInLobby(lobbyId, ENTITY_TYPE::ENEMY, type, lobbyIds))) && lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.at(lobbyId).first) {
-            std::cout << "EndGame System no spaceship alive"<<std::endl;
+        if ((!countNbEntityInLobby(lobbyId, ENTITY_TYPE::PLAYER, type, lobbyIds) || (map[FORBIDDEN_IDS::LOBBY].value().end.at(lobbyId) && !countNbEntityInLobby(lobbyId, ENTITY_TYPE::ENEMY, type, lobbyIds))) && lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.at(lobbyId).first) {
+            // std::cout << "EndGame System no spaceship alive"<<std::endl;
             for (std::size_t index = 0; index < lobbyIds.size() && index < type.size(); index++) {
                 if (!lobbyIds[index] || !type[index])
                     continue;
@@ -45,6 +45,9 @@ void System::EndGameSystem::operator()([[ maybe_unused ]] Registry &registry, [[
                     registry.kill_entity(registry.entity_from_index(index));
             }
             lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.at(lobbyId).first = false;
+            std::cout << "EndGame System no spaceship alive "<< lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.at(lobbyId).first <<std::endl;
+            map[FORBIDDEN_IDS::LOBBY].value().end.at(lobbyId) = false;
+            map[FORBIDDEN_IDS::LOBBY].value().index.at(lobbyId) = 0;
             lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.at(lobbyId).second = 1;
             for (auto &entity : _entityToKill)
                 network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_kill_entity_type>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY_TYPE, {static_cast<int>(entity)})});
