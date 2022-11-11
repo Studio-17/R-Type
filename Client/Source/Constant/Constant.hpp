@@ -31,6 +31,7 @@ enum SCENE {
     OPTIONS,
     CREATE_LOBBY,
     LOBBY,
+    EXIT
 };
 
 #endif /* !CONSTANT_HPP_ */

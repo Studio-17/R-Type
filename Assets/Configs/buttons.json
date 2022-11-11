@@ -1,17 +1,15 @@
 {
     "connect-btn": {
         "ref": "connect-btn",
-        "textureId": "button",
-        "position": [1300, 900],
+        "textureId": "little-button",
+        "position": [760, 900],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
-            "font": "Assets/Fonts/Square.ttf",
             "text": "Connect",
             "color": [150, 150, 150, 255],
             "size": 40,
-            "position": [200, 30],
-            "spacing": 7
+            "position": [120, 30]
         },
         "scene": 4,
         "callback-type": "connect"
@@ -23,12 +21,10 @@
         "nbFrame": 3,
         "audio": "",
         "text": {
-            "font": "Assets/Fonts/Square.ttf",
             "text": "",
             "color": [150, 150, 150, 255],
             "size": 60,
-            "position": [15, 40],
-            "spacing": 7
+            "position": [15, 40]
         },
         "scene": 4,
         "callback-type": "name-input"
@@ -40,12 +36,10 @@
         "nbFrame": 3,
         "audio": "",
         "text": {
-            "font": "Assets/Fonts/Square.ttf",
             "text": "",
             "color": [150, 150, 150, 255],
             "size": 60,
-            "position": [15, 40],
-            "spacing": 7
+            "position": [15, 40]
         },
         "scene": 4,
         "callback-type": "ip-input"
@@ -57,150 +51,150 @@
         "nbFrame": 3,
         "audio": "",
         "text": {
-            "font": "Assets/Fonts/Square.ttf",
             "text": "",
             "color": [150, 150, 150, 255],
             "size": 60,
-            "position": [15, 40],
-            "spacing": 7
+            "position": [15, 40]
         },
         "scene": 4,
         "callback-type": "port-input"
     },
     "rooms-btn": {
         "ref": "rooms-btn",
-        "textureId": "button",
-        "position": [1300, 200],
+        "textureId": "long-button",
+        "position": [920, 300],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
-            "font": "Assets/Fonts/Square.ttf",
             "text": "Rooms",
             "color": [150, 150, 150, 255],
             "size": 40,
-            "position": [200, 30],
-            "spacing": 7
+            "position": [200, 30]
         },
         "scene": 5,
         "callback-type": "see-rooms"
     },
-    "back-to-connexion-btn": {
-        "ref": "back-to-connexion-btn",
-        "textureId": "button",
-        "position": [100, 900],
+    "maps-btn": {
+        "ref": "maps-btn",
+        "textureId": "long-button",
+        "position": [920, 450],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
-            "font": "Assets/Fonts/Square.ttf",
+            "text": "Maps",
+            "color": [150, 150, 150, 255],
+            "size": 40,
+            "position": [200, 30]
+        },
+        "scene": 5,
+        "callback-type": "see-rooms"
+    },
+    "options-btn": {
+        "ref": "options-btn",
+        "textureId": "long-button",
+        "position": [920, 600],
+        "nbFrame": 3,
+        "audio": "Ressources/buttons/click_sound.ogg",
+        "text": {
+            "text": "Options",
+            "color": [150, 150, 150, 255],
+            "size": 40,
+            "position": [200, 30]
+        },
+        "scene": 5,
+        "callback-type": "see-rooms"
+    },
+    "exit-btn": {
+        "ref": "exit-btn",
+        "textureId": "long-button",
+        "position": [920, 750],
+        "nbFrame": 3,
+        "audio": "Ressources/buttons/click_sound.ogg",
+        "text": {
             "text": "Exit",
             "color": [150, 150, 150, 255],
             "size": 40,
-            "position": [200, 30],
-            "spacing": 7
+            "position": [200, 30]
         },
+        "scene": 5,
+        "callback-type": "exit"
+    },
+    "back-to-connexion-btn": {
+        "ref": "back-to-connexion-btn",
+        "textureId": "back-button",
+        "position": [100, 950],
+        "nbFrame": 3,
+        "audio": "Ressources/buttons/click_sound.ogg",
         "scene": 5,
         "callback-type": "back-to-connexion"
     },
     "play-btn": {
         "ref": "play-btn",
-        "textureId": "button",
-        "position": [1300, 700],
+        "textureId": "long-button",
+        "position": [920, 800],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
-            "font": "Assets/Fonts/Square.ttf",
             "text": "Play",
             "color": [150, 150, 150, 255],
             "size": 40,
-            "position": [200, 30],
-            "spacing": 7
+            "position": [200, 30]
         },
         "scene": 10,
         "callback-type": "start-game"
     },
     "back-to-main-menu-btn": {
         "ref": "back-to-main-menu-btn",
-        "textureId": "button",
-        "position": [100, 900],
+        "textureId": "back-button",
+        "position": [100, 950],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
-        "text": {
-            "font": "Assets/Fonts/Square.ttf",
-            "text": "Back",
-            "color": [150, 150, 150, 255],
-            "size": 40,
-            "position": [200, 30],
-            "spacing": 7
-        },
         "scene": 6,
         "callback-type": "back-to-main-menu"
     },
     "room-one-btn": {
         "ref": "room-one-btn",
-        "textureId": "button",
-        "position": [100, 200],
+        "textureId": "lobby-button",
+        "position": [115, 390],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
-            "font": "Assets/Fonts/Square.ttf",
-            "text": "Room One",
+            "text": "Room 1",
             "color": [150, 150, 150, 255],
             "size": 40,
-            "position": [200, 30],
-            "spacing": 7
+            "position": [20, 30]
         },
         "scene": 6,
         "callback-type": "join-room-one"
     },
     "room-two-btn": {
         "ref": "room-two-btn",
-        "textureId": "button",
-        "position": [100, 400],
+        "textureId": "lobby-button",
+        "position": [115, 500],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
-            "font": "Assets/Fonts/Square.ttf",
-            "text": "Room Two",
+            "text": "Room 2",
             "color": [150, 150, 150, 255],
             "size": 40,
-            "position": [200, 30],
-            "spacing": 7
+            "position": [20, 30]
         },
         "scene": 6,
         "callback-type": "join-room-two"
     },
     "room-three-btn": {
         "ref": "room-three-btn",
-        "textureId": "button",
-        "position": [100, 600],
+        "textureId": "lobby-button",
+        "position": [115, 610],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {
-            "font": "Assets/Fonts/Square.ttf",
-            "text": "Room Three",
+            "text": "Room 3",
             "color": [150, 150, 150, 255],
             "size": 40,
-            "position": [200, 30],
-            "spacing": 7
+            "position": [20, 30]
         },
         "scene": 6,
         "callback-type": "join-room-three"
-    },
-    "join-lobby-btn": {
-        "ref": "join-lobby-btn",
-        "textureId": "button",
-        "position": [1300, 900],
-        "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
-        "text": {
-            "font": "Assets/Fonts/Square.ttf",
-            "text": "Join",
-            "color": [150, 150, 150, 255],
-            "size": 40,
-            "position": [200, 30],
-            "spacing": 7
-        },
-        "scene": 6,
-        "callback-type": "see-lobby"
     }
 }

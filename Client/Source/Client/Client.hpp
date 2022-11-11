@@ -160,9 +160,7 @@ class Client {
          */
         void connectToServer();
 
-        void nameInput();
-        void ipInput();
-        void portInput();
+        void noCallback() {};
 
         /**
          * @brief Call back function executed when rooms button is pressed to see all the rooms
@@ -207,15 +205,15 @@ class Client {
         void joinRoomThree();
 
         /**
-         * @brief Call back function executed when join lobby button is pressed to join the selected lobby
-         *
-         */
-        void joinLobby();
-
-        /**
          * @brief A method to configure and load the threadloop
          */
         void threadLoop();
+
+        /**
+         * @brief Call back function executed when exit button is pressed to exit the game
+         * 
+         */
+        void exitGame();
 
 
         asio::io_context _context; ///< An asio context object to handle basic I/O

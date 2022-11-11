@@ -58,10 +58,15 @@ void Client::tryToConnect()
 
 void Client::machineRun()
 {
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
     // tryToConnect();
-    while (!_graphicLib->windowShouldClose()) {
+    while (!_graphicLib->windowShouldClose() && sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId != SCENE::EXIT) {
         _graphicLib->startDrawingWindow();
         _graphicLib->clearScreen();
+
+        if (sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId == SCENE::EXIT)
+            continue;
         _registry.run_systems();
         _graphicLib->endDrawingWindow();
         SendPacket();
@@ -210,8 +215,6 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
         component::ccolor_t{ .color = color },
         component::crefid_t{ .refId = ref }
     );
-    // std::cout << ref << std::endl;
-
     Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
 
     reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(text))});
@@ -237,6 +240,7 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
         int velocity = oneData.value("velocity", 0);
         std::array<int, 2> direction = oneData.value("direction", std::array<int, 2>({0, 0}));
         std::string ref = oneData.value("ref", "error-img");
+        float scale = oneData.value("scale", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale());
 
         Entity image = _registry.spawn_entity_with(
             component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
@@ -244,7 +248,7 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
             component::ctype_t{ .type = IMAGE },
             component::cassetid_t{ .assets = assetId },
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
+            component::cscale_t{ .scale = scale },
             component::cvelocity_t{ .velocity = velocity },
             component::cdirection_t{ .x = direction[0], .y = direction[1] },
             component::crefid_t{ .refId = ref }
@@ -269,9 +273,9 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
 
     _callbackMap = {
         {"connect", std::bind(&Client::connectToServer, this)},
-        {"name-input", std::bind(&Client::nameInput, this)},
-        {"ip-input", std::bind(&Client::ipInput, this)},
-        {"port-input", std::bind(&Client::portInput, this)},
+        {"name-input", std::bind(&Client::noCallback, this)},
+        {"ip-input", std::bind(&Client::noCallback, this)},
+        {"port-input", std::bind(&Client::noCallback, this)},
         {"see-rooms", std::bind(&Client::seeRooms, this)},
         {"back-to-connexion", std::bind(&Client::backToConnection, this)},
         {"start-game", std::bind(&Client::startGame, this)},
@@ -279,7 +283,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"join-room-one", std::bind(&Client::joinRoomOne, this)},
         {"join-room-two", std::bind(&Client::joinRoomtwo, this)},
         {"join-room-three", std::bind(&Client::joinRoomThree, this)},
-        {"see-lobby", std::bind(&Client::joinLobby, this)}
+        {"exit", std::bind(&Client::exitGame, this)}
     };
 
     for (auto &oneData: jsonData) {
@@ -288,8 +292,9 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         std::string callbackType = oneData.value("callback-type", "back-to-main-menu");
         int scene = oneData.value("scene", -1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
-        int nb_frames = oneData.value("nbFrame", 1);
+        int nb_frames = oneData.value("nbFrame", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames());
         std::string ref = oneData.value("ref", "error-btn");
+        float scale = oneData.value("scale", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale());
 
         Entity button = _registry.spawn_entity_with(
             component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
@@ -298,7 +303,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
             component::cassetid_t{ .assets = assetId },
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
             component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
-            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
+            component::cscale_t{ .scale = scale },
             component::crefid_t{ .refId = ref }
         );
         if (oneData.contains("text"))
@@ -327,45 +332,11 @@ void Client::connectToServer()
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
 }
 
-void Client::nameInput()
+void Client::exitGame()
 {
-    // Sparse_array<component::cref_t> &ref = _registry.get_components<component::cref_t>();
-    // Sparse_array<component::ctext_t> &content = _registry.get_components<component::ctext_t>();
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
-    // Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-name-input")));
-
-    // content[test].value().text = "test";
-    // char name[19 + 1] = "\0";
-    // content[test].value().text = name;
-    // int letterCount = 0;
-    // int key = _graphicLib->getPressedCharcode();
-
-    // while (key > 0) {
-    //     if ((key >= 32) && (key <= 125) && letterCount < 20) {
-    //         // name[letterCount] = static_cast<char>(key);
-    //         // name[letterCount + 1] = '\0';
-    //         // content[test].value().text = name;
-    //         // letterCount++;
-    //         std::cout << "In" << std::endl;
-    //     }
-    //     key = _graphicLib->getPressedCharcode();
-    // }
-    // if (_graphicLib->hasBeenPressed(KEY_BACKSPACE) && letterCount > 0) {
-    //     name[letterCount - 1] = '\0';
-    //     content[test].value().text = name;
-    //     letterCount--;
-    // }
-    // if (_graphicLib->hasBeenPressed(KEY_ENTER)) {
-
-    // }
-}
-
-void Client::ipInput()
-{
-}
-
-void Client::portInput()
-{
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::EXIT;
 }
 
 void Client::seeRooms()
@@ -406,6 +377,8 @@ void Client::joinRoomOne()
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {1});
 
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
 }
 
 void Client::joinRoomtwo()
@@ -414,6 +387,8 @@ void Client::joinRoomtwo()
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {2});
 
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
 }
 
 void Client::joinRoomThree()
@@ -422,10 +397,6 @@ void Client::joinRoomThree()
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {3});
 
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
-}
-
-void Client::joinLobby()
-{
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
 }
