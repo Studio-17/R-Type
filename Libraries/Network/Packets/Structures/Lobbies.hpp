@@ -36,13 +36,6 @@ struct packet_create_lobby {
 };
 
 /**
- * @brief A packet to get the id of the created lobby
- */
-struct packet_create_lobby_response {
-    int id; ///< Id of created lobby
-};
-
-/**
  * @brief A packet to tell the server you want to join a room
  */
 struct packet_join_lobby {

@@ -22,11 +22,12 @@
 #include "StartGame.hpp"
 
 /* Component */
-#include "CRef.hpp"
-#include "CRefId.hpp"
+#include "Component/CRef.hpp"
+#include "Component/CRefId.hpp"
+#include "Component/CHealth.hpp"
+#include "Component/CScore.hpp"
+
 #include "fileConfig.hpp"
-#include "CHealth.hpp"
-#include "CScore.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
     _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
@@ -75,7 +76,7 @@ void Client::disconnect()
 {
     _connected = false;
     packet_disconnection packet;
-    packet.disconnection = _registry.get_components<component::cid_of_ship_t>()[FORBIDDEN_IDS::NETWORK].value().id;
+    // packet.disconnection = _registry.get_components<component::cid_of_ship_t>()[FORBIDDEN_IDS::NETWORK].value().id;
     auto tmp = serialize_header::serializeHeader<packet_disconnection>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DISCONNECTION, packet);
     _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
     SendPacket();
@@ -114,7 +115,6 @@ void Client::setUpEcs()
     _registry.register_component<component::cserverid_t>();
     _registry.register_component<component::cnetwork_queue_t>();
     _registry.register_component<component::cdirection_t>();
-    _registry.register_component<component::cid_of_ship_t>();
     _registry.register_component<component::ctype_t>();
     _registry.register_component<component::ctimer_t>();
     _registry.register_component<component::casset_t>();
@@ -133,11 +133,11 @@ void Client::setUpEcs()
 
 void Client::setUpSystems()
 {
-    _registry.add_system<component::cnetwork_queue_t, component::cid_of_ship_t>(_networkSystem);
+    _registry.add_system<component::cnetwork_queue_t>(_networkSystem);
     _registry.add_system<component::cnetwork_queue_t, component::ctype_t>(_killEntityTypeSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t>(_killSystem);
     _registry.add_system<component::crect_t, component::ctimer_t, component::casset_t, component::cassetid_t>(_rectSystem);
-    _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::cid_of_ship_t, component::csceneid_t, component::cclient_network_id>(_controlSystem);
+    _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::csceneid_t, component::cclient_network_id>(_controlSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t, component::cref_t, component::crefid_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id, component::csceneid_t>(_newEntitySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cref_t, component::ctext_t>(_getLobbiesSystem);
@@ -161,7 +161,6 @@ void Client::setUpComponents()
     Entity network = _registry.spawn_entity_with(
             component::cnetwork_queue_t{},
             component::ctype_t{ .type = NET },
-            component::cid_of_ship_t{ .id = 0 },
             component::ckeyboard_t{ .keyboard = 0 },
             component::ctimer_t{ .deltaTime = std::chrono::steady_clock::now(), .animTimer = std::chrono::steady_clock::now() },
             component::casset_t{ .assets = assetMan.assets },

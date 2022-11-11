@@ -14,7 +14,6 @@
 	/* Component */
 	#include "Component/CKeyboard.hpp"
 	#include "Component/CNetworkQueue.hpp"
-	#include "Component/CIdOfShip.hpp"
 	#include "Component/CSceneId.hpp"
   	#include "Component/CClientNetworkId.hpp"
 
@@ -39,7 +38,6 @@ namespace System {
 			 * @param registry The registry of the server
 			 * @param keyboards The sparse array of keyboard entities
 			 * @param network The sparse array of network entities
-			 * @param idOfShip The sparse array of idOfShip entities
 			 * @param scenesId The sparse array of scenesId entities
 			 * @param clientNetworkId The sparse array of clientNetworkId entities
 			 */
@@ -47,7 +45,6 @@ namespace System {
 				Registry &registry,
 				Sparse_array<component::ckeyboard_t> &keyboards,
 				Sparse_array<component::cnetwork_queue_t> &network,
-				Sparse_array<component::cid_of_ship_t> &idOfShip,
 				Sparse_array<component::csceneid_t> &scenesId,
 				Sparse_array<component::cclient_network_id> &clientNetworkId
 			);
