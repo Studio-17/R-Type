@@ -98,7 +98,6 @@ class Server {
          * @param mapPath path to the map file
          * @return std::vector<std::string> content of the map
          */
-
         std::vector<std::string> loadMap(std::string const &mapPath);
 
         asio::io_context _context; ///< An asio context object that handles basic I/O
@@ -126,8 +125,8 @@ class Server {
         System::HitboxSystem _hitboxSystem; ///< An object HitboxSystem to manage it in the server
         System::DisconnectionSystem _disconnectionSystem; ///< An object DisconnectionSystem to manage it in the server
         System::NewClientSystem _newClientSystem; ///< An object NewClientSystem to manage it in the server
-        System::JoinLobbySystem _joinLobbySystem; ///< An object JoinLobbySystem to manage it in the 
-        System::StartGameSystem _startGameSystem; ///< An object StartGameSystem to manage it in the 
+        System::JoinLobbySystem _joinLobbySystem; ///< An object JoinLobbySystem to manage it in the server
+        System::StartGameSystem _startGameSystem; ///< An object StartGameSystem to manage it in the server
 
         bool _serverIsRunning = true; ///< A boolean to manage the server loop
 };

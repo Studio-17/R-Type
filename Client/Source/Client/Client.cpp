@@ -30,8 +30,7 @@
 #include "fileConfig.hpp"
 
 Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
-    _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
-    _connected(true)
+    _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip))
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
     _graphicLib->initWindow(1920, 1080, "R-Type", 60);
@@ -47,7 +46,6 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort, std
 Client::~Client()
 {
     _context.stop();
-    _connected = false;
     _thread.join();
 }
 
@@ -74,13 +72,14 @@ void Client::machineRun()
         SendPacket();
     }
     _graphicLib->closeWindow();
-    // disconnect();
+    disconnect();
 }
 
 void Client::disconnect()
 {
-    _connected = false;
+    // _connected = false;
     packet_disconnection packet;
+    packet.disconnection = _registry.get_components<component::cclient_network_id>()[FORBIDDEN_IDS::NETWORK].value().controllableNetworkEntityId;
     // packet.disconnection = _registry.get_components<component::cid_of_ship_t>()[FORBIDDEN_IDS::NETWORK].value().id;
     auto tmp = serialize_header::serializeHeader<packet_disconnection>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::DISCONNECTION, packet);
     _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
