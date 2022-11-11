@@ -87,7 +87,6 @@
         "textureId": "lobbies",
         "position": [100, 375],
         "sound": "Ressources/buttons/click_sound.ogg",
-        "scale": 1,
         "scene": 6
     }
 }
