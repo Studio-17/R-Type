@@ -145,7 +145,7 @@ void Server::setUpComponents()
     Entity lobbiesEntity = _registry.spawn_entity_with(
         component::clobbies_to_entities_t{},
         component::clobbies_status_t { .lobbiesStatus = {{1, {false, 1}}, {2, {false, 1}}, {3, {false, 1}}} },
-        component::cmap_t { .map = loadAllMaps("Assets/Maps"), .index = {{1, 0}, {2, 0}, {3, 0}}, .end = false}
+        component::cmap_t { .map = loadAllMaps("Assets/Maps"), .index = {{1, 0}, {2, 0}, {3, 0}}, .mapIndex = {{1, 0}, {2, 0}, {3, 0}}, .end = {{1, false}, {2, false}, {3, false}}}
     );
 
     _registry.get_components<component::clobbies_to_entities_t>()[lobbiesEntity].value().lobbiesToEntities.try_emplace(1, std::vector<Entity>());
