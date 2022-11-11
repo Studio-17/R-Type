@@ -59,5 +59,12 @@
         "position": [100, 100],
         "sound": "Ressources/buttons/click_sound.ogg",
         "scene": 5
+    },
+    "8-r-type-logo-img": {
+        "ref": "r-type-logo-img",
+        "textureId": "r-type-logo",
+        "position": [575, 30],
+        "sound": "Ressources/buttons/click_sound.ogg",
+        "scene": 4
     }
 }

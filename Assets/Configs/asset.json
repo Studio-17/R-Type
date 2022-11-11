@@ -71,22 +71,16 @@
         "scale": 1,
         "texture": "Assets/Images/Buttons/shortbutton.png"
     },
-    "name-input": {
-        "title": "name-input",
+    "input-box": {
+        "title": "input-box",
         "nbFrame": 1,
         "scale": 1,
-        "texture": "Assets/Images/Buttons/name-input.png"
+        "texture": "Assets/Images/Buttons/input_box.png"
     },
-    "ip-input": {
-        "title": "ip-input",
+    "r-type-logo": {
+        "title": "r-type-logo",
         "nbFrame": 1,
-        "scale": 1,
-        "texture": "Assets/Images/Buttons/ip-input.png"
-    },
-    "port-input": {
-        "title": "port-input",
-        "nbFrame": 1,
-        "scale": 1,
-        "texture": "Assets/Images/Buttons/port-input.png"
+        "scale": 1.1,
+        "texture": "Assets/Images/Sprites/r-type-logo.png"
     }
 }
