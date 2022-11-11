@@ -50,6 +50,5 @@ void System::EndGameSystem::operator()([[ maybe_unused ]] Registry &registry, [[
                 network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_kill_entity_type>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY_TYPE, {static_cast<int>(entity)})});
             network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_end_game>(NETWORK_SERVER_TO_CLIENT::END_GAME, {lobbyId})});
         }
-    //     // std::cout << "EndGameSystem after" << std::endl;
     }
 }

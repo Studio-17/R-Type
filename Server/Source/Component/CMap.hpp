@@ -20,7 +20,7 @@ namespace component {
      * @brief A structure representing the direction component that holds the direction of an entity
      */
     struct cmap_t {
-        std::vector<std::string> map; ///< Map of enemy
+        std::vector<std::vector<std::string>> map; ///< Map of enemy
         std::unordered_map<std::size_t, std::size_t> index; ///< Current index of each lobby in map
         bool end; ///< is this the end of the map
     };

@@ -7,6 +7,7 @@
 
 #include <unordered_map>
 #include <fstream>
+#include <dirent.h>
 
 #include "Server.hpp"
 
@@ -31,6 +32,7 @@
 #include "Component/CScore.hpp"
 #include "Component/COwnerId.hpp"
 #include "Component/CMap.hpp"
+#include "Component/CDisconnected.hpp"
 
 Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port)),
     _thread(&Server::threadLoop, this), _isRunning(true)
@@ -73,13 +75,12 @@ void Server::HandleReceive([[ maybe_unused ]] asio::error_code const &e, [[ mayb
 void Server::HandleSendPacket() {
     while (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.empty()) {
         std::pair<int, std::vector<byte>> &tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.front();
-        for (auto const &[address, portList] : _endpoints) {
+        for (auto const &[address, portList] : _endpoints)
             for (auto const &[port, netId]: portList) {
-                if (tmp.first == _registry.get_components<component::clobby_id_t>()[_registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netId)].value().id) {
+                auto &clientId = _registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netId);
+                if (tmp.first == _registry.get_components<component::clobby_id_t>()[clientId].value().id)
                     _com->send(tmp.second, address, port);
-                }
             }
-        }
         _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.pop();
     }
 }
@@ -116,6 +117,7 @@ void Server::setUpEcs()
     _registry.register_component<component::cscore_t>();
     _registry.register_component<component::cowner_id_t>();
     _registry.register_component<component::cmap_t>();
+    _registry.register_component<component::cdisconnected_t>();
 
     _registry.add_system<component::cnetwork_queue_t, component::cnet_id_to_client_id_t, component::clobbies_to_entities_t>(_newClientSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t, component::clobby_id_t, component::clobbies_status_t>(_moveSystem);
@@ -124,7 +126,7 @@ void Server::setUpEcs()
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::clobby_id_t, component::cnet_id_to_client_id_t>(_shootSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t, component::ctimer_t, component::clobbies_status_t, component::cmap_t>(_spawnEnemySystem);
     _registry.add_system<component::cnetwork_queue_t, component::ctype_t, component::cposition_t, component::crect_t, component::chealth_t, component::clobby_id_t, component::cscore_t, component::ctype_t, component::cowner_id_t>(_hitboxSystem);
-    _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::clobbies_to_entities_t, component::cnet_id_to_client_id_t>(_disconnectionSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::clobbies_to_entities_t, component::cnet_id_to_client_id_t, component::cdisconnected_t>(_disconnectionSystem);
     _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::clobbies_to_entities_t, component::cnet_id_to_client_id_t>(_joinLobbySystem);
     _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::cnet_id_to_client_id_t, component::clobbies_to_entities_t, component::cposition_t, component::ctype_t, component::clobbies_status_t>(_startGameSystem);
     _registry.add_system<component::cnetwork_queue_t, component::ctype_t, component::clobby_id_t, component::clobbies_status_t, component::cmap_t>(_endGameSystem);
@@ -143,8 +145,14 @@ void Server::setUpComponents()
     Entity lobbiesEntity = _registry.spawn_entity_with(
         component::clobbies_to_entities_t{},
         component::clobbies_status_t { .lobbiesStatus = {{1, {false, 1}}, {2, {false, 1}}, {3, {false, 1}}} },
-        component::cmap_t { .map = loadMap("Assets/Maps/mapTest.txt"), .index = {{1, 0}, {2, 0}, {3, 0}}, .end = false}
+        component::cmap_t { .map = loadAllMaps("Assets/Maps"), .index = {{1, 0}, {2, 0}, {3, 0}}, .end = false}
     );
+
+    _registry.get_components<component::clobbies_to_entities_t>()[lobbiesEntity].value().lobbiesToEntities.try_emplace(1, std::vector<Entity>());
+    _registry.get_components<component::clobbies_to_entities_t>()[lobbiesEntity].value().lobbiesToEntities.try_emplace(2, std::vector<Entity>());
+    _registry.get_components<component::clobbies_to_entities_t>()[lobbiesEntity].value().lobbiesToEntities.try_emplace(3, std::vector<Entity>());
+    _registry.get_components<component::clobbies_to_entities_t>()[lobbiesEntity].value().lobbiesToEntities.try_emplace(0, std::vector<Entity>());
+
 }
 
 std::vector<std::string> Server::loadMap(std::string const &mapPath)
@@ -153,12 +161,62 @@ std::vector<std::string> Server::loadMap(std::string const &mapPath)
     std::string mapContent;
     std::vector<std::string> map;
 
-    if (!myfile.is_open())
-        return {};
+    if (!myfile.is_open()) {
+        std::cout << "isn't open" << std::endl;
+        return {"1111111"};
+    }
     while (std::getline(myfile, mapContent)) {
         if (mapContent[0] == '#')
             continue;
         map.emplace_back(mapContent);
     }
+    // for (auto &line : map)
+        // std::cout<< line<< std::endl;
     return map;
+}
+
+std::vector<std::vector<std::string>> Server::loadAllMaps(std::string const &directoryPath)
+{
+    std::vector<std::vector<std::string>> allMaps;
+    std::vector<std::string> allFiles;// = getFilesListFromDirectory(directoryPath, ".txt");
+    try {
+        allFiles = getFilesListFromDirectory(directoryPath, ".txt");
+    } catch (std::exception const &e) {
+        std::cerr << e.what() << std::endl;
+        return {{"11111111"}};
+    }
+    for (auto &file : allFiles) {
+        std::cout << "file " << directoryPath + "/" + file <<std::endl;
+        allMaps.emplace_back(loadMap(directoryPath + "/" + file));
+    }
+    for (auto &line : allMaps.at(0))
+        std::cout<< line<< std::endl;
+    
+    return allMaps;
+}
+
+static bool isGoodSaveFile(std::string const &filename, std::string const &suffix)
+{
+    if (filename.size() < suffix.size())
+        return false;
+    return filename.compare(filename.size() - suffix.size(), suffix.size(), suffix) == 0;
+}
+
+std::vector<std::string> Server::getFilesListFromDirectory(std::string const &directory, std::string const &suffix)
+{
+    DIR *dir = opendir(directory.c_str());
+    struct dirent *diread;
+    std::vector<std::string> files;
+    std::string file;
+
+    if (dir == nullptr)
+        throw ("Failed to open " + directory + " directory");
+    while ((diread = readdir(dir)) != nullptr) {
+        file = diread->d_name;
+        if (isGoodSaveFile(file, suffix)) {
+            files.push_back(file);
+        }
+    }
+    closedir(dir);
+    return files;
 }

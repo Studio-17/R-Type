@@ -98,8 +98,24 @@ class Server {
          * @param mapPath path to the map file
          * @return std::vector<std::string> content of the map
          */
-
         std::vector<std::string> loadMap(std::string const &mapPath);
+
+        /**
+         * @brief Get the Files List From Directory object
+         *
+         * @param directory The path to the directory
+         * @param suffix The suffix needed by the files to be selected
+         * @return std::vector<std::string> List of the files contained in the directory with the suffix
+         */
+        std::vector<std::string> getFilesListFromDirectory(std::string const &directory, std::string const &suffix);
+
+        /**
+         * @brief A method to load all the maps of enemy from a directory
+         *
+         * @param directoryPath The path to the directory
+         * @return std::vector<std::vector<std::string>> List of maps content
+         */
+        std::vector<std::vector<std::string>> loadAllMaps(std::string const &directoryPath);
 
         asio::io_context _context; ///< An asio context object that handles basic I/O
 
@@ -126,8 +142,8 @@ class Server {
         System::HitboxSystem _hitboxSystem; ///< An object HitboxSystem to manage it in the server
         System::DisconnectionSystem _disconnectionSystem; ///< An object DisconnectionSystem to manage it in the server
         System::NewClientSystem _newClientSystem; ///< An object NewClientSystem to manage it in the server
-        System::JoinLobbySystem _joinLobbySystem; ///< An object JoinLobbySystem to manage it in the 
-        System::StartGameSystem _startGameSystem; ///< An object StartGameSystem to manage it in the 
+        System::JoinLobbySystem _joinLobbySystem; ///< An object JoinLobbySystem to manage it in the server
+        System::StartGameSystem _startGameSystem; ///< An object StartGameSystem to manage it in the server
 
         bool _serverIsRunning = true; ///< A boolean to manage the server loop
 };
