@@ -217,6 +217,12 @@ class Client {
          */
         void threadLoop();
 
+        /**
+         * @brief Call back function executed when exit button is pressed to exit the game
+         * 
+         */
+        void exitGame();
+
 
         asio::io_context _context; ///< An asio context object to handle basic I/O
 

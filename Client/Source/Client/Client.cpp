@@ -60,10 +60,15 @@ void Client::tryToConnect()
 
 void Client::machineRun()
 {
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
     // tryToConnect();
-    while (!_graphicLib->windowShouldClose()) {
+    while (!_graphicLib->windowShouldClose() && sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId != SCENE::EXIT) {
         _graphicLib->startDrawingWindow();
         _graphicLib->clearScreen();
+
+        if (sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId == SCENE::EXIT)
+            continue;
         _registry.run_systems();
         _graphicLib->endDrawingWindow();
         SendPacket();
@@ -211,8 +216,6 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
         component::ccolor_t{ .color = color },
         component::crefid_t{ .refId = ref }
     );
-    // std::cout << ref << std::endl;
-
     Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
 
     reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(text))});
@@ -238,6 +241,7 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
         int velocity = oneData.value("velocity", 0);
         std::array<int, 2> direction = oneData.value("direction", std::array<int, 2>({0, 0}));
         std::string ref = oneData.value("ref", "error-img");
+        float scale = oneData.value("scale", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale());
 
         Entity image = _registry.spawn_entity_with(
             component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
@@ -245,7 +249,7 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
             component::ctype_t{ .type = IMAGE },
             component::cassetid_t{ .assets = assetId },
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
+            component::cscale_t{ .scale = scale },
             component::cvelocity_t{ .velocity = velocity },
             component::cdirection_t{ .x = direction[0], .y = direction[1] },
             component::crefid_t{ .refId = ref }
@@ -280,7 +284,8 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"join-room-one", std::bind(&Client::joinRoomOne, this)},
         {"join-room-two", std::bind(&Client::joinRoomtwo, this)},
         {"join-room-three", std::bind(&Client::joinRoomThree, this)},
-        {"see-lobby", std::bind(&Client::joinLobby, this)}
+        {"see-lobby", std::bind(&Client::joinLobby, this)},
+        {"exit", std::bind(&Client::exitGame, this)}
     };
 
     for (auto &oneData: jsonData) {
@@ -289,8 +294,9 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         std::string callbackType = oneData.value("callback-type", "back-to-main-menu");
         int scene = oneData.value("scene", -1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
-        int nb_frames = oneData.value("nbFrame", 1);
+        int nb_frames = oneData.value("nbFrame", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames());
         std::string ref = oneData.value("ref", "error-btn");
+        float scale = oneData.value("scale", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale());
 
         Entity button = _registry.spawn_entity_with(
             component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
@@ -299,7 +305,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
             component::cassetid_t{ .assets = assetId },
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
             component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
-            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
+            component::cscale_t{ .scale = scale },
             component::crefid_t{ .refId = ref }
         );
         if (oneData.contains("text"))
@@ -359,6 +365,13 @@ void Client::nameInput()
     // if (_graphicLib->hasBeenPressed(KEY_ENTER)) {
 
     // }
+}
+
+void Client::exitGame()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::EXIT;
 }
 
 void Client::ipInput()
