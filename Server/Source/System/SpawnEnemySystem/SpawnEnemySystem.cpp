@@ -28,7 +28,8 @@
 #include "Component/CLobbyId.hpp"
 #include "Component/CHealth.hpp"
 
-System::SpawnEnemySystem::SpawnEnemySystem()
+System::SpawnEnemySystem::SpawnEnemySystem() :
+    _mapDimension({1920, 1080})
 {
     std::srand(std::time(nullptr));
 }
@@ -39,32 +40,31 @@ void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<compo
         timer[FORBIDDEN_IDS::NETWORK].value().spawnEnemyDeltaTime = std::chrono::steady_clock::now();
     else
         return;
-    if (map[FORBIDDEN_IDS::LOBBY].value().end)
-        return;
-    if (map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().index) == MAPCONTENT::empty) {
-        map[FORBIDDEN_IDS::LOBBY].value().index += 1;
-        return;
-    }
-    for (int i = 1; i <= (int)lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.size(); i++) {
-        if (lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus[i].first == true) {
-            std::cout << "SpawnEnemy System" << map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().index) << std::endl;
-            Entity enemy = createEnemy(registry, i);
-            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({i, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0, 1, 0})});
+    for (int index = 1; index <= (int)lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.size(); index++) {
+        if (lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus[index].first == true) {
+            if  (map[FORBIDDEN_IDS::LOBBY].value().end)
+                continue;
+            for (std::size_t line = 0; line != map[FORBIDDEN_IDS::LOBBY].value().map.size(); line++) {
+                if (map[FORBIDDEN_IDS::LOBBY].value().map.at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)) == MAPCONTENT::empty)
+                    continue;
+                std::cout << "SpawnEnemy System" << map[FORBIDDEN_IDS::LOBBY].value().map.at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)) << std::endl;
+                Entity enemy = createEnemy(registry, index, line, map[FORBIDDEN_IDS::LOBBY].value().map.size());
+                netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({index, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0, 1, 0})});
+            }
         }
-    }
-    map[FORBIDDEN_IDS::LOBBY].value().index += 1;
-    if (map[FORBIDDEN_IDS::LOBBY].value().index >= map[FORBIDDEN_IDS::LOBBY].value().map.size()) {
-        std::cout << "Spawn Enemy map End" << std::endl;
-        map[FORBIDDEN_IDS::LOBBY].value().end = true;
+        map[FORBIDDEN_IDS::LOBBY].value().index.at(index) += 1;
+        if (map[FORBIDDEN_IDS::LOBBY].value().index.at(index) >= map[FORBIDDEN_IDS::LOBBY].value().map.at(0).size()) {
+            map[FORBIDDEN_IDS::LOBBY].value().end = true;
+        }
     }
 }
 
-Entity System::SpawnEnemySystem::createEnemy(Registry &registry, int lobby_id)
+Entity System::SpawnEnemySystem::createEnemy(Registry &registry, int lobby_id, std::size_t line, std::size_t map_size)
 {
     Entity enemy = registry.spawn_entity_with(
         component::cdirection_t{ .x = -1, .y = 0 },
         component::chitbox_t{ .height = 10, .width = 10 },
-        component::cposition_t{ .x = 700, .y = static_cast<float>(std::rand() % 600) },
+        component::cposition_t{ .x = static_cast<float>(_mapDimension.first), .y = static_cast<float>(std::rand() % (_mapDimension.second / map_size) + (_mapDimension.second / map_size * line))},
         component::cvelocity_t{ .velocity = 4 },
         component::ctype_t{ .type = ENTITY_TYPE::ENEMY },
         component::crect_t{ .height = 34, .width = 33 },
