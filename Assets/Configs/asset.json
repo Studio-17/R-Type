@@ -71,6 +71,18 @@
         "scale": 1,
         "texture": "Assets/Images/Buttons/shortbutton.png"
     },
+    "little-button": {
+        "title": "little-button",
+        "nbFrame": 1,
+        "scale": 1,
+        "texture": "Assets/Images/Buttons/little_button.png"
+    },
+    "long-button": {
+        "title": "long-button",
+        "nbFrame": 1,
+        "scale": 1,
+        "texture": "Assets/Images/Buttons/long_button.png"
+    },
     "input-box": {
         "title": "input-box",
         "nbFrame": 1,
@@ -82,5 +94,17 @@
         "nbFrame": 1,
         "scale": 1,
         "texture": "Assets/Images/Sprites/r-type-logo.png"
+    },
+    "title-background": {
+        "title": "title-background",
+        "nbFrame": 1,
+        "scale": 1,
+        "texture": "Assets/Images/Sprites/title_background.png"
+    },
+    "back-button": {
+        "title": "back-button",
+        "nbFrame": 1,
+        "scale": 1,
+        "texture": "Assets/Images/Buttons/back_button.png"
     }
 }

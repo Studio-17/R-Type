@@ -59,10 +59,15 @@ void Client::tryToConnect()
 
 void Client::machineRun()
 {
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
     // tryToConnect();
-    while (!_graphicLib->windowShouldClose()) {
+    while (!_graphicLib->windowShouldClose() && sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId != SCENE::EXIT) {
         _graphicLib->startDrawingWindow();
         _graphicLib->clearScreen();
+
+        if (sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId == SCENE::EXIT)
+            continue;
         _registry.run_systems();
         _graphicLib->endDrawingWindow();
         SendPacket();
@@ -280,7 +285,8 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"join-room-one", std::bind(&Client::joinRoomOne, this)},
         {"join-room-two", std::bind(&Client::joinRoomtwo, this)},
         {"join-room-three", std::bind(&Client::joinRoomThree, this)},
-        {"see-lobby", std::bind(&Client::joinLobby, this)}
+        {"see-lobby", std::bind(&Client::joinLobby, this)},
+        {"exit", std::bind(&Client::exitGame, this)}
     };
 
     for (auto &oneData: jsonData) {
@@ -289,7 +295,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         std::string callbackType = oneData.value("callback-type", "back-to-main-menu");
         int scene = oneData.value("scene", -1);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
-        int nb_frames = oneData.value("nbFrame", 1);
+        int nb_frames = oneData.value("nbFrame", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames());
         std::string ref = oneData.value("ref", "error-btn");
         float scale = oneData.value("scale", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale());
 
@@ -360,6 +366,13 @@ void Client::nameInput()
     // if (_graphicLib->hasBeenPressed(KEY_ENTER)) {
 
     // }
+}
+
+void Client::exitGame()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::EXIT;
 }
 
 void Client::ipInput()
