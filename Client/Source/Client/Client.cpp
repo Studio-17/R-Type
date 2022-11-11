@@ -274,9 +274,9 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
 
     _callbackMap = {
         {"connect", std::bind(&Client::connectToServer, this)},
-        {"name-input", std::bind(&Client::nameInput, this)},
-        {"ip-input", std::bind(&Client::ipInput, this)},
-        {"port-input", std::bind(&Client::portInput, this)},
+        {"name-input", std::bind(&Client::noCallback, this)},
+        {"ip-input", std::bind(&Client::noCallback, this)},
+        {"port-input", std::bind(&Client::noCallback, this)},
         {"see-rooms", std::bind(&Client::seeRooms, this)},
         {"back-to-connexion", std::bind(&Client::backToConnection, this)},
         {"start-game", std::bind(&Client::startGame, this)},
@@ -284,7 +284,6 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"join-room-one", std::bind(&Client::joinRoomOne, this)},
         {"join-room-two", std::bind(&Client::joinRoomtwo, this)},
         {"join-room-three", std::bind(&Client::joinRoomThree, this)},
-        {"see-lobby", std::bind(&Client::joinLobby, this)},
         {"exit", std::bind(&Client::exitGame, this)}
     };
 
@@ -334,52 +333,11 @@ void Client::connectToServer()
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
 }
 
-void Client::nameInput()
-{
-    // Sparse_array<component::cref_t> &ref = _registry.get_components<component::cref_t>();
-    // Sparse_array<component::ctext_t> &content = _registry.get_components<component::ctext_t>();
-
-    // Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-name-input")));
-
-    // content[test].value().text = "test";
-    // char name[19 + 1] = "\0";
-    // content[test].value().text = name;
-    // int letterCount = 0;
-    // int key = _graphicLib->getPressedCharcode();
-
-    // while (key > 0) {
-    //     if ((key >= 32) && (key <= 125) && letterCount < 20) {
-    //         // name[letterCount] = static_cast<char>(key);
-    //         // name[letterCount + 1] = '\0';
-    //         // content[test].value().text = name;
-    //         // letterCount++;
-    //         std::cout << "In" << std::endl;
-    //     }
-    //     key = _graphicLib->getPressedCharcode();
-    // }
-    // if (_graphicLib->hasBeenPressed(KEY_BACKSPACE) && letterCount > 0) {
-    //     name[letterCount - 1] = '\0';
-    //     content[test].value().text = name;
-    //     letterCount--;
-    // }
-    // if (_graphicLib->hasBeenPressed(KEY_ENTER)) {
-
-    // }
-}
-
 void Client::exitGame()
 {
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::EXIT;
-}
-
-void Client::ipInput()
-{
-}
-
-void Client::portInput()
-{
 }
 
 void Client::seeRooms()
@@ -420,6 +378,8 @@ void Client::joinRoomOne()
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {1});
 
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
 }
 
 void Client::joinRoomtwo()
@@ -428,6 +388,8 @@ void Client::joinRoomtwo()
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {2});
 
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
 }
 
 void Client::joinRoomThree()
@@ -436,10 +398,6 @@ void Client::joinRoomThree()
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_join_lobby>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::JOIN_LOBBY, {3});
 
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
-}
-
-void Client::joinLobby()
-{
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::LOBBY;
 }

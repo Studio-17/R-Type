@@ -1,11 +1,10 @@
 {
     "nb-players-in-lobby-txt": {
         "ref": "nb-players-in-lobby-txt",
-        "text": "Number of players in lobby",
+        "text": "Players",
         "color": [150, 150, 150, 255],
         "size": 50,
-        "position": [100, 400],
-        "spacing": 7,
+        "position": [1300, 225],
         "scene": 10
     },
     "name-input-txt": {
@@ -14,7 +13,6 @@
         "color": [150, 150, 150, 255],
         "size": 50,
         "position": [890, 250],
-        "spacing": 7,
         "scene": 4
     },
     "ip-input-txt": {
@@ -23,7 +21,6 @@
         "color": [150, 150, 150, 255],
         "size": 50,
         "position": [920, 450],
-        "spacing": 7,
         "scene": 4
     },
     "port-input-txt": {
@@ -32,7 +29,6 @@
         "color": [150, 150, 150, 255],
         "size": 50,
         "position": [890, 650],
-        "spacing": 7,
         "scene": 4
     },
     "r-type-title-txt": {
@@ -41,7 +37,22 @@
         "color": [150, 150, 150, 255],
         "size": 40,
         "position": [100, 100],
-        "spacing": 7,
         "scene": 5
+    },
+    "rooms-title-txt": {
+        "ref": "rooms-title-txt",
+        "text": "ROOMS",
+        "color": [150, 150, 150, 255],
+        "size": 40,
+        "position": [100, 100],
+        "scene": 6
+    },
+    "in-room-title-txt": {
+        "ref": "in-room-title-txt",
+        "text": "IN ROOM",
+        "color": [150, 150, 150, 255],
+        "size": 40,
+        "position": [100, 100],
+        "scene": 10
     }
 }
