@@ -1,10 +1,10 @@
 {
     "nb-players-in-lobby-txt": {
         "ref": "nb-players-in-lobby-txt",
-        "text": "Number of players in lobby",
+        "text": "Players",
         "color": [150, 150, 150, 255],
         "size": 50,
-        "position": [100, 400],
+        "position": [1300, 225],
         "scene": 10
     },
     "name-input-txt": {
@@ -46,5 +46,13 @@
         "size": 40,
         "position": [100, 100],
         "scene": 6
+    },
+    "in-room-title-txt": {
+        "ref": "in-room-title-txt",
+        "text": "IN ROOM",
+        "color": [150, 150, 150, 255],
+        "size": 40,
+        "position": [100, 100],
+        "scene": 10
     }
 }

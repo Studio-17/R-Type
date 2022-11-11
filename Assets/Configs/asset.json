@@ -87,6 +87,10 @@
         "title": "lobbies",
         "texture": "Assets/Images/Sprites/lobbies.png"
     },
+    "players": {
+        "title": "players",
+        "texture": "Assets/Images/Sprites/players.png"
+    },
     "lobby-button": {
         "title": "lobby-button",
         "texture": "Assets/Images/Buttons/lobby_button.png"

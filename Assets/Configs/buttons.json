@@ -130,8 +130,8 @@
     },
     "play-btn": {
         "ref": "play-btn",
-        "textureId": "button",
-        "position": [1300, 700],
+        "textureId": "long-button",
+        "position": [920, 800],
         "nbFrame": 3,
         "audio": "Ressources/buttons/click_sound.ogg",
         "text": {

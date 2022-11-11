@@ -75,12 +75,19 @@
         "sound": "Ressources/buttons/click_sound.ogg",
         "scene": 5
     },
-    "title-scene-lobbies-img": {
-        "ref": "title-scene-lobbies-img",
+    "title-scene-rooms-img": {
+        "ref": "title-scene-rooms-img",
         "textureId": "title-background",
         "position": [0, 60],
         "sound": "Ressources/buttons/click_sound.ogg",
         "scene": 6
+    },
+    "title-scene-in-room-img": {
+        "ref": "title-scene-in-room-img",
+        "textureId": "title-background",
+        "position": [0, 60],
+        "sound": "Ressources/buttons/click_sound.ogg",
+        "scene": 10
     },
     "lobbies-img": {
         "ref": "lobbies-img",
@@ -88,5 +95,12 @@
         "position": [100, 375],
         "sound": "Ressources/buttons/click_sound.ogg",
         "scene": 6
+    },
+    "players-img": {
+        "ref": "players-img",
+        "textureId": "players",
+        "position": [1300, 280],
+        "sound": "Ressources/buttons/click_sound.ogg",
+        "scene": 10
     }
 }
