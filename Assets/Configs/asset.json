@@ -80,7 +80,7 @@
     "r-type-logo": {
         "title": "r-type-logo",
         "nbFrame": 1,
-        "scale": 1.1,
+        "scale": 1,
         "texture": "Assets/Images/Sprites/r-type-logo.png"
     }
 }

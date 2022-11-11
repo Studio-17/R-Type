@@ -212,8 +212,6 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
         component::ccolor_t{ .color = color },
         component::crefid_t{ .refId = ref }
     );
-    // std::cout << ref << std::endl;
-
     Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
 
     reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(text))});
@@ -239,6 +237,7 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
         int velocity = oneData.value("velocity", 0);
         std::array<int, 2> direction = oneData.value("direction", std::array<int, 2>({0, 0}));
         std::string ref = oneData.value("ref", "error-img");
+        float scale = oneData.value("scale", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale());
 
         Entity image = _registry.spawn_entity_with(
             component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
@@ -246,7 +245,7 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
             component::ctype_t{ .type = IMAGE },
             component::cassetid_t{ .assets = assetId },
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
+            component::cscale_t{ .scale = scale },
             component::cvelocity_t{ .velocity = velocity },
             component::cdirection_t{ .x = direction[0], .y = direction[1] },
             component::crefid_t{ .refId = ref }
@@ -292,6 +291,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
         int nb_frames = oneData.value("nbFrame", 1);
         std::string ref = oneData.value("ref", "error-btn");
+        float scale = oneData.value("scale", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale());
 
         Entity button = _registry.spawn_entity_with(
             component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
@@ -300,7 +300,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
             component::cassetid_t{ .assets = assetId },
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
             component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
-            component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
+            component::cscale_t{ .scale = scale },
             component::crefid_t{ .refId = ref }
         );
         if (oneData.contains("text"))
