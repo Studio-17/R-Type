@@ -26,7 +26,7 @@ void System::ReceiveSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
     try {
         callBacks.at(id)(bufferWithoutId, buffer.first, queues);
     } catch (std::out_of_range const &) {
-        std::cout << "Undefined packet id: " << id << std::endl;
+        std::cerr << "Receive System Undefined packet id: " << id << std::endl;
     }
     queues[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.pop();
 }
