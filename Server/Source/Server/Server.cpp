@@ -31,6 +31,7 @@
 #include "Component/CScore.hpp"
 #include "Component/COwnerId.hpp"
 #include "Component/CMap.hpp"
+#include "Component/CDisconnected.hpp"
 
 Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port)),
     _thread(&Server::threadLoop, this), _isRunning(true)
@@ -73,13 +74,12 @@ void Server::HandleReceive([[ maybe_unused ]] asio::error_code const &e, [[ mayb
 void Server::HandleSendPacket() {
     while (!_registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.empty()) {
         std::pair<int, std::vector<byte>> &tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.front();
-        for (auto const &[address, portList] : _endpoints) {
+        for (auto const &[address, portList] : _endpoints)
             for (auto const &[port, netId]: portList) {
-                if (tmp.first == _registry.get_components<component::clobby_id_t>()[_registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netId)].value().id) {
+                auto &clientId = _registry.get_components<component::cnet_id_to_client_id_t>()[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(netId);
+                if (tmp.first == _registry.get_components<component::clobby_id_t>()[clientId].value().id)
                     _com->send(tmp.second, address, port);
-                }
             }
-        }
         _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK]->toSendNetworkQueue.pop();
     }
 }
@@ -116,6 +116,7 @@ void Server::setUpEcs()
     _registry.register_component<component::cscore_t>();
     _registry.register_component<component::cowner_id_t>();
     _registry.register_component<component::cmap_t>();
+    _registry.register_component<component::cdisconnected_t>();
 
     _registry.add_system<component::cnetwork_queue_t, component::cnet_id_to_client_id_t, component::clobbies_to_entities_t>(_newClientSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t, component::clobby_id_t, component::clobbies_status_t>(_moveSystem);
@@ -124,7 +125,7 @@ void Server::setUpEcs()
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::clobby_id_t, component::cnet_id_to_client_id_t>(_shootSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::ctype_t, component::ctimer_t, component::clobbies_status_t, component::cmap_t>(_spawnEnemySystem);
     _registry.add_system<component::cnetwork_queue_t, component::ctype_t, component::cposition_t, component::crect_t, component::chealth_t, component::clobby_id_t, component::cscore_t, component::ctype_t, component::cowner_id_t>(_hitboxSystem);
-    _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::clobbies_to_entities_t, component::cnet_id_to_client_id_t>(_disconnectionSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::clobbies_to_entities_t, component::cnet_id_to_client_id_t, component::cdisconnected_t>(_disconnectionSystem);
     _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::clobbies_to_entities_t, component::cnet_id_to_client_id_t>(_joinLobbySystem);
     _registry.add_system<component::cnetwork_queue_t, component::clobby_id_t, component::cnet_id_to_client_id_t, component::clobbies_to_entities_t, component::cposition_t, component::ctype_t, component::clobbies_status_t>(_startGameSystem);
     _registry.add_system<component::cnetwork_queue_t, component::ctype_t, component::clobby_id_t, component::clobbies_status_t, component::cmap_t>(_endGameSystem);
@@ -145,6 +146,12 @@ void Server::setUpComponents()
         component::clobbies_status_t { .lobbiesStatus = {{1, {false, 1}}, {2, {false, 1}}, {3, {false, 1}}} },
         component::cmap_t { .map = loadMap("Assets/Maps/mapTest.txt"), .index = {{1, 0}, {2, 0}, {3, 0}}, .end = false}
     );
+
+    _registry.get_components<component::clobbies_to_entities_t>()[lobbiesEntity].value().lobbiesToEntities.try_emplace(1, std::vector<Entity>());
+    _registry.get_components<component::clobbies_to_entities_t>()[lobbiesEntity].value().lobbiesToEntities.try_emplace(2, std::vector<Entity>());
+    _registry.get_components<component::clobbies_to_entities_t>()[lobbiesEntity].value().lobbiesToEntities.try_emplace(3, std::vector<Entity>());
+    _registry.get_components<component::clobbies_to_entities_t>()[lobbiesEntity].value().lobbiesToEntities.try_emplace(0, std::vector<Entity>());
+
 }
 
 std::vector<std::string> Server::loadMap(std::string const &mapPath)

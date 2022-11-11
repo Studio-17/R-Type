@@ -16,6 +16,7 @@
     #include "Component/CLobbyId.hpp"
     #include "Component/CLobbiesToEntities.hpp"
     #include "Component/CNetIdToClientId.hpp"
+    #include "Component/CDisconnected.hpp"
 
 /**
  * @brief Namespace for systems
@@ -40,24 +41,16 @@ namespace System {
              * @param lobbyId The sparse array of lobbyId entities
              * @param lobbiesToEntities The sparse array of lobbiesToEntities entities
              * @param netIdToClientId The sparse array of netIdToClientId entities
+             * @param disconnected The sparse array of disconnected entities
              */
             void operator()(
                 Registry &registry,
                 Sparse_array<component::cnetwork_queue_t> &network_queues,
                 Sparse_array<component::clobby_id_t> &lobbyId,
                 Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities,
-                Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId
+                Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId,
+                Sparse_array<component::cdisconnected_t> &disconnected
             );
-
-            /**
-             * @brief Function to remove Client to lobby
-             *
-             * @param netClientId The sparse array of network entities
-             * @param lobbyId The sparse array of lobbyId entities
-             * @param lobbiesToEntities The sparse array of lobbiesToEntities entities
-             * @param netIdToClientId The sparse array of netIdToClientId entities
-             */
-            void removeClientLobby(int netClientId, Sparse_array<component::clobby_id_t> &lobbyId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId);
 
         protected:
         private:
