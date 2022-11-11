@@ -57,7 +57,7 @@ void System::MouseSystem::updateIpInput(Registry &registry)
     Entity test = registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-ip-input")));
 
     while (key > 0) {
-        if ((key >= 32) && (key <= 125) && _ipInput.length() < 20) {
+        if ((key >= 32) && (key <= 125) && _ipInput.length() < 16) {
             _ipInput += static_cast<char>(key);
             content[test].value().text = _ipInput;
         }

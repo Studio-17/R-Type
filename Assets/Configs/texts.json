@@ -7,5 +7,32 @@
         "position": [100, 400],
         "spacing": 7,
         "scene": 10
+    },
+    "name-input-txt": {
+        "ref": "name-input-txt",
+        "text": "Name",
+        "color": [150, 150, 150, 255],
+        "size": 50,
+        "position": [890, 250],
+        "spacing": 7,
+        "scene": 4
+    },
+    "ip-input-txt": {
+        "ref": "ip-input-txt",
+        "text": "IP",
+        "color": [150, 150, 150, 255],
+        "size": 50,
+        "position": [920, 450],
+        "spacing": 7,
+        "scene": 4
+    },
+    "port-input-txt": {
+        "ref": "port-input-txt",
+        "text": "Port",
+        "color": [150, 150, 150, 255],
+        "size": 50,
+        "position": [890, 650],
+        "spacing": 7,
+        "scene": 4
     }
 }
