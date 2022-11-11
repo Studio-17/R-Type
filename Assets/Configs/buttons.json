@@ -220,14 +220,5 @@
         },
         "scene": 6,
         "callback-type": "join-room-three"
-    },
-    "join-lobby-btn": {
-        "ref": "join-lobby-btn",
-        "textureId": "next-button",
-        "position": [1750, 950],
-        "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
-        "scene": 6,
-        "callback-type": "see-lobby"
     }
 }
