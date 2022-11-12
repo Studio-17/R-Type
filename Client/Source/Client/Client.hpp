@@ -181,13 +181,19 @@ class Client {
         void noCallback() {};
 
         /**
+         * @brief Call back function executed when exit button is pressed to exit client on a server
+         *
+         */
+        void exitGame();
+
+        /**
          * @brief Call back function executed when rooms button is pressed to see all the rooms
          *
          */
 
         void seeRooms();
         /**
-         * @brief Call back function executed when exit button is pressed to exit client on a server
+         * @brief Call back function executed when exit button is pressed to go back to connection client on a server
          *
          */
         void backToConnection();

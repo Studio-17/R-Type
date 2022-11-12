@@ -292,7 +292,8 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"join-room-one", std::bind(&Client::joinRoomOne, this)},
         {"join-room-two", std::bind(&Client::joinRoomtwo, this)},
         {"join-room-three", std::bind(&Client::joinRoomThree, this)},
-        {"see-lobby", std::bind(&Client::joinLobby, this)}
+        {"see-lobby", std::bind(&Client::joinLobby, this)},
+        {"exit", std::bind(&Client::exitGame, this)}
     };
 
     for (auto &oneData: jsonData) {
@@ -409,6 +410,13 @@ void Client::seeRooms()
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::ROOMS;
+}
+
+void Client::exitGame()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::EXIT;
 }
 
 void Client::backToConnection()
