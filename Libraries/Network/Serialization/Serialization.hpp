@@ -45,7 +45,8 @@ namespace NETWORK_SERVER_TO_CLIENT {
         NUMBER_PLAYERS_IN_LOBBY,
         UPDATE_ENTITY_HEALTH,
         UPDATE_ENTITY_SCORE,
-        END_GAME
+        END_GAME,
+        NEW_LEVEL
     };
 };
 
@@ -68,7 +69,8 @@ enum ENTITY_TYPE {
     UI,
     NET,
     ENEMY2,
-    INPUT_BOX
+    INPUT_BOX,
+    ENEMY3
 };
 
 using byte = unsigned char; ///< Using to represent what type of data is contained

@@ -2,13 +2,13 @@
 ** EPITECH PROJECT, 2022
 ** B-CPP-500-PAR-5-1-rtype-martin.vanaud
 ** File description:
-** CAsset
+** CSound
 */
 
-#ifndef CASSET_HPP_
-    #define CASSET_HPP_
+#ifndef CSOUND_HPP_
+    #define CSOUND_HPP_
 
-    #include "AssetManager.hpp"
+    #include "SoundManager.hpp"
 
 /**
  * @brief Namespace for all components
@@ -17,9 +17,9 @@ namespace component {
     /**
      * @brief A structure representing all assets
      */
-    struct casset_t {
-        AssetManager assets; ///< AssetManager containing all assets
+    struct csound_t {
+        SoundManager sounds; ///< SoundManager containing all sounds
     };
 }
 
-#endif /* !CASSET_HPP_ */
+#endif /* !CSOUND_HPP_ */

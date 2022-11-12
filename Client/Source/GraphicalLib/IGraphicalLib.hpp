@@ -114,105 +114,11 @@ namespace rtype {
 
             virtual auto createColor(std::array<float, 4> const &array) -> Color = 0;
 
-            /**
-             * @brief Create a Music object
-             * 
-             * @param id id of the music
-             * @param filename path to the music
-             */
-            virtual auto createMusic(std::size_t id, std::string const &filename) -> void = 0;
-            /**
-             * @brief Play a music
-             * 
-             * @param id id of the music
-             */
-            virtual auto playMusic(std::size_t id) -> void = 0;
-            /**
-             * @brief Stop a music
-             * 
-             * @param id id of the music
-             */
-            virtual auto stopMusic(std::size_t id) -> void = 0;
-            /**
-             * @brief Pause a music
-             * 
-             * @param id id of the music
-             */
-            virtual auto pauseMusic(std::size_t id) -> void = 0;
-            /**
-             * @brief Resume a music
-             * 
-             * @param id id of the music
-             */
-            virtual auto resumeMusic(std::size_t id) -> void = 0;
+            virtual auto initAudio() -> void = 0;
 
-            /**
-             * @brief Check if the music is playing
-             * 
-             * @param id id of the music
-             * @return true if the music is playing
-             * @return false if the music is not playing
-             */
-            virtual auto isMusicPlaying(std::size_t id) -> bool = 0;
-            /**
-             * @brief Set the Music Volume object
-             * 
-             * @param id id of the music
-             * @param volume new volume of the music
-             */
-            virtual auto setMusicVolume(std::size_t id, float volume) -> void = 0;
-            /**
-             * @brief Update the music stream
-             * 
-             * @param id id of the music
-             */
-            virtual auto updateMusicStream(std::size_t id) -> void = 0;
+            virtual auto closeAudio() -> void = 0;
 
-            /**
-             * @brief Create a Sound object
-             * 
-             * @param id id of the sound
-             * @param filename path to the sound
-             */
-            virtual auto createSound(std::size_t id, std::string const &filename) -> void = 0;
-            /**
-             * @brief Play a sound
-             * 
-             * @param id id of the sound
-             */
-            virtual auto playSound(std::size_t id) -> void = 0;
-            /**
-             * @brief Stop a sound
-             * 
-             * @param id id of the sound
-             */
-            virtual auto stopSound(std::size_t id) -> void = 0;
-            /**
-             * @brief Pause a sound
-             * 
-             * @param id id of the sound
-             */
-            virtual auto pauseSound(std::size_t id) -> void = 0;
-            /**
-             * @brief Resume a sound
-             * 
-             * @param id id of the sound
-             */
-            virtual auto resumeSound(std::size_t id) -> void = 0;
-            /**
-             * @brief Check if the sound is playing
-             * 
-             * @param id id of the sound
-             * @return true if the sound is playing
-             * @return false if the sound is not playing
-             */
-            virtual auto isSoundPlaying(std::size_t id) -> bool = 0;
-            /**
-             * @brief Set the Sound Volume object
-             * 
-             * @param id id of the sound
-             * @param volume new volume of the sound
-             */ virtual auto setSoundVolume(std::size_t id, float volume) -> void = 0;
+            virtual auto playASound(MySound &sound) -> void = 0;
 
             /**
              * @brief Check if a key has been pressed

@@ -9,6 +9,16 @@
         "nbFrame": 16,
         "texture": "Assets/Images/Sprites/BasicEnemySpriteSheet2.png"
     },
+    "amiral": {
+        "title": "amiral",
+        "nbFrame": 8,
+        "texture": "Assets/Images/Sprites/amiral.png"
+    },
+    "robot": {
+        "title": "robot",
+        "nbFrame": 3,
+        "texture": "Assets/Images/Sprites/robot.png"
+    },
     "blueSpaceShip": {
         "title": "blueSpaceShip",
         "nbFrame": 5,

@@ -20,9 +20,9 @@ System::MouseSystem::MouseSystem()
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
-void System::MouseSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::ctype_t> &types, Sparse_array<component::ccallback_t> &callbacks, [[ maybe_unused ]] Sparse_array<component::cref_t> &refs, Sparse_array<component::crefid_t> &refIds)
+void System::MouseSystem::operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::cposition_t> &positions, Sparse_array<component::crect_t> &rects, Sparse_array<component::csceneid_t> &scenesId, Sparse_array<component::ctype_t> &types, Sparse_array<component::ccallback_t> &callbacks, [[ maybe_unused ]] Sparse_array<component::cref_t> &refs, Sparse_array<component::crefid_t> &refIds, Sparse_array<component::csound_t> &sounds, Sparse_array<component::csoundid_t> &soundIds)
 {
-    for (std::size_t i = 1; i < positions.size() && i < rects.size() && i < scenesId.size() && i < types.size() && i < refIds.size(); i++) {
+    for (std::size_t i = 1; i < positions.size() && i < rects.size() && i < scenesId.size() && i < types.size() && i < refIds.size() && i < soundIds.size(); i++) {
         if (positions[i] && rects[i] && scenesId[i] && types[i] && refIds[i]) {
             auto &rect = rects[i];
             auto &scene = scenesId[i];
@@ -35,6 +35,9 @@ void System::MouseSystem::operator()([[ maybe_unused ]] Registry &registry, Spar
                     callback.value().callback();
                 }
                 if (type->type == ENTITY_TYPE::BUTTON && _graphicLib->IsLeftMouseButtonPressed()) {
+                    // _graphicLib->playSound(soundIds[FORBIDDEN_IDS::NETWORK].value().sound.at(soundIds[i].value().sound));
+                    // assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetsId[i].value().assets).getTexture()
+                    _graphicLib->playASound(sounds[FORBIDDEN_IDS::NETWORK].value().sounds.at(soundIds[i].value().sound).getSound());
                     callback.value().callback();
                 }
             }

@@ -28,6 +28,8 @@
 #include "Component/CRefId.hpp"
 #include "Component/CHealth.hpp"
 #include "Component/CScore.hpp"
+#include "Component/CSound.hpp"
+#include "Component/CSoundId.hpp"
 
 #include "fileConfig.hpp"
 
@@ -37,6 +39,7 @@ Client::Client(int hostPort, std::map<std::string, std::string> &configurationFi
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
     _graphicLib->initWindow(1920, 1080, "R-Type", 60);
+    _graphicLib->initAudio();
 
     setUpEcs();
     setUpSystems();
@@ -72,6 +75,7 @@ void Client::machineRun()
         SendPacket();
     }
     _graphicLib->closeWindow();
+    _graphicLib->closeAudio();
     disconnect();
 }
 
@@ -133,6 +137,8 @@ void Client::setUpEcs()
     _registry.register_component<component::crefid_t>();
     _registry.register_component<component::chealth_t>();
     _registry.register_component<component::cscore_t>();
+    _registry.register_component<component::csound_t>();
+    _registry.register_component<component::csoundid_t>();
 }
 
 void Client::setUpSystems()
@@ -142,7 +148,7 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t>(_killSystem);
     _registry.add_system<component::crect_t, component::ctimer_t, component::casset_t, component::cassetid_t>(_rectSystem);
     _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::csceneid_t, component::cclient_network_id>(_controlSystem);
-	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t, component::cref_t, component::crefid_t>(_mouseSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t, component::cref_t, component::crefid_t, component::csound_t, component::csoundid_t>(_mouseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id, component::csceneid_t>(_newEntitySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cref_t, component::ctext_t>(_getLobbiesSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cref_t, component::ctext_t>(_getInfoInLobbySystem);
@@ -160,7 +166,9 @@ void Client::setUpSystems()
 void Client::setUpComponents()
 {
     component::casset_t assetMan;
-    assetMan.assets = AssetManager(_configurationFiles.at("ASSET"));
+    assetMan.assets = AssetManager(_configurationFiles.at("ASSETS"));
+    component::csound_t soundMan;
+    soundMan.sounds = SoundManager(_configurationFiles.at("SOUNDS"));
 
     Entity network = _registry.spawn_entity_with(
             component::cnetwork_queue_t{},
@@ -171,7 +179,8 @@ void Client::setUpComponents()
             component::csceneid_t{ .sceneId = SCENE::CONNECTION }, // Set scene when the program start
             component::cclient_network_id {},
             component::cref_t{},
-            component::crefid_t{}
+            component::crefid_t{},
+            component::csound_t{ .sounds = soundMan.sounds }
     );
 
     loadImages(_configurationFiles.at("IMAGES"), _registry.get_components<component::casset_t>());
@@ -295,6 +304,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         int nb_frames = oneData.value("nbFrame", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames());
         std::string ref = oneData.value("ref", "error-btn");
         float scale = oneData.value("scale", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale());
+        std::string sound = oneData.value("audio", "click");
 
         Entity button = _registry.spawn_entity_with(
             component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
@@ -304,7 +314,8 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
             component::ccallback_t{ .callback = callbackMap.at(callbackType) },
             component::cscale_t{ .scale = scale },
-            component::crefid_t{ .refId = ref }
+            component::crefid_t{ .refId = ref },
+            component::csoundid_t{ .sound = sound }
         );
         if (oneData.contains("text"))
             createText(oneData.at("text"), pos, scene, ("text-" + ref));

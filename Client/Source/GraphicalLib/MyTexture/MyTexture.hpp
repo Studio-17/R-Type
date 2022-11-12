@@ -12,13 +12,41 @@
     #include <string>
     #include <utility>
 
+/**
+ * @brief MyTexture class
+ * 
+ */
 class MyTexture {
     public:
+    /**
+     * @brief Construct a new My Texture object
+     * 
+     * @param texturePath 
+     */
         MyTexture(std::string const &texturePath);
+        /**
+         * @brief Destroy the My Texture object
+         * 
+         */
         ~MyTexture();
 
+        /**
+         * @brief Get the Texture object
+         * 
+         * @return Texture2D 
+         */
         Texture2D getTexture() const;
+        /**
+         * @brief Get the Width object
+         * 
+         * @return int 
+         */
         int getWidth() const;
+        /**
+         * @brief Get the Height object
+         * 
+         * @return int 
+         */
         int getHeight() const;
 
     protected:
