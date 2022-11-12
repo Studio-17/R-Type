@@ -304,8 +304,8 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
     for (auto &oneData: jsonData) {
         std::string assetId = oneData.value("textureId", "button");
         std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
-        std::string callbackType = oneData.value("callback-type", "back-to-main-menu");
-        int scene = oneData.value("scene", -1);
+        std::string callbackType = oneData.value("callback-type", "no-callback");
+        int scene = oneData.value("scene", 4);
         component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
         int nb_frames = oneData.value("nbFrame", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames());
         std::string ref = oneData.value("ref", "error-btn");

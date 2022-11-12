@@ -34,13 +34,13 @@ class Keyboard {
         /**
          * @brief Get the Key value
          *
-         * @return int
+         * @return int key value
          */
         int getKey() const;
         /**
          * @brief Check if a key has been pressed
          *
-         * @param key
+         * @param key key to check
          * @return true
          * @return false
          */
@@ -48,7 +48,7 @@ class Keyboard {
         /**
          * @brief Check if a key is being pressed
          *
-         * @param key
+         * @param key key to check
          * @return true
          * @return false
          */
@@ -56,7 +56,7 @@ class Keyboard {
         /**
          * @brief Check if a key has been released
          *
-         * @param key
+         * @param key key to check
          * @return true
          * @return false
          */
@@ -64,7 +64,7 @@ class Keyboard {
         /**
          * @brief Check if a key is not being pressed
          *
-         * @param key
+         * @param key key to check
          * @return true
          * @return false
          */
@@ -72,68 +72,68 @@ class Keyboard {
         /**
          * @brief Set the Exit Key object
          *
-         * @param key
+         * @param key key to set
          */
         void setExitKey(int key);
         /**
          * @brief Get the Pressed Keycode object
          *
-         * @return int
+         * @return int keycode
          */
         int getPressedKeycode() const;
         /**
          * @brief Get the Pressed Charcode object
          *
-         * @return int
+         * @return int charcode
          */
         int getPressedCharcode() const;
         /**
          * @brief Get the Key Up Char Code object
          *
-         * @return int
+         * @return int charcode
          */
         int getKeyUpCharCode() const;
         /**
          * @brief Get the Key Down Key Code object
          *
-         * @return int
+         * @return int charcode
          */
         int getKeyDownCharCode() const;
         /**
          * @brief Get the Key Down Char Code object
          *
-         * @return int
+         * @return int charcode
          */
         int getKeyRightCharCode() const;
         /**
          * @brief Get the Key Left Key Code object
          *
-         * @return int
+         * @return int charcode
          */
         int getKeyLeftCharCode() const;
         /**
          * @brief Get the Key Space Char Code object
          *
-         * @return int
+         * @return int charcode
          */
         int getKeySpaceCharCode() const;
 
         /**
          * @brief Get the Key Enter Char Code object
          *
-         * @return int
+         * @return int charcode
          */
         int getKeyEnterCharCode() const;
         /**
          * @brief Get the Key S Char Code object
          *
-         * @return int
+         * @return int charcode
          */
         int getKeySCharCode() const;
         /**
          * @brief Get the Key D Char Code object
          *
-         * @return int
+         * @return int charcode
          */
         int getKeyDCharCode() const;
 
