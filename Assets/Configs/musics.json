@@ -1,3 +1,6 @@
 {
-    
+    "menu-music": {
+        "title": "menu-music",
+        "soundPath": "Assets/Sounds/menu-music.ogg"
+    }
 }

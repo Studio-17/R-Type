@@ -6,10 +6,11 @@
 */
 
 #ifndef MYMUSIC_HPP_
-#define MYMUSIC_HPP_
+    #define MYMUSIC_HPP_
 
-#include <string>
-#include "raylib.h"
+    #include <string>
+    #include "raylib.h"
+
 /**
  * @brief Music class
  * 

@@ -6,7 +6,7 @@
 */
 
 #ifndef SOUNDMANAGER_HPP_
-#define SOUNDMANAGER_HPP_
+    #define SOUNDMANAGER_HPP_
 
     #include <string>
     #include <vector>
@@ -14,10 +14,27 @@
 
     #include "ASound.hpp"
 
+/**
+ * @brief Class to store all Sounds
+ * 
+ */
 class SoundManager {
     public:
+        /**
+         * @brief Construct a new Sound Manager object
+         * 
+         * @param soundsFile path to the json containing all the sounds
+         */
         SoundManager(std::string const &soundsFile);
+        /**
+         * @brief Construct a new Sound Manager object
+         * 
+         */
         SoundManager() {};
+        /**
+         * @brief Destroy the Sound Manager object
+         * 
+         */
         ~SoundManager() {};
 
         /**

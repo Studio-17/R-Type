@@ -101,6 +101,10 @@ namespace rtype {
 
             void playASound(MySound &sound) override;
 
+            void playAMusic(MyMusic &music) override;
+
+            void updateAMusic(MyMusic &music) override;
+
             /**
              * @brief Check if a key has been pressed
              *

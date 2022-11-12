@@ -40,7 +40,7 @@ file(GLOB SOURCE_FILES
     Source/Client/*.cpp
     Source/GraphicalLib/*.cpp
     Source/GraphicalLib/Position/*.cpp
-    Source/GraphicalLib/Music/*.cpp
+    Source/GraphicalLib/MyMusic/*.cpp
     Source/GraphicalLib/MySound/*.cpp
     Source/GraphicalLib/MyTexture/*.cpp
     Source/GraphicalLib/Keyboard/*.cpp
@@ -66,6 +66,7 @@ file(GLOB SOURCE_FILES
     Source/fileConfig/*.cpp
     Source/Managers/AssetManager/*.cpp
     Source/Managers/SoundManager/*.cpp
+    Source/Managers/MusicManager/*.cpp
 )
 
 # specify the headers
@@ -76,7 +77,7 @@ include_directories(
     Source/Constant/
     Source/GraphicalLib/
     Source/GraphicalLib/Position/
-    Source/GraphicalLib/Music/
+    Source/GraphicalLib/MyMusic/
     Source/GraphicalLib/MySound/
     Source/GraphicalLib/MyTexture/
     Source/GraphicalLib/Keyboard/
@@ -101,6 +102,7 @@ include_directories(
     Source/System/UpdateEntityInfosSystem/
     Source/Managers/AssetManager/
     Source/Managers/SoundManager/
+    Source/Managers/MusicManager/
     Source/fileConfig/
 )
 
