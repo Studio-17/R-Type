@@ -229,12 +229,6 @@ class Client {
         void joinRoomThree();
 
         /**
-         * @brief Call back function executed when join room four button is pressed to join the lobby
-         *
-         */
-        void joinLobby();
-
-        /**
          * @brief A method to configure and load the threadloop
          */
         void threadLoop();

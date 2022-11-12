@@ -87,7 +87,7 @@
             "position": [200, 30]
         },
         "scene": 5,
-        "callback-type": "see-rooms"
+        "callback-type": "no-callback"
     },
     "options-btn": {
         "ref": "options-btn",
@@ -102,7 +102,7 @@
             "position": [200, 30]
         },
         "scene": 5,
-        "callback-type": "see-rooms"
+        "callback-type": "no-callback"
     },
     "exit-btn": {
         "ref": "exit-btn",
