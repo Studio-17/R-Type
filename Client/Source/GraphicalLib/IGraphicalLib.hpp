@@ -13,7 +13,6 @@
     #include <utility>
     #include <raylib.h>
 
-    // #include "MyText.hpp"
     #include "MySound.hpp"
     #include "MyMusic.hpp"
     #include "MyTexture.hpp"
@@ -119,6 +118,10 @@ namespace rtype {
             virtual auto closeAudio() -> void = 0;
 
             virtual auto playASound(MySound &sound) -> void = 0;
+
+            virtual auto playAMusic(MyMusic &music) -> void = 0;
+
+            virtual auto updateAMusic(MyMusic &music) -> void = 0;
 
             /**
              * @brief Check if a key has been pressed

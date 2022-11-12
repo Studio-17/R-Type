@@ -44,10 +44,6 @@ namespace System {
             MouseSystem();
             ~MouseSystem() = default;
 
-            void updateNameInput(Registry &registry);
-            void updateIpInput(Registry &registry);
-            void updatePortInput(Registry &registry);
-
             /**
              * @brief Function that will be automaticaly called while the client is working (on loop)
              *
@@ -76,11 +72,6 @@ namespace System {
         protected:
         private:
             std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
-            std::string _nameInput; ///< Name of the client
-            std::string _ipInput; ///< Ip of the client
-            std::string _portInput; ///< Port of the client
-
-            std::map<std::string, std::function<void(Registry &)>> _input;
     };
 }
 

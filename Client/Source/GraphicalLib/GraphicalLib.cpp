@@ -104,7 +104,16 @@ void rtype::GraphicalLib::closeAudio()
 void rtype::GraphicalLib::playASound(MySound &sound)
 {
     sound.play();
-    // sound.
+}
+
+void rtype::GraphicalLib::playAMusic(MyMusic &music)
+{
+    music.play();
+}
+
+void rtype::GraphicalLib::updateAMusic(MyMusic &music)
+{
+    music.updateStream();
 }
 
 
