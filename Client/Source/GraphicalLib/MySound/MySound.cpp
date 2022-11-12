@@ -6,14 +6,18 @@
 */
 
 #include "MySound.hpp"
+#include <stdexcept>
 
-MySound::MySound()
+MySound::MySound(std::string const &texturePath) :
+    _sound(LoadSound(texturePath.c_str()))
 {
+    if (_sound.frameCount == 0)
+        throw std::runtime_error("Error while loading sound");
 }
 
 MySound::~MySound()
 {
-    UnloadSound(_sound);
+    // UnloadSound(_sound);
 }
 
 void MySound::play()
@@ -36,7 +40,7 @@ void MySound::resume()
     ResumeSound(_sound);
 }
 
-bool MySound::isPlaying()
+bool MySound::isPlaying() const
 {
     return (IsSoundPlaying(_sound));
 }

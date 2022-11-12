@@ -4,7 +4,7 @@
         "textureId": "little-button",
         "position": [760, 900],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "text": {
             "text": "Connect",
             "color": [150, 150, 150, 255],
@@ -64,7 +64,7 @@
         "textureId": "long-button",
         "position": [920, 300],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "text": {
             "text": "Rooms",
             "color": [150, 150, 150, 255],
@@ -79,7 +79,7 @@
         "textureId": "long-button",
         "position": [920, 450],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "text": {
             "text": "Maps",
             "color": [150, 150, 150, 255],
@@ -94,7 +94,7 @@
         "textureId": "long-button",
         "position": [920, 600],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "text": {
             "text": "Options",
             "color": [150, 150, 150, 255],
@@ -109,7 +109,7 @@
         "textureId": "long-button",
         "position": [920, 750],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "text": {
             "text": "Exit",
             "color": [150, 150, 150, 255],
@@ -124,7 +124,7 @@
         "textureId": "back-button",
         "position": [100, 950],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "scene": 5,
         "callback-type": "back-to-connexion"
     },
@@ -133,7 +133,7 @@
         "textureId": "long-button",
         "position": [920, 800],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "text": {
             "text": "Play",
             "color": [150, 150, 150, 255],
@@ -148,7 +148,7 @@
         "textureId": "back-button",
         "position": [100, 950],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "scene": 6,
         "callback-type": "back-to-main-menu"
     },
@@ -157,7 +157,7 @@
         "textureId": "lobby-button",
         "position": [115, 390],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "text": {
             "text": "Room 1",
             "color": [150, 150, 150, 255],
@@ -172,7 +172,7 @@
         "textureId": "lobby-button",
         "position": [115, 500],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "text": {
             "text": "Room 2",
             "color": [150, 150, 150, 255],
@@ -187,7 +187,7 @@
         "textureId": "lobby-button",
         "position": [115, 610],
         "nbFrame": 3,
-        "audio": "Ressources/buttons/click_sound.ogg",
+        "audio": "click",
         "text": {
             "text": "Room 3",
             "color": [150, 150, 150, 255],

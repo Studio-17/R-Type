@@ -29,12 +29,12 @@ class AssetManager {
         /**
          * @brief Construct a new Asset Manager object
          */
-        AssetManager();
+        AssetManager() {};
 
         /**
          * @brief Destroy the Asset Manager object
          */
-        ~AssetManager();
+        ~AssetManager() {};
 
         /**
          * @brief Get the Asset at index sent as param
