@@ -8,12 +8,16 @@
 #ifndef NETWORKSYSTEM_HPP_
     #define NETWORKSYSTEM_HPP_
 
+    #include <unordered_map>
+
+    /* Serialization */
+    #include "Serialization.hpp"
+
     /* Ecs */
     #include "Registry.hpp"
 
     /* Component */
     #include "Component/CNetworkQueue.hpp"
-    #include "Component/CIdOfShip.hpp"
 
 /**
  * @brief Namespace for systems
@@ -35,12 +39,10 @@ namespace System {
              *
              * @param registry The registry of the client
              * @param network The sparse array of network entities
-             * @param idOfShip The sparse array of idOfShip entities
              */
             void operator()(
                 Registry &registry,
-                Sparse_array<component::cnetwork_queue_t> &network,
-                Sparse_array<component::cid_of_ship_t> &idOfShip
+                Sparse_array<component::cnetwork_queue_t> &network
             );
 
             /**
@@ -49,7 +51,7 @@ namespace System {
              * @param bytes The bytes to send
              * @param network The sparse array of network entities
              */
-            void dispatchToPositionQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+            void dispatchToPositionQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
              * @brief A method to send informations to the new entity queue
@@ -57,7 +59,7 @@ namespace System {
              * @param bytes The bytes to send
              * @param network The sparse array of network entities
              */
-            void dispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+            void dispatchToNewEntityQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
              * @brief A method to send informations to the kill entity queue
@@ -65,7 +67,7 @@ namespace System {
              * @param bytes The bytes to send
              * @param network The sparse array of network entities
              */
-            void dispatchToKillEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+            void dispatchToKillEntityQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
              * @brief A method to send informations to the kill entity type queue
@@ -73,7 +75,7 @@ namespace System {
              * @param bytes The bytes to send
              * @param network The sparse array of network entities
              */
-            void dispatchToKillEntityTypeQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+            void dispatchToKillEntityTypeQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
              * @brief A method to send informations to the get lobbies queue
@@ -81,16 +83,7 @@ namespace System {
              * @param bytes The bytes to send
              * @param network The sparse array of network entities
              */
-            void dispatchToGetLobbiesQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
-
-            /**
-             * @brief A method to send informations to the new player queue
-             *
-             * @param bytes The bytes to send
-             * @param network The sparse array of network entities
-             * @param idOfShip The sparse array of idOfShip entities
-             */
-            void handleNewPlayerAndDispatchToNewEntityQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cid_of_ship_t> &idOfShip);
+            void dispatchToGetLobbiesQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
              * @brief A method to send informations to the Nb Players in queue
@@ -98,7 +91,7 @@ namespace System {
              * @param bytes The bytes to send
              * @param network The sparse array of network entities
              */
-            void dispatchNbPlayersInLobbyQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+            void dispatchNbPlayersInLobbyQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
              * @brief A method to send informations to the network client id queue
@@ -106,23 +99,23 @@ namespace System {
              * @param bytes The bytes to send
              * @param network The sparse array of network entities
              */
-            void dispatchNetworkClientIdQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+            void dispatchNetworkClientIdQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
              * @brief A method to send informations to the update entity health queue
-             * 
+             *
              * @param bytes The bytes to send
              * @param network The sparse array of network entities
              */
-            void dispatchUpdateEntityHealthQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+            void dispatchUpdateEntityHealthQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
              * @brief A method to send informations to the update entity score queue
-             * 
+             *
              * @param bytes The bytes to send
              * @param network The sparse array of network entities
              */
-            void dispatchUpdateEntityScoreQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+            void dispatchUpdateEntityScoreQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
              * @brief A method to send informations to the end Game queue
@@ -130,9 +123,11 @@ namespace System {
              * @param bytes The bytes to send
              * @param network The sparse array of network entities
              */
-            void dispatchEndGameQueue(std::vector<byte> &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+            void dispatchEndGameQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
         protected:
         private:
+            std::unordered_map<NETWORK_SERVER_TO_CLIENT::PACKET_TYPE, std::function<void(std::vector<byte> const &, Sparse_array<component::cnetwork_queue_t> &)>> _callBacks; ///< A map that links every OnQueue method to a type of packet
+
     };
 }
 

@@ -55,7 +55,7 @@ void rtype::GraphicalLib::drawSprite(MyTexture const &texture, std::array<float,
 
 bool rtype::GraphicalLib::checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width)
 {
-    return CheckCollisionPointRec(Vector2 {position.getX(), position.getY()}, Rectangle {x, y, height, width});
+    return CheckCollisionPointRec((Vector2){position.getX(), position.getY()}, (Rectangle){x, y, height, width});
 }
 
 bool rtype::GraphicalLib::IsLeftMouseButtonPressed()

@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 
 #include "SpawnEnemySystem.hpp"
 
@@ -28,8 +29,10 @@
 #include "Component/CLobbyId.hpp"
 #include "Component/CHealth.hpp"
 
-System::SpawnEnemySystem::SpawnEnemySystem()
+System::SpawnEnemySystem::SpawnEnemySystem() :
+    _mapDimension({1920, 1080}), _entityCreator ({ {MAPCONTENT::ENEMY1, 0}, {MAPCONTENT::ENEMY2, 1}})
 {
+    loadAssets("Assets/Specs/Enemy.json");
     std::srand(std::time(nullptr));
 }
 
@@ -39,36 +42,70 @@ void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<compo
         timer[FORBIDDEN_IDS::NETWORK].value().spawnEnemyDeltaTime = std::chrono::steady_clock::now();
     else
         return;
-    if (map[FORBIDDEN_IDS::LOBBY].value().end)
-        return;
-    for (int i = 1; i <= (int)lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.size(); i++) {
-        if (lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus[i].first == true) {
-            std::cout << "SpawnEnemy System" << map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().index) << std::endl;
-            if (!map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().index))
-                return;
-            Entity enemy = createEnemy(registry, i);
-            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({i, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0, 1, 0})});
+    for (int index = 1; index <= (int)lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.size(); index++) {
+        if (lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus[index].first == true) {
+            if  (map[FORBIDDEN_IDS::LOBBY].value().end.at(index))
+                continue;
+            for (std::size_t line = 0; line != map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).size(); line++) {
+                if (map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)) == MAPCONTENT::EMPTY)
+                    continue;
+                try {
+                    Entity enemy = createEnemyFromSpec(registry, _entityCreator.at(static_cast<MAPCONTENT>(map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)))), index, line, map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).size());
+                    netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({index, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0, 1, 0})});
+                } catch (std::out_of_range const &e) {
+                    std::cerr << "Spawn Enemy System: key value " << map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)) << " is undefined" << std::endl;
+                }
+            }
+            map[FORBIDDEN_IDS::LOBBY].value().index.at(index) += 1;
+            if (map[FORBIDDEN_IDS::LOBBY].value().index.at(index) >= map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).at(0).size()) {
+                std::cout << "Spawn enemy end at size "<<  map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().end.at(index)).at(0).size() <<std::endl;
+                map[FORBIDDEN_IDS::LOBBY].value().end.at(index) = true;
+            }
         }
-    }
-    map[FORBIDDEN_IDS::LOBBY].value().index += 1;
-    if (map[FORBIDDEN_IDS::LOBBY].value().index >= map[FORBIDDEN_IDS::LOBBY].value().map.size()) {
-        std::cout << "Spawn Enemy map End" << std::endl;
-        map[FORBIDDEN_IDS::LOBBY].value().end = true;
     }
 }
 
-Entity System::SpawnEnemySystem::createEnemy(Registry &registry, int lobby_id)
+Entity System::SpawnEnemySystem::createEnemyFromSpec(Registry &registry, int enemyType, int lobby_id, std::size_t line, std::size_t map_size)
 {
+    std::cout << "Spawn enemy from spec" << _enemySpec.at(enemyType).type <<std::endl;
     Entity enemy = registry.spawn_entity_with(
-        component::cdirection_t{ .x = -1, .y = 0 },
-        component::chitbox_t{ .height = 10, .width = 10 },
-        component::cposition_t{ .x = 700, .y = static_cast<float>(std::rand() % 600) },
-        component::cvelocity_t{ .velocity = 4 },
-        component::ctype_t{ .type = ENTITY_TYPE::ENEMY },
-        component::crect_t{ .height = 34, .width = 33 },
+        component::cdirection_t{ .x = _enemySpec.at(enemyType).direction.first, .y = _enemySpec.at(enemyType).direction.second },
+        component::chitbox_t{ .height = _enemySpec.at(enemyType).hitbox.second, .width = _enemySpec.at(enemyType).hitbox.first },
+        component::cposition_t{ .x = static_cast<float>(_mapDimension.first), .y = static_cast<float>(std::rand() % (_mapDimension.second / map_size) + (_mapDimension.second / map_size * line))},
+        component::cvelocity_t{ .velocity = _enemySpec.at(enemyType).velocity },
+        component::ctype_t{ .type = _enemySpec.at(enemyType).type },
+        component::crect_t{ .height = _enemySpec.at(enemyType).rect.second, .width = _enemySpec.at(enemyType).rect.first },
         component::csceneid_t{ .sceneId = SCENE::GAME },
         component::clobby_id_t{ .id = lobby_id },
-        component::chealth_t {1}
+        component::chealth_t {_enemySpec.at(enemyType).health}
     );
     return enemy;
+}
+
+nlohmann::json System::SpawnEnemySystem::getJsonData(std::string const &filepath)
+{
+    nlohmann::json jsonData;
+    std::ifstream confStream(filepath);
+
+    if (!confStream.is_open()) {
+        throw ("file " + filepath + " failed to open");
+    }
+    confStream >> jsonData;
+    confStream.close();
+    return jsonData;
+}
+
+void System::SpawnEnemySystem::loadAssets(std::string const &filepath)
+{
+    nlohmann::json jsonData;
+    try {
+        jsonData = getJsonData(filepath);
+    } catch (std::exception const &e) {
+        std::cerr << e.what() << std::endl;
+        return;
+    }
+    for (auto oneData : jsonData) {
+        _enemySpec.emplace_back(spec_t(oneData));
+    }
+    std::cout << "SpawnEnemySystem "<< _enemySpec.size() << std::endl;
 }

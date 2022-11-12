@@ -160,9 +160,25 @@ class Client {
          */
         void connectToServer();
 
+        /**
+         * @brief Call back function executed when name button is on to change the name of the client
+         *
+         */
         void nameInput();
+
+        /**
+         * @brief Call back function executed when name button is on to change the ip of the client
+         *
+         */
         void ipInput();
+
+        /**
+         * @brief Call back function executed when name button is on to change the port of the client
+         *
+         */
         void portInput();
+
+        void noCallback() {};
 
         /**
          * @brief Call back function executed when rooms button is pressed to see all the rooms
@@ -207,7 +223,7 @@ class Client {
         void joinRoomThree();
 
         /**
-         * @brief Call back function executed when join lobby button is pressed to join the selected lobby
+         * @brief Call back function executed when join room four button is pressed to join the lobby
          *
          */
         void joinLobby();
@@ -228,7 +244,6 @@ class Client {
         std::unique_ptr<UdpCommunication> _com; ///< A shared pointer to a module used for communicating through udp sockets
         Registry _registry; ///< Registry that contains all the ECS
         std::thread _thread; ///< thread to handle ECS
-        bool _connected; ///< A boolean to check if the clientis conncted to the server
         AssetManager _assetManager; ///< Asset manager to load all the assets
 
         std::vector<byte> _bufferToGet; ///< A buffer to receive as a vector of bytes

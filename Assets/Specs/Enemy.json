@@ -1,0 +1,34 @@
+{
+    "enemy1": {
+        "direction": [-1, 0],
+        "hitbox": [10, 10],
+        "velocity": 4,
+        "type": 6,
+        "rect": [34, 33],
+        "health": 1
+    },
+    "enemy2": {
+        "direction": [-1, 0],
+        "hitbox": [10, 10],
+        "velocity": 4,
+        "type": 6,
+        "rect": [34, 33],
+        "health": 2
+    },
+    "enemy3": {
+        "direction": [-1, 0],
+        "hitbox": [10, 10],
+        "velocity": 4,
+        "type": 6,
+        "rect": [34, 33],
+        "health": 1
+    },
+    "enemy4": {
+        "direction": [-1, 0],
+        "hitbox": [10, 10],
+        "velocity": 4,
+        "type": 6,
+        "rect": [34, 33],
+        "health": 1
+    }
+}

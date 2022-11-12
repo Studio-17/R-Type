@@ -19,7 +19,7 @@
 
 /* Components */
 #include "Component/CLobbyId.hpp"
-
+#include "Component/CDisconnected.hpp"
 
 System::NewClientSystem::NewClientSystem() {
 }
@@ -32,16 +32,13 @@ void System::NewClientSystem::operator()(Registry &registry, Sparse_array<compon
         // CREATE A CLIENT ENTITY
         Entity newClient = registry.spawn_entity_with(
             component::cnetwork_id_t { .id = newConnect.second.id }, // ADD A NETWORK ID TO CLIENT ENTITY
-            component::clobby_id_t { .id = 0 } // GIVE A LOBBY ID WHERE THE CLIENT IS
+            component::clobby_id_t { .id = 0 }, // GIVE A LOBBY ID WHERE THE CLIENT IS
+            component::cdisconnected_t { .isDisconnected = false } // GIVE BOOLEAN TO KNOW IF THE CLIENT IS DISCONNECTING
         );
 
         std::cout << "New client System : network client id:  " << newConnect.second.id << std::endl;
 
         netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.try_emplace(newConnect.second.id, newClient);
-        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(1, std::vector<Entity>());
-        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(2, std::vector<Entity>());
-        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(3, std::vector<Entity>());
-        lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.try_emplace(0, std::vector<Entity>());
         lobbiesToEntities[FORBIDDEN_IDS::LOBBY].value().lobbiesToEntities.at(0).push_back(newClient);
 
         netqueue[FORBIDDEN_IDS::NETWORK].value().newPlayerQueue.pop();
