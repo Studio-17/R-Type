@@ -19,8 +19,8 @@
 /* Components */
 #include "Component/CDirection.hpp"
 #include "Component/CRect.hpp"
-#include "Component/CVelocity.hpp"
 #include "Component/CScore.hpp"
+#include "Component/CVelocity.hpp"
 
 System::StartGameSystem::StartGameSystem()
 {
@@ -40,7 +40,7 @@ Entity System::StartGameSystem::createSpaceShip(Registry &registry, int lobbyId)
     return spaceShip;
 }
 
-void System::StartGameSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::clobbies_status_t> &lobbiesStatus) {
+void System::StartGameSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::clobby_id_t> &LobbyId, Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId, Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::clobbies_status_t> &lobbiesStatus, Sparse_array<component::chealth_t> &health) {
     while (!netqueue[FORBIDDEN_IDS::NETWORK].value().startGameQueue.empty()) {
         std::pair<int, packet_start_game> &startGame = netqueue[FORBIDDEN_IDS::NETWORK].value().startGameQueue.front();
         std::cout << "start game" << std::endl;
@@ -53,7 +53,7 @@ void System::StartGameSystem::operator()(Registry &registry, Sparse_array<compon
             Entity spaceShip = createSpaceShip(registry, lobbyId);
             std::cout << spaceShip << std::endl;
             std::cout << "Start Game System : send new entity packet to client (network id) : " << (int)entity << std::endl;
-            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::NEW_ENTITY, {static_cast<uint16_t>(spaceShip), position[spaceShip].value().x, position[spaceShip].value().y, 1, type[spaceShip].value().type, (int)entity, 3, 0})});
+            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::NEW_ENTITY, {static_cast<uint16_t>(spaceShip), position[spaceShip].value().x, position[spaceShip].value().y, 1, type[spaceShip].value().type, (int)entity, health[spaceShip].value().health, 0})});
         }
         netqueue[FORBIDDEN_IDS::NETWORK].value().startGameQueue.pop();
     }

@@ -22,6 +22,7 @@
     #include "Component/CTimer.hpp"
     #include "Component/CLobbiesStatus.hpp"
     #include "Component/CMap.hpp"
+    #include "Component/CHealth.hpp"
 
     /* Structure */
     #include "Structure/spec.hpp"
@@ -59,7 +60,8 @@ namespace System {
                 Sparse_array<component::ctype_t> &type,
                 Sparse_array<component::ctimer_t> &timer,
                 Sparse_array<component::clobbies_status_t> &lobbiesStatus,
-                Sparse_array<component::cmap_t> &map
+                Sparse_array<component::cmap_t> &map,
+                Sparse_array<component::chealth_t> &health
             );
 
             /**
@@ -94,7 +96,8 @@ namespace System {
             enum MAPCONTENT {
                 EMPTY = '0',
                 ENEMY1 = '1',
-                ENEMY2 = '2'
+                ENEMY2 = '2',
+                ENEMY3 = '3'
             }; ///< Enum representing the equivalent of a charater to his enemy
             std::pair<int, int> _mapDimension; ///< dimension of the screen
             std::unordered_map<MAPCONTENT, int> _entityCreator; ///< Map representing the spec index in enemySpec map to load enemy
