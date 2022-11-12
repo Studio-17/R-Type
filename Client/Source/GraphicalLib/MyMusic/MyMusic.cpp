@@ -6,14 +6,18 @@
 */
 
 #include "MyMusic.hpp"
+#include <stdexcept>
 
-MyMusic::MyMusic(std::string const &filename) : _music(LoadMusicStream(filename.c_str()))
+MyMusic::MyMusic(std::string const &filename) :
+    _music(LoadMusicStream(filename.c_str()))
 {
+    if (_music.frameCount == 0)
+    throw std::runtime_error("Error while loading music");
 }
 
 MyMusic::~MyMusic()
 {
-    UnloadMusicStream(_music);
+    // UnloadMusicStream(_music);
 }
 
 void MyMusic::play()

@@ -21,6 +21,8 @@
     #include "Component/CAssetId.hpp"
     #include "Component/CSceneId.hpp"
     #include "Component/CScale.hpp"
+    #include "Component/CMusic.hpp"
+    #include "Component/CMusicId.hpp"
 
 /**
  * @brief Namespace for systems
@@ -49,6 +51,8 @@ namespace System {
              * @param assetsId the sparse array of assetId entities
              * @param scenesId the sparse array of sceneId entities
              * @param scales the sparse array of scale entities
+             * @param musics the sparse array of music entities
+             * @param musicsId the sparse array of musicId entities
              */
             void operator()(Registry &registry,
                             Sparse_array<component::cposition_t> &positions,
@@ -56,7 +60,9 @@ namespace System {
                             Sparse_array<component::casset_t> &assets,
                             Sparse_array<component::cassetid_t> &assetsId,
                             Sparse_array<component::csceneid_t> &scenesId,
-                            Sparse_array<component::cscale_t> &scales);
+                            Sparse_array<component::cscale_t> &scales,
+                            Sparse_array<component::cmusic_t> &musics,
+                            Sparse_array<component::cmusicid_t> &musicsId);
 
             protected:
             private:

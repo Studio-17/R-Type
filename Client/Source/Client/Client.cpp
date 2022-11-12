@@ -24,12 +24,8 @@
 #include "StartGame.hpp"
 
 /* Component */
-#include "Component/CRef.hpp"
-#include "Component/CRefId.hpp"
 #include "Component/CHealth.hpp"
 #include "Component/CScore.hpp"
-#include "Component/CSound.hpp"
-#include "Component/CSoundId.hpp"
 
 #include "fileConfig.hpp"
 
@@ -139,6 +135,8 @@ void Client::setUpEcs()
     _registry.register_component<component::cscore_t>();
     _registry.register_component<component::csound_t>();
     _registry.register_component<component::csoundid_t>();
+    _registry.register_component<component::cmusic_t>();
+    _registry.register_component<component::cmusicid_t>();
 }
 
 void Client::setUpSystems()
@@ -156,7 +154,7 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t, component::cclient_network_id>(_newClientResponseSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cposition_t, component::cserverid_t>(_positionSystem);
     _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
-	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t>(_drawSpriteSystem);
+	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t, component::cmusic_t, component::cmusicid_t >(_drawSpriteSystem);
     _registry.add_system<component::cposition_t, component::csceneid_t, component::cscale_t, component::ccolor_t, component::ctext_t>(_drawTextSystem);
     _registry.add_system<component::cnetwork_queue_t, component::csceneid_t>(_endGameSystem);
     _registry.add_system<component::crefid_t, component::cposition_t>(_parallaxSystem);
@@ -169,6 +167,8 @@ void Client::setUpComponents()
     assetMan.assets = AssetManager(_configurationFiles.at("ASSETS"));
     component::csound_t soundMan;
     soundMan.sounds = SoundManager(_configurationFiles.at("SOUNDS"));
+    component::cmusic_t musicMan;
+    musicMan.musics = MusicManager(_configurationFiles.at("MUSICS"));
 
     Entity network = _registry.spawn_entity_with(
             component::cnetwork_queue_t{},
@@ -180,12 +180,17 @@ void Client::setUpComponents()
             component::cclient_network_id {},
             component::cref_t{},
             component::crefid_t{},
-            component::csound_t{ .sounds = soundMan.sounds }
+            component::csound_t{ .sounds = soundMan.sounds },
+            component::cmusic_t{ .musics = musicMan.musics },
+            component::cmusicid_t{ .music = "menu-music" }
     );
 
     loadImages(_configurationFiles.at("IMAGES"), _registry.get_components<component::casset_t>());
     loadButtons(_configurationFiles.at("BUTTONS"), _registry.get_components<component::casset_t>());
     loadTexts(_configurationFiles.at("TEXTS"));
+    Sparse_array<component::cmusic_t> &musics = _registry.get_components<component::cmusic_t>();
+    _graphicLib->playAMusic(musics[FORBIDDEN_IDS::NETWORK].value().musics.at("menu-music").getMusic());
+    // std::cout << musicIds.size() << std::endl;
 }
 
 void Client::loadTexts(std::string const &filepath)

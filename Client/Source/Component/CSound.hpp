@@ -15,7 +15,7 @@
  */
 namespace component {
     /**
-     * @brief A structure representing all assets
+     * @brief A structure representing all sounds
      */
     struct csound_t {
         SoundManager sounds; ///< SoundManager containing all sounds

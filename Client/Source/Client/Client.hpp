@@ -250,7 +250,6 @@ class Client {
         std::unique_ptr<UdpCommunication> _com; ///< A shared pointer to a module used for communicating through udp sockets
         Registry _registry; ///< Registry that contains all the ECS
         std::thread _thread; ///< thread to handle ECS
-        AssetManager _assetManager; ///< Asset manager to load all the assets
 
         std::vector<byte> _bufferToGet; ///< A buffer to receive as a vector of bytes
 

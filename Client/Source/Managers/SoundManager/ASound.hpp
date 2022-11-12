@@ -13,14 +13,14 @@
     #include "MySound.hpp"
 
 /**
- * @brief Class containing all elements of an ASound
+ * @brief Class containing all elements of an Sound
  */
 class ASound {
     public:
         /**
          * @brief Construct a new ASound object
          * 
-         * @param jsonData 
+         * @param jsonData path to the sound file
          */
         ASound(nlohmann::json const &jsonData);
         /**
@@ -38,7 +38,7 @@ class ASound {
 
     protected:
     private:
-        MySound _sound;
+        MySound _sound; ///< Sound of the asset
 };
 
 #endif /* !ASOUND_HPP_ */

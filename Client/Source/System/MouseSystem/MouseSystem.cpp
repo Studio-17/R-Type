@@ -35,8 +35,6 @@ void System::MouseSystem::operator()([[ maybe_unused ]] Registry &registry, Spar
                     callback.value().callback();
                 }
                 if (type->type == ENTITY_TYPE::BUTTON && _graphicLib->IsLeftMouseButtonPressed()) {
-                    // _graphicLib->playSound(soundIds[FORBIDDEN_IDS::NETWORK].value().sound.at(soundIds[i].value().sound));
-                    // assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetsId[i].value().assets).getTexture()
                     _graphicLib->playASound(sounds[FORBIDDEN_IDS::NETWORK].value().sounds.at(soundIds[i].value().sound).getSound());
                     callback.value().callback();
                 }
