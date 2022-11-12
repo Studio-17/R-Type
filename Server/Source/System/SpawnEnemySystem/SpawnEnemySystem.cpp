@@ -30,7 +30,7 @@
 #include "Component/CHealth.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem() :
-    _mapDimension({1920, 1080}), _entityCreator ({ {MAPCONTENT::ENEMY1, 0}, {MAPCONTENT::ENEMY2, 1}})
+    _mapDimension({1920, 1080}), _entityCreator ({ {MAPCONTENT::ENEMY1, 0}, {MAPCONTENT::ENEMY2, 1}, {MAPCONTENT::ENEMY3, 2}})
 {
     loadAssets("Assets/Specs/Enemy.json");
     std::srand(std::time(nullptr));

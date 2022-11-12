@@ -37,7 +37,7 @@ std::size_t countNbEntityInLobby(int lobbyId, ENTITY_TYPE entityType, Sparse_arr
 void System::EndGameSystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::ctype_t> &type, Sparse_array<component::clobby_id_t> &lobbyIds, Sparse_array<component::clobbies_status_t> &lobbiesStatus, Sparse_array<component::cmap_t> &map)
 {
     for (int lobbyId = 1; lobbyId <= 3; lobbyId++) {
-        if ((!countNbEntityInLobby(lobbyId, ENTITY_TYPE::PLAYER, type, lobbyIds) || (map[FORBIDDEN_IDS::LOBBY].value().end.at(lobbyId) && !countNbEntityInLobby(lobbyId, ENTITY_TYPE::ENEMY, type, lobbyIds))) && lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.at(lobbyId).first) {
+        if ((!countNbEntityInLobby(lobbyId, ENTITY_TYPE::PLAYER, type, lobbyIds) || (map[FORBIDDEN_IDS::LOBBY].value().end.at(lobbyId) && !countNbEntityInLobby(lobbyId, ENTITY_TYPE::ENEMY, type, lobbyIds) && !countNbEntityInLobby(lobbyId, ENTITY_TYPE::ENEMY2, type, lobbyIds) && !countNbEntityInLobby(lobbyId, ENTITY_TYPE::ENEMY3, type, lobbyIds))) && lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.at(lobbyId).first) {
             if (map[FORBIDDEN_IDS::LOBBY].value().mapIndex.at(lobbyId) == map[FORBIDDEN_IDS::LOBBY].value().map.size() - 1) {
                 // END OF GAME
                 std::cout << "END GAME " <<std::endl;
