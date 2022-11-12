@@ -69,7 +69,8 @@ enum ENTITY_TYPE {
     UI,
     NET,
     ENEMY2,
-    INPUT_BOX
+    INPUT_BOX,
+    ENEMY3
 };
 
 using byte = unsigned char; ///< Using to represent what type of data is contained

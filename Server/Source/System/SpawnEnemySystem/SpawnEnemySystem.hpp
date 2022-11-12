@@ -94,7 +94,8 @@ namespace System {
             enum MAPCONTENT {
                 EMPTY = '0',
                 ENEMY1 = '1',
-                ENEMY2 = '2'
+                ENEMY2 = '2',
+                ENEMY3 = '3'
             }; ///< Enum representing the equivalent of a charater to his enemy
             std::pair<int, int> _mapDimension; ///< dimension of the screen
             std::unordered_map<MAPCONTENT, int> _entityCreator; ///< Map representing the spec index in enemySpec map to load enemy

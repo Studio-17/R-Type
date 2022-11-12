@@ -93,6 +93,8 @@ namespace System {
              */
             void addEnemy2(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets);
 
+            void addEnemy3(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets);
+
             /**
              * @brief A method to check if an entity already exists
              *
