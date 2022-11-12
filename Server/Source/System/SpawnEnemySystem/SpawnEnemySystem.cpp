@@ -21,13 +21,12 @@
 #include "NewEntity.hpp"
 
 /* Component */
-#include "Component/CVelocity.hpp"
 #include "Component/CRect.hpp"
 #include "Component/CDirection.hpp"
 #include "Component/CHitBox.hpp"
 #include "Component/CSceneId.hpp"
 #include "Component/CLobbyId.hpp"
-#include "Component/CHealth.hpp"
+#include "Component/CVelocity.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem() :
     _mapDimension({1920, 1080}), _entityCreator ({ {MAPCONTENT::ENEMY1, 0}, {MAPCONTENT::ENEMY2, 1}, {MAPCONTENT::ENEMY3, 2}})
@@ -36,7 +35,7 @@ System::SpawnEnemySystem::SpawnEnemySystem() :
     std::srand(std::time(nullptr));
 }
 
-void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer, Sparse_array<component::clobbies_status_t> &lobbiesStatus, Sparse_array<component::cmap_t> &map)
+void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &netqueue, Sparse_array<component::cposition_t> &position, Sparse_array<component::ctype_t> &type, Sparse_array<component::ctimer_t> &timer, Sparse_array<component::clobbies_status_t> &lobbiesStatus, Sparse_array<component::cmap_t> &map, Sparse_array<component::chealth_t> &health)
 {
     if (std::chrono::steady_clock::now() - timer[0].value().spawnEnemyDeltaTime > (std::chrono::nanoseconds)3000000000)
         timer[FORBIDDEN_IDS::NETWORK].value().spawnEnemyDeltaTime = std::chrono::steady_clock::now();
@@ -52,7 +51,7 @@ void System::SpawnEnemySystem::operator()(Registry &registry, Sparse_array<compo
                     continue;
                 try {
                     Entity enemy = createEnemyFromSpec(registry, _entityCreator.at(static_cast<MAPCONTENT>(map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().mapIndex.at(index)).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)))), index, line, map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().mapIndex.at(index)).size());
-                    netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({index, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0, 1, 0})});
+                    netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({index, serialize_header::serializeHeader<packet_new_entity>(static_cast<uint16_t>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::NEW_ENTITY), {static_cast<uint16_t>(enemy), position[enemy].value().x, position[enemy].value().y, 3, static_cast<uint16_t>(type[enemy].value().type), 0, health[enemy].value().health, 0})});
                 } catch (std::out_of_range const &e) {
                     std::cerr << "Spawn Enemy System: key value " << map[FORBIDDEN_IDS::LOBBY].value().map.at(map[FORBIDDEN_IDS::LOBBY].value().mapIndex.at(index)).at(line).at(map[FORBIDDEN_IDS::LOBBY].value().index.at(index)) << " is undefined" << std::endl;
                 }
