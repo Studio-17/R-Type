@@ -52,7 +52,7 @@ class Client {
 		 * @param hostPort Port of the host
 		 * @param configurationFiles All configuration files
 		 */
-        Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles);
+        Client(int hostPort, std::map<std::string, std::string> &configurationFiles);
 
         /**
          * @brief Destroy the Client object
@@ -217,6 +217,10 @@ class Client {
          */
         void threadLoop();
 
+        std::string _ip; ///< Ip of the client
+        std::string _port; ///< Port of the client
+        int _hostPort; ///< Hostport of the client
+        std::string _name; ///< Name of the client
 
         asio::io_context _context; ///< An asio context object to handle basic I/O
 
@@ -229,7 +233,6 @@ class Client {
 
         std::vector<byte> _bufferToGet; ///< A buffer to receive as a vector of bytes
 
-        std::map<std::string, std::function<void(void)>> _callbackMap; ///< A map of callbacks
         std::map<std::string, std::string> _configurationFiles; ///< A map of configuration files
 
         // Systems

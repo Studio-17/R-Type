@@ -6,6 +6,8 @@
 */
 
 #include <fstream>
+#include <utility>
+#include <any>
 
 #include "Client.hpp"
 
@@ -28,8 +30,8 @@
 #include "CHealth.hpp"
 #include "CScore.hpp"
 
-Client::Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles) :
-    _com(std::make_unique<UdpCommunication>(_context, hostPort, port, ip)),
+Client::Client(int hostPort, std::map<std::string, std::string> &configurationFiles) :
+    _hostPort(hostPort),
     _connected(true)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
@@ -40,7 +42,6 @@ Client::Client(std::string const &ip, std::string const &port, int hostPort, std
     setUpEcs();
     setUpSystems();
     setUpComponents();
-    _thread = std::thread(&Client::threadLoop, this);
 }
 
 Client::~Client()
@@ -212,7 +213,6 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
         component::ccolor_t{ .color = color },
         component::crefid_t{ .refId = ref }
     );
-    // std::cout << ref << std::endl;
 
     Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
 
@@ -269,7 +269,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         return;
     }
 
-    _callbackMap = {
+    std::map<std::string, std::function<void(void)>> callbackMap = {
         {"connect", std::bind(&Client::connectToServer, this)},
         {"name-input", std::bind(&Client::nameInput, this)},
         {"ip-input", std::bind(&Client::ipInput, this)},
@@ -299,7 +299,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
             component::ctype_t{ .type = BUTTON },
             component::cassetid_t{ .assets = assetId },
             component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-            component::ccallback_t{ .callback = _callbackMap.at(callbackType) },
+            component::ccallback_t{ .callback = callbackMap.at(callbackType) },
             component::cscale_t{ .scale = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale() },
             component::crefid_t{ .refId = ref }
         );
@@ -322,6 +322,8 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
 
 void Client::connectToServer()
 {
+    _com = std::make_unique<UdpCommunication>(_context, _hostPort, _port, _ip);
+    _thread = std::thread(&Client::threadLoop, this);
     tryToConnect();
 
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
@@ -331,43 +333,62 @@ void Client::connectToServer()
 
 void Client::nameInput()
 {
-    // Sparse_array<component::cref_t> &ref = _registry.get_components<component::cref_t>();
-    // Sparse_array<component::ctext_t> &content = _registry.get_components<component::ctext_t>();
+    int key = _graphicLib->getPressedCharcode();
+    Sparse_array<component::cref_t> &ref = _registry.get_components<component::cref_t>();
+    Sparse_array<component::ctext_t> &content = _registry.get_components<component::ctext_t>();
+    Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-name-input")));
 
-    // Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-name-input")));
-
-    // content[test].value().text = "test";
-    // char name[19 + 1] = "\0";
-    // content[test].value().text = name;
-    // int letterCount = 0;
-    // int key = _graphicLib->getPressedCharcode();
-
-    // while (key > 0) {
-    //     if ((key >= 32) && (key <= 125) && letterCount < 20) {
-    //         // name[letterCount] = static_cast<char>(key);
-    //         // name[letterCount + 1] = '\0';
-    //         // content[test].value().text = name;
-    //         // letterCount++;
-    //         std::cout << "In" << std::endl;
-    //     }
-    //     key = _graphicLib->getPressedCharcode();
-    // }
-    // if (_graphicLib->hasBeenPressed(KEY_BACKSPACE) && letterCount > 0) {
-    //     name[letterCount - 1] = '\0';
-    //     content[test].value().text = name;
-    //     letterCount--;
-    // }
-    // if (_graphicLib->hasBeenPressed(KEY_ENTER)) {
-
-    // }
+    while (key > 0) {
+        if ((key >= 32) && (key <= 125) && _name.length() < 10) {
+            _name += static_cast<char>(key);
+            content[test].value().text = _name;
+        }
+        key = _graphicLib->getPressedCharcode();
+    }
+    if (_graphicLib->hasBeenReleased(KEY_BACKSPACE) && _name.length() > 0) {
+        _name.pop_back();
+        content[test].value().text = _name;
+    }
 }
 
 void Client::ipInput()
 {
+    int key = _graphicLib->getPressedCharcode();
+    Sparse_array<component::cref_t> &ref = _registry.get_components<component::cref_t>();
+    Sparse_array<component::ctext_t> &content = _registry.get_components<component::ctext_t>();
+    Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-ip-input")));
+
+    while (key > 0) {
+        if ((key >= 32) && (key <= 125) && _ip.length() < 20) {
+            _ip += static_cast<char>(key);
+            content[test].value().text = _ip;
+        }
+        key = _graphicLib->getPressedCharcode();
+    }
+    if (_graphicLib->hasBeenReleased(KEY_BACKSPACE) && _ip.length() > 0) {
+        _ip.pop_back();
+        content[test].value().text = _ip;
+    }
 }
 
 void Client::portInput()
 {
+    int key = _graphicLib->getPressedCharcode();
+    Sparse_array<component::cref_t> &ref = _registry.get_components<component::cref_t>();
+    Sparse_array<component::ctext_t> &content = _registry.get_components<component::ctext_t>();
+    Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("text-port-input")));
+
+    while (key > 0) {
+        if ((key >= 32) && (key <= 125) && _port.length() < 5) {
+            _port += static_cast<char>(key);
+            content[test].value().text = _port;
+        }
+        key = _graphicLib->getPressedCharcode();
+    }
+    if (_graphicLib->hasBeenReleased(KEY_BACKSPACE) && _port.length() > 0) {
+        _port.pop_back();
+        content[test].value().text = _port;
+    }
 }
 
 void Client::seeRooms()
@@ -386,13 +407,13 @@ void Client::backToConnection()
 
 void Client::startGame()
 {
-    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
-    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
-
     Sparse_array<component::cnetwork_queue_t> &network = _registry.get_components<component::cnetwork_queue_t>();
     std::vector<byte> tmp = serialize_header::serializeHeader<packet_start_game>(NETWORK_CLIENT_TO_SERVER::PACKET_TYPE::START_GAME, {1});
 
     network[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push(tmp);
+
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
 }
 
 void Client::backToMainMenu()
