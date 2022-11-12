@@ -45,7 +45,8 @@ namespace NETWORK_SERVER_TO_CLIENT {
         NUMBER_PLAYERS_IN_LOBBY,
         UPDATE_ENTITY_HEALTH,
         UPDATE_ENTITY_SCORE,
-        END_GAME
+        END_GAME,
+        NEW_LEVEL
     };
 };
 
