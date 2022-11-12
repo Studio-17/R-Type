@@ -34,7 +34,12 @@ namespace rtype {
             virtual ~IGraphicalLib() = default;
 
             /**
-             * @brief Clear the window
+             * @brief A method to initialize a window object
+             *
+             * @param screenWidth width of the window
+             * @param screenHeight height of the window
+             * @param title title of the window
+             * @param framerate framerate of the window
              */
             virtual auto initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate) -> void = 0;
 
@@ -82,45 +87,80 @@ namespace rtype {
             /**
              * @brief Check the mouse collision
              *
-             * @param position 
-             * @param x 
-             * @param y 
-             * @param height 
-             * @param width 
-             * @return true 
-             * @return false 
+             * @param position Position of the mouse
+             * @param x X position of the rectangle
+             * @param y Y position of the rectangle
+             * @param height Height of the rectangle
+             * @param width Width of the rectangle
+             * @return true If there is a collision
+             * @return false If there is no collision
              */
             virtual auto checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width) -> bool = 0;
 
             /**
-             * @brief 
-             * 
-             * @return true 
-             * @return false 
+             * @brief Check if the left mouse button is pressed
+             *
+             * @return true If the left mouse button is pressed
+             * @return false If the left mouse button is not pressed
              */
             virtual auto IsLeftMouseButtonPressed() -> bool = 0;
-
+            /**
+             * @brief Check if the left mouse button is released
+             *
+             * @return true If the left mouse button is released
+             * @return false If the left mouse button is not released
+             */
             virtual auto IsLeftMouseButtonReleased() -> bool = 0;
 
             /**
              * @brief Get the Mouse Position object
-             * 
-             * @return Position 
+             *
+             * @return Position The mouse position
              */
             virtual auto getMousePosition() -> Position = 0;
-
+            /**
+             * @brief Draw a text
+             *
+             * @param text Text to draw
+             * @param pos Position of the text
+             * @param fontSize Font size of the text
+             * @param color Color of the text
+             */
             virtual auto drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color) -> void = 0;
-
+            /**
+             * @brief Create a Color object
+             *
+             * @param array Array containing RGBA values
+             * @return Color The color
+             */
             virtual auto createColor(std::array<float, 4> const &array) -> Color = 0;
-
+            /**
+             * @brief Init the audio device
+             *
+             */
             virtual auto initAudio() -> void = 0;
-
+            /**
+             * @brief Close the audio device
+             *
+             */
             virtual auto closeAudio() -> void = 0;
-
+            /**
+             * @brief Play a sound
+             *
+             * @param sound Sound to play
+             */
             virtual auto playASound(MySound &sound) -> void = 0;
-
+            /**
+             * @brief Play a music
+             *
+             * @param music Music to play
+             */
             virtual auto playAMusic(MyMusic &music) -> void = 0;
-
+            /**
+             * @brief Update the music
+             *
+             * @param music Music to update
+             */
             virtual auto updateAMusic(MyMusic &music) -> void = 0;
 
             /**

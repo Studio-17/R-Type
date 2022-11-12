@@ -45,13 +45,11 @@
 class Client {
     public:
         /**
-		 * @brief Construct a new Client object
-		 *
-		 * @param ip Ip of the client
-		 * @param port Port of the client
-		 * @param hostPort Port of the host
-		 * @param configurationFiles All configuration files
-		 */
+         * @brief Construct a new Client object
+         *
+         * @param hostPort port of the host
+         * @param configurationFiles configuration files
+         */
         Client(int hostPort, std::map<std::string, std::string> &configurationFiles);
 
         /**
@@ -178,6 +176,10 @@ class Client {
          */
         void portInput();
 
+        /**
+         * @brief Call back function executed when no callback is set
+         *
+         */
         void noCallback() {};
 
         /**
