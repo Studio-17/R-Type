@@ -16,23 +16,23 @@
 #include "Constant.hpp"
 
 /* Component */
-#include "Component/CDamage.hpp"
-#include "Component/CDirection.hpp"
-#include "Component/CHealth.hpp"
-#include "Component/CHitBox.hpp"
-#include "Component/CNetworkQueue.hpp"
-#include "Component/CPosition.hpp"
-#include "Component/CLobbiesToEntities.hpp"
+// #include "Component/CDamage.hpp"
+// #include "Component/CDirection.hpp"
+// #include "Component/CHealth.hpp"
+// #include "Component/CHitBox.hpp"
+// #include "Component/CNetworkQueue.hpp"
+// #include "Component/CPosition.hpp"
+// #include "Component/CLobbiesToEntities.hpp"
 // #include "Component/CVelocity.hpp"
-#include "Component/CLobbyId.hpp"
-#include "Component/CTimer.hpp"
-#include "Component/CType.hpp"
-#include "Component/CSceneId.hpp"
-#include "Component/CLobbiesStatus.hpp"
-#include "Component/CScore.hpp"
-#include "Component/COwnerId.hpp"
-#include "Component/CMap.hpp"
-#include "Component/CDisconnected.hpp"
+// #include "Component/CLobbyId.hpp"
+// #include "Component/CTimer.hpp"
+// #include "Component/CType.hpp"
+// #include "Component/CSceneId.hpp"
+// #include "Component/CLobbiesStatus.hpp"
+// #include "Component/CScore.hpp"
+// #include "Component/COwnerId.hpp"
+// #include "Component/CMap.hpp"
+// #include "Component/CDisconnected.hpp"
 
 Server::Server(short const port) : _com(std::make_shared<UdpCommunication>(_context, port)),
     _thread(&Server::threadLoop, this), _isRunning(true)
@@ -112,7 +112,7 @@ void Server::setUpEcs()
     _registry.register_component<component::cnet_id_to_client_id_t>();
     _registry.register_component<component::clobby_id_t>();
     _registry.register_component<component::clobbies_to_entities_t>();
-    _registry.register_component<component::csceneid_t>();
+    // _registry.register_component<component::csceneid_t>();
     _registry.register_component<component::clobbies_status_t>();
     _registry.register_component<component::cscore_t>();
     _registry.register_component<component::cowner_id_t>();

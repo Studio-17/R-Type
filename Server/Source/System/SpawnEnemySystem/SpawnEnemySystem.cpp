@@ -75,7 +75,6 @@ Entity System::SpawnEnemySystem::createEnemyFromSpec(Registry &registry, int ene
         component::cvelocity_t{ .velocity = _enemySpec.at(enemyType).velocity },
         component::ctype_t{ .type = _enemySpec.at(enemyType).type },
         component::crect_t{ .height = _enemySpec.at(enemyType).rect.second, .width = _enemySpec.at(enemyType).rect.first },
-        component::csceneid_t{ .sceneId = SCENE::GAME },
         component::clobby_id_t{ .id = lobby_id },
         component::chealth_t {_enemySpec.at(enemyType).health}
     );
