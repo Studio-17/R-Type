@@ -3,7 +3,7 @@
         "ref": "parallax-background1-img",
         "textureId": "parallax_background",
         "position": [0, 0],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "velocity": 1,
         "scene": 0,
         "direction": [-1, 0]
@@ -12,7 +12,7 @@
         "ref": "parallax-background2-img",
         "textureId": "parallax_background",
         "position": [1930, 0],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "velocity": 1,
         "scene": 0,
         "direction": [-1, 0]
@@ -21,7 +21,7 @@
         "ref": "parallax-mountain1-img",
         "textureId": "parallax_mountain",
         "position": [0, 0],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "velocity": 3,
         "scene": 0,
         "direction": [-1, 0]
@@ -30,7 +30,7 @@
         "ref": "parallax-mountain2-img",
         "textureId": "parallax_mountain",
         "position": [1930, 0],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "velocity": 3,
         "scene": 0,
         "direction": [-1, 0]
@@ -39,7 +39,7 @@
         "ref": "parallax-ground1-img",
         "textureId": "parallax_ground",
         "position": [0, 0],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "velocity": 5,
         "scene": 0,
         "direction": [-1, 0]
@@ -48,7 +48,7 @@
         "ref": "parallax-ground2-img",
         "textureId": "parallax_ground",
         "position": [1930, 0],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "velocity": 5,
         "scene": 0,
         "direction": [-1, 0]
@@ -57,14 +57,14 @@
         "ref": "planet-img",
         "textureId": "planet",
         "position": [100, 250],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "scene": 5
     },
     "r-type-logo-img": {
         "ref": "r-type-logo-img",
         "textureId": "r-type-logo",
         "position": [575, 30],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "scale": 1.1,
         "scene": 4
     },
@@ -72,35 +72,35 @@
         "ref": "title-scene-main-menu-img",
         "textureId": "title-background",
         "position": [0, 60],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "scene": 5
     },
     "title-scene-rooms-img": {
         "ref": "title-scene-rooms-img",
         "textureId": "title-background",
         "position": [0, 60],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "scene": 6
     },
     "title-scene-in-room-img": {
         "ref": "title-scene-in-room-img",
         "textureId": "title-background",
         "position": [0, 60],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "scene": 10
     },
     "lobbies-img": {
         "ref": "lobbies-img",
         "textureId": "lobbies",
         "position": [100, 375],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "scene": 6
     },
     "players-img": {
         "ref": "players-img",
         "textureId": "players",
         "position": [1300, 280],
-        "sound": "Ressources/buttons/click_sound.ogg",
+        "sound": "click",
         "scene": 10
     }
 }

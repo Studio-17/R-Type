@@ -26,6 +26,8 @@
     #include "Component/CRef.hpp"
     #include "Component/CRefId.hpp"
     #include "Component/CText.hpp"
+    #include "Component/CSound.hpp"
+    #include "Component/CSoundId.hpp"
 
 /**
  * @brief Namespace for systems
@@ -55,6 +57,10 @@ namespace System {
              * @param scenesId The sparse array of scenesId entities
              * @param types The sparse array of type entities
              * @param callbacks The sparse array of callback entities
+             * @param refs The sparse array of ref entities
+             * @param refIds The sparse array of refId entities
+             * @param sounds The sparse array of sound entities
+             * @param soundsId The sparse array of soundId entities
              */
     		void operator()(Registry &registry,
                             Sparse_array<component::cposition_t> &positions,
@@ -63,7 +69,9 @@ namespace System {
                             Sparse_array<component::ctype_t> &types,
                             Sparse_array<component::ccallback_t> &callbacks,
                             Sparse_array<component::cref_t> &refs,
-                            Sparse_array<component::crefid_t> &refIds);
+                            Sparse_array<component::crefid_t> &refIds,
+                            Sparse_array<component::csound_t> &sounds,
+                            Sparse_array<component::csoundid_t> &soundIds);
 
         protected:
         private:

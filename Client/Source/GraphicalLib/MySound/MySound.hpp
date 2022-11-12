@@ -21,7 +21,7 @@ class MySound {
          * @brief Construct a new My Sound object
          * 
          */
-        MySound();
+        MySound(std::string const &texturePath);
         /**
          * @brief Destroy the My Sound object
          * 
@@ -55,7 +55,7 @@ class MySound {
          * @return true 
          * @return false 
          */
-        bool isPlaying();
+        bool isPlaying() const;
         /**
          * @brief Set the volume of the sound
          * 

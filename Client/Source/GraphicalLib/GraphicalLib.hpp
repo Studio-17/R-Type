@@ -95,107 +95,11 @@ namespace rtype {
 
             void drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color) override;
 
-            /**
-             * @brief Create a Music object
-             * 
-             * @param id id of the music
-             * @param filename path of the music
-             */
-            void createMusic(std::size_t id, std::string const &filename) override;
-            /**
-             * @brief Play the music
-             * 
-             * @param id id of the music
-             */
-            void playMusic(std::size_t id) override;
-            /**
-             * @brief Stop the music
-             * 
-             * @param id id of the music
-             */
-            void stopMusic(std::size_t id) override;
-            /**
-             * @brief Pause the music
-             * 
-             * @param id id of the music
-             */
-            void pauseMusic(std::size_t id) override;
-            /**
-             * @brief Resume the music
-             * 
-             * @param id id of the music
-             */
-            void resumeMusic(std::size_t id) override;
+            void initAudio() override;
 
-            /**
-             * @brief Check if the music is playing
-             * 
-             * @param id id of the music
-             * @return true if the music is playing
-             * @return false if the music is not playing
-             */
-            bool isMusicPlaying(std::size_t id) override;
-            /**
-             * @brief Set the Music Volume object
-             * 
-             * @param id id of the music
-             * @param volume the new volume of the music
-             */
-            void setMusicVolume(std::size_t id, float volume) override;
-            /**
-             * @brief Update the music stream
-             * 
-             * @param id id of the music
-             */
-            void updateMusicStream(std::size_t id) override;
+            void closeAudio() override;
 
-            /**
-             * @brief Create a Sound object
-             * 
-             * @param id id of the sound
-             * @param filename path of the sound
-             */
-            void createSound(std::size_t id, std::string const &filename) override;
-            /**
-             * @brief Play the sound
-             * 
-             * @param id id of the sound
-             */
-            void playSound(std::size_t id) override;
-            /**
-             * @brief Stop the sound
-             * 
-             * @param id id of the sound
-             */
-            void stopSound(std::size_t id) override;
-            /**
-             * @brief Pause the sound
-             * 
-             * @param id id of the sound
-             */
-            void pauseSound(std::size_t id) override;
-            /**
-             * @brief Resume the sound
-             * 
-             * @param id id of the sound
-             */
-            void resumeSound(std::size_t id) override;
-
-            /**
-             * @brief Check if the sound is playing
-             * 
-             * @param id id of the sound
-             * @return true if the sound is playing
-             * @return false if the sound is not playing
-             */
-            bool isSoundPlaying(std::size_t id) override;
-            /**
-             * @brief Set the Sound Volume object
-             * 
-             * @param id id of the sound
-             * @param volume the new volume of the sound
-             */
-            void setSoundVolume(std::size_t id, float volume) override;
+            void playASound(MySound &sound) override;
 
             /**
              * @brief Check if a key has been pressed
@@ -252,8 +156,6 @@ namespace rtype {
         protected:
         private:
 
-        std::map<std::size_t, std::shared_ptr<MyMusic>> _musicMap; ///< Map of all the musics
-        std::map<std::size_t, std::shared_ptr<MySound>> _soundMap; ///< Map of all the sounds
         std::shared_ptr<Keyboard> _keyboard; ///< Keyboard object
     };
 
