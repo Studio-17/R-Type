@@ -34,6 +34,7 @@ file(GLOB SOURCE_FILES
 include_directories(
     Source/
     Source/Component/
+    Source/Structure/
     Source/Constant/
     Source/Server/
     Source/System/
