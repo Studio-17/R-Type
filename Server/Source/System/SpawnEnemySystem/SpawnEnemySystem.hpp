@@ -22,6 +22,7 @@
     #include "Component/CTimer.hpp"
     #include "Component/CLobbiesStatus.hpp"
     #include "Component/CMap.hpp"
+    #include "Component/CHealth.hpp"
 
     /* Structure */
     #include "Structure/spec.hpp"
@@ -59,7 +60,8 @@ namespace System {
                 Sparse_array<component::ctype_t> &type,
                 Sparse_array<component::ctimer_t> &timer,
                 Sparse_array<component::clobbies_status_t> &lobbiesStatus,
-                Sparse_array<component::cmap_t> &map
+                Sparse_array<component::cmap_t> &map,
+                Sparse_array<component::chealth_t> &health
             );
 
             /**

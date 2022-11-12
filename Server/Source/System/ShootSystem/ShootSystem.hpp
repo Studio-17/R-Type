@@ -19,6 +19,7 @@
     #include "Component/CPosition.hpp"
     #include "Component/CLobbyId.hpp"
     #include "Component/CNetIdToClientId.hpp"
+    #include "Component/CHealth.hpp"
 
 /**
  * @brief Namespace for systems
@@ -49,7 +50,8 @@ namespace System {
                 Sparse_array<component::cnetwork_queue_t> &netqueue,
                 Sparse_array<component::cposition_t> &position,
                 Sparse_array<component::clobby_id_t> &lobbyId,
-                Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId
+                Sparse_array<component::cnet_id_to_client_id_t> &netIdToClientId,
+                Sparse_array<component::chealth_t> &health
             );
 
             /**
