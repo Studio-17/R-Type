@@ -234,6 +234,33 @@ void Client::createText(nlohmann::json const &oneData, std::array<float, 2> pos,
     reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(text))});
 }
 
+void Client::createImage(nlohmann::json const &oneData, std::array<float, 2> pos, int scene, const std::string &ref, Sparse_array<component::casset_t> &assets)
+{
+    std::string assetId = oneData.value("textureId", "button");
+    std::array<float, 2> imagePos = oneData.value("position", std::array<float, 2>({0, 0}));
+    component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
+    int nb_frames = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames();
+    int velocity = oneData.value("velocity", 0);
+    std::array<int, 2> direction = oneData.value("direction", std::array<int, 2>({0, 0}));
+    float scale = oneData.value("scale", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale());
+
+    Entity image = _registry.spawn_entity_with(
+        component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
+        component::cposition_t{ .x = pos[0] + imagePos[0], .y = pos[1] + imagePos[1] },
+        component::ctype_t{ .type = IMAGE },
+        component::cassetid_t{ .assets = assetId },
+        component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
+        component::cscale_t{ .scale = scale },
+        component::cvelocity_t{ .velocity = velocity },
+        component::cdirection_t{ .x = direction[0], .y = direction[1] },
+        component::crefid_t{ .refId = ref }
+    );
+
+    Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
+
+    reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(image))});
+}
+
 void Client::loadImages(std::string const &filepath, Sparse_array<component::casset_t> &assets)
 {
     nlohmann::json jsonData;
@@ -246,31 +273,9 @@ void Client::loadImages(std::string const &filepath, Sparse_array<component::cas
     }
 
     for (auto &oneData: jsonData) {
-        std::string assetId = oneData.value("textureId", "button");
-        std::array<float, 2> pos = oneData.value("position", std::array<float, 2>({0, 0}));
         int scene = oneData.value("scene", 1);
-        component::crect_t rectangle = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getRectangle();
-        int nb_frames = assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getNbFrames();
-        int velocity = oneData.value("velocity", 0);
-        std::array<int, 2> direction = oneData.value("direction", std::array<int, 2>({0, 0}));
         std::string ref = oneData.value("ref", "error-img");
-        float scale = oneData.value("scale", assets[FORBIDDEN_IDS::NETWORK].value().assets.at(assetId).getScale());
-
-        Entity image = _registry.spawn_entity_with(
-            component::crect_t{ .x = rectangle.x, .y = rectangle.y, .width = rectangle.width, .height = rectangle.height / nb_frames, .current_frame = rectangle.current_frame, .nb_frames = rectangle.nb_frames },
-            component::cposition_t{ .x = pos[0], .y = pos[1] },
-            component::ctype_t{ .type = IMAGE },
-            component::cassetid_t{ .assets = assetId },
-            component::csceneid_t{ .sceneId = static_cast<SCENE>(scene) },
-            component::cscale_t{ .scale = scale },
-            component::cvelocity_t{ .velocity = velocity },
-            component::cdirection_t{ .x = direction[0], .y = direction[1] },
-            component::crefid_t{ .refId = ref }
-        );
-
-        Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
-
-        reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(image))});
+        createImage(oneData, std::array<float, 2>({0, 0}), scene, ref, assets);
     }
 }
 
@@ -325,6 +330,8 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         );
         if (oneData.contains("text"))
             createText(oneData.at("text"), pos, scene, ("text-" + ref));
+        if (oneData.contains("image"))
+            createImage(oneData.at("image"), pos, scene, ("image-" + ref), assets);
 
         Sparse_array<component::cref_t> &reference = _registry.get_components<component::cref_t>();
         reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, _registry.entity_from_index(static_cast<std::size_t>(button))});

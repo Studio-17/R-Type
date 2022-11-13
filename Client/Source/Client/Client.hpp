@@ -116,8 +116,20 @@ class Client {
          * @param oneData Json Data where is stored the data
          * @param pos Position of the text
          * @param scene Scene id where add the text
+         * @param ref Reference of the text
          */
         void createText(nlohmann::json const &oneData, std::array<float, 2> pos, int scene, std::string const &ref);
+
+        /**
+         * @brief Create a Image object
+         * 
+         * @param oneData Json Data where is stored the data
+         * @param pos Position of the image
+         * @param scene Scene id where add the image
+         * @param ref Reference of the image
+         * @param assets The sparse array of assets
+         */
+        void createImage(nlohmann::json const &oneData, std::array<float, 2> pos, int scene, const std::string &ref, Sparse_array<component::casset_t> &assets);
 
     private:
         /**
