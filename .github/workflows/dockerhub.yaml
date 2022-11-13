@@ -1,7 +1,7 @@
 ---
 # This is a workflow meant for epitech students
 
-name: Create Release Epitech Project
+name: Publish to DockerHub Epitech Project
 
 # Controls when the workflow will run
 on:
@@ -10,16 +10,14 @@ on:
     # Only triggers for the master branch
     branches: [ master ]
     # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "create_release"
-  create_release:
+  # This workflow contains a single job called "publish_dockerhub"
+  publish_dockerhub:
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -31,29 +29,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Create Release
-        uses: actions/create-release@v1
-        if: contains(github.event.head_commit.message, 'release')
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish to Docker Hub
+        uses: docker/build-push-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: Changes in this Release ${{ github.event.head_commit.message }}
-          draft: false
-          prerelease: false
-
-#name: Build and Publish Docker image to Docker Hub
-#on: [push]
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Publish to Registry
-#        uses: docker/build-push-action@v1
-#        with:
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
-#          repository: nheuillet/rtype_docker
-#          tag_with_ref: true
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: martinvanaud/r-type_server
+          tag_with_ref: true
