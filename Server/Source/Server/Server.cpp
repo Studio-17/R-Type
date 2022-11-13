@@ -166,12 +166,14 @@ std::vector<std::string> Server::loadMap(std::string const &mapPath)
         return {"1111111"};
     }
     while (std::getline(myfile, mapContent)) {
-        if (mapContent[0] == '#')
+        if (mapContent[0] == '#' || mapContent.empty())
             continue;
         map.emplace_back(mapContent);
     }
     // for (auto &line : map)
         // std::cout<< line<< std::endl;
+    if (map.empty())
+        return {"1111111"};
     return map;
 }
 

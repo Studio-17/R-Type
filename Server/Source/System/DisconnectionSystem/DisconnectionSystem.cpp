@@ -30,8 +30,10 @@ void System::DisconnectionSystem::operator()(Registry &registry, Sparse_array<co
             std::pair<int, packet_disconnection> &packet = network_queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.front();
             int clientLobbyId = lobbyId[netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(packet.first)].value().id;
 
-            network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({clientLobbyId, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(packet.second.disconnection)})});
-            registry.kill_entity(registry.entity_from_index(packet.second.disconnection));
+            if (packet.second.disconnection != 0) {
+                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({clientLobbyId, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(packet.second.disconnection)})});
+                registry.kill_entity(registry.entity_from_index(packet.second.disconnection));
+            }
             disconnected[netIdToClientId[FORBIDDEN_IDS::NETWORK].value().netIdToClientId.at(packet.first)].value().isDisconnected = true;
             network_queues[FORBIDDEN_IDS::NETWORK].value().disconnectionQueue.pop();
         }
