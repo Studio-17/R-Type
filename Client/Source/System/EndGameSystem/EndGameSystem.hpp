@@ -13,6 +13,7 @@
     /* Component */
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CSceneId.hpp"
+    #include "Component/CRef.hpp"
 
 /**
  * @brief Namespace for systems
@@ -37,7 +38,10 @@ namespace System {
              * @param type The Sparse array of type of entities
              * @param lobbyIds The Sparse array of lobby id of entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::csceneid_t> &sceneId);
+            void operator()(Registry &registry,
+                            Sparse_array<component::cnetwork_queue_t> &network_queues,
+                            Sparse_array<component::csceneid_t> &sceneId,
+                            Sparse_array<component::cref_t> &refs);
 
         protected:
         private:
