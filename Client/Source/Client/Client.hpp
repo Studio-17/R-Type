@@ -172,6 +172,15 @@ class Client {
         void connectToServer();
 
         /**
+         * @brief Call back function executed when options button is pressed to go to the options menu
+         *
+         */
+        void goToOptions();
+
+        void backToOptions();
+        void goToAudio();
+
+        /**
          * @brief Call back function executed when name button is on to change the name of the client
          *
          */
