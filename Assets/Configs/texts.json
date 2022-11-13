@@ -62,5 +62,13 @@
         "size": 60,
         "position": [100, 100],
         "scene": 12
+    },
+    "level-game-txt": {
+        "ref": "level-game-txt",
+        "text": "Level: 1",
+        "color": [255, 255, 255, 255],
+        "size": 40,
+        "position": [100, 300],
+        "scene": 2
     }
 }

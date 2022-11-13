@@ -61,7 +61,7 @@ void System::EndGameSystem::operator()(Registry &registry, Sparse_array<componen
                 map[FORBIDDEN_IDS::LOBBY].value().end.at(lobbyId) = false;
                 map[FORBIDDEN_IDS::LOBBY].value().index.at(lobbyId) = 0;
                 map[FORBIDDEN_IDS::LOBBY].value().mapIndex.at(lobbyId)++;
-                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_level>(NETWORK_SERVER_TO_CLIENT::NEW_LEVEL, {(int)map[FORBIDDEN_IDS::LOBBY].value().mapIndex.at(lobbyId)})});
+                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_level>(NETWORK_SERVER_TO_CLIENT::NEW_LEVEL, {(int)map[FORBIDDEN_IDS::LOBBY].value().mapIndex.at(lobbyId), (int)map[FORBIDDEN_IDS::LOBBY].value().map.size()})});
             }
         }
     }
