@@ -11,17 +11,17 @@
         "direction": [-1, 0],
         "hitbox": [10, 10],
         "velocity": 4,
-        "type": 6,
+        "type": 14,
         "rect": [34, 33],
         "health": 2
     },
     "enemy3": {
         "direction": [-1, 0],
         "hitbox": [10, 10],
-        "velocity": 4,
-        "type": 6,
+        "velocity": 10,
+        "type": 16,
         "rect": [34, 33],
-        "health": 1
+        "health": 3
     },
     "enemy4": {
         "direction": [-1, 0],

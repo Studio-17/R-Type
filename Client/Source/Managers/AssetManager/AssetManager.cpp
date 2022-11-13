@@ -18,15 +18,6 @@ AssetManager::AssetManager(std::string const &assetsFile)
     // saveAssets(assetsFile);
 }
 
-AssetManager::AssetManager()
-{
-
-}
-
-AssetManager::~AssetManager()
-{
-}
-
 Asset AssetManager::at(std::string const &index) const
 {
     return _assets.at(index);

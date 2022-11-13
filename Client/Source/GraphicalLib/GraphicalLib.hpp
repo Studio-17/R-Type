@@ -17,185 +17,153 @@
 
 /**
  * @brief rtype namespace
- * 
+ *
  */
 namespace rtype {
     /**
      * @brief GraphicalLib class
-     * 
+     *
      */
     class GraphicalLib : public IGraphicalLib {
         public:
             /**
              * @brief Construct a new Graphical Lib object
-             * 
-             * @param screenWidth 
-             * @param screenHeight 
-             * @param title 
-             * @param framerate 
+             *
              */
             GraphicalLib();
             /**
              * @brief Destroy the Graphical Lib object
-             * 
+             *
              */
             ~GraphicalLib();
 
             /**
              * @brief A method to initialize a window object
-             * 
-             * @param screenWidth 
-             * @param screenHeight 
-             * @param title 
-             * @param framerate 
+             *
+             * @param screenWidth width of the window
+             * @param screenHeight height of the window
+             * @param title title of the window
+             * @param framerate framerate of the window
              */
             void initWindow(const int screenWidth, const int screenHeight, std::string title, const int framerate) override;
 
             /**
              * @brief A method to close a window
-             * 
+             *
              */
             void closeWindow() override;
 
             /**
              * @brief Clear the window
-             * 
+             *
              */
             void clearScreen() override;
             /**
              * @brief Start drawing in the window
-             * 
+             *
              */
             void startDrawingWindow() override;
             /**
              * @brief Stop drawing in the window
-             * 
+             *
              */
             void endDrawingWindow() override;
 
             /**
              * @brief Check if the window should close
-             * 
+             *
              * @return true
              * @return false
              */
             bool windowShouldClose() override;
 
+            /**
+             * @brief A method to draw a sprite
+             *
+             * @param texture texture of the sprite
+             * @param rectSource rectangle source of the sprite
+             * @param rectDest rectangle destination of the sprite
+             * @param origin origin of the sprite
+             * @param rotation rotation of the sprite
+             * @param scale scale of the sprite
+             */
             void drawSprite(MyTexture const &texture, std::array<float, 4> const &rectSource, std::array<float, 4> const &rectDest, std::pair<float, float> const &origin, float const &rotation, float const &scale) override;
-
+            /**
+             * @brief A method to check a collison between the mouse and a rectangle
+             *
+             * @param position position of the mouse
+             * @param x x position of the rectangle
+             * @param y y position of the rectangle
+             * @param height height of the rectangle
+             * @param width width of the rectangle
+             * @return true returns true if there is a collision
+             * @return false returns false if there is no collision
+             */
             bool checkMouseCollision(Position const &position, float const &x, float const &y, float const &height, float const &width) override;
-
+            /**
+             * @brief A method to check if the left mouse button is pressed
+             *
+             * @return true returns true if the left mouse button is pressed
+             * @return false returns false if the left mouse button is not pressed
+             */
             bool IsLeftMouseButtonPressed() override;
-
+            /**
+             * @brief A method to check if the left mouse button is released
+             *
+             * @return true returns true if the left mouse button is released
+             * @return false returns false if the left mouse button is not released
+             */
             bool IsLeftMouseButtonReleased() override;
-
+            /**
+             * @brief Get the Mouse Position object
+             *
+             * @return Position
+             */
             Position getMousePosition() override;
-
+            /**
+             * @brief Create a Color object
+             *
+             * @param array correspond to the red, green, blue and alpha values
+             * @return Color return the color created
+             */
             Color createColor(std::array<float, 4> const &array) override;
-
+            /**
+             * @brief A method to draw a text
+             *
+             * @param text text to draw
+             * @param pos position of the text
+             * @param fontSize size of the text
+             * @param color color of the text
+             */
             void drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color) override;
-
             /**
-             * @brief Create a Music object
-             * 
-             * @param id id of the music
-             * @param filename path of the music
+             * @brief A method to init the audio devide
+             *
              */
-            void createMusic(std::size_t id, std::string const &filename) override;
+            void initAudio() override;
             /**
-             * @brief Play the music
-             * 
-             * @param id id of the music
+             * @brief A method to close the audio device
+             *
              */
-            void playMusic(std::size_t id) override;
+            void closeAudio() override;
             /**
-             * @brief Stop the music
-             * 
-             * @param id id of the music
+             * @brief A method to play a sound
+             *
+             * @param sound sound to play
              */
-            void stopMusic(std::size_t id) override;
+            void playASound(MySound &sound) override;
             /**
-             * @brief Pause the music
-             * 
-             * @param id id of the music
+             * @brief A method to load a sound
+             *
+             * @param music music to load
              */
-            void pauseMusic(std::size_t id) override;
+            void playAMusic(MyMusic &music) override;
             /**
-             * @brief Resume the music
-             * 
-             * @param id id of the music
+             * @brief A method to update the music
+             *
+             * @param music music to update
              */
-            void resumeMusic(std::size_t id) override;
-
-            /**
-             * @brief Check if the music is playing
-             * 
-             * @param id id of the music
-             * @return true if the music is playing
-             * @return false if the music is not playing
-             */
-            bool isMusicPlaying(std::size_t id) override;
-            /**
-             * @brief Set the Music Volume object
-             * 
-             * @param id id of the music
-             * @param volume the new volume of the music
-             */
-            void setMusicVolume(std::size_t id, float volume) override;
-            /**
-             * @brief Update the music stream
-             * 
-             * @param id id of the music
-             */
-            void updateMusicStream(std::size_t id) override;
-
-            /**
-             * @brief Create a Sound object
-             * 
-             * @param id id of the sound
-             * @param filename path of the sound
-             */
-            void createSound(std::size_t id, std::string const &filename) override;
-            /**
-             * @brief Play the sound
-             * 
-             * @param id id of the sound
-             */
-            void playSound(std::size_t id) override;
-            /**
-             * @brief Stop the sound
-             * 
-             * @param id id of the sound
-             */
-            void stopSound(std::size_t id) override;
-            /**
-             * @brief Pause the sound
-             * 
-             * @param id id of the sound
-             */
-            void pauseSound(std::size_t id) override;
-            /**
-             * @brief Resume the sound
-             * 
-             * @param id id of the sound
-             */
-            void resumeSound(std::size_t id) override;
-
-            /**
-             * @brief Check if the sound is playing
-             * 
-             * @param id id of the sound
-             * @return true if the sound is playing
-             * @return false if the sound is not playing
-             */
-            bool isSoundPlaying(std::size_t id) override;
-            /**
-             * @brief Set the Sound Volume object
-             * 
-             * @param id id of the sound
-             * @param volume the new volume of the sound
-             */
-            void setSoundVolume(std::size_t id, float volume) override;
+            void updateAMusic(MyMusic &music) override;
 
             /**
              * @brief Check if a key has been pressed
@@ -252,9 +220,6 @@ namespace rtype {
         protected:
         private:
 
-        std::map<std::size_t, std::shared_ptr<MyMusic>> _musicMap; ///< Map of all the musics
-        std::map<std::size_t, std::shared_ptr<MySound>> _soundMap; ///< Map of all the sounds
-        std::shared_ptr<Keyboard> _keyboard; ///< Keyboard object
     };
 
 }

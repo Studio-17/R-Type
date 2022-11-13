@@ -45,14 +45,12 @@
 class Client {
     public:
         /**
-		 * @brief Construct a new Client object
-		 *
-		 * @param ip Ip of the client
-		 * @param port Port of the client
-		 * @param hostPort Port of the host
-		 * @param configurationFiles All configuration files
-		 */
-        Client(std::string const &ip, std::string const &port, int hostPort, std::map<std::string, std::string> &configurationFiles);
+         * @brief Construct a new Client object
+         *
+         * @param hostPort port of the host
+         * @param configurationFiles configuration files
+         */
+        Client(int hostPort, std::map<std::string, std::string> &configurationFiles);
 
         /**
          * @brief Destroy the Client object
@@ -160,7 +158,35 @@ class Client {
          */
         void connectToServer();
 
+        /**
+         * @brief Call back function executed when name button is on to change the name of the client
+         *
+         */
+        void nameInput();
+
+        /**
+         * @brief Call back function executed when name button is on to change the ip of the client
+         *
+         */
+        void ipInput();
+
+        /**
+         * @brief Call back function executed when name button is on to change the port of the client
+         *
+         */
+        void portInput();
+
+        /**
+         * @brief Call back function executed when no callback is set
+         *
+         */
         void noCallback() {};
+
+        /**
+         * @brief Call back function executed when exit button is pressed to exit client on a server
+         *
+         */
+        void exitGame();
 
         /**
          * @brief Call back function executed when rooms button is pressed to see all the rooms
@@ -169,7 +195,7 @@ class Client {
 
         void seeRooms();
         /**
-         * @brief Call back function executed when exit button is pressed to exit client on a server
+         * @brief Call back function executed when exit button is pressed to go back to connection client on a server
          *
          */
         void backToConnection();
@@ -209,12 +235,10 @@ class Client {
          */
         void threadLoop();
 
-        /**
-         * @brief Call back function executed when exit button is pressed to exit the game
-         * 
-         */
-        void exitGame();
-
+        std::string _ip; ///< Ip of the client
+        std::string _port; ///< Port of the client
+        int _hostPort; ///< Hostport of the client
+        std::string _name; ///< Name of the client
 
         asio::io_context _context; ///< An asio context object to handle basic I/O
 
@@ -222,11 +246,9 @@ class Client {
         std::unique_ptr<UdpCommunication> _com; ///< A shared pointer to a module used for communicating through udp sockets
         Registry _registry; ///< Registry that contains all the ECS
         std::thread _thread; ///< thread to handle ECS
-        AssetManager _assetManager; ///< Asset manager to load all the assets
 
         std::vector<byte> _bufferToGet; ///< A buffer to receive as a vector of bytes
 
-        std::map<std::string, std::function<void(void)>> _callbackMap; ///< A map of callbacks
         std::map<std::string, std::string> _configurationFiles; ///< A map of configuration files
 
         // Systems

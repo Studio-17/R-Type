@@ -9,8 +9,6 @@
 
 rtype::GraphicalLib::GraphicalLib()
 {
-    _soundMap = {};
-    _musicMap = {};
 }
 
 rtype::GraphicalLib::~GraphicalLib()
@@ -28,7 +26,6 @@ void rtype::GraphicalLib::closeWindow()
     CloseWindow();
 }
 
-//Useful functions
 void rtype::GraphicalLib::clearScreen()
 {
     ClearBackground(RAYWHITE);
@@ -85,89 +82,35 @@ Color rtype::GraphicalLib::createColor(std::array<float, 4> const &array)
     return color;
 }
 
-// Text
-// void rtype::GraphicalLib::drawText([[ maybe_unused ]]std::string const &font, std::string const &text, Position const &pos, std::size_t const &fontSize, [[ maybe_unused ]]float const &spacing, std::array<float, 4> const &color)
 void rtype::GraphicalLib::drawText(std::string const &text, Position const &pos, std::size_t const &fontSize, std::array<float, 4> const &color)
 {
     // DrawTextEx(LoadFont(font.c_str()), text.c_str(), (Vector2){pos.getX(), pos.getY()}, fontSize, spacing, createColor(color));
     DrawText(text.c_str(), pos.getX(), pos.getY(), fontSize, createColor(color));
 }
 
-//Musics
-void rtype::GraphicalLib::createMusic(std::size_t id, std::string const &filename)
+void rtype::GraphicalLib::initAudio()
 {
-    _musicMap[id].reset(new MyMusic(filename));
+    InitAudioDevice();
 }
 
-void rtype::GraphicalLib::playMusic(std::size_t id)
+void rtype::GraphicalLib::closeAudio()
 {
-    _musicMap[id]->play();
+    CloseAudioDevice();
 }
 
-void rtype::GraphicalLib::stopMusic(std::size_t id)
+void rtype::GraphicalLib::playASound(MySound &sound)
 {
-    _musicMap[id]->stop();
+    sound.play();
 }
 
-void rtype::GraphicalLib::pauseMusic(std::size_t id)
+void rtype::GraphicalLib::playAMusic(MyMusic &music)
 {
-    _musicMap[id]->pause();
+    music.play();
 }
 
-void rtype::GraphicalLib::resumeMusic(std::size_t id)
+void rtype::GraphicalLib::updateAMusic(MyMusic &music)
 {
-    _musicMap[id]->resume();
-}
-
-bool rtype::GraphicalLib::isMusicPlaying(std::size_t id)
-{
-    return _musicMap[id]->isPlaying();
-}
-
-void rtype::GraphicalLib::setMusicVolume(std::size_t id, float volume)
-{
-    _musicMap[id]->setVolume(volume);
-}
-
-void rtype::GraphicalLib::updateMusicStream(std::size_t id)
-{
-    _musicMap[id]->updateStream();
-}
-
-//Sounds
-void rtype::GraphicalLib::createSound(std::size_t id, [[ maybe_unused ]] std::string const &filename)
-{
-    _soundMap[id].reset(new MySound);
-}
-
-void rtype::GraphicalLib::playSound(std::size_t id)
-{
-    _soundMap[id]->play();
-}
-
-void rtype::GraphicalLib::stopSound(std::size_t id)
-{
-    _soundMap[id]->stop();
-}
-
-void rtype::GraphicalLib::pauseSound(std::size_t id)
-{
-    _soundMap[id]->pause();
-}
-
-void rtype::GraphicalLib::resumeSound(std::size_t id)
-{
-    _soundMap[id]->resume();
-}
-
-bool rtype::GraphicalLib::isSoundPlaying(std::size_t id)
-{
-    return _soundMap[id]->isPlaying();
-}
-
-void rtype::GraphicalLib::setSoundVolume(std::size_t id, float volume)
-{
-    _soundMap[id]->setVolume(volume);
+    music.updateStream();
 }
 
 //Input

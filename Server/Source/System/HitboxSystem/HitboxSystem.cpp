@@ -46,11 +46,10 @@ void System::HitboxSystem::doHealthCheck(Registry &registry, component::cnetwork
 void System::HitboxSystem::doScoreUpdate(component::cnetwork_queue_t &netQueue, component::clobby_id_t &lobbyId, Sparse_array<component::cscore_t> &score, Sparse_array<component::ctype_t> &type, Sparse_array<component::cowner_id_t> &ownerId, int x)
 {
     if (type[x].value().type == ENTITY_TYPE::BULLET) {
+        std::cout << "Score updte !" << score[ownerId[x].value().id].value().score << std::endl;
         score[ownerId[x].value().id].value().score += 10;
         netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_update_entity_score>(NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_SCORE, {static_cast<int>(x), score[ownerId[x].value().id].value().score})});
-        // std::cout << "Spaceship number : (ecs id)" << ownerId[x].value().id << "has a score of : " << score[ownerId[x].value().id].value().score << std::endl;
     }
-    // Push into newtork queue the update
 }
 
 
@@ -70,7 +69,7 @@ void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_a
                 auto &firstpos = positions[i];
                 auto &firstrect = rects[i];
 
-                if (firsttype.value().type != ENEMY)
+                if (firsttype.value().type != ENEMY && firsttype.value().type != ENEMY2 && firsttype.value().type != ENEMY3)
                     continue;
                 for (std::size_t x = 0; x < types.size() && x < positions.size() && x < rects.size() && x < lobbyId.size(); x++) {
                     if (types[x] && positions[x] && rects[x] && lobbyId[x]) {
@@ -82,7 +81,7 @@ void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_a
                         auto &secondpos = positions[x];
                         auto &secondrect = rects[x];
 
-                        if (secondtype.value().type == ENEMY)
+                        if (secondtype.value().type == ENEMY || secondtype.value().type == ENEMY2 || secondtype.value().type == ENEMY3)
                             continue;
                         if (CheckCollision(firstrect.value(), secondrect.value(), firstpos.value(), secondpos.value())) {
                             if (secondtype.value().type == PLAYER || secondtype.value().type == BULLET) {

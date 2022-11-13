@@ -64,7 +64,8 @@ namespace System {
                 Sparse_array<component::clobbies_to_entities_t> &lobbiesToEntities,
                 Sparse_array<component::cposition_t> &position,
                 Sparse_array<component::ctype_t> &type,
-                Sparse_array<component::clobbies_status_t> &lobbiesStatus
+                Sparse_array<component::clobbies_status_t> &lobbiesStatus,
+                Sparse_array<component::chealth_t> &health
             );
 
         protected:

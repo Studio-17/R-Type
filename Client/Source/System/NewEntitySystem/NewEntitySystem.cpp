@@ -31,7 +31,9 @@ System::NewEntitySystem::NewEntitySystem()
     _entityType = {
         {7, "bullet"},
         {6, "enemy"},
-        {1, "blueSpaceShip"}
+        {1, "blueSpaceShip"},
+        {14, "amiral"},
+        {16, "robot"}
     };
 }
 
@@ -58,6 +60,8 @@ void System::NewEntitySystem::operator()(Registry &registry, Sparse_array<compon
             addShip(registry, newEntity, assets, clientNetworkId, sceneId);
         if (newEntity.type == ENTITY_TYPE::ENEMY2)
             addEnemy2(registry, newEntity, assets);
+        if (newEntity.type == ENTITY_TYPE::ENEMY3)
+            addEnemy3(registry, newEntity, assets);
         network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.pop();
     }
 }
@@ -131,12 +135,35 @@ void System::NewEntitySystem::addEnemy2(Registry &registry, packet_new_entity &n
 {
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
 
+    std::cout << "Add enemy2 : " <<  _entityType.at(newEntity.type) << std::endl;
+
     Entity enemy = registry.spawn_entity_with(
         component::cdirection_t{ .x = -1, .y = 0 },
         component::crect_t{ asset.at(_entityType.at(newEntity.type)).getRectangle() },
         component::cposition_t{ .x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY) },
         component::cserverid_t{ .id = newEntity.id },
         component::cvelocity_t{ .velocity = 4 },
+        component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
+        component::csceneid_t{ .sceneId = SCENE::GAME },
+        component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() },
+        component::ctype_t{.type = ENTITY_TYPE::ENEMY},
+        component::chealth_t{newEntity.health},
+        component::cscore_t{newEntity.score}
+    );
+}
+
+void System::NewEntitySystem::addEnemy3(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
+{
+    auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
+
+    std::cout << "Add enemy3 : " <<  _entityType.at(newEntity.type) << std::endl;
+
+    Entity enemy = registry.spawn_entity_with(
+        component::cdirection_t{ .x = -1, .y = 0 },
+        component::crect_t{ asset.at(_entityType.at(newEntity.type)).getRectangle() },
+        component::cposition_t{ .x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY) },
+        component::cserverid_t{ .id = newEntity.id },
+        component::cvelocity_t{ .velocity = 10 },
         component::cassetid_t{ .assets = _entityType.at(newEntity.type) },
         component::csceneid_t{ .sceneId = SCENE::GAME },
         component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() },

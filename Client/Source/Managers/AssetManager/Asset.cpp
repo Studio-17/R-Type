@@ -21,10 +21,6 @@ Asset::Asset(nlohmann::json const &jsonData) :
     _rectangle.height = _texture.getHeight();
 }
 
-Asset::~Asset()
-{
-}
-
 MyTexture &Asset::getTexture()
 {
     return _texture;

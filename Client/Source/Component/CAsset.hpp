@@ -18,7 +18,7 @@ namespace component {
      * @brief A structure representing all assets
      */
     struct casset_t {
-        AssetManager assets; ///< AssetManager conaining all assets
+        AssetManager assets; ///< AssetManager containing all assets
     };
 }
 

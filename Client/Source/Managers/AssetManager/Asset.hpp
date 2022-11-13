@@ -30,7 +30,7 @@ class Asset {
         /**
          * @brief Destroy the Asset object
          */
-        ~Asset();
+        ~Asset() {};
 
         /**
          * @brief Get the Texture object

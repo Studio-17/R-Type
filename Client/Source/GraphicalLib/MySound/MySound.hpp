@@ -19,47 +19,47 @@ class MySound {
     public:
         /**
          * @brief Construct a new My Sound object
-         * 
+         *
          */
-        MySound();
+        MySound(std::string const &texturePath);
         /**
          * @brief Destroy the My Sound object
-         * 
+         *
          */
         ~MySound();
 
         /**
          * @brief Play the sound[[ maybe_unused ]]
-         * 
+         *
          */
         void play();
         /**
          * @brief Stop the sound
-         * 
+         *
          */
         void stop();
         /**
          * @brief Pause the sound
-         * 
+         *
          */
         void pause();
         /**
          * @brief Resume the sound
-         * 
+         *
          */
         void resume();
 
         /**
          * @brief Check if the sound is playing
-         * 
-         * @return true 
-         * @return false 
+         *
+         * @return true if the sound is playing
+         * @return false if the sound is not playing
          */
-        bool isPlaying();
+        bool isPlaying() const;
         /**
          * @brief Set the volume of the sound
-         * 
-         * @param volume 
+         *
+         * @param volume volume of the sound
          */
         void setVolume(float volume);
 
