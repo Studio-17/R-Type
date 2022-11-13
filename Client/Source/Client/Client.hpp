@@ -179,6 +179,10 @@ class Client {
 
         void backToOptions();
         void goToAudio();
+        void goToCredits();
+
+        void downgradeMusic();
+        void upgradeMusic();
 
         /**
          * @brief Call back function executed when name button is on to change the name of the client

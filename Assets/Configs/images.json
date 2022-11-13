@@ -82,6 +82,20 @@
         "sound": "click",
         "scene": 6
     },
+    "title-scene-credits-img": {
+        "ref": "title-scene-credits-img",
+        "textureId": "title-background",
+        "position": [0, 60],
+        "sound": "click",
+        "scene": 14
+    },
+    "title-scene-audio-img": {
+        "ref": "title-scene-audio-img",
+        "textureId": "title-background",
+        "position": [0, 60],
+        "sound": "click",
+        "scene": 15
+    },
     "title-scene-in-room-img": {
         "ref": "title-scene-in-room-img",
         "textureId": "title-background",
@@ -102,5 +116,40 @@
         "position": [1300, 280],
         "sound": "click",
         "scene": 10
+    },
+    "clement-img": {
+        "ref": "clement-img",
+        "textureId": "clement-credit",
+        "position": [300, 200],
+        "sound": "click",
+        "scene": 14
+    },
+    "gurvan-img": {
+        "ref": "gurvan-img",
+        "textureId": "gurvan-credit",
+        "position": [850, 200],
+        "sound": "click",
+        "scene": 14
+    },
+    "victor-img": {
+        "ref": "victor-img",
+        "textureId": "victor-credit",
+        "position": [1400, 200],
+        "sound": "click",
+        "scene": 14
+    },
+    "martin-img": {
+        "ref": "martin-img",
+        "textureId": "martin-credit",
+        "position": [575, 550],
+        "sound": "click",
+        "scene": 14
+    },
+    "maxime-img": {
+        "ref": "maxime-img",
+        "textureId": "maxime-credit",
+        "position": [1125, 550],
+        "sound": "click",
+        "scene": 14
     }
 }
