@@ -29,8 +29,7 @@
 
 #include "fileConfig.hpp"
 
-Client::Client(int hostPort, std::map<std::string, std::string> &configurationFiles) :
-    _hostPort(hostPort),
+Client::Client(std::map<std::string, std::string> &configurationFiles) :
     _configurationFiles(configurationFiles)
 {
     _graphicLib = std::make_unique<rtype::GraphicalLib>();
@@ -348,7 +347,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
 
 void Client::connectToServer()
 {
-    _com = std::make_unique<UdpCommunication>(_context, _hostPort, _port, _ip);
+    _com = std::make_unique<UdpCommunication>(_context, atoi(_name.c_str()), _port, _ip);
     _thread = std::thread(&Client::threadLoop, this);
     tryToConnect();
 
