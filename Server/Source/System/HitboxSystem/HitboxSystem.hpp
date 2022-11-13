@@ -85,7 +85,7 @@ namespace System {
              * @param i The index of the entity one
              * @param x The index of the entity two
              */
-            void doHealthCheck(Registry &registry, component::cnetwork_queue_t &netQueue, component::chealth_t &health1, component::chealth_t &health2, component::clobby_id_t &lobbyId, int i, int x);
+            void doHealthCheck(Registry &registry, component::cnetwork_queue_t &netQueue, component::chealth_t &health1, component::chealth_t &health2, component::clobby_id_t &lobbyId, int i, int x, ENTITY_TYPE &entityType);
             /**
              * @brief A method to check if a collision happened between a player and a bonus
              *

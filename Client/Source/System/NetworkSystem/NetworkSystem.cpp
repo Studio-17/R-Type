@@ -48,7 +48,7 @@ void System::NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
         } catch (std::out_of_range const &e) {
             std::cerr << "Network System Undefined packet id: " << id << std::endl;
         }
-        std::cout << "Network System new packet " << static_cast<int>(id) << std::endl;
+        // std::cout << "Network System new packet " << static_cast<int>(id) << std::endl;
         network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.pop();
     }
 
