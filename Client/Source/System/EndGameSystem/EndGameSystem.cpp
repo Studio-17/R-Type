@@ -22,9 +22,13 @@ void System::EndGameSystem::operator()([[ maybe_unused ]]Registry &registry, Spa
         packet_end_game packet = network_queues[FORBIDDEN_IDS::NETWORK].value().endGameQueue.front();
         std::cout << "End Game : " << packet.status << std::endl;
 
-        // Kill score and health text
-        registry.kill_entity(registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("score-spaceship-txt"))));
-        registry.kill_entity(registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("health-spaceship-txt"))));
+        // restart score, level and health text
+        Entity newHealth = registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("health-spaceship-txt")));
+        texts[newHealth].value().text = "Lives: 3";
+        Entity newLevel = registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("level-game-txt")));
+        texts[newLevel].value().text = "Level: 1";
+        Entity newScore = registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("score-spaceship-txt")));
+        texts[newScore].value().text = "Score: 0";
 
         // Update text if game is lost or won
         packet.status == true ? texts[registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("endgame-title-txt")))].value().text = "WINNER !" :

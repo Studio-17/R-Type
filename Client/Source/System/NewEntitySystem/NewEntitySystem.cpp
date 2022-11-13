@@ -105,26 +105,10 @@ void System::NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &ne
         component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() },
         component::ctype_t{.type = ENTITY_TYPE::ENEMY},
         component::chealth_t{newEntity.health},
-        component::cscore_t{newEntity.score}
+        component::cscore_t{newEntity.score},
+        component::csoundid_t{ .sound = "circle" }
     );
     _graphicLib->playASoundMulti(sounds[FORBIDDEN_IDS::NETWORK].value().sounds.at("circle").getSound());
-}
-
-void System::NewEntitySystem::addTextToEntity(Registry &registry, std::string const &ref, std::string const &content, std::pair<float, float> const &pos)
-{
-    Entity text = registry.spawn_entity_with(
-        component::ctext_t{ .text = content, .font = "Assets/Fonts/Square.ttf", .spacing = 7 },
-        component::cposition_t{ .x = pos.first , .y = pos.second },
-        component::ctype_t{ .type = ENTITY_TYPE::TEXT },
-        component::csceneid_t{ .sceneId = SCENE::GAME },
-        component::cscale_t{ .scale = 40 },
-        component::ccolor_t{ .color = {255, 255, 255, 255} },
-        component::crefid_t{ .refId = ref }
-    );
-    std::cout << "Ref: " << ref << std::endl;
-    Sparse_array<component::cref_t> &reference = registry.get_components<component::cref_t>();
-
-    reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, registry.entity_from_index(static_cast<std::size_t>(text))});
 }
 
 void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId, Sparse_array<component::csceneid_t> &sceneId, Sparse_array<component::csound_t> &sounds)
@@ -153,9 +137,6 @@ void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &new
         component::chealth_t{newEntity.health},
         component::cscore_t{newEntity.score}
     );
-    addTextToEntity(registry, "score-spaceship-txt", "Score: " + std::to_string(newEntity.score), {100, 100});
-    addTextToEntity(registry, "health-spaceship-txt", "Lives: " + std::to_string(newEntity.health), {100, 200});
-
 }
 
 void System::NewEntitySystem::addEnemy2(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::csound_t> &sounds)
@@ -175,7 +156,8 @@ void System::NewEntitySystem::addEnemy2(Registry &registry, packet_new_entity &n
         component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() },
         component::ctype_t{.type = ENTITY_TYPE::ENEMY},
         component::chealth_t{newEntity.health},
-        component::cscore_t{newEntity.score}
+        component::cscore_t{newEntity.score},
+        component::csoundid_t{ .sound = "amiral" }
     );
     _graphicLib->playASoundMulti(sounds[FORBIDDEN_IDS::NETWORK].value().sounds.at("amiral").getSound());
 }
@@ -197,7 +179,8 @@ void System::NewEntitySystem::addEnemy3(Registry &registry, packet_new_entity &n
         component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() },
         component::ctype_t{.type = ENTITY_TYPE::ENEMY},
         component::chealth_t{newEntity.health},
-        component::cscore_t{newEntity.score}
+        component::cscore_t{newEntity.score},
+        component::csoundid_t{ .sound = "robot" }
     );
     _graphicLib->playASoundMulti(sounds[FORBIDDEN_IDS::NETWORK].value().sounds.at("robot").getSound());
 }
