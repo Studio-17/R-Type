@@ -49,8 +49,8 @@ def build_package():
 
     os.chdir(os.getcwd() + "/Packaging/")
 
-    if os.path.isfile("rtype_1.0.0-1_amd64.deb"):
-        os.remove("rtype_1.0.0-1_amd64.deb")
+    if os.path.isfile("rtype_1.0.0-1_ubuntu2204.deb"):
+        os.remove("rtype_1.0.0-1_ubuntu2204.deb")
 
     os.system("dpkg-deb --build rtype_1.0.0-1_amd64/")
 
