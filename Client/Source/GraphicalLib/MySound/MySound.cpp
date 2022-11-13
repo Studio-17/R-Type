@@ -25,6 +25,11 @@ void MySound::play()
     PlaySound(_sound);
 }
 
+void MySound::playMulti()
+{
+    PlaySoundMulti(_sound);
+}
+
 void MySound::stop()
 {
     StopSound(_sound);

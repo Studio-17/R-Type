@@ -151,6 +151,12 @@ namespace rtype {
              */
             virtual auto playASound(MySound &sound) -> void = 0;
             /**
+             * @brief Play a sound with a multichannel buffer pool
+             * 
+             * @param sound Sound to play
+             */
+            virtual auto playASoundMulti(MySound &sound) -> void = 0;
+            /**
              * @brief Play a music
              *
              * @param music Music to play

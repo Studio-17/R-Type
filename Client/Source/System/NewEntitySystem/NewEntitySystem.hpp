@@ -14,6 +14,9 @@
     /* Ecs */
     #include "Registry.hpp"
 
+    /* Graphical Lib */
+    #include "GraphicalLib.hpp"
+
     /* Component */
     #include "Component/CAsset.hpp"
     #include "Component/CClientNetworkId.hpp"
@@ -24,6 +27,8 @@
     #include "Component/CColor.hpp"
     #include "Component/CRefId.hpp"
     #include "Component/CRef.hpp"
+    #include "Component/CSound.hpp"
+    #include "Component/CSoundId.hpp"
 
 /**
  * @brief Namespace for systems
@@ -56,8 +61,8 @@ namespace System {
                 Sparse_array<component::cserverid_t> &serverIds,
                 Sparse_array<component::casset_t> &assets,
                 Sparse_array<component::cclient_network_id> &clientNetwrokId,
-                Sparse_array<component::csceneid_t> &sceneId
-            );
+                Sparse_array<component::csceneid_t> &sceneId,
+                Sparse_array<component::csound_t> &sounds);
 
             /**
              * @brief Function that add a text linked to an entity
@@ -76,7 +81,7 @@ namespace System {
              * @param packet_new_entity The packet containing the new entity
              * @param assets The sparse array of asset id entities
              */
-            void addBullet(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets);
+            void addBullet(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets, Sparse_array<component::csound_t> &sounds);
 
             /**
              * @brief A method to add a new ship entity
@@ -119,6 +124,7 @@ namespace System {
         protected:
         private:
             std::unordered_map<int, std::string> _entityType; ///< Map of the entity type
+            std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
     };
 }
 

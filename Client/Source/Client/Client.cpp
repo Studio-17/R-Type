@@ -147,7 +147,7 @@ void Client::setUpSystems()
     _registry.add_system<component::crect_t, component::ctimer_t, component::casset_t, component::cassetid_t>(_rectSystem);
     _registry.add_system<component::ckeyboard_t, component::cnetwork_queue_t, component::csceneid_t, component::cclient_network_id>(_controlSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::csceneid_t, component::ctype_t, component::ccallback_t, component::cref_t, component::crefid_t, component::csound_t, component::csoundid_t>(_mouseSystem);
-    _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id, component::csceneid_t>(_newEntitySystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::casset_t, component::cclient_network_id, component::csceneid_t, component::csound_t>(_newEntitySystem);
     _registry.add_system<component::cnetwork_queue_t, component::cref_t, component::ctext_t>(_getLobbiesSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cref_t, component::ctext_t>(_getInfoInLobbySystem);
     _registry.add_system<component::cnetwork_queue_t>(_setNbPlayerInLobbySystem);
@@ -191,7 +191,6 @@ void Client::setUpComponents()
     loadTexts(_configurationFiles.at("TEXTS"));
     Sparse_array<component::cmusic_t> &musics = _registry.get_components<component::cmusic_t>();
     _graphicLib->playAMusic(musics[FORBIDDEN_IDS::NETWORK].value().musics.at("menu-music").getMusic());
-    // std::cout << musicIds.size() << std::endl;
 }
 
 void Client::loadTexts(std::string const &filepath)

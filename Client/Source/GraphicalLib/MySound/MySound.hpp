@@ -29,10 +29,15 @@ class MySound {
         ~MySound();
 
         /**
-         * @brief Play the sound[[ maybe_unused ]]
+         * @brief Play the sound
          *
          */
         void play();
+        /**
+         * @brief Play the sound using a multichannel buffer pool
+         * 
+         */
+        void playMulti();
         /**
          * @brief Stop the sound
          *
