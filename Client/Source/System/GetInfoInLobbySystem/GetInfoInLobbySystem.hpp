@@ -32,6 +32,10 @@ namespace System {
              *
              */
             GetInfoInLobbySystem();
+            /**
+             * @brief Destroy the Get Info In Lobby System object
+             * 
+             */
             ~GetInfoInLobbySystem() = default;
 
             /**

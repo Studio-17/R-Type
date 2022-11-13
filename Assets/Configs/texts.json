@@ -54,5 +54,13 @@
         "size": 40,
         "position": [100, 100],
         "scene": 10
+    },
+    "endgame-title-txt": {
+        "ref": "endgame-title-txt",
+        "text": "WINNER",
+        "color": [150, 150, 150, 255],
+        "size": 60,
+        "position": [100, 100],
+        "scene": 12
     }
 }

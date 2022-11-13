@@ -46,7 +46,7 @@ void System::HitboxSystem::doHealthCheck(Registry &registry, component::cnetwork
 void System::HitboxSystem::doScoreUpdate(component::cnetwork_queue_t &netQueue, component::clobby_id_t &lobbyId, Sparse_array<component::cscore_t> &score, Sparse_array<component::ctype_t> &type, Sparse_array<component::cowner_id_t> &ownerId, int x)
 {
     if (type[x].value().type == ENTITY_TYPE::BULLET) {
-        std::cout << "Score updte !" << score[ownerId[x].value().id].value().score << std::endl;
+        std::cout << "Score update to -> " << score[ownerId[x].value().id].value().score << std::endl;
         score[ownerId[x].value().id].value().score += 10;
         netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_update_entity_score>(NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_SCORE, {static_cast<int>(x), score[ownerId[x].value().id].value().score})});
     }

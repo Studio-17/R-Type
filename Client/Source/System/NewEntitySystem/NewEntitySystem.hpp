@@ -20,6 +20,10 @@
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CSceneId.hpp"
     #include "Component/CServerId.hpp"
+    #include "Component/CText.hpp"
+    #include "Component/CColor.hpp"
+    #include "Component/CRefId.hpp"
+    #include "Component/CRef.hpp"
 
 /**
  * @brief Namespace for systems
@@ -54,6 +58,16 @@ namespace System {
                 Sparse_array<component::cclient_network_id> &clientNetwrokId,
                 Sparse_array<component::csceneid_t> &sceneId
             );
+
+            /**
+             * @brief Function that add a text linked to an entity
+             * 
+             * @param registry The registry of the client
+             * @param ref The ref of the entity
+             * @param content The content of the text
+             * @param pos The position of the text
+             */
+            void addTextToEntity(Registry &registry, std::string const &ref, std::string const &content, std::pair<float, float> const &pos);
 
             /**
              * @brief A method to add a new bullet entity

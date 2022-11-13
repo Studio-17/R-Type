@@ -104,6 +104,24 @@ void System::NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &ne
     );
 }
 
+void System::NewEntitySystem::addTextToEntity(Registry &registry, std::string const &ref, std::string const &content, std::pair<float, float> const &pos)
+{
+    std::string textRef = ref + "-text";
+
+    Entity text = registry.spawn_entity_with(
+        component::ctext_t{ .text = content, .font = "Assets/Fonts/Square.ttf", .spacing = 7 },
+        component::cposition_t{ .x = pos.first , .y = pos.second },
+        component::ctype_t{ .type = ENTITY_TYPE::TEXT },
+        component::csceneid_t{ .sceneId = SCENE::GAME },
+        component::cscale_t{ .scale = 40 },
+        component::ccolor_t{ .color = {255, 255, 255, 255} },
+        component::crefid_t{ .refId = textRef }
+    );
+    Sparse_array<component::cref_t> &reference = registry.get_components<component::cref_t>();
+
+    reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({textRef, registry.entity_from_index(static_cast<std::size_t>(text))});
+}
+
 void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId, Sparse_array<component::csceneid_t> &sceneId) {
 
     // Make the ship controllable if the packet is destinated to you
@@ -129,6 +147,9 @@ void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &new
             component::chealth_t{newEntity.health},
             component::cscore_t{newEntity.score}
     );
+    addTextToEntity(registry, "score-" + std::to_string(newEntity.type), "Score: " + std::to_string(newEntity.score), {100, 100});
+    addTextToEntity(registry, "health-" + std::to_string(newEntity.type), "Lives: " + std::to_string(newEntity.health), {100, 200});
+
 }
 
 void System::NewEntitySystem::addEnemy2(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
