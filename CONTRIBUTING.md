@@ -58,6 +58,21 @@ Depending on how large the project is, you may want to outsource the questioning
 > ### Legal Notice <!-- omit in toc -->
 > When contributing to this project, you must agree that you have authored 100% of the content, that you have the necessary rights to the content and that the content you contribute may be provided under the project license.
 
+```bash
+git clone git@github:EpitechPromo2025/...
+
+git submodule update --init vcpkg
+
+cd vcpkg/
+./bootstrap-vcpkg.sh
+./vcpkg integrate install
+./vcpkg install
+
+cd ../
+cmake -B Builds/ -DCMAKE_BUILD_TYPE=Release
+cmake --build Builds/ --config Release
+```
+
 ### Reporting Bugs
 
 <!-- omit in toc -->

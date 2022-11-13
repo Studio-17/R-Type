@@ -2,107 +2,107 @@
     "bullet": {
         "title": "bullet",
         "nbFrame": 2,
-        "texture": "Assets/Images/Sprites/bullet.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/bullet.png"
     },
     "enemy": {
         "title": "enemy",
         "nbFrame": 16,
-        "texture": "Assets/Images/Sprites/BasicEnemySpriteSheet2.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/BasicEnemySpriteSheet2.png"
     },
     "amiral": {
         "title": "amiral",
         "nbFrame": 8,
-        "texture": "Assets/Images/Sprites/amiral.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/amiral.png"
     },
     "robot": {
         "title": "robot",
         "nbFrame": 3,
-        "texture": "Assets/Images/Sprites/robot.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/robot.png"
     },
     "blueSpaceShip": {
         "title": "blueSpaceShip",
         "nbFrame": 5,
-        "texture": "Assets/Images/Sprites/BlueSpaceShip.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/BlueSpaceShip.png"
     },
     "greenSpaceShip": {
         "title": "greenSpaceShip",
         "nbFrame": 5,
-        "texture": "Assets/Images/Sprites/GreenSpaceShip.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/GreenSpaceShip.png"
     },
     "redSpaceShip": {
         "title": "redSpaceShip",
         "nbFrame": 5,
-        "texture": "Assets/Images/Sprites/RedSpaceShip.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/RedSpaceShip.png"
     },
     "purpleSpaceShip": {
         "title": "purpleSpaceShip",
         "nbFrame": 5,
-        "texture": "Assets/Images/Sprites/PurpleSpaceShip.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/PurpleSpaceShip.png"
     },
     "marineSpaceShip": {
         "title": "marineSpaceShip",
         "nbFrame": 5,
-        "texture": "Assets/Images/Sprites/MarineSpaceShip.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/MarineSpaceShip.png"
     },
     "parallax_background" : {
         "title": "parallax_background",
-        "texture": "Assets/Images/Parallax/parallax_background.png"
+        "texture": "/usr/bin/Assets/Images/Parallax/parallax_background.png"
     },
     "parallax_mountain" : {
         "title": "parallax_mountain",
-        "texture": "Assets/Images/Parallax/parallax_mountain.png"
+        "texture": "/usr/bin/Assets/Images/Parallax/parallax_mountain.png"
     },
     "parallax_ground" : {
         "title": "parallax_ground",
-        "texture": "Assets/Images/Parallax/parallax_ground.png"
+        "texture": "/usr/bin/Assets/Images/Parallax/parallax_ground.png"
     },
     "planet": {
         "title": "planet",
         "scale": 1.5,
-        "texture": "Assets/Images/Sprites/planet.gif"
+        "texture": "/usr/bin/Assets/Images/Sprites/planet.gif"
     },
     "button": {
         "title": "button",
-        "texture": "Assets/Images/Buttons/shortbutton.png"
+        "texture": "/usr/bin/Assets/Images/Buttons/shortbutton.png"
     },
     "little-button": {
         "title": "little-button",
-        "texture": "Assets/Images/Buttons/little_button.png"
+        "texture": "/usr/bin/Assets/Images/Buttons/little_button.png"
     },
     "long-button": {
         "title": "long-button",
-        "texture": "Assets/Images/Buttons/long_button.png"
+        "texture": "/usr/bin/Assets/Images/Buttons/long_button.png"
     },
     "input-box": {
         "title": "input-box",
-        "texture": "Assets/Images/Buttons/input_box.png"
+        "texture": "/usr/bin/Assets/Images/Buttons/input_box.png"
     },
     "r-type-logo": {
         "title": "r-type-logo",
-        "texture": "Assets/Images/Sprites/r-type-logo.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/r-type-logo.png"
     },
     "title-background": {
         "title": "title-background",
-        "texture": "Assets/Images/Sprites/title_background.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/title_background.png"
     },
     "back-button": {
         "title": "back-button",
-        "texture": "Assets/Images/Buttons/back_button.png"
+        "texture": "/usr/bin/Assets/Images/Buttons/back_button.png"
     },
     "next-button": {
         "title": "next-button",
-        "texture": "Assets/Images/Buttons/next_button.png"
+        "texture": "/usr/bin/Assets/Images/Buttons/next_button.png"
     },
     "lobbies": {
         "title": "lobbies",
-        "texture": "Assets/Images/Sprites/lobbies.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/lobbies.png"
     },
     "players": {
         "title": "players",
-        "texture": "Assets/Images/Sprites/players.png"
+        "texture": "/usr/bin/Assets/Images/Sprites/players.png"
     },
     "lobby-button": {
         "title": "lobby-button",
-        "texture": "Assets/Images/Buttons/lobby_button.png"
+        "texture": "/usr/bin/Assets/Images/Buttons/lobby_button.png"
     }
 }
