@@ -35,6 +35,7 @@ System::NewEntitySystem::NewEntitySystem()
         {14, "amiral"},
         {16, "robot"}
     };
+    _graphicLib = std::make_unique<rtype::GraphicalLib>();
 }
 
 static bool findEntity(Sparse_array<component::cserverid_t> &serverIds, uint16_t idToFind)
@@ -47,13 +48,14 @@ static bool findEntity(Sparse_array<component::cserverid_t> &serverIds, uint16_t
     return false;
 }
 
-void System::NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId, Sparse_array<component::csceneid_t> &sceneId) {
+void System::NewEntitySystem::operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::cserverid_t> &serverIds, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId, Sparse_array<component::csceneid_t> &sceneId, Sparse_array<component::csound_t> &sounds)
+{
     while (!network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.empty()) {
         packet_new_entity &newEntity = network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.front();
         if (findEntity(serverIds, newEntity.id))
             continue;
         if (newEntity.type == ENTITY_TYPE::BULLET)
-            addBullet(registry, newEntity, assets);
+            addBullet(registry, newEntity, assets, sounds);
         if (newEntity.type == ENTITY_TYPE::ENEMY)
             addEnemy(registry, newEntity, assets);
         if (newEntity.type == ENTITY_TYPE::PLAYER)
@@ -66,10 +68,11 @@ void System::NewEntitySystem::operator()(Registry &registry, Sparse_array<compon
     }
 }
 
-void System::NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
+void System::NewEntitySystem::addBullet(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::csound_t> &sounds)
 {
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
 
+    (void)sounds;
     Entity bullet = registry.spawn_entity_with(
         component::cdirection_t{ .x = 1, .y = 0 },
         component::crect_t{ asset.at(_entityType.at(newEntity.type)).getRectangle() },
@@ -81,8 +84,10 @@ void System::NewEntitySystem::addBullet(Registry &registry, packet_new_entity &n
         component::cscale_t{ .scale = asset.at(_entityType.at(newEntity.type)).getScale() },
         component::ctype_t{.type = ENTITY_TYPE::BULLET},
         component::chealth_t{newEntity.health},
-        component::cscore_t{newEntity.score}
+        component::cscore_t{newEntity.score},
+        component::csoundid_t{ .sound = "shoot" }
     );
+    _graphicLib->playASoundMulti(sounds[FORBIDDEN_IDS::NETWORK].value().sounds.at("shoot").getSound());
 }
 
 void System::NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)

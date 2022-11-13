@@ -2,5 +2,9 @@
     "click": {
         "title": "click",
         "soundPath": "Assets/Sounds/click_sound.ogg"
+    },
+    "shoot": {
+        "title": "shoot",
+        "soundPath": "Assets/Sounds/shoot_sound.ogg"
     }
 }

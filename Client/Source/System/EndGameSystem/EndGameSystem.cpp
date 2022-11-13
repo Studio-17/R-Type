@@ -17,7 +17,6 @@ System::EndGameSystem::EndGameSystem()
 
 void System::EndGameSystem::operator()([[ maybe_unused ]]Registry &registry, Sparse_array<component::cnetwork_queue_t> &network_queues, Sparse_array<component::csceneid_t> &sceneId, Sparse_array<component::cref_t> &refs)
 {
-    (void)refs;
     while (!network_queues[FORBIDDEN_IDS::NETWORK].value().endGameQueue.empty()) {
         registry.kill_entity(registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("score-spaceship-txt"))));
         registry.kill_entity(registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("health-spaceship-txt"))));

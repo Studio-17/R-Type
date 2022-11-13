@@ -153,6 +153,12 @@ namespace rtype {
              */
             void playASound(MySound &sound) override;
             /**
+             * @brief Play a sound with a multichannel buffer pool
+             * 
+             * @param sound Sound to play
+             */
+            void playASoundMulti(MySound &sound) override;
+            /**
              * @brief A method to load a sound
              *
              * @param music music to load
