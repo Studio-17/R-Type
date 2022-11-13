@@ -1,0 +1,26 @@
+{
+    "click": {
+        "title": "click",
+        "soundPath": "/usr/bin/Assets/Sounds/click_sound.ogg"
+    },
+    "shoot": {
+        "title": "shoot",
+        "soundPath": "/usr/bin/Assets/Sounds/shoot_sound.ogg"
+    },
+    "explosion": {
+        "title": "explosion",
+        "soundPath": "/usr/bin/Assets/Sounds/explosion_sound.ogg"
+    },
+    "amiral": {
+        "title": "amiral",
+        "soundPath": "/usr/bin/Assets/Sounds/amiral_sound.ogg"
+    },
+    "robot": {
+        "title": "robot",
+        "soundPath": "/usr/bin/Assets/Sounds/robot_sound.ogg"
+    },
+    "circle": {
+        "title": "circle",
+        "soundPath": "/usr/bin/Assets/Sounds/circle_sound.ogg"
+    }
+}

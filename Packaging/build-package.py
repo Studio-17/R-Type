@@ -5,22 +5,22 @@ import re
 
 
 def build_package():
-    package_directory = "Packaging/rtype_1.0.0-1_amd64"
+    package_directory = "Packaging/rtype_1.0.0-1_ubuntu2204"
 
     os.makedirs(package_directory + "/usr/bin/Assets", exist_ok=True)
 
-    os.system('mkdir -p Packaging/rtype_1.0.0-1_amd64/usr/bin/Assets')
-    os.system("cp -r Assets/ Packaging/rtype_1.0.0-1_amd64/usr/bin/")
+    os.system('mkdir -p Packaging/rtype_1.0.0-1_ubuntu2204/usr/bin/Assets')
+    os.system("cp -r Assets/ Packaging/rtype_1.0.0-1_ubuntu2204/usr/bin/")
 
     if os.path.isfile("Builds/Client/r-type_client"):
-        os.system("cp Builds/Client/r-type_client Packaging/rtype_1.0.0-1_amd64/usr/bin/")
+        os.system("cp Builds/Client/r-type_client Packaging/rtype_1.0.0-1_ubuntu2204/usr/bin/")
 
     config_files_directory = package_directory + "/usr/bin/Assets/Configs/"
     command_list = list()
 
     for item in os.listdir(config_files_directory):
         if item.endswith(".json"):
-            command_list.append((config_files_directory + item).lstrip('Packaging/rtype_1.0.0-1_amd64 Packaging'))
+            command_list.append((config_files_directory + item).lstrip('Packaging/rtype_1.0.0-1_ubuntu2204 Packaging'))
             with open(config_files_directory + item, 'r') as file:
                 content = file.read()
                 file.close()
@@ -52,7 +52,7 @@ def build_package():
     if os.path.isfile("rtype_1.0.0-1_ubuntu2204.deb"):
         os.remove("rtype_1.0.0-1_ubuntu2204.deb")
 
-    os.system("dpkg-deb --build rtype_1.0.0-1_amd64/")
+    os.system("dpkg-deb --build rtype_1.0.0-1_ubuntu2204/")
 
     return 0
 
