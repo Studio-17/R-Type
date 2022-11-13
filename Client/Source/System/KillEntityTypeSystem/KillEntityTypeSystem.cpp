@@ -6,6 +6,8 @@
 */
 
 #include "KillEntityTypeSystem.hpp"
+
+/* Constant */
 #include "Constant.hpp"
 
 /* Packet */

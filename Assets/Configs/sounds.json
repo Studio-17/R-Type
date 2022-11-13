@@ -6,5 +6,21 @@
     "shoot": {
         "title": "shoot",
         "soundPath": "Assets/Sounds/shoot_sound.ogg"
+    },
+    "explosion": {
+        "title": "explosion",
+        "soundPath": "Assets/Sounds/explosion_sound.ogg"
+    },
+    "amiral": {
+        "title": "amiral",
+        "soundPath": "Assets/Sounds/amiral_sound.ogg"
+    },
+    "robot": {
+        "title": "robot",
+        "soundPath": "Assets/Sounds/robot_sound.ogg"
+    },
+    "circle": {
+        "title": "circle",
+        "soundPath": "Assets/Sounds/circle_sound.ogg"
     }
 }

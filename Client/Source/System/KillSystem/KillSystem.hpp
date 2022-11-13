@@ -11,9 +11,14 @@
     /* Ecs */
     #include "Registry.hpp"
 
+    /* Graphical Lib */
+    #include "GraphicalLib.hpp"
+
     /* Component */
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CServerId.hpp"
+    #include "Component/CType.hpp"
+    #include "Component/CSound.hpp"
 
 /**
  * @brief Namespace for systems
@@ -36,12 +41,15 @@ namespace System {
              * @param registry The registry of the client
              * @param network The sparse array of network entities
              * @param serverId The sparse array of serverId entities
+             * @param type The sparse array of type entities
+             * @param sounds The sparse array of sound entities
              */
             void operator()(
                 Registry &registry,
                 Sparse_array<component::cnetwork_queue_t> &network,
-                Sparse_array<component::cserverid_t> &serverId
-            );
+                Sparse_array<component::cserverid_t> &serverId,
+                Sparse_array<component::ctype_t> &type,
+                Sparse_array<component::csound_t> &sounds);
 
             /**
              * @brief A method to kill an entity
@@ -50,10 +58,15 @@ namespace System {
              * @param id The id of the entity to kill
              * @param serverId The sparse array of serverId entities
              */
-            void killEntity(Registry &registry, std::size_t id, Sparse_array<component::cserverid_t> &serverId);
+            void killEntity(Registry &registry,
+                            std::size_t id,
+                            Sparse_array<component::cserverid_t> &serverId,
+                            Sparse_array<component::ctype_t> &type,
+                            Sparse_array<component::csound_t> &sounds);
 
         protected:
         private:
+            std::unique_ptr<rtype::GraphicalLib> _graphicLib; ///< Graphical library
     };
 }
 

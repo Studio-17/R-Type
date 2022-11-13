@@ -35,8 +35,11 @@ namespace System {
              * @param registry The registry of the client
              * @param network The sparse array of network entities
              * @param type The sparse array of type entities
+             * @param sounds The sparse array of sound entities
              */
-            void operator()(Registry &registry, Sparse_array<component::cnetwork_queue_t> &network, Sparse_array<component::ctype_t> &type);
+            void operator()(Registry &registry,
+                            Sparse_array<component::cnetwork_queue_t> &network,
+                            Sparse_array<component::ctype_t> &type);
 
         protected:
         private:

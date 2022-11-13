@@ -57,13 +57,13 @@ void System::NewEntitySystem::operator()(Registry &registry, Sparse_array<compon
         if (newEntity.type == ENTITY_TYPE::BULLET)
             addBullet(registry, newEntity, assets, sounds);
         if (newEntity.type == ENTITY_TYPE::ENEMY)
-            addEnemy(registry, newEntity, assets);
+            addEnemy(registry, newEntity, assets, sounds);
         if (newEntity.type == ENTITY_TYPE::PLAYER)
-            addShip(registry, newEntity, assets, clientNetworkId, sceneId);
+            addShip(registry, newEntity, assets, clientNetworkId, sceneId, sounds);
         if (newEntity.type == ENTITY_TYPE::ENEMY2)
-            addEnemy2(registry, newEntity, assets);
+            addEnemy2(registry, newEntity, assets, sounds);
         if (newEntity.type == ENTITY_TYPE::ENEMY3)
-            addEnemy3(registry, newEntity, assets);
+            addEnemy3(registry, newEntity, assets, sounds);
         network[FORBIDDEN_IDS::NETWORK].value().newEntityQueue.pop();
     }
 }
@@ -90,7 +90,7 @@ void System::NewEntitySystem::addBullet(Registry &registry, packet_new_entity &n
     _graphicLib->playASoundMulti(sounds[FORBIDDEN_IDS::NETWORK].value().sounds.at("shoot").getSound());
 }
 
-void System::NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
+void System::NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::csound_t> &sounds)
 {
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
 
@@ -107,6 +107,7 @@ void System::NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &ne
         component::chealth_t{newEntity.health},
         component::cscore_t{newEntity.score}
     );
+    _graphicLib->playASoundMulti(sounds[FORBIDDEN_IDS::NETWORK].value().sounds.at("circle").getSound());
 }
 
 void System::NewEntitySystem::addTextToEntity(Registry &registry, std::string const &ref, std::string const &content, std::pair<float, float> const &pos)
@@ -126,8 +127,9 @@ void System::NewEntitySystem::addTextToEntity(Registry &registry, std::string co
     reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, registry.entity_from_index(static_cast<std::size_t>(text))});
 }
 
-void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId, Sparse_array<component::csceneid_t> &sceneId) {
-
+void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId, Sparse_array<component::csceneid_t> &sceneId, Sparse_array<component::csound_t> &sounds)
+{
+    (void)sounds;
     // Make the ship controllable if the packet is destinated to you
     if (newEntity.clientId == clientNetworkId[FORBIDDEN_IDS::NETWORK].value().id) {
         std::cout << "New Entity System : Add Ship : Add ship as controllable for client number : " << newEntity.clientId << std::endl;
@@ -156,7 +158,7 @@ void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &new
 
 }
 
-void System::NewEntitySystem::addEnemy2(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
+void System::NewEntitySystem::addEnemy2(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::csound_t> &sounds)
 {
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
 
@@ -175,9 +177,10 @@ void System::NewEntitySystem::addEnemy2(Registry &registry, packet_new_entity &n
         component::chealth_t{newEntity.health},
         component::cscore_t{newEntity.score}
     );
+    _graphicLib->playASoundMulti(sounds[FORBIDDEN_IDS::NETWORK].value().sounds.at("amiral").getSound());
 }
 
-void System::NewEntitySystem::addEnemy3(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets)
+void System::NewEntitySystem::addEnemy3(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::csound_t> &sounds)
 {
     auto &asset = assets[FORBIDDEN_IDS::NETWORK]->assets;
 
@@ -196,5 +199,5 @@ void System::NewEntitySystem::addEnemy3(Registry &registry, packet_new_entity &n
         component::chealth_t{newEntity.health},
         component::cscore_t{newEntity.score}
     );
-
+    _graphicLib->playASoundMulti(sounds[FORBIDDEN_IDS::NETWORK].value().sounds.at("robot").getSound());
 }
