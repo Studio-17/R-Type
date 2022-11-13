@@ -302,7 +302,10 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"join-room-two", std::bind(&Client::joinRoomtwo, this)},
         {"join-room-three", std::bind(&Client::joinRoomThree, this)},
         {"exit", std::bind(&Client::exitGame, this)},
-        {"no-callback", std::bind(&Client::noCallback, this)}
+        {"no-callback", std::bind(&Client::noCallback, this)},
+        {"options", std::bind(&Client::goToOptions, this)},
+        {"audio", std::bind(&Client::goToAudio, this)},
+        {"back-to-options", std::bind(&Client::backToOptions, this)}
     };
 
     for (auto &oneData: jsonData) {
@@ -414,6 +417,27 @@ void Client::portInput()
         _port.pop_back();
         content[test].value().text = _port;
     }
+}
+
+void Client::goToOptions()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::OPTIONS;
+}
+
+void Client::backToOptions()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::OPTIONS;
+}
+
+void Client::goToAudio()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::AUDIO;
 }
 
 void Client::seeRooms()

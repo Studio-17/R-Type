@@ -102,7 +102,7 @@
             "position": [200, 30]
         },
         "scene": 5,
-        "callback-type": "no-callback"
+        "callback-type": "options"
     },
     "exit-btn": {
         "ref": "exit-btn",
@@ -151,6 +151,24 @@
         "audio": "click",
         "scene": 6,
         "callback-type": "back-to-main-menu"
+    },
+    "back-to-main-menu-options-btn": {
+        "ref": "back-to-main-menu-options-btn",
+        "textureId": "back-button",
+        "position": [100, 950],
+        "nbFrame": 3,
+        "audio": "click",
+        "scene": 8,
+        "callback-type": "back-to-main-menu"
+    },
+    "back-to-main-menu-audio-btn": {
+        "ref": "back-to-main-menu-audio-btn",
+        "textureId": "back-button",
+        "position": [300, 950],
+        "nbFrame": 3,
+        "audio": "click",
+        "scene": 15,
+        "callback-type": "back-to-options"
     },
     "room-one-btn": {
         "ref": "room-one-btn",
@@ -211,5 +229,20 @@
         },
         "scene": 12,
         "callback-type": "back-to-main-menu"
+    },
+    "go-to-audio-btn": {
+        "ref": "go-to-audio-btn",
+        "textureId": "long-button",
+        "position": [920, 800],
+        "nbFrame": 3,
+        "audio": "click",
+        "text": {
+            "text": "Audio",
+            "color": [150, 150, 150, 255],
+            "size": 40,
+            "position": [200, 30]
+        },
+        "scene": 8,
+        "callback-type": "audio"
     }
 }
