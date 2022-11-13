@@ -14,6 +14,7 @@
     #include "Component/CNetworkQueue.hpp"
     #include "Component/CSceneId.hpp"
     #include "Component/CRef.hpp"
+    #include "Component/CText.hpp"
 
 /**
  * @brief Namespace for systems
@@ -41,7 +42,8 @@ namespace System {
             void operator()(Registry &registry,
                             Sparse_array<component::cnetwork_queue_t> &network_queues,
                             Sparse_array<component::csceneid_t> &sceneId,
-                            Sparse_array<component::cref_t> &refs);
+                            Sparse_array<component::cref_t> &refs,
+                            Sparse_array<component::ctext_t> &texts);
 
         protected:
         private:

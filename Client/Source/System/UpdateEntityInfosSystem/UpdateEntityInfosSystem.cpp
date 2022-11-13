@@ -17,6 +17,7 @@ void System::UpdateEntityInfosSystem::operator()([[ maybe_unused ]] Registry &re
 {
     while (!netQueue[FORBIDDEN_IDS::NETWORK].value().updateEntityHealthQueue.empty()) {
         packet_update_entity_health &packet = netQueue[FORBIDDEN_IDS::NETWORK].value().updateEntityHealthQueue.front();
+        std::cout << "First print update entity health !" << std::endl;
         for (std::size_t index = 0; index != serverId.size(); index++) {
             if (serverId[index]) {
                 if (serverId[index].value().id == packet.entityId) {
@@ -36,6 +37,8 @@ void System::UpdateEntityInfosSystem::operator()([[ maybe_unused ]] Registry &re
                 if (serverId[index].value().id == packetScore.entityId) {
                     Entity newScore = registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("score-spaceship-txt")));
                     texts[newScore].value().text = "Score: " + std::to_string(packetScore.score);
+                    std::cout << "First print update entity score !" << std::endl;
+                    std::cout << "second print update entity score " << std::endl;
                     score[index].value().score = packetScore.score;
                 }
             }

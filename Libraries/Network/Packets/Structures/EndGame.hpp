@@ -12,7 +12,8 @@
  * @brief A packet to tell the server that a client want to end the game in a certain lobby
  */
 struct packet_end_game {
-    int lobbyId; ///< Id of the lobby
+    int lobbyId; ///< Id of the 
+    bool status; ///< Boolean to know if the game is lost or winned. true : win, false : lost
 };
 
 #endif /* !ENDGAME_HPP_ */
