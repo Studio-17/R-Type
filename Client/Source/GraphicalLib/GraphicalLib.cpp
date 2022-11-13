@@ -118,6 +118,16 @@ void rtype::GraphicalLib::updateAMusic(MyMusic &music)
     music.updateStream();
 }
 
+float rtype::GraphicalLib::getMusicVolume(MyMusic &music)
+{
+    return music.getVolume();
+}
+
+void rtype::GraphicalLib::setMusicVolume(MyMusic &music, float volume)
+{
+    music.setVolume(volume);
+}
+
 //Input
 bool rtype::GraphicalLib::hasBeenPressed(int key)
 {

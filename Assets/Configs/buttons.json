@@ -161,13 +161,22 @@
         "scene": 8,
         "callback-type": "back-to-main-menu"
     },
-    "back-to-main-menu-audio-btn": {
-        "ref": "back-to-main-menu-audio-btn",
+    "back-to-options-audio-btn": {
+        "ref": "back-to-options-audio-btn",
         "textureId": "back-button",
         "position": [300, 950],
         "nbFrame": 3,
         "audio": "click",
         "scene": 15,
+        "callback-type": "back-to-options"
+    },
+    "back-to-options-crdits-btn": {
+        "ref": "back-to-options-audio-btn",
+        "textureId": "back-button",
+        "position": [300, 950],
+        "nbFrame": 3,
+        "audio": "click",
+        "scene": 14,
         "callback-type": "back-to-options"
     },
     "room-one-btn": {
@@ -230,6 +239,21 @@
         "scene": 12,
         "callback-type": "back-to-main-menu"
     },
+    "go-to-credits-btn": {
+        "ref": "go-to-credits-btn",
+        "textureId": "long-button",
+        "position": [920, 650],
+        "nbFrame": 3,
+        "audio": "click",
+        "text": {
+            "text": "Credits",
+            "color": [150, 150, 150, 255],
+            "size": 40,
+            "position": [200, 30]
+        },
+        "scene": 8,
+        "callback-type": "credits"
+    },
     "go-to-audio-btn": {
         "ref": "go-to-audio-btn",
         "textureId": "long-button",
@@ -244,5 +268,29 @@
         },
         "scene": 8,
         "callback-type": "audio"
+    },
+    "change-left-music-btn": {
+        "ref": "change-left-music-btn",
+        "textureId": "arrow-left-button",
+        "position": [300, 300],
+        "nbFrame": 2,
+        "audio": "click",
+        "text": {
+            "text": "Volume : 100%",
+            "color": [150, 150, 150, 255],
+            "size": 40,
+            "position": [20, 5]
+        },
+        "scene": 15,
+        "callback-type": "no-callback"
+    },
+    "change-right-music-btn": {
+        "ref": "change-right-music-btn",
+        "textureId": "arrow-right-button",
+        "position": [700, 300],
+        "nbFrame": 2,
+        "audio": "click",
+        "scene": 15,
+        "callback-type": "no-callback"
     }
 }

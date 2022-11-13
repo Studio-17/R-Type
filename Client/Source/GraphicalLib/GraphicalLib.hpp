@@ -171,6 +171,9 @@ namespace rtype {
              */
             void updateAMusic(MyMusic &music) override;
 
+            float getMusicVolume(MyMusic &music) override;
+            void setMusicVolume(MyMusic &music, float volume) override;
+
             /**
              * @brief Check if a key has been pressed
              *

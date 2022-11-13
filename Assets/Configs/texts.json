@@ -55,6 +55,22 @@
         "position": [100, 100],
         "scene": 10
     },
+    "credits-title-txt": {
+        "ref": "credits-title-txt",
+        "text": "CREDITS",
+        "color": [150, 150, 150, 255],
+        "size": 40,
+        "position": [100, 100],
+        "scene": 14
+    },
+    "audio-title-txt": {
+        "ref": "audio-title-txt",
+        "text": "AUDIO",
+        "color": [150, 150, 150, 255],
+        "size": 40,
+        "position": [100, 100],
+        "scene": 15
+    },
     "endgame-title-txt": {
         "ref": "endgame-title-txt",
         "text": "WINNER",

@@ -12,7 +12,8 @@ MyMusic::MyMusic(std::string const &filename) :
     _music(LoadMusicStream(filename.c_str()))
 {
     if (_music.frameCount == 0)
-    throw std::runtime_error("Error while loading music" + filename);
+        throw std::runtime_error("Error while loading music" + filename);
+    _volume = 1;
 }
 
 MyMusic::~MyMusic()
@@ -45,9 +46,15 @@ bool MyMusic::isPlaying() const
     return (IsMusicStreamPlaying(_music));
 }
 
+float MyMusic::getVolume() const
+{
+    return (_volume);
+}
+
 void MyMusic::setVolume(float volume)
 {
     SetMusicVolume(_music, volume);
+    _volume = volume;
 }
 
 void MyMusic::updateStream()
