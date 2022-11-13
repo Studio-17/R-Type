@@ -159,6 +159,7 @@ void Client::setUpSystems()
     _registry.add_system<component::cnetwork_queue_t, component::csceneid_t, component::cref_t>(_endGameSystem);
     _registry.add_system<component::crefid_t, component::cposition_t>(_parallaxSystem);
     _registry.add_system<component::chealth_t, component::cscore_t, component::cnetwork_queue_t, component::cserverid_t, component::ctext_t,component::cref_t>(_updateEntityInfosSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::ctext_t, component::cref_t>(_newLevelSystem);
 }
 
 void Client::setUpComponents()
