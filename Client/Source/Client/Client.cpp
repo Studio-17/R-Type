@@ -156,7 +156,7 @@ void Client::setUpSystems()
     _registry.add_system<component::cdirection_t, component::cposition_t, component::cvelocity_t, component::ctimer_t>(_moveSystem);
 	_registry.add_system<component::cposition_t, component::crect_t, component::casset_t, component::cassetid_t, component::csceneid_t, component::cscale_t, component::cmusic_t, component::cmusicid_t >(_drawSpriteSystem);
     _registry.add_system<component::cposition_t, component::csceneid_t, component::cscale_t, component::ccolor_t, component::ctext_t>(_drawTextSystem);
-    _registry.add_system<component::cnetwork_queue_t, component::csceneid_t, component::cref_t>(_endGameSystem);
+    _registry.add_system<component::cnetwork_queue_t, component::csceneid_t, component::cref_t, component::ctext_t>(_endGameSystem);
     _registry.add_system<component::crefid_t, component::cposition_t>(_parallaxSystem);
     _registry.add_system<component::chealth_t, component::cscore_t, component::cnetwork_queue_t, component::cserverid_t, component::ctext_t,component::cref_t>(_updateEntityInfosSystem);
     _registry.add_system<component::cnetwork_queue_t, component::cserverid_t, component::ctext_t, component::cref_t>(_newLevelSystem);

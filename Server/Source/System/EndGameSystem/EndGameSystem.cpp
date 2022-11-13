@@ -41,6 +41,8 @@ void System::EndGameSystem::operator()(Registry &registry, Sparse_array<componen
             if (map[FORBIDDEN_IDS::LOBBY].value().mapIndex.at(lobbyId) == map[FORBIDDEN_IDS::LOBBY].value().map.size() - 1) {
                 // END OF GAME
                 std::cout << "END GAME " <<std::endl;
+                bool gameStatus;
+                countNbEntityInLobby(lobbyId, ENTITY_TYPE::PLAYER, type, lobbyIds) == 0 ? gameStatus = false : gameStatus = true;
                 for (std::size_t index = 0; index < lobbyIds.size() && index < type.size(); index++) {
                     if (!lobbyIds[index] || !type[index])
                         continue;
@@ -54,7 +56,7 @@ void System::EndGameSystem::operator()(Registry &registry, Sparse_array<componen
                 lobbiesStatus[FORBIDDEN_IDS::LOBBY].value().lobbiesStatus.at(lobbyId).second = 1;
                 for (auto &entity : _entityToKill)
                     network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_kill_entity_type>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY_TYPE, {static_cast<int>(entity)})});
-                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_end_game>(NETWORK_SERVER_TO_CLIENT::END_GAME, {lobbyId})});
+                network_queues[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_end_game>(NETWORK_SERVER_TO_CLIENT::END_GAME, {lobbyId, gameStatus})});
             } else {
                 // NEW LEVEL
                 std::cout << "NEW LEVEL" << map[FORBIDDEN_IDS::LOBBY].value().mapIndex.at(lobbyId) << std::endl;

@@ -21,7 +21,7 @@ void System::KillSystem::operator()(Registry &registry, Sparse_array<component::
 {
     while (!network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.empty()) {
         packet_kill_entity &packet = network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.front();
-        std::cout << "kill system" << std::endl;
+        std::cout << "kill system" << packet.id << std::endl;
         killEntity(registry, packet.id, serverId);
         network[FORBIDDEN_IDS::NETWORK].value().killEntityQueue.pop();
     }
@@ -32,6 +32,7 @@ void System::KillSystem::killEntity(Registry &registry, std::size_t id, Sparse_a
     for (std::size_t x = 0; x < serverId.size(); x++) {
         if (serverId[x]) {
             if (serverId[x].value().id == id) {
+                std::cout << "kill entity print before kill entity" << std::endl;
                 registry.kill_entity(registry.entity_from_index(x));
             }
         }
