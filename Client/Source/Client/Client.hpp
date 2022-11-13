@@ -38,6 +38,8 @@
     #include "System/NewClientResponseSystem/NewClientResponseSystem.hpp"
     #include "System/MouseSystem/MouseSystem.hpp"
     #include "System/UpdateEntityInfosSystem/UpdateEntityInfosSystem.hpp"
+    #include "System/NewLevelSystem/NewLevelSystem.hpp"
+
 
 /**
  * @brief The Client class, it defines a client and its interactions with the server
@@ -281,6 +283,7 @@ class Client {
         System::NewClientResponseSystem _newClientResponseSystem; ///< System that handle new client response
         System::MouseSystem _mouseSystem; ///< System that handle mouse events
         System::UpdateEntityInfosSystem _updateEntityInfosSystem; ///< System that handle update entity info
+        System::NewLevelSystem _newLevelSystem; ///< System tht update new level
         System::EndGameSystem _endGameSystem; ///< System that end Game
 };
 

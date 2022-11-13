@@ -17,6 +17,7 @@
 #include "Lobbies.hpp"
 #include "NewConnection.hpp"
 #include "UpdateEntityInfos.hpp"
+#include "NewLevel.hpp"
 #include "EndGame.hpp"
 
 System::NetworkSystem::NetworkSystem() :
@@ -30,7 +31,8 @@ System::NetworkSystem::NetworkSystem() :
         {NETWORK_SERVER_TO_CLIENT::NUMBER_PLAYERS_IN_LOBBY , std::bind(&System::NetworkSystem::dispatchNbPlayersInLobbyQueue, this, std::placeholders::_1, std::placeholders::_2)},
         {NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_HEALTH , std::bind(&System::NetworkSystem::dispatchUpdateEntityHealthQueue, this, std::placeholders::_1, std::placeholders::_2)},
         {NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_SCORE , std::bind(&System::NetworkSystem::dispatchUpdateEntityScoreQueue, this, std::placeholders::_1, std::placeholders::_2)},
-        {NETWORK_SERVER_TO_CLIENT::END_GAME , std::bind(&System::NetworkSystem::dispatchEndGameQueue, this, std::placeholders::_1, std::placeholders::_2)}
+        {NETWORK_SERVER_TO_CLIENT::END_GAME , std::bind(&System::NetworkSystem::dispatchEndGameQueue, this, std::placeholders::_1, std::placeholders::_2)},
+        {NETWORK_SERVER_TO_CLIENT::NEW_LEVEL, std::bind(&System::NetworkSystem::dispatchNewLevelQueue,this, std::placeholders::_1, std::placeholders::_2)}
     })
 {
 }
@@ -48,7 +50,7 @@ void System::NetworkSystem::operator()([[ maybe_unused ]] Registry &registry, Sp
         } catch (std::out_of_range const &e) {
             std::cerr << "Network System Undefined packet id: " << id << std::endl;
         }
-        std::cout << "Network System new packet " << static_cast<int>(id) << std::endl;
+        // std::cout << "Network System new packet " << static_cast<int>(id) << std::endl;
         network[FORBIDDEN_IDS::NETWORK].value().receivedNetworkQueue.pop();
     }
 
@@ -106,6 +108,12 @@ void System::NetworkSystem::dispatchUpdateEntityScoreQueue(std::vector<byte> con
 {
     packet_update_entity_score packet = serializable_trait<packet_update_entity_score>::unserialize(bytes);
     network[FORBIDDEN_IDS::NETWORK].value().updateEntityScoreQueue.push(packet);
+}
+
+void System::NetworkSystem::dispatchNewLevelQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network)
+{
+    packet_new_level packet = serializable_trait<packet_new_level>::unserialize(bytes);
+    network[FORBIDDEN_IDS::NETWORK].value().newLevelQueue.push(packet);
 }
 
 void System::NetworkSystem::dispatchEndGameQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network)

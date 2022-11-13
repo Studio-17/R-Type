@@ -118,6 +118,14 @@ namespace System {
             void dispatchUpdateEntityScoreQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
 
             /**
+             * @brief A method to send informations to the new level queue
+             *
+             * @param bytes The bytes to send
+             * @param network The sparse array of network entities
+             */
+            void dispatchNewLevelQueue(std::vector<byte> const &bytes, Sparse_array<component::cnetwork_queue_t> &network);
+
+            /**
              * @brief A method to send informations to the end Game queue
              *
              * @param bytes The bytes to send

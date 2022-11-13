@@ -25,13 +25,13 @@ System::HitboxSystem::HitboxSystem()
 {
 }
 
-void System::HitboxSystem::doHealthCheck(Registry &registry, component::cnetwork_queue_t &netQueue, component::chealth_t &health1, component::chealth_t &health2, component::clobby_id_t &lobbyId, int i, int x)
+void System::HitboxSystem::doHealthCheck(Registry &registry, component::cnetwork_queue_t &netQueue, component::chealth_t &health1, component::chealth_t &health2, component::clobby_id_t &lobbyId, int i, int x, ENTITY_TYPE &entityType)
 {
     health1.health--;
     health2.health--;
 
-    netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_update_entity_health>(NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_HEALTH, {static_cast<int>(i), health1.health})});
-    netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_update_entity_health>(NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_HEALTH, {static_cast<int>(x), health2.health})});
+    if (entityType == ENTITY_TYPE::PLAYER)
+        netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_update_entity_health>(NETWORK_SERVER_TO_CLIENT::UPDATE_ENTITY_HEALTH, {static_cast<int>(x), health2.health})});
 
     if (health1.health == 0) {
         netQueue.toSendNetworkQueue.push({lobbyId.id, serialize_header::serializeHeader<packet_kill_entity>(NETWORK_SERVER_TO_CLIENT::KILL_ENTITY, {static_cast<int>(i)})});
@@ -91,7 +91,7 @@ void System::HitboxSystem::HitboxSystem::operator()(Registry &registry, Sparse_a
                                 // registry.kill_entity(registry.entity_from_index(i));
                                 // registry.kill_entity(registry.entity_from_index(x));
                                 doScoreUpdate(network_queues[FORBIDDEN_IDS::NETWORK].value(), lobbyId[i].value(), score, type, ownerId, x);
-                                doHealthCheck(registry, network_queues[FORBIDDEN_IDS::NETWORK].value(), health[i].value(), health[x].value(), lobbyId[i].value(), i, x);
+                                doHealthCheck(registry, network_queues[FORBIDDEN_IDS::NETWORK].value(), health[i].value(), health[x].value(), lobbyId[i].value(), i, x, secondtype.value().type);
                                 break;
                             }
                         }
