@@ -13,6 +13,7 @@
  */
 struct packet_new_level {
     int level; ///< New level
+    int totalLevels; ///< Total number of levels
 };
 
 

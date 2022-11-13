@@ -18,9 +18,12 @@ void System::NewLevelSystem::operator()([[ maybe_unused ]] Registry &registry, S
     (void)texts;
     (void)refs;
     (void)serverId;
+    // level-game-txt
     while (!netQueue[FORBIDDEN_IDS::NETWORK].value().newLevelQueue.empty()) {
         packet_new_level &packet = netQueue[FORBIDDEN_IDS::NETWORK].value().newLevelQueue.front();
         std::cout << "New Level : " << packet.level << std::endl;
+        Entity newScore = registry.entity_from_index(static_cast<std::size_t>(refs[FORBIDDEN_IDS::NETWORK].value().ref.at("level-game-txt")));
+        texts[newScore].value().text = "Level: " + std::to_string(packet.level + 1) + " / " + std::to_string(packet.totalLevels);
         netQueue[FORBIDDEN_IDS::NETWORK].value().newLevelQueue.pop();
     }
 }
