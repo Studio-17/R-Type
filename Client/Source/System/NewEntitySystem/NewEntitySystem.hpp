@@ -65,21 +65,12 @@ namespace System {
                 Sparse_array<component::csound_t> &sounds);
 
             /**
-             * @brief Function that add a text linked to an entity
-             * 
-             * @param registry The registry of the client
-             * @param ref The ref of the entity
-             * @param content The content of the text
-             * @param pos The position of the text
-             */
-            void addTextToEntity(Registry &registry, std::string const &ref, std::string const &content, std::pair<float, float> const &pos);
-
-            /**
              * @brief A method to add a new bullet entity
              *
              * @param registry The registry of the client
              * @param packet_new_entity The packet containing the new entity
              * @param assets The sparse array of asset id entities
+             * @param sounds The sparse array of sound id entities
              */
             void addBullet(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets, Sparse_array<component::csound_t> &sounds);
 
@@ -91,6 +82,7 @@ namespace System {
              * @param assets The sparse array of asset id entities
              * @param clientNetworkId The sparse array of client network id entities
              * @param sceneId The sparse array of scene id entities
+             * @param sounds The sparse array of sound id entities
              */
             void addShip(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId, Sparse_array<component::csceneid_t> &sceneId, Sparse_array<component::csound_t> &sounds);
 
@@ -100,6 +92,7 @@ namespace System {
              * @param registry The registry of the client
              * @param packet_new_entity The packet containing the new entity
              * @param assets The sparse array of asset id entities
+             * @param sounds The sparse array of sound id entities
              */
             void addEnemy(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets, Sparse_array<component::csound_t> &sounds);
 
@@ -109,9 +102,17 @@ namespace System {
              * @param registry The registry of the client
              * @param packet_new_entity The packet containing the new entity
              * @param assets The sparse array of asset id entities
+             * @param sounds The sparse array of sound id entities
              */
             void addEnemy2(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets, Sparse_array<component::csound_t> &sounds);
-
+            /**
+             * @brief A method to add a new enemy entity
+             *
+             * @param registry The registry of the client
+             * @param packet_new_entity The packet containing the new entity
+             * @param assets The sparse array of asset id entities
+             * @param sounds The sparse array of sound id entities
+             */
             void addEnemy3(Registry &registry, packet_new_entity &packet_new_entity, Sparse_array<component::casset_t> &assets, Sparse_array<component::csound_t> &sounds);
 
             /**
