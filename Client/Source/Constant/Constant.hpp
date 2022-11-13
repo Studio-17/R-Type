@@ -37,7 +37,8 @@ enum SCENE {
     CREDITS,
     AUDIO,
     HELP,
-    CONTROLS
+    CONTROLS,
+    ENDGAMELOOSE
 };
 
 #endif /* !CONSTANT_HPP_ */
