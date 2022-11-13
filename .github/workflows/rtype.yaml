@@ -20,92 +20,96 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-#  # This workflow contains a single job called "build_ubuntu"
-#  build_ubuntu:
-#
-#    # The type of runner that the job will run on
-#    runs-on: ubuntu-latest
-#
-#    # Steps represent a sequence of tasks that will be executed as part of the job
-#    steps:
-#    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#    - uses: actions/checkout@v3
-#    - uses: actions/setup-python@v4
-#      with:
-#        python-version: '3.9'
-#        cache: 'pip' # caching pip dependencies
-#    - run: pip install -r ${{github.workspace}}/.github/files/requirements.txt # Get Conan for package managing
-#
-#      # Create a folder for builds and executables
-#    - name: Create `Builds` folder
-#      run: mkdir -p Builds
-#
-#      # Installation of dependencies using conan, in this case mainly boost
-#    - name: Install dependencies
-#      run: conan install . --install-folder=${{github.workspace}}/Builds
-#
-#      # Configure CMake in the previously created 'Builds' subdirectory.
-#    - name: Configure CMake
-#      run: cmake -B ${{github.workspace}}/Builds
-#
-#      # Build R-Type projet :frog:
-#    - name: Build
-#      run: cmake --build ${{github.workspace}}/Builds
-#
-#    - name: Install boost dependenciy with git submodule
-#      shell: bash
-#      working-directory: ${{github.workspace}}
-#      run: git submodule update --init --recursive boost/
-#
-#      # Configure CMake in the previously created 'Builds' subdirectory.
-#    - name: Configure CMake
-#      shell: bash
-#      working-directory: ${{github.workspace}}/Builds
-#      run: cmake $GITHUB_WORKSPACE
-#
-#      # Build R-Type projet :frog:
-#    - name: Build
-#      shell: bash
-#      working-directory: ${{github.workspace}}/Builds
-#      run: cmake --build .
-#
-#  # A workflow run is made up of one or more jobs that can run sequentially or in parallel, tailor made for MSVC
-#  build_windows:
-#
-#    # The type of runner that the job will run on
-#    runs-on: windows-latest
-#
-#    # Steps represent a sequence of tasks that will be executed as part of the job
-#    steps:
-#    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#    - uses: actions/checkout@v3
-#
-#    - name: Create Build Environment
-#      # Some projects don't allow in-source building, so create a separate build directory
-#      # We'll use this as our working directory for all subsequent commands
-#      run: New-Item ${{github.workspace}}/Builds -itemType Directory
-#
-#    - name: Install raylib dependency with git submodule
-#      shell: powershell
-#      working-directory: ${{github.workspace}}
-#      run: git submodule update --init raylib/
-#
-#    - name: Install boost dependenciy with git submodule
-#      shell: powershell
-#      working-directory: ${{github.workspace}}
-#      run: git submodule update --init --recursive boost/
-#
-#      # Configure CMake in the previously created 'Builds' subdirectory.
-#    - name: Compile CMake
-#      shell: powershell
-#      working-directory: ${{github.workspace}}/Builds
-#      run: cmake $env:GITHUB_WORKSPACE -G "Visual Studio 17 2022"
-#
-#      # Build R-Type projet :frog:
-#    - name: Build
-#      shell: powershell
-#      working-directory: ${{github.workspace}}/Builds
-#      run: cmake --build . -G "Visual Studio 17 2022"
+  # This workflow contains a single job called "build_ubuntu"
+  build_ubuntu:
+
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Update repository with vcpkg submodule
+      - name: Pull & update submodules recursively
+        run: |
+          git submodule update --init vcpkg
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        working-directory: ${{github.workspace}}/vcpkg
+        run: |
+          ./vcpkg
+
+      # Integrate and install vcpkg dependencies
+      - uses: actions/checkout@v3
+        working-directory: ${{github.workspace}}/vcpkg
+        run: |
+          ./vcpkg integrate install
+          ./vcpkg install
+
+      # Create a folder for builds and executables
+      - name: Create `Builds` folder
+        run: mkdir -p Builds
+
+      # Configure CMake in the previously created 'Builds' subdirectory.
+      - name: Configure CMake
+        run: cmake -B ${{github.workspace}}/Builds -DCMAKE_BUILD_TYPE=Release
+
+      # Build R-Type projet :frog:
+      - name: Build
+        run: cmake --build ${{github.workspace}}/Builds --config Release
+
+  # A workflow run is made up of one or more jobs that can run sequentially or in parallel, tailor made for MSVC
+  build_windows:
+
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    container:
+      image: buildtools2022:latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Update repository with vcpkg submodule
+      - name: Pull & update submodules recursively
+        run: |
+          git submodule update --init vcpkg
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        working-directory: ${{github.workspace}}/vcpkg
+        run: |
+          ./vcpkg
+
+      # Integrate and install vcpkg dependencies
+      - uses: actions/checkout@v3
+        working-directory: ${{github.workspace}}/vcpkg
+        run: |
+          ./vcpkg integrate install
+          ./vcpkg install
+
+      - name: Create Build Environment
+        # Some projects don't allow in-source building, so create a separate build directory
+        # We'll use this as our working directory for all subsequent commands
+        run: New-Item ${{github.workspace}}/Builds -itemType Directory
+
+        # Configure CMake in the previously created 'Builds' subdirectory.
+      - name: Compile CMake
+        shell: powershell
+        working-directory: ${{github.workspace}}/Builds
+        run: cmake $env:GITHUB_WORKSPACE -G "Visual Studio 17 2022"
+
+        # Build R-Type projet :frog:
+      - name: Build
+        shell: powershell
+        working-directory: ${{github.workspace}}/Builds
+        run: cmake --build . -G "Visual Studio 17 2022"
 
   # This workflow contains a single job called "build_test"
   build_test:
