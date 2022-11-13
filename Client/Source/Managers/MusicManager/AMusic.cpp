@@ -11,7 +11,7 @@
 #include "AMusic.hpp"
 
 AMusic::AMusic(nlohmann::json const &jsonData) :
-    _music(jsonData.value("musicPath", "Assets/Sounds/menu-music.ogg"))
+    _music(jsonData.value("musicPath", "/usr/bin/Assets/Sounds/menu-music.ogg"))
 {
 }
 

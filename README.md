@@ -15,21 +15,13 @@ players will be able to fight together the evil Bydos!
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Download the latest version of our project on [our website](https://charles-app-zeta.vercel.app/download)
 
+(To run a server on your local machine, please pull the image, and run the container using the following commands)
 ```bash
-git clone git@github:EpitechPromo2025/...
+[sudo] docker pull martinvanaud/r-type_server
 
-git submodule update --init vcpkg
-
-cd vcpkg/
-./bootstrap-vcpkg.sh
-./vcpkg integrate install
-./vcpkg install
-
-cd ../
-cmake -B Builds/ -DCMAKE_BUILD_TYPE=Release
-cmake --build Builds/ --config Release
+[sudo] docker run -dp 8080:${your-port} r-type_server
 ```
 
 ## Usage

@@ -12,7 +12,7 @@ MyMusic::MyMusic(std::string const &filename) :
     _music(LoadMusicStream(filename.c_str()))
 {
     if (_music.frameCount == 0)
-    throw std::runtime_error("Error while loading music");
+    throw std::runtime_error("Error while loading music" + filename);
 }
 
 MyMusic::~MyMusic()

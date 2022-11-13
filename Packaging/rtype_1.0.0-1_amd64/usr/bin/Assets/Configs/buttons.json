@@ -196,5 +196,20 @@
         },
         "scene": 6,
         "callback-type": "join-room-three"
+    },
+    "go-back-to-menu-btn": {
+        "ref": "go-back-to-menu-btn",
+        "textureId": "long-button",
+        "position": [920, 800],
+        "nbFrame": 3,
+        "audio": "click",
+        "text": {
+            "text": "Go back to main menu",
+            "color": [150, 150, 150, 255],
+            "size": 40,
+            "position": [200, 30]
+        },
+        "scene": 12,
+        "callback-type": "back-to-main-menu"
     }
 }

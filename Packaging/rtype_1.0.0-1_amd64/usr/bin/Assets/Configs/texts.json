@@ -54,5 +54,37 @@
         "size": 40,
         "position": [100, 100],
         "scene": 10
+    },
+    "endgame-title-txt": {
+        "ref": "endgame-title-txt",
+        "text": "WINNER",
+        "color": [150, 150, 150, 255],
+        "size": 60,
+        "position": [100, 100],
+        "scene": 12
+    },
+    "level-game-txt": {
+        "ref": "level-game-txt",
+        "text": "Level: 1",
+        "color": [255, 255, 255, 255],
+        "size": 40,
+        "position": [100, 300],
+        "scene": 2
+    },
+    "score-spaceship-txt": {
+        "ref": "score-spaceship-txt",
+        "text": "Score: 0",
+        "color": [255, 255, 255, 255],
+        "size": 40,
+        "position": [100, 100],
+        "scene": 2
+    },
+    "health-spaceship-txt": {
+        "ref": "health-spaceship-txt",
+        "text": "Lives: 3",
+        "color": [255, 255, 255, 255],
+        "size": 40,
+        "position": [100, 200],
+        "scene": 2
     }
 }
