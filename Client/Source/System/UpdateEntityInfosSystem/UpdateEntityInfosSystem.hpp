@@ -13,6 +13,8 @@
     #include "Component/CHealth.hpp"
     #include "Component/CScore.hpp"
     #include "Component/CServerId.hpp"
+    #include "Component/CText.hpp"
+    #include "Component/CRef.hpp"
 
 /**
  * @brief Namespace for all components
@@ -36,7 +38,13 @@ namespace System {
              * @param score The sparse array of score components
              * @param netQueue The sparse array of network entities
              */
-            void operator()([[ maybe_unused ]] Registry &registry, Sparse_array<component::chealth_t> &health, Sparse_array<component::cscore_t> &score, Sparse_array<component::cnetwork_queue_t> &netQueue, Sparse_array<component::cserverid_t> &serverId);
+            void operator()([[ maybe_unused ]] Registry &registry,
+                            Sparse_array<component::chealth_t> &health,
+                            Sparse_array<component::cscore_t> &score,
+                            Sparse_array<component::cnetwork_queue_t> &netQueue,
+                            Sparse_array<component::cserverid_t> &serverId,
+                            Sparse_array<component::ctext_t> &texts,
+                            Sparse_array<component::cref_t> &refs);
 
         protected:
         private:

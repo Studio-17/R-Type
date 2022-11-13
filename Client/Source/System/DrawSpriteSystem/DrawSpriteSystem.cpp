@@ -24,7 +24,6 @@ void System::DrawSpriteSystem::operator()([[ maybe_unused ]] Registry &registry,
             auto &scale = scales[i];
             auto &rect = rectangles[i];
 
-            // (void)musicsId;
             _graphicLib->updateAMusic(musics[FORBIDDEN_IDS::NETWORK].value().musics.at(musicsId[FORBIDDEN_IDS::NETWORK].value().music).getMusic());
             if (!assets[FORBIDDEN_IDS::NETWORK])
                 continue;

@@ -106,8 +106,6 @@ void System::NewEntitySystem::addEnemy(Registry &registry, packet_new_entity &ne
 
 void System::NewEntitySystem::addTextToEntity(Registry &registry, std::string const &ref, std::string const &content, std::pair<float, float> const &pos)
 {
-    std::string textRef = ref + "-text";
-
     Entity text = registry.spawn_entity_with(
         component::ctext_t{ .text = content, .font = "Assets/Fonts/Square.ttf", .spacing = 7 },
         component::cposition_t{ .x = pos.first , .y = pos.second },
@@ -115,11 +113,12 @@ void System::NewEntitySystem::addTextToEntity(Registry &registry, std::string co
         component::csceneid_t{ .sceneId = SCENE::GAME },
         component::cscale_t{ .scale = 40 },
         component::ccolor_t{ .color = {255, 255, 255, 255} },
-        component::crefid_t{ .refId = textRef }
+        component::crefid_t{ .refId = ref }
     );
+    std::cout << "Ref: " << ref << std::endl;
     Sparse_array<component::cref_t> &reference = registry.get_components<component::cref_t>();
 
-    reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({textRef, registry.entity_from_index(static_cast<std::size_t>(text))});
+    reference[FORBIDDEN_IDS::NETWORK].value().ref.insert({ref, registry.entity_from_index(static_cast<std::size_t>(text))});
 }
 
 void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &newEntity, Sparse_array<component::casset_t> &assets, Sparse_array<component::cclient_network_id> &clientNetworkId, Sparse_array<component::csceneid_t> &sceneId) {
@@ -135,20 +134,20 @@ void System::NewEntitySystem::addShip(Registry &registry, packet_new_entity &new
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::GAME;
 
     Entity ship = registry.spawn_entity_with(
-            component::cdirection_t{.x = 0, .y = 0},
-            component::crect_t{asset.at(_entityType.at(newEntity.type)).getRectangle()},
-            component::cposition_t{.x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY)},
-            component::cserverid_t{.id = newEntity.id},
-            component::cvelocity_t{.velocity = 4},
-            component::cassetid_t{.assets = _entityType.at(newEntity.type)},
-            component::csceneid_t{.sceneId = SCENE::GAME},
-            component::ctype_t{.type = ENTITY_TYPE::PLAYER},
-            component::cscale_t{.scale = asset.at(_entityType.at(newEntity.type)).getScale()},
-            component::chealth_t{newEntity.health},
-            component::cscore_t{newEntity.score}
+        component::cdirection_t{.x = 0, .y = 0},
+        component::crect_t{asset.at(_entityType.at(newEntity.type)).getRectangle()},
+        component::cposition_t{.x = static_cast<float>(newEntity.positionX), .y = static_cast<float>(newEntity.positionY)},
+        component::cserverid_t{.id = newEntity.id},
+        component::cvelocity_t{.velocity = 4},
+        component::cassetid_t{.assets = _entityType.at(newEntity.type)},
+        component::csceneid_t{.sceneId = SCENE::GAME},
+        component::ctype_t{.type = ENTITY_TYPE::PLAYER},
+        component::cscale_t{.scale = asset.at(_entityType.at(newEntity.type)).getScale()},
+        component::chealth_t{newEntity.health},
+        component::cscore_t{newEntity.score}
     );
-    addTextToEntity(registry, "score-" + std::to_string(newEntity.type), "Score: " + std::to_string(newEntity.score), {100, 100});
-    addTextToEntity(registry, "health-" + std::to_string(newEntity.type), "Lives: " + std::to_string(newEntity.health), {100, 200});
+    addTextToEntity(registry, "score-spaceship-txt", "Score: " + std::to_string(newEntity.score), {100, 100});
+    addTextToEntity(registry, "health-spaceship-txt", "Lives: " + std::to_string(newEntity.health), {100, 200});
 
 }
 
