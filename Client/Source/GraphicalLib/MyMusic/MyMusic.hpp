@@ -63,6 +63,13 @@ class MyMusic {
          * @param volume volume of the music
          */
         void setVolume(float volume);
+
+        /**
+         * @brief Get the volume of the music
+         *
+         * @return float volume of the music
+         */
+        float getVolume() const;
         /**
          * @brief Update the stream
          *
@@ -72,6 +79,7 @@ class MyMusic {
     protected:
     private:
         Music _music; ///< Music object
+        float _volume; ///< Volume of the music
 
     protected:
     private:

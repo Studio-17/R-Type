@@ -104,5 +104,33 @@
     "lobby-button": {
         "title": "lobby-button",
         "texture": "Assets/Images/Buttons/lobby_button.png"
+    },
+    "clement-credit": {
+        "title": "clement-credit",
+        "texture": "Assets/Images/Credits/clement.png"
+    },
+    "gurvan-credit": {
+        "title": "gurvan-credit",
+        "texture": "Assets/Images/Credits/gurvan.png"
+    },
+    "victor-credit": {
+        "title": "victor-credit",
+        "texture": "Assets/Images/Credits/victor.png"
+    },
+    "martin-credit": {
+        "title": "martin-credit",
+        "texture": "Assets/Images/Credits/martin.png"
+    },
+    "maxime-credit": {
+        "title": "maxime-credit",
+        "texture": "Assets/Images/Credits/maxime.png"
+    },
+    "arrow-left-button": {
+        "title": "arrow-left-button",
+        "texture": "Assets/Images/Buttons/medium_left_arrow.png"
+    },
+    "arrow-right-button": {
+        "title": "arrow-right-button",
+        "texture": "Assets/Images/Buttons/medium_right_arrow.png"
     }
 }

@@ -305,6 +305,7 @@ void Client::loadButtons(std::string const &filepath, Sparse_array<component::ca
         {"no-callback", std::bind(&Client::noCallback, this)},
         {"options", std::bind(&Client::goToOptions, this)},
         {"audio", std::bind(&Client::goToAudio, this)},
+        {"credits", std::bind(&Client::goToCredits, this)},
         {"back-to-options", std::bind(&Client::backToOptions, this)}
     };
 
@@ -433,11 +434,39 @@ void Client::backToOptions()
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::OPTIONS;
 }
 
+void Client::downgradeMusic()
+{
+    // change-left-music-btn-text
+    Sparse_array<component::cmusic_t> &musics = _registry.get_components<component::cmusic_t>();
+    Sparse_array<component::cref_t> &ref = _registry.get_components<component::cref_t>();
+        Sparse_array<component::ctext_t> &content = _registry.get_components<component::ctext_t>();
+    Entity test = _registry.entity_from_index(static_cast<std::size_t>(ref[FORBIDDEN_IDS::NETWORK].value().ref.at("change-left-music-btn-text")));
+    float volume = _graphicLib->getMusicVolume(musics[FORBIDDEN_IDS::NETWORK].value().musics.at("menu-music").getMusic());
+
+    if (volume > 0.01) {
+        volume -= 0.1;
+        _graphicLib->setMusicVolume(musics[FORBIDDEN_IDS::NETWORK].value().musics.at("menu-music").getMusic(), volume);
+        content[test].value().text = "Volume: " + std::to_string(static_cast<int>(volume * 100)) + "%";
+    }
+}
+
+void Client::upgradeMusic()
+{
+
+}
+
 void Client::goToAudio()
 {
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::AUDIO;
+}
+
+void Client::goToCredits()
+{
+    Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+
+    sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::CREDITS;
 }
 
 void Client::seeRooms()

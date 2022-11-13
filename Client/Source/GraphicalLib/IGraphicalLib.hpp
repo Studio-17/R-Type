@@ -169,6 +169,9 @@ namespace rtype {
              */
             virtual auto updateAMusic(MyMusic &music) -> void = 0;
 
+            virtual auto getMusicVolume(MyMusic &music) -> float = 0;
+            virtual auto setMusicVolume(MyMusic &music, float volume) -> void = 0;
+
             /**
              * @brief Check if a key has been pressed
              *
