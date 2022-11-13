@@ -9,6 +9,7 @@ WORKDIR /home/r-type/server/
 ADD [ "Server/", "Server/" ]
 ADD [ "Libraries/", "Libraries/" ]
 ADD [ "vcpkg/", "vcpkg/" ]
+ADD [ "Assets/", "Assets/"]
 
 COPY [ "CMakeLists.txt", "vcpkg.json", "./" ]
 COPY [ ".github/scripts/build-server.sh", "./build-server.sh" ]
