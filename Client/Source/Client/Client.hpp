@@ -49,10 +49,9 @@ class Client {
         /**
          * @brief Construct a new Client object
          *
-         * @param hostPort port of the host
          * @param configurationFiles configuration files
          */
-        Client(int hostPort, std::map<std::string, std::string> &configurationFiles);
+        Client(std::map<std::string, std::string> &configurationFiles);
 
         /**
          * @brief Destroy the Client object
@@ -251,7 +250,6 @@ class Client {
 
         std::string _ip; ///< Ip of the client
         std::string _port; ///< Port of the client
-        int _hostPort; ///< Hostport of the client
         std::string _name; ///< Name of the client
 
         asio::io_context _context; ///< An asio context object to handle basic I/O
