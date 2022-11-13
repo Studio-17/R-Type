@@ -1,0 +1,6 @@
+
+Package: rtype
+Version: 1.0.0
+Architecture: all
+Maintainer: Martin VANAUD <martin.vanaud@epitech.eu>
+Description: A replica of the famous R-Type game
