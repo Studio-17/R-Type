@@ -272,6 +272,8 @@ class Client {
 
         std::map<std::string, std::string> _configurationFiles; ///< A map of configuration files
 
+        bool _isConnected = false; ///< A boolean to know if client is connected to server
+
         // Systems
         System::NetworkSystem _networkSystem; ///< System that handle receive packet and dispatch them into specific queues
         System::DrawSpriteSystem _drawSpriteSystem; ///< System that draws the entities

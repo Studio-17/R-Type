@@ -43,8 +43,10 @@ Client::Client(std::map<std::string, std::string> &configurationFiles) :
 
 Client::~Client()
 {
-    _context.stop();
-    _thread.join();
+    if (_isConnected) {
+        _context.stop();
+        _thread.join();
+    }
 }
 
 void Client::tryToConnect()
@@ -71,7 +73,7 @@ void Client::machineRun()
     }
     _graphicLib->closeWindow();
     _graphicLib->closeAudio();
-    disconnect();
+    if (_isConnected) disconnect();
 }
 
 void Client::disconnect()
@@ -90,6 +92,7 @@ void Client::SendPacket() {
         std::vector<byte> tmp = _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.front();
         _registry.get_components<component::cnetwork_queue_t>()[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.pop();
         _com->send(tmp);
+        std::cout << "Send packet" << std::endl;
     }
 }
 
@@ -355,6 +358,7 @@ void Client::connectToServer()
     tryToConnect();
 
     Sparse_array<component::csceneid_t> &sceneId = _registry.get_components<component::csceneid_t>();
+    _isConnected = true;
 
     sceneId[FORBIDDEN_IDS::NETWORK].value().sceneId = SCENE::MAIN_MENU;
 }
