@@ -53,7 +53,7 @@ void System::StartGameSystem::operator()(Registry &registry, Sparse_array<compon
             Entity spaceShip = createSpaceShip(registry, lobbyId);
             std::cout << spaceShip << std::endl;
             std::cout << "Start Game System : send new entity packet to client (network id) : " << (int)entity << std::endl;
-            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::NEW_ENTITY, {static_cast<uint16_t>(spaceShip), position[spaceShip].value().x, position[spaceShip].value().y, 1, type[spaceShip].value().type, (int)entity, health[spaceShip].value().health, 0})});
+            netqueue[FORBIDDEN_IDS::NETWORK].value().toSendNetworkQueue.push({lobbyId, serialize_header::serializeHeader<packet_new_entity>(NETWORK_SERVER_TO_CLIENT::NEW_ENTITY, {static_cast<uint16_t>(spaceShip), position[spaceShip].value().x, position[spaceShip].value().y, 1, static_cast<std::size_t>(type[spaceShip].value().type), (int)entity, health[spaceShip].value().health, 0})});
         }
         netqueue[FORBIDDEN_IDS::NETWORK].value().startGameQueue.pop();
     }

@@ -7,7 +7,7 @@
 
 #include <unordered_map>
 #include <fstream>
-#include <dirent.h>
+#include <filesystem>
 
 #include "Server.hpp"
 
@@ -177,8 +177,7 @@ std::vector<std::string> Server::loadMap(std::string const &mapPath)
     return map;
 }
 
-std::vector<std::vector<std::string>> Server::loadAllMaps(std::string const &directoryPath)
-{
+std::vector<std::vector<std::string>> Server::loadAllMaps(std::string const &directoryPath) {
     std::vector<std::vector<std::string>> allMaps;
     std::vector<std::string> allFiles;// = getFilesListFromDirectory(directoryPath, ".txt");
     try {
@@ -187,38 +186,31 @@ std::vector<std::vector<std::string>> Server::loadAllMaps(std::string const &dir
         std::cerr << e.what() << std::endl;
         return {{"11111111"}};
     }
-    for (auto &file : allFiles) {
-        std::cout << "file " << directoryPath + "/" + file <<std::endl;
-        allMaps.emplace_back(loadMap(directoryPath + "/" + file));
+    for (auto &file: allFiles) {
+        std::cout << "file " << directoryPath + "/" + file << std::endl;
+        allMaps.emplace_back(loadMap(file));
     }
-    for (auto &line : allMaps.at(0))
-        std::cout<< line<< std::endl;
-    
+    for (auto &line: allMaps.at(0))
+        std::cout << line << std::endl;
+
     return allMaps;
 }
 
-static bool isGoodSaveFile(std::string const &filename, std::string const &suffix)
-{
+static bool isGoodSaveFile(std::string const &filename, std::string const &suffix) {
     if (filename.size() < suffix.size())
         return false;
     return filename.compare(filename.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
-std::vector<std::string> Server::getFilesListFromDirectory(std::string const &directory, std::string const &suffix)
-{
-    DIR *dir = opendir(directory.c_str());
-    struct dirent *diread;
+std::vector<std::string> Server::getFilesListFromDirectory(std::string const &directory, std::string const &suffix) {
     std::vector<std::string> files;
     std::string file;
 
-    if (dir == nullptr)
-        throw ("Failed to open " + directory + " directory");
-    while ((diread = readdir(dir)) != nullptr) {
-        file = diread->d_name;
-        if (isGoodSaveFile(file, suffix)) {
-            files.push_back(file);
+    for (auto &file: std::filesystem::directory_iterator(directory)) {
+        if (isGoodSaveFile(std::string(file.path()), suffix)) {
+            files.push_back(file.path());
         }
     }
-    closedir(dir);
+
     return files;
 }

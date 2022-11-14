@@ -16,5 +16,5 @@ COPY [ ".github/scripts/build-server.sh", "./build-server.sh" ]
 
 RUN [ "bash", "build-server.sh" ]
 
-EXPOSE 8080
+EXPOSE 8080/udp
 CMD ["./Builds/Server/r-type_server", "8080"]
