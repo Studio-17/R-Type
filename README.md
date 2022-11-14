@@ -13,11 +13,36 @@ Other similar and well known games are the Gradius series and Blazing Star on Ne
 This version will be a network game, where one-to-four
 players will be able to fight together the evil Bydos!
 
+
+
+[![My Skills](https://skills.thijs.gg/icons?i=cpp,docker,git)](https://skills.thijs.gg)
+
 ## Installation
 
-Download the latest version of our project on [our website](https://charles-app-zeta.vercel.app/download)
+### Client
 
-(To run a server on your local machine, please pull the image, and run the container using the following commands)
+You can download the latest version of our client project on [our website](https://charles-app-zeta.vercel.app/download).
+
+Or if you want to run it manually do the following commands :
+
+```bash
+git clone git@github:EpitechPromo2025/...
+
+git submodule update --init vcpkg
+
+cd vcpkg/
+./bootstrap-vcpkg.sh
+./vcpkg integrate install
+./vcpkg install
+
+cd ../
+cmake -B Builds/ -DCMAKE_BUILD_TYPE=Release
+cmake --build Builds/ --config Release
+```
+
+### Server
+
+To run a server on your local machine, please pull the image, and run the container using the following commands :
 ```bash
 [sudo] docker pull martinvanaud/r-type_server
 
@@ -25,6 +50,18 @@ Download the latest version of our project on [our website](https://charles-app-
 ```
 
 ## Usage
+
+### Creating a component
+
+```c++
+--- MyComponent.hpp
+
+namespace component {
+    struct my_component {
+        ...
+    };
+}
+```
 
 ### Creating a system
 ```c++
@@ -37,9 +74,7 @@ class MySystem {
         ~MySystem() = default;
 
         void operator()(Registry &registry,
-                        Sparse_array<component::cnetwork_queue_t> &netqueue,
-                        Sparse_array<component::component1_t> &component1,
-                        Sparse_array<component::component2_t> &component2) {};
+                        ...Sparse_array<component::component1_t> &component1) {};
 
     protected:
 
@@ -86,6 +121,17 @@ class MySystem {
 
 ### Adding a packet
 ```c++
+--- Serialization.hpp
+
+namespace NETWORK_SERVER_TO_CLIENT {
+    enum PACKET_TYPE {
+        ...
+        MYPACKET
+    };
+};
+
+---
+
 --- MyPacket.hpp
 
 struct packet_mypacket {
@@ -94,9 +140,144 @@ struct packet_mypacket {
     uint16_t foobar;
 };
 
-std::vector &serialized_packet = serialize_header::serializeHeader<packet_position>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::MYPACKET, packet_mypacket)
+std::vector &serialized_packet = serialize_header::serializeHeader<packet_mypacket>(NETWORK_SERVER_TO_CLIENT::PACKET_TYPE::MYPACKET, packet_mypacket)
 ---
 ```
+
+## Customization
+
+You can customize the aspect of your client via JSON configuration files.
+
+### Textures
+
+```JSON
+--- assets.json
+
+"myAssets": {
+    "title": "myAssets",
+    "nbFrame": 2,
+    "texture": "Path/To/MyAssets.png",
+    "scale": 2
+}
+```
+
+### Images
+
+```JSON
+--- images.json
+
+"myImage": {
+    "ref": "myImage",
+    "textureId": "myAssets",
+    "position": [0, 0],
+    "sound": "mySound",
+    "velocity": 0,
+    "scene": 0,
+    "direction": [0, 0]
+}
+```
+
+### Buttons
+
+```JSON
+--- buttons.json
+
+"myButton": {
+    "ref": "myButton",
+    "textureId": "myTexture",
+    "position": [0, 0],
+    "nbFrame": 3,
+    "audio": "mySound",
+    "text": {
+        "text": "myTextToPrint",
+        "color": [150, 150, 150, 255],
+        "size": 40,
+        "position": [120, 30]
+    },
+    "scene": 4,
+    "callback-type": "myCallBack"
+},
+```
+
+### Sounds
+```JSON
+--- sounds.json
+
+"mySound": {
+    "title": "mySound",
+    "soundPath": "Path/To/My/Sound.ogg"
+},
+```
+
+### Texts
+```JSON
+--- texts.json
+
+"myText": {
+    "ref": "myText",
+    "text": "myTextToPrint",
+    "color": [150, 150, 150, 255],
+    "size": 50,
+    "position": [1300, 225],
+    "scene": 10
+},
+```
+
+Add a new scene just like this, and set the id of your scene where you want your entity to be printed :
+
+```c++
+--- Constant.hpp
+
+enum SCENE {
+    ...
+    MYSCENE
+};
+```
+
+You also customize the different types of enemies that the server will make apear.
+
+### Enemies
+
+```JSON
+--- Enemy.json
+
+"myEnemy": {
+    "direction": [-1, 0],
+    "hitbox": [10, 10],
+    "velocity": 4,
+    "type": 6,
+    "rect": [34, 33],
+    "health": 1
+},
+
+--- Serialization.hpp
+
+// Add the type of your new enemy
+
+enum ENTITY_TYPE {
+    ...
+    MyEnemyType
+};
+```
+
+### Leveling
+
+You can also design yourself the different level of your game. <br/>
+To add new level simply add file ".txt" in the Assets/Maps folder and that's it ! <br/>
+Now draw inside your new file your level. <br/>
+By default, 0 is representing and empty space, 1 a class 1 spaceship, 2 a class two spachip, 3 a big robot.
+
+```txt
+---myMap.txt
+
+1000333
+3330233
+3333333
+1230000
+
+```
+
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
