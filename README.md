@@ -277,12 +277,15 @@ By default, 0 is representing and empty space, 1 a class 1 spaceship, 2 a class 
 
 ```
 
-
-
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate and read the [CONTRIBUTING.md](https://github.com/EpitechPromo2025/B-CPP-500-PAR-5-1-rtype-martin.vanaud/blob/master/CONTRIBUTING.md)
+
+## Documentation
+
+You can find our Doxygen documentation here :
+[Doygen doumentation](https://myepitech.github.io/index.html).
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
