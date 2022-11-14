@@ -17,6 +17,16 @@ players will be able to fight together the evil Bydos!
 
 [![My Skills](https://skills.thijs.gg/icons?i=cpp,docker,git)](https://skills.thijs.gg)
 
+<!-- omit in toc -->
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Customization](#customization)
+- [Contributing](#contributing)
+- [Documentation](#documentation)
+- [Licene](#license)
+
 ## Installation
 
 ### Client
