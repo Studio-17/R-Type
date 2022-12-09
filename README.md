@@ -1,6 +1,6 @@
 # R-Type
 
-## $\color{green}{Grade: B}$
+## $\color{green}{Grade: A}$
 
 For those of you who may not know this best-selling video game, which accounts for countless lost hours
 of our childhood, here is a little introduction.
