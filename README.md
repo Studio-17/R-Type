@@ -1,6 +1,6 @@
-# B-CPP-500-PAR-5-1-rtype
+# R-Type
 
-![image](https://github.com/EpitechPromo2025/B-CPP-500-PAR-5-1-rtype-martin.vanaud/blob/master/.github/files/rtype.jpg)
+## $\color{green}{Grade: B}$
 
 For those of you who may not know this best-selling video game, which accounts for countless lost hours
 of our childhood, here is a little introduction.
